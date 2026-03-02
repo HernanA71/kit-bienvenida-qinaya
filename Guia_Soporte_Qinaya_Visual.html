@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Soporte Técnico Qinaya</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary: #2e7d32;
+            --secondary: #1a237e;
+            --accent: #ff6d00;
+            --bg: #ffffff;
+            --text: #333333;
+            --light-bg: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 40px;
+            background: var(--bg);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .logo-placeholder {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--secondary);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            margin-top: 40px;
+            background: rgba(255, 109, 0, 0.05);
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: '❓';
+            margin-right: 10px;
+        }
+
+        .solution-box {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .command {
+            background: #212121;
+            color: #76ff03;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            display: block;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo-placeholder">Qinaya</div>
+        <h1>Guía Maestra de Soporte Técnico</h1>
+        <p>Soluciones rápidas para el ecosistema educativo Qinaya</p>
+    </div>
+
+    <div class="tag">Soporte Nivel 1</div>
+    <h2>1. Problemas de Inicio y Pantalla</h2>
+
+    <h3>La pantalla se queda en negro después de arrancar</h3>
+    <div class="solution-box">
+        <p><strong>Causa:</strong> Incompatibilidad de controladores gráficos (NVIDIA/Legacy).</p>
+        <p><strong>Solución paso a paso:</strong></p>
+        <ol>
+            <li>En el menú de GRUB (al arrancar), presiona la tecla <strong>'e'</strong> para editar.</li>
+            <li>Busca la línea que comienza con <code>linux</code> y termina con <code>quiet splash</code>.</li>
+            <li>Agrega al final de esa línea un espacio y: <code
+                    style="background:#eee; padding:2px 5px; border-radius:3px;">nomodeset</code></li>
+            <li>Presiona <strong>F10</strong> para iniciar el sistema.</li>
+            <li>Una vez dentro, instala los controladores privativos desde el menú <strong>"Controladores
+                    adicionales"</strong>.</li>
+        </ol>
+    </div>
+
+    <h3>No aparece el menú de QinayaLinux y entra directo a Windows</h3>
+    <div class="solution-box">
+        <p><strong>Causa:</strong> Prioridad del gestor de arranque de Windows.</p>
+        <p><strong>Solución:</strong></p>
+        <ol>
+            <li>Inicia Windows y abre la <strong>Terminal (PowerShell/CMD)</strong> como Administrador.</li>
+            <li>Escribe y ejecuta el siguiente comando:</li>
+        </ol>
+        <code class="command">bcdedit /set {bootmgr} path \EFI\qinayalinux\grubx64.efi</code>
+    </div>
+
+    <h2>2. Configuración de BIOS y Boot Menu</h2>
+
+    <h3>Teclas de acceso rápido por marca</h3>
+    <div class="solution-box">
+        <p>Presiona repetidamente al encender el equipo:</p>
+        <ul>
+            <li><strong>HP:</strong> F9 o Esc</li>
+            <li><strong>Dell, Lenovo, Acer, Toshiba:</strong> F12</li>
+            <li><strong>Asus:</strong> Esc o F8</li>
+            <li><strong>Configuración BIOS:</strong> F2, F10 o Del</li>
+        </ul>
+    </div>
+
+    <h3>Error "Secure Boot" o "Invalid Signature"</h3>
+    <div class="solution-box">
+        <p><strong>Solución:</strong> Entra a la BIOS (F2/F10), busca la pestaña <strong>Security</strong> o
+            <strong>Boot</strong> y cambia <strong>Secure Boot</strong> a <code>Disabled</code> o
+            <code>Desactivado</code>.</p>
+    </div>
+
+    <h2>3. Red y Conectividad</h2>
+
+    <h3>No detecta redes WiFi</h3>
+    <div class="solution-box">
+        <ol>
+            <li>Verifica el interruptor físico de WiFi o la combinación de teclas (Ej: <strong>Fn + F2</strong>).</li>
+            <li>Conecta cable Ethernet para descargar controladores específicos.</li>
+            <li>En el menú de QinayaLinux, busca <strong>"Controladores adicionales"</strong> y activa el driver de red
+                (Broadcom/Realtek).</li>
+        </ol>
+    </div>
+
+    <h2>4. Estación de Trabajo (STB)</h2>
+
+    <h3>¿Cómo restaurar el STB Qinaya?</h3>
+    <div class="solution-box">
+        <p>Si el sistema está bloqueado o no arranca:</p>
+        <ol>
+            <li>Con un alfiler, presiona el botón dentro del orificio <strong>AV</strong> (Pinhole).</li>
+            <li>Conecta la energía manteniendo presionado el botón por 5 segundos.</li>
+            <li>En el menú Recovery, selecciona <strong>"Apply update from EXT"</strong> y elige el archivo
+                <code>update.zip</code>.</li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Qinaya - Tecnología para la Educación</p>
+        <p>Soporte Oficial: <a href="https://bit.ly/Qinaya-Soporte">bit.ly/Qinaya-Soporte</a></p>
+    </div>
+</body>
+
+</html>
