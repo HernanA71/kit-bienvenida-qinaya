@@ -12,8 +12,6 @@
 ## 📚 Base de Conocimiento Crítica (Nuevas entradas)
 1. **Utilidad en el aula:** Sirve para dar superpoderes a los PCs antiguos, permitiendo que todos los estudiantes usen software moderno (como Scratch o simuladores) sin importar el hardware, eliminando la frustración por equipos lentos.
 2. **Computador Virtual (Acceso):**
-   - Ir a la plataforma en `qinaya.co`.
-   - Iniciar sesión con tus credenciales.
-   - Hacer clic en "Acceder a mi Escritorio".
-   - El sistema cargará tu sesión personal en la nube en segundos.
+   - Al iniciar el computador con Qinaya Linux, buscar el ícono de MIQinaya en el escritorio o menú de aplicaciones.
+   - Es la entrada al escritorio virtual en la nube para trabajar con aplicaciones de súper potencia y navegar a gran velocidad.
 3. **Rol del Docente:** Qinaya te permite gestionar el aula digital, supervisar el trabajo de los estudiantes en tiempo real y asegurar que todos tengan las mismas herramientas de aprendizaje.

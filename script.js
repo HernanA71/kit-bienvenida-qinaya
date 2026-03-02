@@ -121,8 +121,8 @@ function askBot(question) {
             response = "Profe, para problemas técnicos en el arranque de **QinayaLinux**:\n• Revisa la **Guía Visual de Soporte** en la sección de Recursos.\n• Recuerda el comando `nomodeset` si la pantalla es negra.\n• Si es algo complejo, usa el botón de Soporte Qinaya para chatear con un técnico humano.";
         }
         // 6. Computador Virtual / Nube
-        else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio'])) {
-            response = "Profe, para usar el **Computador Virtual** dentro de QinayaLinux:\n1. Inicia sesión en qinaya.co.\n2. Haz clic en 'Acceder a mi Escritorio'.\n¡Así de fácil tendrás un PC de alta potencia en la nube!";
+        else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio', 'mi qinaya'])) {
+            response = "1. Al iniciar tu computador con Qinaya Linux y estar en el escritorio o en tus Apps, busca el Icono de MIQinaya el cual es tu entrada a tu computador en la Nube, a tu escritorio virtual desde donde podras trabajar todas tus aplicaciones con una super potencia y navegar por internet a gran velocidad!";
         }
         // 7. Micro:bit / Arduino / Scratch
         else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware', 'scratch', 'makecode', 'logica'])) {
