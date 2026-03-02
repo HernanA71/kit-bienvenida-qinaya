@@ -93,57 +93,57 @@ function askBot(question) {
     appendMessage(question, 'user-msg');
     const q = question.toLowerCase().trim();
 
-    // Simulate thinking
+    // Helper function for more robust matching
+    const matches = (keywords) => {
+        return keywords.some(key => q.includes(key));
+    };
+
     setTimeout(() => {
         let response = "";
 
-        // 1. Definition / About Qinaya
-        if (q.includes('qué es qinaya') || q.includes('que es qinaya') || q.includes('quienes son') || q.includes('qinaya?')) {
-            response = "Qinaya es una plataforma integral que busca cerrar la brecha digital en Colombia. Convertimos equipos antiguos u obsoletos en computadores de alto rendimiento mediante computación en la nube, permitiendo que estudiantes de estratos 1 y 2 accedan a tecnología de punta.";
+        // 1. Saludos
+        if (matches(['hola', 'buen', 'como estas', 'quien eres'])) {
+            response = "¡Hola! Soy el Asistente Qinaya, tu IA educativa de apoyo. Mi misión es ayudarte a que la tecnología sea tu mejor aliada en el aula. ¿En qué duda técnica o pedagógica puedo ayudarte hoy, profe?";
         }
-        // 2. Black Screen / Nomodeset (Specific Solution from screenshot)
-        else if (q.includes('pantalla') && (q.includes('negro') || q.includes('negra') || q.includes('no arranca'))) {
-            response = "Si la pantalla se queda en negro al arrancar (común en NVIDIA):\n1. En el menú de GRUB, presiona 'e' para editar.\n2. Busca la línea que dice 'quiet splash'.\n3. Agrega al final: 'nomodeset'.\n4. Presiona F10 para arrancar.\n5. Una vez dentro, instala los controladores adicionales desde el menú de configuración.";
+        // 2. Utilidad en el aula / Beneficios
+        else if (matches(['para que sirve', 'para qué sirve', 'ventajas', 'beneficios', 'aula', 'clase'])) {
+            response = "Qinaya transforma tu aula de tres maneras clave:\n\n1. **Equidad:** Da superpoderes a PCs antiguos para que todos tus estudiantes usen software moderno.\n2. **Sin Límites:** Ejecuta herramientas pesadas directamente desde la nube (como Scratch o simuladores).\n3. **Gestión:** Te permite supervisar el avance de tus estudiantes en un entorno controlado y seguro.";
         }
-        // 3. Installation / Linux / Dual Boot
-        else if (q.includes('instalar') || q.includes('instalacion') || q.includes('linux') || q.includes('dual boot') || q.includes('particion')) {
-            response = "Para instalar QinayaLinux en Dual Boot:\n1. Prepara 20-30GB de espacio libre en Windows.\n2. Arranca desde el USB (F12/F9).\n3. En el instalador, elige 'Instalar junto a Windows'.\n4. Si no aparece, usa la opción 'Más opciones' para crear las particiones manualmente (Raíz '/', Swap y EFI).";
+        // 3. Herramientas para Docentes
+        else if (matches(['herramienta', 'recursos', 'ofrece', 'tengo', 'que hay'])) {
+            response = "En este Kit tienes todo lo necesario:\n• **Notebook Inteligente:** Analiza fuentes y crea cuestionarios con IA.\n• **Video-Tutoriales:** Guías paso a paso de uso técnico.\n• **Guía Visual de Soporte:** Un FAQ listo para imprimir ante cualquier error.\n• **Zona de Juegos:** Actividades interactivas de Scratch y electrónica.";
         }
-        // 4. Boot Keys / BIOS
-        else if (q.includes('boot') || q.includes('tecla') || q.includes('bios') || q.includes('f12') || q.includes('f9') || q.includes('grub')) {
-            response = "Teclas de Boot Menu:\n• HP: F9 o Esc\n• Dell, Lenovo, Acer, Toshiba: F12\n• Asus: Esc o F8\nSi no ves el menú de GRUB tras instalar, entra a Windows y ejecuta 'bcdedit /set {bootmgr} path \\EFI\\qinayalinux\\grubx64.efi' como administrador.";
+        // 4. Computador Virtual / Acceso Escritorio
+        else if (matches(['computador virtual', 'escritorio', 'entrar', 'abrir', 'como accedo'])) {
+            response = "Acceder a tu PC virtual es muy fácil:\n1. Entra a **qinaya.co** e inicia sesión.\n2. Haz clic en el botón **'Acceder a mi Escritorio'**.\n3. En pocos segundos, verás tu sistema QinayaLinux listo para trabajar desde cualquier navegador.";
         }
-        // 5. Secure Boot / Troubleshooting
-        else if (q.includes('secure boot') || q.includes('error') || q.includes('problemas') || q.includes('wifi')) {
-            if (q.includes('wifi')) {
-                response = "Si el WiFi no funciona:\n1. Verifica la tecla física o Fn+F2.\n2. Prueba con cable Ethernet.\n3. Ve a 'Controladores adicionales' para activar el driver privativo (Broadcom/Realtek).";
-            } else {
-                response = "Si tienes errores al arrancar: \n• Desactiva 'Secure Boot' en la BIOS.\n• Cambia el orden de arranque prioritario al USB.\n• Verifica si el disco está en modo AHCI.\n• Si no ves el menú tras instalar, usa 'sudo update-grub' desde la terminal.";
-            }
+        // 5. Agradecimientos / Despedidas
+        else if (matches(['gracias', 'chau', 'adios', 'chao', 'listo', 'perfecto'])) {
+            response = "¡Espero que esto te sea de gran utilidad! Recuerda que la tecnología en tus manos transforma vidas. ¡Mucho éxito en tu jornada educativa, profe!";
         }
-        // 6. STB / Hardware
-        else if (q.includes('stb') || q.includes('cajita') || q.includes('mini pc') || q.includes('recovery')) {
-            response = "El STB Qinaya es nuestra estación de trabajo compacta. Si necesitas restaurarlo: Inserta un alfiler en el orificio AV al encenderlo para entrar en modo Recovery y actualizar desde una microSD con el archivo 'update.zip'.";
+        // 6. Pantalla en negro (Nomodeset)
+        else if (matches(['pantalla', 'negro', 'negra', 'no arranca'])) {
+            response = "Si la pantalla está en negro tras el arranque:\n1. En el menú de GRUB, presiona 'e'.\n2. Busca 'quiet splash' y agrega al final: **'nomodeset'**.\n3. Presiona F10 para arrancar. Luego instala los drivers privativos desde 'Controladores adicionales'.";
         }
-        // 7. Educational Tools / Coding
-        else if (q.includes('scratch') || q.includes('programar') || q.includes('logica') || q.includes('juegos')) {
-            response = "¡La educación maker es clave! En este Kit tienes una 'Zona de Juegos' para practicar. Scratch y MakeCode funcionan perfecto en la Nube Qinaya. También puedes ver tutoriales paso a paso en nuestra sección de Videos.";
+        // 7. Micro:bit / Arduino
+        else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware'])) {
+            response = "¡Compatibilidad total! Qinaya reconoce tus tarjetas Micro:bit y Arduino por USB. Puedes usar los simuladores del Kit o programar físicamente sin instalar drivers pesados en el PC local.";
         }
-        // 8. Micro:bit / Arduino
-        else if (q.includes('micro:bit') || q.includes('microbit') || q.includes('arduino') || q.includes('hardware')) {
-            response = "QinayaLinux es totalmente compatible con Micro:bit y Arduino. Puedes programarlos con simuladores o directamente conectándolos por USB. El sistema los reconocerá automáticamente para cargar tus códigos.";
+        // 8. Quiénes son / Misión
+        else if (matches(['que es qinaya', 'quienes son', 'impacto'])) {
+            response = "Somos una empresa colombiana que convierte la brecha digital en oportunidad. Reciclamos hardware y usamos el poder de la nube para llevar educación de calidad a donde más se necesita.";
         }
-        // 9. Cloud / Nube / Velocity
-        else if (q.includes('nube') || q.includes('lento') || q.includes('velocidad') || q.includes('rendimiento')) {
-            response = "Para mejorar la experiencia en la Nube:\n1. Usa una conexión por cable si es posible.\n2. Cierra pestañas innecesarias en el navegador local.\n3. Verifica tu ping en qinaya.co/test. Si es menor a 50ms, la experiencia será como un PC local.";
+        // 9. STB / Setup
+        else if (matches(['stb', 'cajita', 'mini pc', 'boot', 'tecla'])) {
+            response = "Recuerda: HP usa F9, Dell/Lenovo usan F12 para el Boot Menu. Si usas el **STB Qinaya**, recuerda que puedes resetearlo con un alfiler en el puerto AV si necesitas repararlo.";
         }
-        // 10. Fallback (Detailed)
+        // Fallback
         else {
-            response = "¡Es una pregunta interesante! Para detalles técnicos específicos sobre hardware, te recomiendo consultar qinaya.co/manuals o usar el 'Notebook Inteligente' de este Kit. Si necesitas soporte humano, contáctanos en bit.ly/Qinaya-Soporte.";
+            response = "Es una excelente pregunta, profe. Como soy un bot de soporte rápido, quizás no tengo el detalle exacto. Te recomiendo revisar nuestro **'Notebook Inteligente'** o el **'Manual Maestro'** en la sección de Recursos para una respuesta a profundidad.";
         }
 
         appendMessage(response, 'bot-msg');
-    }, 1000);
+    }, 800);
 }
 
 function appendMessage(text, type) {
