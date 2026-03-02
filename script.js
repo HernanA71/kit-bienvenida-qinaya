@@ -93,7 +93,6 @@ function askBot(question) {
     appendMessage(question, 'user-msg');
     const q = question.toLowerCase().trim();
 
-    // Helper function for more robust matching
     const matches = (keywords) => {
         return keywords.some(key => q.includes(key));
     };
@@ -102,48 +101,44 @@ function askBot(question) {
         let response = "";
 
         // 1. Saludos
-        if (matches(['hola', 'buen', 'como estas', 'quien eres'])) {
-            response = "¡Hola! Soy el Asistente Qinaya, tu IA educativa de apoyo. Mi misión es ayudarte a que la tecnología sea tu mejor aliada en el aula. ¿En qué duda técnica o pedagógica puedo ayudarte hoy, profe?";
+        if (matches(['hola', 'buen', 'quien eres'])) {
+            response = "¡Hola Profe! ¿En qué puedo servirte hoy? Soy tu IA de apoyo para ayudarte a sacar el máximo provecho tanto a **QinayaLinux** como a este **Kit de Bienvenida**.";
         }
-        // 2. Utilidad en el aula / Beneficios
-        else if (matches(['para que sirve', 'para qué sirve', 'ventajas', 'beneficios', 'aula', 'clase'])) {
-            response = "Qinaya transforma tu aula de tres maneras clave:\n\n1. **Equidad:** Da superpoderes a PCs antiguos para que todos tus estudiantes usen software moderno.\n2. **Sin Límites:** Ejecuta herramientas pesadas directamente desde la nube (como Scratch o simuladores).\n3. **Gestión:** Te permite supervisar el avance de tus estudiantes en un entorno controlado y seguro.";
+        // 2. QinayaLinux (La Solución Técnica)
+        else if (matches(['qinaya linux', 'qinayalinux', 'sistema', 'so', 'operativo', 'instalado', 'pc virtual'])) {
+            response = "Profe, **QinayaLinux** es el sistema operativo que tienes instalado en tus computadores. Sus herramientas clave son:\n• **Escritorio Virtual:** Acceso a potencia de Windows en la nube.\n• **Gestor de Software:** Apps precargadas para educación.\n• **Ligereza:** Hace que PCs antiguos vuelen.\n• **Compatibilidad:** Conecta Micro:bit y Arduino sin configuraciones complejas.";
         }
-        // 3. Herramientas para Docentes
-        else if (matches(['herramienta', 'recursos', 'ofrece', 'tengo', 'que hay'])) {
-            response = "En este Kit tienes todo lo necesario:\n• **Notebook Inteligente:** Analiza fuentes y crea cuestionarios con IA.\n• **Video-Tutoriales:** Guías paso a paso de uso técnico.\n• **Guía Visual de Soporte:** Un FAQ listo para imprimir ante cualquier error.\n• **Zona de Juegos:** Actividades interactivas de Scratch y electrónica.";
+        // 3. Kit de Bienvenida (Los Recursos del Sitio)
+        else if (matches(['kit', 'recursos', 'este sitio', 'para que es este kit', 'material'])) {
+            response = "Este **Kit de Bienvenida** es tu biblioteca pedagógica. Aquí encuentras:\n• **Video-Tutoriales:** Guías de uso paso a paso.\n• **Recursos Didácticos:** PDFs, presentaciones y manuales.\n• **Notebook Inteligente:** Para chatear con tus documentos.\n• **Juegos Digitales:** Retos interactivos para tus estudiantes.";
         }
-        // 4. Computador Virtual / Acceso Escritorio
-        else if (matches(['computador virtual', 'escritorio', 'entrar', 'abrir', 'como accedo'])) {
-            response = "Acceder a tu PC virtual es muy fácil:\n1. Entra a **qinaya.co** e inicia sesión.\n2. Haz clic en el botón **'Acceder a mi Escritorio'**.\n3. En pocos segundos, verás tu sistema QinayaLinux listo para trabajar desde cualquier navegador.";
+        // 4. Herramientas Docentes (Cruce de ambos)
+        else if (matches(['herramienta', 'que tengo', 'que ofrece'])) {
+            response = "Profe, tienes dos frentes de apoyo:\n1. **En los computadores (QinayaLinux):** Tienes el software de programación, internet seguro y la Nube.\n2. **En este Kit:** Tienes las guías, el FAQ visual para imprimir y el asistente para resolver dudas pedagógicas.";
         }
-        // 5. Agradecimientos / Despedidas
-        else if (matches(['gracias', 'chau', 'adios', 'chao', 'listo', 'perfecto'])) {
-            response = "¡Espero que esto te sea de gran utilidad! Recuerda que la tecnología en tus manos transforma vidas. ¡Mucho éxito en tu jornada educativa, profe!";
+        // 5. Soporte y Fallas (La Guía Visual)
+        else if (matches(['error', 'falla', 'problema', 'negro', 'negra', 'no arranca', 'wifi'])) {
+            response = "Profe, para problemas técnicos en el arranque de **QinayaLinux**:\n• Revisa la **Guía Visual de Soporte** en la sección de Recursos.\n• Recuerda el comando `nomodeset` si la pantalla es negra.\n• Si es algo complejo, usa el botón de Soporte Qinaya para chatear con un técnico humano.";
         }
-        // 6. Pantalla en negro (Nomodeset)
-        else if (matches(['pantalla', 'negro', 'negra', 'no arranca'])) {
-            response = "Si la pantalla está en negro tras el arranque:\n1. En el menú de GRUB, presiona 'e'.\n2. Busca 'quiet splash' y agrega al final: **'nomodeset'**.\n3. Presiona F10 para arrancar. Luego instala los drivers privativos desde 'Controladores adicionales'.";
+        // 6. Computador Virtual / Nube
+        else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio'])) {
+            response = "Profe, para usar el **Computador Virtual** dentro de QinayaLinux:\n1. Inicia sesión en qinaya.co.\n2. Haz clic en 'Acceder a mi Escritorio'.\n¡Así de fácil tendrás un PC de alta potencia en la nube!";
         }
         // 7. Micro:bit / Arduino
         else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware'])) {
-            response = "¡Compatibilidad total! Qinaya reconoce tus tarjetas Micro:bit y Arduino por USB. Puedes usar los simuladores del Kit o programar físicamente sin instalar drivers pesados en el PC local.";
+            response = "¡Total compatibilidad, Profe! En **QinayaLinux** puedes programar tus tarjetas por USB. Los simuladores los encuentras aquí mismo en el **Kit de Bienvenida** para que los estudiantes practiquen antes de conectar el hardware real.";
         }
-        // 8. Quiénes son / Misión
-        else if (matches(['que es qinaya', 'quienes son', 'impacto'])) {
-            response = "Somos una empresa colombiana que convierte la brecha digital en oportunidad. Reciclamos hardware y usamos el poder de la nube para llevar educación de calidad a donde más se necesita.";
-        }
-        // 9. STB / Setup
-        else if (matches(['stb', 'cajita', 'mini pc', 'boot', 'tecla'])) {
-            response = "Recuerda: HP usa F9, Dell/Lenovo usan F12 para el Boot Menu. Si usas el **STB Qinaya**, recuerda que puedes resetearlo con un alfiler en el puerto AV si necesitas repararlo.";
+        // 8. Despedidas
+        else if (matches(['gracias', 'chau', 'adios', 'listo'])) {
+            response = "¡Con gusto, Profe! Mucho éxito en su jornada educativa. Si necesita algo más sobre el Kit o la Solución Qinaya, aquí estaré.";
         }
         // Fallback
         else {
-            response = "Es una excelente pregunta, profe. Como soy un bot de soporte rápido, quizás no tengo el detalle exacto. Te recomiendo revisar nuestro **'Notebook Inteligente'** o el **'Manual Maestro'** en la sección de Recursos para una respuesta a profundidad.";
+            response = "Esa es una buena pregunta, Profe. Para detalles sobre **QinayaLinux** (el sistema) o este **Kit** (los recursos), le recomiendo usar el 'Notebook Inteligente' o consultar el 'Manual Maestro' en la sección de Recursos.";
         }
 
         appendMessage(response, 'bot-msg');
-    }, 800);
+    }, 600);
 }
 
 function appendMessage(text, type) {
