@@ -101,8 +101,8 @@ function askBot(question) {
         let response = "";
 
         // 1. Saludos
-        if (matches(['hola', 'buen', 'quien eres'])) {
-            response = "¡Hola Profe! ¿En qué puedo servirte hoy? Soy tu IA de apoyo para ayudarte a sacar el máximo provecho tanto a **QinayaLinux** como a este **Kit de Bienvenida**.";
+        if (matches(['hola', 'buen', 'quien eres', 'nombre'])) {
+            response = "¡Hola! Soy **QinayaBot** tu asistente. Mi misión es apoyarte para que la tecnología sea tu mejor aliada en el aula. ¿En qué puedo ayudarte hoy profe?";
         }
         // 2. QinayaLinux (La Solución Técnica)
         else if (matches(['qinaya linux', 'qinayalinux', 'sistema', 'so', 'operativo', 'instalado', 'pc virtual'])) {
@@ -124,9 +124,9 @@ function askBot(question) {
         else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio'])) {
             response = "Profe, para usar el **Computador Virtual** dentro de QinayaLinux:\n1. Inicia sesión en qinaya.co.\n2. Haz clic en 'Acceder a mi Escritorio'.\n¡Así de fácil tendrás un PC de alta potencia en la nube!";
         }
-        // 7. Micro:bit / Arduino
-        else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware'])) {
-            response = "¡Total compatibilidad, Profe! En **QinayaLinux** puedes programar tus tarjetas por USB. Los simuladores los encuentras aquí mismo en el **Kit de Bienvenida** para que los estudiantes practiquen antes de conectar el hardware real.";
+        // 7. Micro:bit / Arduino / Scratch
+        else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware', 'scratch', 'makecode', 'logica'])) {
+            response = "¡Total compatibilidad, Profe! En **QinayaLinux** puedes programar tus tarjetas por USB. Los simuladores de **Scratch** y **MakeCode** los encuentras aquí mismo en la **Zona de Juegos** para que practiques antes de conectar el hardware real.";
         }
         // 8. Despedidas
         else if (matches(['gracias', 'chau', 'adios', 'listo'])) {
