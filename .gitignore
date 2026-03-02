@@ -1,0 +1,7 @@
+# Temporary Office files
+~$*
+.DS_Store
+Thumbs.db
+
+# Large media files if you don't want to host them in Git (optional)
+# *.mp4

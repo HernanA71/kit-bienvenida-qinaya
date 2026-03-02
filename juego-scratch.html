@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Scratch - Lógica de Bloques</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .block-game {
+            background: #f0f7ff;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #85c1e9;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .block-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scratch-block {
+            background: #4c97ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px 15px 15px 4px;
+            font-family: sans-serif;
+            font-weight: bold;
+            display: inline-block;
+            border-left: 10px solid #3373cc;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .options-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .scratch-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .scratch-option:hover {
+            border-color: #4c97ff;
+        }
+
+        .scratch-option.correct {
+            background: #e8f5e9;
+            border-color: #2e7d32;
+        }
+
+        .scratch-option.wrong {
+            background: #ffebee;
+            border-color: #c62828;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="leaf-container">
+        <header class="header">
+            <div class="logo-placeholder">
+                <a href="index.html"><img src="logo Qinaya.png" alt="Qinaya Logo" id="main-logo"></a>
+            </div>
+            <div class="welcome-text">
+                <h1>Desafío Scratch</h1>
+                <p class="greeting">Lógica de Bloques</p>
+                <p class="intro">Identifica la función correcta de cada bloque para avanzar.</p>
+            </div>
+        </header>
+
+        <main class="menu-sections">
+            <div class="navigation-top">
+                <a href="juegos.html" class="back-link">← Volver a la Zona de Juegos</a>
+            </div>
+
+            <div class="block-game">
+                <div class="block-container">
+                    <div id="target-block" class="scratch-block">Mover 10 pasos</div>
+                </div>
+                <div id="scratch-options" class="options-list"></div>
+
+                <div id="block-score" style="margin-top:20px; text-align:center; font-weight:700; color:#4c97ff;">
+                    Puntos: 0</div>
+                <button id="next-block" class="control-btn"
+                    style="display:none; margin: 20px auto; background:#4c97ff;">Siguiente Bloque</button>
+            </div>
+
+            <div id="scratch-win" class="game-over" style="text-align:center; display:none;">
+                <h2>⭐ ¡Maestro de Scratch! ⭐</h2>
+                <p>Tu pensamiento computacional está en gran nivel.</p>
+                <a href="juegos.html" class="back-link" style="justify-content:center; margin-top:20px;">Seguir
+                    jugando</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-message">Tecnología accesible que transforma la educación y las comunidades</p>
+                <div class="footer-bottom">
+                    <img src="logo Qinaya.png" alt="Qinaya Mini" class="footer-mini-logo">
+                    <p>© 2026 Qinaya - Kit Digital Docente</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const blockData = [
+            { text: "Mover 10 pasos", category: "Movimiento", func: "Desplaza al objeto en la dirección que apunta.", options: ["Cambia el color", "Desplaza al objeto", "Suena un tambor", "Repite una acción"] },
+            { text: "Por siempre", category: "Control", func: "Ejecuta los bloques en su interior infinitamente.", options: ["Detiene el programa", "Pregunta un nombre", "Ejecuta bloques sin fin", "Mueve al objeto"] },
+            { text: "Al hacer clic en bandera verde", category: "Eventos", func: "Inicia la ejecución del programa.", options: ["Termina el juego", "Inicia el programa", "Borra el escenario", "Crea una variable"] },
+            { text: "Si <sensor touch> entonces", category: "Control", func: "Evalúa una condición antes de ejecutar.", options: ["Suma dos números", "Evalúa una condición", "Dibuja un círculo", "Cambia el fondo"] }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadBlock() {
+            const data = blockData[currentIdx];
+            const target = document.getElementById('target-block');
+            const opts = document.getElementById('scratch-options');
+            const next = document.getElementById('next-block');
+
+            target.innerText = data.text;
+            opts.innerHTML = '';
+            next.style.display = 'none';
+            answered = false;
+
+            data.options.forEach((opt, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'scratch-option';
+                btn.innerText = opt;
+                btn.onclick = () => {
+                    if (answered) return;
+                    answered = true;
+                    if (opt === data.func || (i === 1 && currentIdx === 0) || (i === 2 && currentIdx === 1) || (i === 1 && currentIdx === 2) || (i === 1 && currentIdx === 3)) { // Logic correction
+                        btn.classList.add('correct');
+                        score++;
+                        document.getElementById('block-score').innerText = `Puntos: ${score}`;
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                    next.style.display = 'block';
+                };
+                opts.appendChild(btn);
+            });
+        }
+
+        document.getElementById('next-block').onclick = () => {
+            currentIdx++;
+            if (currentIdx < blockData.length) {
+                loadBlock();
+            } else {
+                document.querySelector('.block-game').style.display = 'none';
+                document.getElementById('scratch-win').style.display = 'block';
+            }
+        };
+
+        loadBlock();
+    </script>
+</body>
+
+</html>

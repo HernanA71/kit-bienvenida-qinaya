@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emparejamiento Qinaya - Juego de Lógica</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .match-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .match-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .match-item:hover {
+            border-color: var(--qinaya-orange);
+            transform: scale(1.02);
+        }
+
+        .match-item.selected {
+            background: #fff3e0;
+            border-color: var(--qinaya-orange);
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+        }
+
+        .match-item.matched {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .instructions {
+            background: #fff9c4;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+            color: #827717;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="leaf-container">
+        <header class="header">
+            <div class="logo-placeholder">
+                <a href="index.html"><img src="logo Qinaya.png" alt="Qinaya Logo" id="main-logo"></a>
+            </div>
+            <div class="welcome-text">
+                <h1>Juego de Emparejamiento</h1>
+                <p class="greeting">Lógica y Conceptos Maker</p>
+                <p class="intro">Une cada concepto con su definición correcta para completar el circuito de
+                    conocimiento.</p>
+            </div>
+        </header>
+
+        <main class="menu-sections">
+            <div class="navigation-top">
+                <a href="juegos.html" class="back-link">← Volver a la Zona de Juegos</a>
+            </div>
+
+            <div class="instructions">
+                Selecciona un concepto de la izquierda y luego su definición en la derecha.
+            </div>
+
+            <div id="game-board" class="match-container">
+                <div class="match-column" id="concepts-col"></div>
+                <div class="match-column" id="defs-col"></div>
+            </div>
+
+            <div id="win-msg" class="game-over" style="margin-top: 30px; text-align: center; display: none;">
+                <h2 style="color: var(--qinaya-green);">⚡ ¡Circuito Completado! ⚡</h2>
+                <p>Has dominado todos los conceptos clave de este kit.</p>
+                <a href="juegos.html" class="back-link" style="justify-content: center; margin-top: 20px;">Seguir
+                    jugando</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-message">Tecnología accesible que transforma la educación y las comunidades</p>
+                <div class="footer-bottom">
+                    <img src="logo Qinaya.png" alt="Qinaya Mini" class="footer-mini-logo">
+                    <p>© 2026 Qinaya - Kit Digital Docente</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const pairs = [
+            { id: 1, concept: "Computación en la Nube", def: "Acceso remoto a software y archivos sin depender del hardware local." },
+            { id: 2, concept: "Micro:bit", def: "Pequeña tarjeta programable diseñada para enseñar lógica y electrónica." },
+            { id: 3, concept: "Arduino", def: "Plataforma de hardware libre ideal para crear prototipos de robótica." },
+            { id: 4, concept: "Simulador Virtual", def: "Herramienta digital para probar circuitos sin riesgo de daño físico." },
+            { id: 5, concept: "Internet de las Cosas", def: "Objetos físicos conectados que recolectan y comparten datos." }
+        ];
+
+        let selectedConcept = null;
+        let matchedCount = 0;
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function initGame() {
+            const concepts = shuffle([...pairs]);
+            const defs = shuffle([...pairs]);
+
+            const conceptCol = document.getElementById('concepts-col');
+            const defCol = document.getElementById('defs-col');
+
+            concepts.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.innerText = p.concept;
+                div.dataset.id = p.id;
+                div.onclick = () => selectConcept(div);
+                conceptCol.appendChild(div);
+            });
+
+            defs.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.innerText = p.def;
+                div.dataset.id = p.id;
+                div.onclick = () => selectDef(div);
+                defCol.appendChild(div);
+            });
+        }
+
+        function selectConcept(el) {
+            document.querySelectorAll('#concepts-col .match-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedConcept = el;
+        }
+
+        function selectDef(el) {
+            if (!selectedConcept) return;
+
+            if (selectedConcept.dataset.id === el.dataset.id) {
+                // Match!
+                selectedConcept.classList.add('matched');
+                el.classList.add('matched');
+                selectedConcept.classList.remove('selected');
+                selectedConcept = null;
+                matchedCount++;
+                if (matchedCount === pairs.length) {
+                    document.getElementById('win-msg').style.display = 'block';
+                }
+            } else {
+                // Reset
+                el.style.borderColor = '#f44336';
+                setTimeout(() => el.style.borderColor = '#f0f0f0', 500);
+            }
+        }
+
+        initGame();
+    </script>
+</body>
+
+</html>

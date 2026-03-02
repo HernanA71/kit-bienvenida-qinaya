@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit de Bienvenida</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="leaf-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-placeholder">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" id="main-logo">
+            </div>
+            <div class="welcome-text">
+                <h1>Kit de Bienvenida</h1>
+                <p class="greeting">Estimado docente,</p>
+                <p class="intro">Este es tu kit digital interactivo. Aquí encontrarás herramientas, juegos y recursos
+                    para potenciar tu labor pedagógica con tecnología.</p>
+            </div>
+        </header>
+
+        <!-- Menu Section -->
+        <main class="menu-sections">
+            <h2 class="section-title">Tu Kit Digital</h2>
+
+            <div class="menu-grid" id="menu-grid">
+                <!-- Items will be dynamically loaded/editable -->
+                <a href="recursos.html" class="menu-item green" id="link-guia">
+                    <div class="icon">📁</div>
+                    <div class="item-content">
+                        <h3>Guía para Docentes</h3>
+                        <p>Recursos y manuales para el aprovechamiento tecnológico.</p>
+                        <span class="url">Ver Panel →</span>
+                    </div>
+                </a>
+
+                <a href="video-tutoriales.html" class="menu-item red" id="link-videos">
+                    <div class="icon">▶</div>
+                    <div class="item-content">
+                        <h3>Video-Tutoriales</h3>
+                        <p>Aprende paso a paso con nuestros tutoriales visuales.</p>
+                        <span class="url">Ver Tutoriales →</span>
+                    </div>
+                </a>
+
+                <a href="https://qinaya.co/manuals/" target="_blank" class="menu-item orange" id="link-soporte">
+                    <div class="icon">⚙</div>
+                    <div class="item-content">
+                        <h3>Soporte al Usuario</h3>
+                        <p>¿Necesitas ayuda? Accede a nuestro centro técnico.</p>
+                        <span class="url">bit.ly/Qinaya-Soporte</span>
+                    </div>
+                </a>
+
+                <a href="juegos.html" class="menu-item purple" id="link-juegos">
+                    <div class="icon">🎮</div>
+                    <div class="item-content">
+                        <h3>Zona de Juegos</h3>
+                        <p>¡Retate! Pon a prueba tus conocimientos de forma divertida.</p>
+                        <span class="url">Entrar a Jugar →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Notebook highlight to break the square pattern -->
+            <section class="notebook-highlight">
+                <div class="notebook-icon">📓</div>
+                <div class="notebook-info">
+                    <h3>Notebook Inteligente Qinaya</h3>
+                    <p>Accede a todas nuestras fuentes de conocimiento, manuales y guías interactivas. Chatea con la
+                        IA sobre Scratch, Micro:bit, Nube y más.</p>
+                    <a href="https://notebooklm.google.com/notebook/4cc64941-b5e6-403a-83bf-ce710d1d5524"
+                        target="_blank" class="btn-notebook">Explorar Cuaderno →</a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer / Waves -->
+        <footer class="footer">
+            <div class="wave-container">
+                <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+                    <path d="M0.00,49.98 C149.99,150.00 349.85,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+                        style="stroke: none; fill: #ffcc00;"></path>
+                    <path d="M0.00,60.00 C150.00,160.00 350.00,-30.00 500.00,60.00 L500.00,150.00 L0.00,150.00 Z"
+                        style="stroke: none; fill: #ff6600; opacity: 0.7;"></path>
+                    <path d="M0.00,70.00 C150.00,170.00 350.00,-10.00 500.00,70.00 L500.00,150.00 L0.00,150.00 Z"
+                        style="stroke: none; fill: #ee0000; opacity: 0.5;"></path>
+                    <path d="M0.00,80.00 C150.00,180.00 350.00,10.00 500.00,80.00 L500.00,150.00 L0.00,150.00 Z"
+                        style="stroke: none; fill: #9933cc; opacity: 0.3;"></path>
+                </svg>
+            </div>
+            <div class="footer-content">
+                <p class="footer-message">Tecnología accesible que transforma la educación y las comunidades</p>
+                <div class="footer-bottom">
+                    <img src="logo Qinaya.png" alt="Qinaya Mini" class="footer-mini-logo">
+                    <p>© 2026 Qinaya - Kit Digital Docente</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chat-bot-container">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <img src="bot-mascot.png" alt="Bot" style="width: 40px; height: 40px; border-radius: 50%;">
+                <div>
+                    <h4>Asistente Qinaya</h4>
+                    <span style="font-size: 0.7rem; opacity: 0.8;">En línea • IA Educativa</span>
+                </div>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-message bot-msg">
+                    ¡Hola! Soy tu asistente de Qinaya. ¿En qué puedo ayudarte hoy?
+                    <div class="chat-options">
+                        <button class="chat-option-btn" onclick="askBot('¿Qué es la Nube Qinaya?')">¿Qué es la Nube
+                            Qinaya?</button>
+                        <button class="chat-option-btn" onclick="askBot('Ayuda con Scratch')">Ayuda con Scratch</button>
+                        <button class="chat-option-btn" onclick="askBot('¿Cómo conecto Micro:bit?')">¿Cómo conecto
+                            Micro:bit?</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chatInput" placeholder="Escribe tu duda aquí...">
+                <button class="btn-send" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+        <div class="chat-trigger" id="chatTrigger">
+            <img src="bot-mascot.png" alt="Asistente Bot">
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button id="scrollToTop" class="fab" title="Subir">
+        <span class="fab-icon">↑</span>
+    </button>
+    <script src="script.js"></script>
+</body>
+
+</html>

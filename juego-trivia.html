@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafío Qinaya - Trivia Docente</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .quiz-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f0f0f0;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--qinaya-purple);
+            background: #f3e5f5;
+        }
+
+        .option-btn.selected {
+            background: var(--qinaya-purple);
+            color: white;
+            border-color: var(--qinaya-purple);
+        }
+
+        .option-btn.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .option-btn.wrong {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        .quiz-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-box {
+            font-weight: 700;
+            color: var(--qinaya-green);
+        }
+
+        .next-btn {
+            background: var(--qinaya-green);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: none;
+        }
+
+        .game-over {
+            text-align: center;
+            display: none;
+        }
+
+        .medal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="leaf-container">
+        <header class="header">
+            <div class="logo-placeholder">
+                <a href="index.html"><img src="logo Qinaya.png" alt="Qinaya Logo" id="main-logo"></a>
+            </div>
+            <div class="welcome-text">
+                <h1>Reto: Conocimiento Qinaya</h1>
+                <p class="greeting">Arduino, Micro:bit y Cloud Essentials</p>
+                <p class="intro">Demuestra tu maestría en las tecnologías que están transformando tu aula.</p>
+            </div>
+        </header>
+
+        <main class="menu-sections">
+            <div class="navigation-top">
+                <a href="juegos.html" class="back-link">← Volver a la Zona de Juegos</a>
+            </div>
+
+            <div id="quiz-app" class="quiz-container">
+                <div id="question-area">
+                    <div id="q-label" class="res-tag">Pregunta 1 de 5</div>
+                    <div id="question-text" class="question">¿Cargando reto...?</div>
+                    <div id="options-grid" class="options-grid">
+                        <!-- Options will appear here -->
+                    </div>
+                    <div class="quiz-footer">
+                        <div id="score-box" class="score-box">Puntos: 0</div>
+                        <button id="next-button" class="next-btn">Siguiente Reto →</button>
+                    </div>
+                </div>
+
+                <div id="result-area" class="game-over">
+                    <div class="medal-icon">🏆</div>
+                    <h2 id="result-title">¡Excelente Trabajo!</h2>
+                    <p id="result-text">Has completado el reto con éxito.</p>
+                    <p class="score-box" style="font-size: 1.5rem; margin: 20px 0;" id="final-score">Puntos: 0 / 5</p>
+                    <a href="juegos.html" class="back-link" style="justify-content: center; margin-top: 20px;">Volver a
+                        los Juegos</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-message">Tecnología accesible que transforma la educación y las comunidades</p>
+                <div class="footer-bottom">
+                    <img src="logo Qinaya.png" alt="Qinaya Mini" class="footer-mini-logo">
+                    <p>© 2026 Qinaya - Kit Digital Docente</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                q: "¿Qué componente principal permite la conectividad y el procesamiento en la nube en los sistemas Qinaya?",
+                options: ["Servidores Cloud", "Cable de Red", "Monitor CRT", "Teclado Mecánico"],
+                correct: 0
+            },
+            {
+                q: "Para programar una tarjeta Micro:bit, ¿cuál de estos entornos es el más utilizado?",
+                options: ["Photoshop", "MakeCode", "Excel", "Spotify"],
+                correct: 1
+            },
+            {
+                q: "¿Qué ventaja principal ofrece Tinkercad para los docentes de tecnología?",
+                options: ["Simulación de circuitos", "Edición de video", "Redes sociales", "Contabilidad"],
+                correct: 0
+            },
+            {
+                q: "En el ecosistema Qinaya, ¿qué significa que la tecnología sea 'escalable'?",
+                options: ["Que se puede subir por escaleras", "Que solo funciona en montañas", "Que puede crecer según la necesidad", "Que es de color verde"],
+                correct: 2
+            },
+            {
+                q: "Arduino es una plataforma basada en:",
+                options: ["Hardware y Software Cerrado", "Código Propietario", "Hardware y Software Libre", "Sistemas Analógicos"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        const qText = document.getElementById('question-text');
+        const qLabel = document.getElementById('q-label');
+        const optGrid = document.getElementById('options-grid');
+        const nextBtn = document.getElementById('next-button');
+        const scoreBox = document.getElementById('score-box');
+        const questionArea = document.getElementById('question-area');
+        const resultArea = document.getElementById('result-area');
+        const finalScore = document.getElementById('final-score');
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            qLabel.innerText = `Pregunta ${currentQuestion + 1} de ${quizData.length}`;
+            qText.innerText = data.q;
+            optGrid.innerHTML = '';
+            answered = false;
+            nextBtn.style.display = 'none';
+
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optGrid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(idx, btn) {
+            if (answered) return;
+            answered = true;
+            const data = quizData[currentQuestion];
+
+            if (idx === data.correct) {
+                btn.classList.add('correct');
+                score++;
+                scoreBox.innerText = `Puntos: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+                // Show correct one
+                optGrid.children[data.correct].classList.add('correct');
+            }
+
+            nextBtn.style.display = 'block';
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerText = "Ver Resultados";
+            }
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        function showResults() {
+            questionArea.style.display = 'none';
+            resultArea.style.display = 'block';
+            finalScore.innerText = `Puntos: ${score} / ${quizData.length}`;
+
+            const resultTitle = document.getElementById('result-title');
+            if (score <= 2) resultTitle.innerText = "¡Sigue practicando!";
+            else if (score <= 4) resultTitle.innerText = "¡Muy bien hecho!";
+            else resultTitle.innerText = "¡Eres un experto Qinaya!";
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+
+</html>
