@@ -81,6 +81,34 @@ function initScrollToTop() {
     });
 }
 
+let chatState = 'NORMAL';
+let ticketData = { name: '', school: '', issue: '', datetime: '' };
+
+function sendTicketToGoogle(data) {
+    // Reemplaza esta URL con la que te dé Google Apps Script al publicar tu Web App
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1uJKZlXIxGYtfn4-t1ExeGt4XIk4rGC30hrMKgsIxV-M7nWu4TSNN_bivYov5-MVq6Q/exec';
+
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+            action: 'createTicket',
+            name: data.name,
+            school: data.school,
+            issue: data.issue,
+            datetime: data.datetime
+        })
+    })
+        .then(response => {
+            appendMessage(`✅ ¡Listo, Profe! Tu solicitud ha sido guardada en nuestra base de datos con tu preferencia de horario: **${data.datetime}**. El equipo técnico te confirmará la visita.`, 'bot-msg');
+        })
+        .catch(error => {
+            appendMessage("❌ Ups, parece que mi conexión a la base de datos de los técnicos falló en este momento. Inténtalo de nuevo más tarde profe.", 'bot-msg');
+        });
+}
+
 // Chatbot Logic
 function toggleChat() {
     const chatWindow = document.getElementById('chatWindow');
@@ -100,41 +128,80 @@ function askBot(question) {
     setTimeout(() => {
         let response = "";
 
-        // 1. Saludos
-        if (matches(['hola', 'buen', 'quien eres', 'nombre'])) {
-            response = "¡Hola! Soy **QinayaBot** tu asistente. Mi misión es apoyarte para que la tecnología sea tu mejor aliada en el aula. ¿En qué puedo ayudarte hoy profe?";
-        }
-        // 2. QinayaLinux (La Solución Técnica)
-        else if (matches(['qinaya linux', 'qinayalinux', 'sistema', 'so', 'operativo', 'instalado', 'pc virtual'])) {
-            response = "Profe, **QinayaLinux** es el sistema operativo que tienes instalado en tus computadores. Sus herramientas clave son:\n• **Escritorio Virtual:** Acceso a potencia de Windows en la nube.\n• **Gestor de Software:** Apps precargadas para educación.\n• **Ligereza:** Hace que PCs antiguos vuelen.\n• **Compatibilidad:** Conecta Micro:bit y Arduino sin configuraciones complejas.";
-        }
-        // 3. Kit de Bienvenida (Los Recursos del Sitio)
-        else if (matches(['kit', 'recursos', 'este sitio', 'para que es este kit', 'material'])) {
-            response = "Este **Kit de Bienvenida** es tu biblioteca pedagógica. Aquí encuentras:\n• **Video-Tutoriales:** Guías de uso paso a paso.\n• **Recursos Didácticos:** PDFs, presentaciones y manuales.\n• **Notebook Inteligente:** Para chatear con tus documentos.\n• **Juegos Digitales:** Retos interactivos para tus estudiantes.";
-        }
-        // 4. Herramientas Docentes (Cruce de ambos)
-        else if (matches(['herramienta', 'que tengo', 'que ofrece'])) {
-            response = "Profe, tienes dos frentes de apoyo:\n1. **En los computadores (QinayaLinux):** Tienes el software de programación, internet seguro y la Nube.\n2. **En este Kit:** Tienes las guías, el FAQ visual para imprimir y el asistente para resolver dudas pedagógicas.";
-        }
-        // 5. Soporte y Fallas (La Guía Visual)
-        else if (matches(['error', 'falla', 'problema', 'negro', 'negra', 'no arranca', 'wifi'])) {
-            response = "Profe, para problemas técnicos en el arranque de **QinayaLinux**:\n• Revisa la **Guía Visual de Soporte** en la sección de Recursos.\n• Recuerda el comando `nomodeset` si la pantalla es negra.\n• Si es algo complejo, usa el botón de Soporte Qinaya para chatear con un técnico humano.";
-        }
-        // 6. Computador Virtual / Nube
-        else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio', 'mi qinaya'])) {
-            response = "1. Al iniciar tu computador con Qinaya Linux y estar en el escritorio o en tus Apps, busca el Icono de MIQinaya el cual es tu entrada a tu computador en la Nube, a tu escritorio virtual desde donde podras trabajar todas tus aplicaciones con una super potencia y navegar por internet a gran velocidad!";
-        }
-        // 7. Micro:bit / Arduino / Scratch
-        else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware', 'scratch', 'makecode', 'logica'])) {
-            response = "¡Total compatibilidad, Profe! En **QinayaLinux** puedes programar tus tarjetas por USB. Los simuladores de **Scratch** y **MakeCode** los encuentras aquí mismo en la **Zona de Juegos** para que practiques antes de conectar el hardware real.";
-        }
-        // 8. Despedidas
-        else if (matches(['gracias', 'chau', 'adios', 'listo'])) {
-            response = "¡Con gusto, Profe! Mucho éxito en su jornada educativa. Si necesita algo más sobre el Kit o la Solución Qinaya, aquí estaré.";
-        }
-        // Fallback
-        else {
-            response = "Esa es una buena pregunta, Profe. Para detalles sobre **QinayaLinux** (el sistema) o este **Kit** (los recursos), le recomiendo usar el 'Notebook Inteligente' o consultar el 'Manual Maestro' en la sección de Recursos.";
+        // Máquina de estados para recolectar datos del ticket
+        if (chatState === 'AWAITING_NAME') {
+            ticketData.name = question;
+            chatState = 'AWAITING_SCHOOL';
+            response = `Gracias, ${question}. ¿De qué institución educativa (colegio) nos escribes?`;
+        } else if (chatState === 'AWAITING_SCHOOL') {
+            ticketData.school = question;
+            chatState = 'AWAITING_ISSUE';
+            response = `Entendido. Por favor, descríbeme con detalle cuál es la falla que presentan los equipos o qué tipo de soporte necesitas para que el técnico vaya preparado.`;
+        } else if (chatState === 'AWAITING_ISSUE') {
+            ticketData.issue = question;
+            chatState = 'AWAITING_DATETIME';
+            response = `Perfecto. Por último, ¿En qué fecha y hora te gustaría recibir la visita del técnico? (Ejemplo: "Mañana a las 10 am" o "El martes a las 2 pm")`;
+        } else if (chatState === 'AWAITING_DATETIME') {
+            ticketData.datetime = question;
+            chatState = 'NORMAL';
+            response = `¡Tomo nota, Profe ${ticketData.name}! Estoy enviando tu solicitud a la central técnica para agendar la cita para el horario sugerido (${ticketData.datetime})...`;
+            appendMessage(response, 'bot-msg');
+
+            // Enviar a Google Apps Script y salir para no agregar doble mensaje
+            sendTicketToGoogle(ticketData);
+            return;
+        } else {
+            // FLUJO NORMAL DEL BOT
+
+            // 1. Saludos
+            if (matches(['hola', 'buen', 'quien eres', 'nombre'])) {
+                response = "¡Hola! Soy **QinayaBot** tu asistente. Mi misión es apoyarte para que la tecnología sea tu mejor aliada en el aula. ¿En qué puedo ayudarte hoy profe?";
+            }
+            // 2. Ticket de Soporte (Trigger)
+            else if (matches(['tecnico', 'técnico', 'visita', 'agendar', 'soporte tecnico', 'fallan los equipos', 'fallos', 'reparar'])) {
+                chatState = 'AWAITING_NAME';
+                response = "Entiendo Profe, lamento los inconvenientes. Para agendar una visita técnica y apoyarte lo más pronto posible, por favor indícame tu **Nombre Completo**.";
+            }
+            // 2.1 Preguntas sobre la visita agendada
+            else if (matches(['cuando', 'cuándo', 'qué día', 'que hora', 'fecha', 'cita', 'horario'])) {
+                if (ticketData.name !== '') {
+                    response = `Profe ${ticketData.name}, tu visita quedó registrada con preferencia para: **${ticketData.datetime}**. ¡El técnico te confirmará pronto su llegada!`;
+                } else {
+                    response = "Aún no hemos agendado ninguna visita. Si tienes alguna falla y necesitas un técnico, escríbeme: **'visita técnica'**.";
+                }
+            }
+            // 3. QinayaLinux (La Solución Técnica)
+            else if (matches(['qinaya linux', 'qinayalinux', 'sistema', 'so', 'operativo', 'instalado', 'pc virtual'])) {
+                response = "Profe, **QinayaLinux** es el sistema operativo que tienes instalado en tus computadores. Sus herramientas clave son:\n• **Escritorio Virtual:** Acceso a potencia de Windows en la nube.\n• **Gestor de Software:** Apps precargadas para educación.\n• **Ligereza:** Hace que PCs antiguos vuelen.\n• **Compatibilidad:** Conecta Micro:bit y Arduino sin configuraciones complejas.";
+            }
+            // 4. Kit de Bienvenida (Los Recursos del Sitio)
+            else if (matches(['kit', 'recursos', 'este sitio', 'para que es este kit', 'material'])) {
+                response = "Este **Kit de Bienvenida** es tu biblioteca pedagógica. Aquí encuentras:\n• **Video-Tutoriales:** Guías de uso paso a paso.\n• **Recursos Didácticos:** PDFs, presentaciones y manuales.\n• **Notebook Inteligente:** Para chatear con tus documentos.\n• **Juegos Digitales:** Retos interactivos para tus estudiantes.";
+            }
+            // 5. Herramientas Docentes (Cruce de ambos)
+            else if (matches(['herramienta', 'que tengo', 'que ofrece'])) {
+                response = "Profe, tienes dos frentes de apoyo:\n1. **En los computadores (QinayaLinux):** Tienes el software de programación, internet seguro y la Nube.\n2. **En este Kit:** Tienes las guías, el FAQ visual para imprimir y el asistente para resolver dudas pedagógicas.";
+            }
+            // 6. Soporte y Fallas menores (La Guía Visual)
+            else if (matches(['error', 'falla', 'problema', 'negro', 'negra', 'no arranca', 'wifi'])) {
+                response = "Profe, revisa primero la **Guía Visual de Soporte** en la sección de Recursos.\n• Recuerda el comando `nomodeset` si la pantalla es negra.\n• Si ya lo leíste y necesitas revisión presencial, escríbeme: **'necesito agendar visita técnica'**.";
+            }
+            // 7. Computador Virtual / Nube
+            else if (matches(['abrir', 'entrar', 'nube', 'virtual', 'escritorio', 'mi qinaya'])) {
+                response = "1. Al iniciar tu computador con Qinaya Linux y estar en el escritorio o en tus Apps, busca el Icono de MIQinaya el cual es tu entrada a tu computador en la Nube, a tu escritorio virtual desde donde podras trabajar todas tus aplicaciones con una super potencia y navegar por internet a gran velocidad!";
+            }
+            // 8. Micro:bit / Arduino / Scratch
+            else if (matches(['micro:bit', 'microbit', 'arduino', 'hardware', 'scratch', 'makecode', 'logica'])) {
+                response = "¡Total compatibilidad, Profe! En **QinayaLinux** puedes programar tus tarjetas por USB. Los simuladores de **Scratch** y **MakeCode** los encuentras aquí mismo en la **Zona de Juegos** para que practiques antes de conectar el hardware real.";
+            }
+            // 9. Despedidas
+            else if (matches(['gracias', 'chau', 'adios', 'listo'])) {
+                response = "¡Con gusto, Profe! Mucho éxito en su jornada educativa. Si necesita algo más sobre el Kit o la Solución Qinaya, aquí estaré.";
+            }
+            // Fallback
+            else {
+                response = "Esa es una buena pregunta, Profe. Si necesitas reportar una falla escribeme **'visita técnica'**. Para detallar el uso del Kit, te recomiendo consultar el 'Manual Maestro' en la sección de Recursos.";
+            }
         }
 
         appendMessage(response, 'bot-msg');
