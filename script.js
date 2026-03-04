@@ -84,10 +84,9 @@ function initScrollToTop() {
 let chatState = 'NORMAL';
 let ticketData = { name: '', school: '', issue: '', datetime: '' };
 
-function sendTicketToGoogle(data) {
-    // Reemplaza esta URL con la que te dé Google Apps Script al publicar tu Web App
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1uJKZlXIxGYtfn4-t1ExeGt4XIk4rGC30hrMKgsIxV-M7nWu4TSNN_bivYov5-MVq6Q/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1uJKZlXIxGYtfn4-t1ExeGt4XIk4rGC30hrMKgsIxV-M7nWu4TSNN_bivYov5-MVq6Q/exec';
 
+function sendTicketToGoogle(data) {
     fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         headers: {
@@ -109,6 +108,19 @@ function sendTicketToGoogle(data) {
         });
 }
 
+function logQuestionToGoogle(question) {
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+            action: 'logQuestion',
+            question: question
+        })
+    }).catch(error => console.error("Error logging question:", error));
+}
+
 // Chatbot Logic
 function toggleChat() {
     const chatWindow = document.getElementById('chatWindow');
@@ -119,6 +131,12 @@ function toggleChat() {
 
 function askBot(question) {
     appendMessage(question, 'user-msg');
+
+    // Solo registrar preguntas sueltas que no formen parte del llenado del ticket
+    if (chatState === 'NORMAL') {
+        logQuestionToGoogle(question);
+    }
+
     const q = question.toLowerCase().trim();
 
     const matches = (keywords) => {
