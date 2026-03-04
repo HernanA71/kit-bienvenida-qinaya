@@ -131,12 +131,12 @@ function toggleChat() {
 
 function askBot(question) {
     appendMessage(question, 'user-msg');
-
+    
     // Solo registrar preguntas sueltas que no formen parte del llenado del ticket
     if (chatState === 'NORMAL') {
         logQuestionToGoogle(question);
     }
-
+    
     const q = question.toLowerCase().trim();
 
     const matches = (keywords) => {
@@ -263,4 +263,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
