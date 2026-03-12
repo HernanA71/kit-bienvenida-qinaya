@@ -25,7 +25,17 @@ async function loadFAQData() {
     try {
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getFAQ`);
         if (response.ok) {
-            faqData = await response.json();
+            const rawData = await response.json();
+            // Normalizar encabezados (quitar tildes de las llaves por si acaso)
+            faqData = rawData.map(item => {
+                return {
+                    Producto: item.Producto || "",
+                    Categoria: item.Categoria || item.Categoría || "",
+                    Pregunta: item.Pregunta || "",
+                    Respuesta: item.Respuesta || "",
+                    VideoLink: item.VideoLink || ""
+                };
+            });
         } else {
             throw new Error('Error en la API');
         }
@@ -60,30 +70,34 @@ function initProductTabs() {
  * Renderiza dinámicamente las categorías disponibles para el producto actual
  */
 function renderCategories() {
-    const productSpecificFAQ = faqData.filter(item => item.Producto === currentProduct);
+    const productSpecificFAQ = faqData.filter(item => item.Producto.toLowerCase() === currentProduct.toLowerCase());
     const categoriesSet = new Set(productSpecificFAQ.map(item => item.Categoria));
     const categories = ['all', ...Array.from(categoriesSet)];
 
+    // Normalizar llaves para iconos (todo en minúsculas)
     const catIcons = {
         'all': '📋',
-        'Pantalla': '🖥️',
-        'Mouse y teclado': '🖱️',
-        'Sonido': '🔊',
-        'Instalar una cámara Web': '📷',
-        'Conexión a Internet': '🌐',
-        'Conexión a corriente': '🔌',
-        'Aplicaciones': '📱',
-        'Escritorio Virtual': '💻',
-        'Nube': '☁️',
-        'Periféricos': '🔌',
-        'Uso Sistema': '⚙️'
+        'pantalla': '🖥️',
+        'mouse y teclado': '🖱️',
+        'sonido': '🔊',
+        'instalar una cámara web': '📷',
+        'conexión a internet': '🌐',
+        'conexión a corriente': '🔌',
+        'aplicaciones': '📱',
+        'escritorio virtual': '💻',
+        'nube': '☁️',
+        'periféricos': '🔌',
+        'uso sistema': '⚙️'
     };
 
-    categoryListContainer.innerHTML = categories.map(cat => `
-        <button class="cat-btn ${cat === currentCategory ? 'active' : ''}" data-category="${cat}">
-            <span class="cat-icon">${catIcons[cat] || '❓'}</span> ${cat === 'all' ? 'Todas' : cat}
-        </button>
-    `).join('');
+    categoryListContainer.innerHTML = categories.map(cat => {
+        const iconKey = cat.toLowerCase();
+        return `
+            <button class="cat-btn ${cat === currentCategory ? 'active' : ''}" data-category="${cat}">
+                <span class="cat-icon">${catIcons[iconKey] || '❓'}</span> ${cat === 'all' ? 'Todas' : cat}
+            </button>
+        `;
+    }).join('');
 
     document.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -102,8 +116,8 @@ function renderFAQ() {
     const searchTerm = searchInput.value.toLowerCase();
 
     const filtered = faqData.filter(item => {
-        const matchesProduct = item.Producto === currentProduct;
-        const matchesCat = currentCategory === 'all' || item.Categoria === currentCategory;
+        const matchesProduct = item.Producto.toLowerCase() === currentProduct.toLowerCase();
+        const matchesCat = currentCategory === 'all' || item.Categoria.toLowerCase() === currentCategory.toLowerCase();
         const matchesSearch = item.Pregunta.toLowerCase().includes(searchTerm) ||
             item.Respuesta.toLowerCase().includes(searchTerm);
         return matchesProduct && matchesCat && matchesSearch;
