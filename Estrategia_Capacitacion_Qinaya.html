@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategia de Capacitación Qinaya - 1000 Licencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Mermaid para el diagrama de Gantt -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #1a202c;
+            --accent: #00aaff;
+            --text: #2d3748;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #edf2f7;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .document {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 50px 70px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .doc-meta {
+            text-align: right;
+            font-size: 13px;
+            color: #718096;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        p,
+        li {
+            font-size: 15px;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .highlight-card {
+            background: #f0f7ff;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tool-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .tool-item strong {
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .gantt-container {
+            margin: 30px 0;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: #a0aec0;
+            text-align: center;
+        }
+
+        .signature-block {
+            margin-top: 40px;
+            padding-top: 10px;
+            text-align: left;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .document {
+                box-shadow: none;
+                padding: 30px 50px;
+                width: 100%;
+                border-radius: 0;
+            }
+
+            h2 {
+                margin-top: 20px;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            /* Evita que los encabezados se queden solos al final de la página */
+            h2,
+            h1 {
+                page-break-after: avoid;
+            }
+        }
+
+        .btn-action {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btn-action no-print" onclick="window.print()">Descargar / Imprimir Propuesta</button>
+
+    <div class="document">
+        <header>
+            <div class="logo-text">QINAYA <span style="font-weight: 300; font-size: 20px; color: #718096;">| Estrategia
+                    Pedagógica</span></div>
+            <div class="doc-meta">
+                <strong>PROPUESTA DE CAPACITACIÓN</strong><br>
+                Despliegue 1000 Licencias<br>
+                Marzo - Mayo 2026
+            </div>
+        </header>
+
+        <h1>Plan de Capacitación y Apropiación Tecnológica</h1>
+
+        <p>Esta propuesta establece la estrategia para la capacitación docente durante la instalación del software
+            Qinaya en las instituciones asignadas por la Secretaría de Educación, enfocándose en la meta de
+            <strong>1.000 licencias instaladas</strong>.
+        </p>
+
+        <h2>1. Objetivo de la Intervención</h2>
+        <p>Esta propuesta se centra en la <strong>instalación y activación del ecosistema
+                Qinaya a través de su ISO</strong>. El éxito pedagógico radica en demostrar al docente cómo el entorno
+            local
+            (Linux) convive con la potencia del escritorio virtual (Windows/Office), eliminando las barreras de
+            procesamiento y velocidad locales.</p>
+
+        <div class="highlight-card">
+            <strong>Foco Técnico:</strong> Capacitar en el manejo del escritorio local Linux y el aprovechamiento total
+            de la Nube (Windows Virtual), demostrando navegación fluida y procesamiento de alta velocidad.
+        </div>
+
+        <h2>2. Metodología: "Capacitación en Paralelo"</h2>
+        <p>Para optimizar el recurso humano, se propone un cronograma donde la formación ocurre de manera síncrona
+            mientras se realiza la instalación técnica en las salas:</p>
+        <ul>
+            <li><strong>Sesión Virtual Focalizada:</strong> Los docentes de las instituciones intervenidas ese día se
+                conectan sincronizadamente para recibir la capacitación mientras los técnicos finalizan la instalación
+                del ISO.</li>
+            <li><strong>Continuidad de Herramientas:</strong> Se demostrará el soporte total para herramientas
+                habituales como <strong>Scratch, Arduino, Microbit e Impresión 3D</strong>, garantizando que no haya
+                ruptura en sus procesos pedagógicos actuales.</li>
+        </ul>
+
+        <h2>3. Componentes Clave del Kit de Bienvenida</h2>
+        <p>El kit virtual es el soporte fundamental para la autonomía del docente post-intervención:</p>
+        <div class="tool-grid">
+            <div class="tool-item"><strong>🎥 Videos Tutoriales:</strong> Explicaciones claras sobre el funcionamiento
+                de la Nube Qinaya.</div>
+            <div class="tool-item"><strong>📚 Contenido Clave:</strong> Guías detalladas sobre el uso de herramientas en
+                el nuevo entorno.</div>
+            <div class="tool-item"><strong>💻 Cuaderno de Fuentes:</strong> Material estructurado con recursos y enlaces
+                para el aula.</div>
+            <div class="tool-item"><strong>🛠️ Soporte:</strong> Integración de chatbots y FAQs para resolución
+                inmediata de dudas.</div>
+        </div>
+
+        <h2>4. Propuesta de Cronograma (Gantt)</h2>
+        <p>Proyección ajustada considerando el inicio real en marzo y la meta de 1.000 licencias (distribuidas según las
+            instituciones que la SED confirme):</p>
+
+        <div class="gantt-container">
+            <pre class="mermaid">
+            gantt
+                title Despliegue Técnico y Pedagógico (1000 Licencias)
+                dateFormat  YYYY-MM-DD
+                section Preparación
+                Alistamiento y Configuración ISO :active, a1, 2026-03-01, 10d
+                Confirmación SED / Agenda       :a2, 2026-03-10, 5d
+                section Ejecución
+                Instalación y Capacitación Bloque 1 :b1, after a2, 15d
+                Instalación y Capacitación Bloque 2 :b2, 2026-04-06, 20d
+                section Cierre
+                Consolidación y Capacitación Bloque Final :b3, 2026-05-04, 8d
+                Entrega de Informes Finales              :after b3, 5d
+            </pre>
+        </div>
+
+        <h2>5. Demostración de Ventajas Competitivas</h2>
+        <p>El núcleo de la capacitación es la <strong>Prueba de Valor</strong>. Se debe mostrar que el sistema Qinaya
+            permite al docente:</p>
+        <ol>
+            <li>Trabajar con software pesado sin las limitaciones del hardware antiguo.</li>
+            <li>Acceder a sus licencias de Office y Windows de manera legal y fluida.</li>
+            <li>Mantener la conectividad con hardware físico pedagógico (Robótica, Impresión 3D).</li>
+        </ol>
+
+        <div class="footer">
+            Propuesta sujeta a la lista definitiva de instituciones. <br>
+            Qinaya 2026 - Computación en la Nube para una Educación sin Limites.
+        </div>
+
+        <div class="signature-block">
+            <p style="margin-bottom: 0;"><strong>Atentamente,</strong></p>
+            <p
+                style="font-size: 18px; font-weight: 700; margin-top: 10px; margin-bottom: 5px; color: var(--secondary);">
+                Hernán A. Rodríguez</p>
+            <p style="margin-top: 0; color: #718096; font-size: 14px;">Coordinador académico y de apropiación
+                tecnológica Qinaya</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

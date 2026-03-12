@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Kit de Bienvenida - Imprimible</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Ajustes específicos para que al imprimir salga en formato carta y perfecto */
+        @page {
+            size: letter;
+            margin: 0;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            /* Solo para la vista web antes de imprimir */
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                background-image: none !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                padding: 0;
+                margin: 0;
+                font-size: 13px;
+                /* Reducir ligeramente la fuente base */
+            }
+
+            .leaf-container {
+                box-shadow: none !important;
+                margin: 0 auto;
+                width: 100%;
+                max-width: 100%;
+                min-height: auto;
+                border-radius: 0;
+                padding: 10px 40px 0px 50px !important;
+                /* Menos espacio alrededor */
+                background-color: white !important;
+                border-left: 20px solid var(--qinaya-green) !important;
+            }
+
+            .leaf-container::before {
+                display: none;
+            }
+
+            .chat-bot-container,
+            .fab,
+            .wave-container {
+                display: none !important;
+            }
+
+            /* Reducir todos los espacios para asegurar que entre en 1 hoja */
+            .header {
+                margin-bottom: 15px !important;
+            }
+
+            .header img {
+                height: 60px !important;
+                /* Logo más pequeño */
+            }
+
+            .welcome-text h1 {
+                font-size: 1.8rem !important;
+                margin-bottom: 0px !important;
+            }
+
+            .greeting {
+                font-size: 1.1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            p.intro {
+                font-size: 0.95rem !important;
+                line-height: 1.3 !important;
+            }
+
+            .qr-section {
+                padding: 10px 15px !important;
+                margin-bottom: 15px !important;
+                gap: 15px !important;
+            }
+
+            .qr-section img {
+                width: 100px !important;
+                height: 100px !important;
+            }
+
+            .qr-text h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .qr-text p {
+                font-size: 0.85rem !important;
+            }
+
+            .section-title {
+                font-size: 1.2rem !important;
+                margin-bottom: 15px !important;
+                padding-bottom: 0px !important;
+            }
+
+            .menu-grid {
+                gap: 10px !important;
+                /* Menos espacio entre los cuadros de juegos */
+            }
+
+            .menu-item {
+                padding: 12px !important;
+                /* Cuadros más pequeños */
+            }
+
+            .menu-item .icon {
+                width: 45px !important;
+                height: 45px !important;
+                min-width: 45px !important;
+                font-size: 1.4rem !important;
+                margin-right: 12px !important;
+            }
+
+            .item-content h3 {
+                font-size: 1rem !important;
+                margin-bottom: 3px !important;
+            }
+
+            .item-content p {
+                font-size: 0.8rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .url {
+                font-size: 0.75rem !important;
+            }
+
+            .notebook-highlight {
+                margin-top: 15px !important;
+                padding: 15px !important;
+                gap: 15px !important;
+            }
+
+            .notebook-icon {
+                font-size: 2rem !important;
+                width: 50px !important;
+                height: 50px !important;
+            }
+
+            .notebook-info h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 5px !important;
+            }
+
+            .notebook-info p {
+                font-size: 0.85rem !important;
+                line-height: 1.3 !important;
+            }
+
+            .footer {
+                margin-top: 10px !important;
+                padding-top: 5px !important;
+                border-top: 1px solid #eee;
+            }
+        }
+
+        /* Bloque especial para el QR en la carta */
+        .qr-section {
+            background: #f8f9fa;
+            border: 2px dashed var(--qinaya-green);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .qr-section img {
+            width: 130px;
+            height: 130px;
+            border-radius: 10px;
+        }
+
+        .qr-text h3 {
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .qr-text p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .qr-url {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* Ajustes de espacio para que encaje todo en una página Letter */
+        .header {
+            margin-bottom: 30px;
+        }
+
+        p.intro {
+            font-size: 1.05rem;
+        }
+
+        .notebook-highlight {
+            margin-top: 25px;
+            padding: 20px;
+        }
+
+        .notebook-icon {
+            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="leaf-container">
+        <!-- Header exacto al index.html -->
+        <header class="header">
+            <div class="logo-placeholder">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" id="main-logo" style="height: 70px;">
+            </div>
+            <div class="welcome-text">
+                <h1>Kit de Bienvenida</h1>
+                <p class="greeting">Estimado docente,</p>
+                <p class="intro">Este es tu kit digital interactivo. Aquí encontrarás herramientas, juegos y recursos
+                    para potenciar tu labor pedagógica con tecnología.</p>
+            </div>
+        </header>
+
+        <main class="menu-sections">
+
+            <!-- Sección QR de Acceso -->
+            <div class="qr-section">
+                <!-- Código QR generado con una API pública apuntando a la URL dada -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://hernana71.github.io/kit-bienvenida-qinaya/index.html&margin=10"
+                    alt="Código QR de Acceso">
+                <div class="qr-text" style="text-align: left;">
+                    <h3>¡Lleva este Kit en tu celular!</h3>
+                    <p>Escanea este código QR con la cámara de tu teléfono móvil <br>para acceder inmediatamente a la
+                        versión interactiva de este Kit <br>y disfrutar de todas las herramientas.</p>
+                    <div class="qr-url">Enlace directo: https://hernana71.github.io/kit-bienvenida-qinaya/index.html
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Contenido de tu Kit Digital</h2>
+
+            <!-- Grid exacto al original, en versión puramente visual -->
+            <div class="menu-grid" id="menu-grid">
+                <div class="menu-item green">
+                    <div class="icon">📁</div>
+                    <div class="item-content">
+                        <h3>Guía para Docentes</h3>
+                        <p>Recursos y manuales para el aprovechamiento tecnológico.</p>
+                        <span class="url">Ver Panel en App</span>
+                    </div>
+                </div>
+
+                <div class="menu-item red">
+                    <div class="icon">▶</div>
+                    <div class="item-content">
+                        <h3>Video-Tutoriales</h3>
+                        <p>Aprende paso a paso con nuestros tutoriales visuales.</p>
+                        <span class="url">Ver Tutoriales en App</span>
+                    </div>
+                </div>
+
+                <div class="menu-item orange">
+                    <div class="icon">⚙</div>
+                    <div class="item-content">
+                        <h3>Soporte al Usuario</h3>
+                        <p>¿Necesitas ayuda? Accede a nuestro centro técnico.</p>
+                        <span class="url">bit.ly/Qinaya-Soporte</span>
+                    </div>
+                </div>
+
+                <div class="menu-item purple">
+                    <div class="icon">🎮</div>
+                    <div class="item-content">
+                        <h3>Zona de Juegos</h3>
+                        <p>¡Retate! Pon a prueba tus conocimientos de forma divertida.</p>
+                        <span class="url">Entrar a Jugar en App</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="notebook-highlight">
+                <div class="notebook-icon">📓</div>
+                <div class="notebook-info">
+                    <h3>Notebook Inteligente Qinaya</h3>
+                    <p>Accede a todas nuestras fuentes de conocimiento, manuales y guías interactivas. Chatea con la
+                        IA sobre Scratch, Micro:bit, Nube y más desde la aplicación.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-message" style="margin-bottom: 5px;">Tecnología accesible que transforma la educación y
+                    las comunidades</p>
+                <div class="footer-bottom" style="margin-top: 10px;">
+                    <img src="logo Qinaya.png" alt="Qinaya Mini" class="footer-mini-logo" style="height: 25px;">
+                    <p>© 2026 Qinaya - Kit Digital Docente</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

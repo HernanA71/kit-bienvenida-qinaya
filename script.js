@@ -16,10 +16,11 @@ const menuData = [
         colorClass: "red"
     },
     {
-        title: "Soporte al Usuario",
-        description: "Centro técnico para resolver dudas sobre tus equipos y software.",
-        url: "bit.ly/Qinaya-Soporte",
-        link: "https://qinaya.co/manuals/",
+        title: "Centro de Ayuda FAQ",
+        description: "¿Tienes dudas técnicas? Encuentra soluciones y videos paso a paso.",
+        url: "Ver Preguntas Frecuentes →",
+        link: "faq.html",
+        target: "_blank",
         icon: "⚙",
         colorClass: "orange"
     },
@@ -41,9 +42,14 @@ function renderMenu() {
     menuData.forEach((item) => {
         const itemElement = document.createElement('a');
         itemElement.href = item.link;
-        if (item.link.startsWith('http')) {
+
+        // Prioritize explicit target from data
+        if (item.target) {
+            itemElement.target = item.target;
+        } else if (item.link.startsWith('http')) {
             itemElement.target = "_blank";
         }
+
         itemElement.className = `menu-item ${item.colorClass}`;
 
         itemElement.innerHTML = `

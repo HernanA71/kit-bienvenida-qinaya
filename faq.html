@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ayuda Qinaya | FAQ Dinámico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="faq.css">
+</head>
+
+<body>
+
+    <div class="faq-page-container">
+        <header class="faq-header">
+            <div class="faq-title-area">
+                <img src="logo Qinaya.png" alt="Logo Qinaya" style="height: 60px; margin-bottom: 10px;">
+                <h1>Centro de Ayuda Qinaya</h1>
+                <p>Encuentra soluciones de uso para tus equipos y el ecosistema en la nube.</p>
+            </div>
+
+            <div class="product-tabs">
+                <button class="prod-tab active" data-product="Upcycle">💻 Upcycle Linux</button>
+                <button class="prod-tab" data-product="STB">📺 Qinaya STB</button>
+            </div>
+
+            <div class="search-bar-container">
+                <input type="text" id="faqSearch" placeholder="Busca tu duda... (Ej: wifi, nube, aplicaciones)">
+                <span class="search-icon">🔍</span>
+            </div>
+        </header>
+
+        <main class="faq-main">
+            <!-- Sidebar con Categorías -->
+            <aside class="categories-sidebar" id="categoriesSidebar">
+                <h3>Categorías de Uso</h3>
+                <div class="category-list" id="categoryList">
+                    <button class="cat-btn active" data-category="all">
+                        <span class="cat-icon">📋</span> Todas
+                    </button>
+                </div>
+            </aside>
+
+            <!-- FAQ List -->
+            <section class="faq-results">
+                <div id="loading" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Cargando centro de ayuda...</p>
+                </div>
+
+                <div id="faqItems" class="faq-items-grid"></div>
+
+                <div id="noResults" class="no-results" style="display: none;">
+                    <div class="no-results-content">
+                        <span class="no-results-icon">🤔</span>
+                        <h3>No encontramos resultados para tu búsqueda.</h3>
+                        <p>¿No encontraste lo que buscabas? Envía tu duda y la agregaremos pronto.</p>
+                        <div class="feedback-actions">
+                            <button id="btnLogQuestion" class="log-btn">Enviar mi duda al soporte</button>
+                            <a href="https://bit.ly/Qinaya-Soporte" target="_blank" class="contact-btn">Contactar
+                                ahora</a>
+                        </div>
+                        <p id="logFeedback" class="log-feedback" style="display: none;"></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="videoContainer" class="video-container">
+                <!-- Iframe dinámico -->
+            </div>
+            <h3 id="videoTitle">Título del Video</h3>
+        </div>
+    </div>
+
+    <script src="faq.js"></script>
+</body>
+
+</html>
