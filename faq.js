@@ -26,16 +26,22 @@ async function loadFAQData() {
         const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getFAQ`);
         if (response.ok) {
             const rawData = await response.json();
-            // Normalizar encabezados (quitar tildes de las llaves por si acaso)
+            console.log("Datos recibidos del Excel:", rawData); // <--- LÍNEA ESPÍA
+
+            if (!rawData || rawData.length === 0) {
+                console.warn("El Excel devolvió una lista vacía. Verifica el nombre de la pestaña.");
+            }
+
             faqData = rawData.map(item => {
                 return {
-                    Producto: item.Producto || "",
-                    Categoria: item.Categoria || item.Categoría || "",
-                    Pregunta: item.Pregunta || "",
-                    Respuesta: item.Respuesta || "",
-                    VideoLink: item.VideoLink || ""
+                    Producto: item.Producto || item.producto || "",
+                    Categoria: item.Categoria || item.Categoría || item.categoría || item.categoria || "",
+                    Pregunta: item.Pregunta || item.pregunta || "",
+                    Respuesta: item.Respuesta || item.respuesta || "",
+                    VideoLink: item.VideoLink || item.videolink || item.Video || ""
                 };
             });
+            console.log("Datos procesados y listos:", faqData);
         } else {
             throw new Error('Error en la API');
         }
@@ -169,14 +175,33 @@ function openVideo(url, title) {
     const videoTitle = document.getElementById('videoTitle');
     videoTitle.innerText = title;
 
-    let embedUrl = url;
-    if (url.includes('youtube.com/watch?v=')) {
-        embedUrl = url.replace('watch?v=', 'embed/');
+    let videoId = '';
+    if (url.includes('v=')) {
+        videoId = url.split('v=')[1].split('&')[0];
     } else if (url.includes('youtu.be/')) {
-        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/');
+        videoId = url.split('youtu.be/')[1].split(/[?#]/)[0];
+    } else if (url.includes('embed/')) {
+        videoId = url.split('embed/')[1].split(/[?#]/)[0];
     }
 
-    container.innerHTML = `<iframe src="${embedUrl}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    if (videoId) {
+        const embedUrl = `https://www.youtube.com/embed/${videoId.trim()}`;
+        container.innerHTML = `<iframe 
+            width="100%" 
+            height="100%" 
+            src="${embedUrl}" 
+            title="YouTube video player"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>`;
+    } else {
+        container.innerHTML = `<div style="padding: 20px; text-align: center;">
+            <p>No se pudo cargar el video automáticamente.</p>
+            <a href="${url}" target="_blank" style="color: #004aad; font-weight: bold;">Ver directamente en YouTube</a>
+        </div>`;
+    }
+
     videoModal.style.display = 'flex';
 }
 
