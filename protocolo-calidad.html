@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultura CPE | Qinaya — Crear, Probar, Entregar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="protocolo-calidad.css">
+</head>
+
+<body>
+
+    <!-- Toggle Modo Claro / Oscuro -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema">
+        <i class="fas fa-sun" id="themeIcon"></i>
+    </button>
+
+    <!-- ========== PANTALLA 1: INTRODUCCIÓN ========== -->
+    <section class="screen intro-screen active" id="screenIntro">
+        <div class="intro-container">
+            <div class="intro-logo">
+                <img src="logo Qinaya.png" alt="Qinaya" class="logo-img" onerror="this.style.display='none'">
+            </div>
+            <div class="intro-badge"><i class="fas fa-lock"></i> Solo para funcionarios Qinaya</div>
+            <h1 class="intro-title">Cultura de Calidad</h1>
+            <p class="intro-subtitle">Crear · Probar · Entregar</p>
+
+            <div class="intro-content">
+                <div class="intro-section">
+                    <div class="intro-icon-wrap blue"><i class="fas fa-lightbulb"></i></div>
+                    <h2>¿Por qué existe este protocolo?</h2>
+                    <p>En Qinaya construimos tecnología que llega a docentes, niños en colegios, usuarios de Bibliotecas
+                        rurales, departamentales, estudiantes y comunidades de sitios rurales, emprendedores y
+                        organizaciones empresariales y educativas. Cuando un equipo falla, no es solo un "error técnico"
+                        — es un usuario que dependía de nosotros, una persona que solo tiene nuestro recurso para
+                        trabajar, para estudiar, para aprender, un docente frustrado, una empresaria que no pudo
+                        conectarse a una cita, que no pudo usar el computador para redactar el inicio de un gran
+                        negocio, una persona que se traslado hasta una biblioteca lejana para aprender desde el
+                        computador que no tiene y no le sirvió, unos niños que pierden una clase, una promesa rota.</p>
+                    <p>Por eso necesitamos una cultura donde <strong>nadie entregue nada sin probarlo
+                            primero</strong>. No como un procedimiento obligatorio, sino como un hábito natural de cada
+                        persona en el equipo.</p>
+                </div>
+
+                <div class="intro-section">
+                    <div class="intro-icon-wrap gold"><i class="fas fa-recycle"></i></div>
+                    <h2>El ciclo CPE: Crear – Probar – Entregar</h2>
+                    <p>Todo lo que hacemos en Qinaya — software, hardware, capacitaciones, citas con clientes — pasa por
+                        este ciclo:</p>
+
+                    <div class="cpe-cards">
+                        <div class="cpe-card crear">
+                            <div class="cpe-number">1</div>
+                            <i class="fas fa-hammer"></i>
+                            <h3>CREAR</h3>
+                            <p>Cada persona construye su parte con atención y responsabilidad. No se trata de hacerlo
+                                rápido, se trata de hacerlo <strong>bien</strong>.</p>
+                        </div>
+                        <div class="cpe-arrow-big"><i class="fas fa-chevron-right"></i></div>
+                        <div class="cpe-card probar">
+                            <div class="cpe-number">2</div>
+                            <i class="fas fa-flask"></i>
+                            <h3>PROBAR</h3>
+                            <p>Antes de pasar tu trabajo al siguiente compañero o al cliente, <strong>tú mismo lo
+                                    pruebas</strong>. Si tú no confías en que funciona, ¿por qué debería confiar el
+                                cliente?</p>
+                        </div>
+                        <div class="cpe-arrow-big"><i class="fas fa-chevron-right"></i></div>
+                        <div class="cpe-card entregar">
+                            <div class="cpe-number">3</div>
+                            <i class="fas fa-check-double"></i>
+                            <h3>ENTREGAR</h3>
+                            <p>Solo cuando está probado, se entrega. Con orgullo, con confianza, sabiendo que lo que
+                                entregamos <strong>funciona</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intro-section">
+                    <div class="intro-icon-wrap red"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h2>¿Qué pasa cuando NO se prueba?</h2>
+                    <div class="consequences-grid">
+                        <div class="consequence"><i class="fas fa-clock"></i><span>Tiempo perdido repitiendo trabajo que
+                                ya se había hecho</span></div>
+                        <div class="consequence"><i class="fas fa-money-bill-wave"></i><span>Costos extra por enviar
+                                técnicos a corregir errores evitables</span></div>
+                        <div class="consequence"><i class="fas fa-users"></i><span>Compañeros frustrados porque reciben
+                                trabajo incompleto</span></div>
+                        <div class="consequence"><i class="fas fa-heart-crack"></i><span>Clientes insatisfechos que
+                                pierden confianza en nosotros</span></div>
+                        <div class="consequence"><i class="fas fa-child"></i><span>Niños y docentes que pierden
+                                oportunidades de aprendizaje</span></div>
+                    </div>
+                </div>
+
+                <div class="intro-section">
+                    <div class="intro-icon-wrap green"><i class="fas fa-heart"></i></div>
+                    <h2>Esto NO es un manual de reglas</h2>
+                    <p>Este protocolo no es una lista de obligaciones. Es una <strong>invitación a ser parte de una
+                            cultura</strong> donde cada uno se siente responsable de lo que entrega. Donde el orgullo
+                        profesional se demuestra en los detalles.</p>
+                    <blockquote class="culture-quote">
+                        <i class="fas fa-quote-left"></i>
+                        "No entrego lo que no probaría yo mismo."
+                        <span class="quote-author">— Filosofía CPE, Qinaya</span>
+                    </blockquote>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="showScreen('screenRoles')">
+                Entendido, quiero conocer mi rol <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- ========== PANTALLA 2: SELECCIÓN DE ROL ========== -->
+    <section class="screen" id="screenRoles">
+        <div class="roles-container">
+            <button class="btn-back" onclick="showScreen('screenIntro')"><i class="fas fa-arrow-left"></i> Volver a la
+                Introducción</button>
+            <h1 class="section-title">¿Cuál es tu rol en Qinaya?</h1>
+            <p class="section-desc">Selecciona tu rol para ver cómo aplica la cultura CPE en tu día a día.</p>
+
+            <div class="roles-grid">
+                <!-- 1: Backend (CREAR) -->
+                <div class="role-selector" onclick="showRole(1)">
+                    <div class="rs-icon blue"><i class="fas fa-server"></i></div>
+                    <h3>Desarrollador Backend</h3>
+                    <p>Creador de la ISO Base</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini active blue">CREAR</span>
+                        <span class="rs-tag-mini">PROBAR</span>
+                        <span class="rs-tag-mini">ENTREGAR</span>
+                    </div>
+                </div>
+                <!-- 2: Frontend (CREAR) -->
+                <div class="role-selector" onclick="showRole(2)">
+                    <div class="rs-icon purple"><i class="fas fa-palette"></i></div>
+                    <h3>Desarrollador Frontend</h3>
+                    <p>Entorno e Interfaz</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini active purple">CREAR</span>
+                        <span class="rs-tag-mini">PROBAR</span>
+                        <span class="rs-tag-mini">ENTREGAR</span>
+                    </div>
+                </div>
+                <!-- 3: Especialista en Virtualización (CREAR) -->
+                <div class="role-selector" onclick="showRole(5)">
+                    <div class="rs-icon red"><i class="fas fa-cloud"></i></div>
+                    <h3>Esp. Virtualización</h3>
+                    <p>Administrador de VMs</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini active red">CREAR</span>
+                        <span class="rs-tag-mini">PROBAR</span>
+                        <span class="rs-tag-mini">ENTREGAR</span>
+                    </div>
+                </div>
+                <!-- 4: Técnico de Instalación (PROBAR) -->
+                <div class="role-selector" onclick="showRole(3)">
+                    <div class="rs-icon green"><i class="fas fa-screwdriver-wrench"></i></div>
+                    <h3>Técnico de Instalación</h3>
+                    <p>El Validador del Puente</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini">CREAR</span>
+                        <span class="rs-tag-mini active green">PROBAR</span>
+                        <span class="rs-tag-mini">ENTREGAR</span>
+                    </div>
+                </div>
+                <!-- 5 (Penúltimo): Académico (ENTREGAR) -->
+                <div class="role-selector" onclick="showRole(4)">
+                    <div class="rs-icon orange"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Académico</h3>
+                    <p>Maestría en la Solución</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini">CREAR</span>
+                        <span class="rs-tag-mini">PROBAR</span>
+                        <span class="rs-tag-mini active orange">ENTREGAR</span>
+                    </div>
+                </div>
+                <!-- 6: Asistente Administrativo (ENTREGAR) -->
+                <div class="role-selector" onclick="showRole(6)">
+                    <div class="rs-icon gold"><i class="fas fa-handshake"></i></div>
+                    <h3>Asist. Administrativo</h3>
+                    <p>Agenda, Reuniones y Almacén</p>
+                    <div class="rs-tag-group">
+                        <span class="rs-tag-mini">CREAR</span>
+                        <span class="rs-tag-mini">PROBAR</span>
+                        <span class="rs-tag-mini active gold">ENTREGAR</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PANTALLA 3: DETALLE DEL ROL ========== -->
+    <section class="screen" id="screenDetail">
+        <div class="detail-container">
+            <button class="btn-back" onclick="showScreen('screenRoles')"><i class="fas fa-arrow-left"></i> Volver a
+                selección de rol</button>
+
+            <!-- Header del rol -->
+            <div class="detail-header" id="detailHeader"></div>
+
+            <!-- Explicación cultura CPE para este rol -->
+            <div class="detail-culture" id="detailCulture"></div>
+
+            <!-- Auto-evaluación / Quiz -->
+            <div class="detail-quiz" id="detailQuiz"></div>
+
+            <!-- Resultado -->
+            <div class="result-card" id="detailResult"></div>
+        </div>
+    </section>
+
+    <!-- ========== ACTA PARA IMPRESIÓN (OCULTA) ========== -->
+    <div id="printableActa" class="print-only">
+        <!-- Se llena dinámicamente con JS -->
+    </div>
+
+    <script src="protocolo-calidad.js"></script>
+</body>
+
+</html>
