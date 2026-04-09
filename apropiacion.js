@@ -72,6 +72,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderTelemetryCharts(e.target.value);
         });
     }
+
+    // Lógica Secreta de Admin
+    const lockIcon = document.getElementById('unlockAdmin');
+    const adminPanel = document.getElementById('adminControls');
+    if (lockIcon && adminPanel) {
+        lockIcon.addEventListener('click', () => {
+            const pass = prompt("Ingresa la clave de administrador para habilitar los controles de carga:");
+            if (pass === "qinaya2026") {
+                adminPanel.style.display = "flex";
+                lockIcon.classList.replace('fa-lock', 'fa-unlock-alt');
+                lockIcon.style.color = "var(--accent-blue)";
+                alert("Acceso administrativo concedido. Botones habilitados.");
+            } else {
+                alert("Clave incorrecta. Acceso denegado.");
+            }
+        });
+    }
 });
 
 // ------------- GRÁFICOS (CHART.JS) -------------
