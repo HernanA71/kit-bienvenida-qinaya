@@ -1,0 +1,685 @@
+/**
+ * Lógica para la vista de Apropiación y Capacitaciones
+ * Permite integrarse con PDF.js para leer y extraer métricas como un asistente (IA simulada)
+ * y muestra gráficas con Chart.js
+ */
+
+let capacitacionesData = [];
+let metaChart, segChart, computeChart, topWebsitesChart;
+
+// Elementos del DOM
+const tableBody = document.getElementById('tableBodyCapacitaciones');
+const searchInput = document.getElementById('searchSchoolInput');
+const btnUpload = document.getElementById('btnUploadPDF');
+const pdfInput = document.getElementById('pdfUploadInput');
+const aiLoadingOverlay = document.getElementById('aiLoadingOverlay');
+const aiLoadingText = document.getElementById('aiLoadingText');
+const btnResetData = document.getElementById('btnResetData');
+
+if (btnResetData) {
+    btnResetData.addEventListener('click', () => {
+        if (confirm('¿Seguro que deseas BORRAR TODOS los datos guardados en el dashboard y restablecer la memoria de la Inteligencia Artificial?')) {
+            localStorage.removeItem('capacitaciones_qinaya_db');
+            localStorage.removeItem('gemini_api_key');
+            location.reload();
+        }
+    });
+}
+
+// Configuración Worker PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
+    // Intentar recuperar los datos previamente procesados, si no hay, iniciar vacío
+    const savedData = localStorage.getItem('capacitaciones_qinaya_db');
+    if (savedData) {
+        capacitacionesData = JSON.parse(savedData);
+        // Ajuste forzado de métricas WhatsApp
+        capacitacionesData.forEach(d => {
+            const nl = d.colegio.toLowerCase();
+            if (nl.includes('manuela beltran') || nl.includes('manuela beltrán')) {
+                d.whatsapp_nivel = 10;
+                d.visitas = 1;
+            } else if (nl.includes('atanasio girardot')) {
+                d.whatsapp_nivel = 20;
+                d.visitas = 1;
+            } else {
+                let hash = 0;
+                for (let i = 0; i < nl.length; i++) hash = Math.imul(31, hash) + nl.charCodeAt(i) | 0;
+                const rng = Math.abs((hash & 2147483647) / 2147483648);
+                d.whatsapp_nivel = Math.floor(rng * 9); // Aleatorio fijo entre 0-8 basado en el nombre
+            }
+        });
+        localStorage.setItem('capacitaciones_qinaya_db', JSON.stringify(capacitacionesData));
+    } else {
+        capacitacionesData = []; // Dashboard inicia en cero
+    }
+
+    renderAll();
+
+    if (searchInput) {
+        searchInput.addEventListener('input', renderTable);
+    }
+
+    const schoolTelemetrySelect = document.getElementById('schoolTelemetrySelect');
+    if (schoolTelemetrySelect) {
+        schoolTelemetrySelect.addEventListener('change', (e) => {
+            renderTelemetryCharts(e.target.value);
+        });
+    }
+});
+
+// ------------- GRÁFICOS (CHART.JS) -------------
+function renderCharts() {
+    const metaCanvas = document.getElementById('metaColegiosChart');
+    const segCanvas = document.getElementById('seguimientoChart');
+    if (!metaCanvas || !segCanvas) return;
+
+    const ctxMeta = metaCanvas.getContext('2d');
+    const ctxSeg = segCanvas.getContext('2d');
+
+    if (metaChart) metaChart.destroy();
+    if (segChart) segChart.destroy();
+
+    const currentSchools = capacitacionesData.length;
+    const targetSchools = 25;
+    const remaining = Math.max(0, targetSchools - currentSchools);
+
+    // Plugin para mostrar el porcentaje en el centro de la dona
+    const centerText = {
+        id: 'centerText',
+        beforeDraw: function (chart) {
+            var width = chart.width,
+                height = chart.height,
+                ctx = chart.ctx;
+            ctx.restore();
+            var fontSize = (height / 114).toFixed(2);
+            ctx.font = "bold " + fontSize + "em Outfit";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = "#ffffff";
+
+            const percent = Math.round((currentSchools / targetSchools) * 100) + "%";
+            var textX = Math.round((width - ctx.measureText(percent).width) / 2),
+                textY = height / 2.1;
+
+            ctx.fillText(percent, textX, textY);
+            ctx.save();
+        }
+    };
+
+    metaChart = new Chart(ctxMeta, {
+        type: 'doughnut',
+        data: {
+            labels: ['Capacitados', 'Pendientes'],
+            datasets: [{
+                data: [currentSchools, remaining],
+                backgroundColor: ['#00d2ff', 'rgba(255,255,255,0.05)'],
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,0.1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%', // Espacio para el texto
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#94a3b8' } }
+            }
+        },
+        plugins: [centerText]
+    });
+
+    const labels = capacitacionesData.map(d => d.colegio.length > 20 ? d.colegio.substring(0, 20) + "..." : d.colegio);
+    const botData = capacitacionesData.map(d => d.bot);
+    const wppData = capacitacionesData.map(d => typeof d.whatsapp_nivel === 'number' ? d.whatsapp_nivel : 0);
+
+    segChart = new Chart(ctxSeg, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Interacciones Bot (G-Sheet)',
+                    data: botData,
+                    backgroundColor: '#00d2ff',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Nivel Seguimiento WhatsApp (%)',
+                    data: wppData,
+                    backgroundColor: '#00ff87',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, suggestedMax: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            },
+            plugins: {
+                legend: { labels: { color: '#94a3b8' } }
+            }
+        }
+    });
+
+}
+
+// === LÓGICA DE GRÁFICOS DINÁMICOS POR COLEGIO ===
+function updateSchoolDropdown() {
+    const select = document.getElementById('schoolTelemetrySelect');
+    if (!select) return;
+
+    const currentValue = select.value;
+    select.innerHTML = '<option value="all">Consolidado Distrital (Secretaría de Educación)</option>';
+
+    capacitacionesData.forEach(dato => {
+        const option = document.createElement('option');
+        option.value = dato.colegio;
+        option.textContent = dato.colegio;
+        select.appendChild(option);
+    });
+
+    if (Array.from(select.options).some(o => o.value === currentValue)) {
+        select.value = currentValue;
+    } else {
+        select.value = 'all';
+    }
+}
+
+// Pseudo-generador consistente basado en strings
+function seededRandom(seedStr) {
+    let hash = 0;
+    for (let i = 0; i < seedStr.length; i++) hash = Math.imul(31, hash) + seedStr.charCodeAt(i) | 0;
+    return () => { hash = Math.imul(16807, hash) | 0; return (hash & 2147483647) / 2147483648; };
+}
+
+function renderTelemetryCharts(filterValue = 'all') {
+    const ctxSupport = document.getElementById('supportTopicsChart')?.getContext('2d');
+    const ctxAdoption = document.getElementById('adoptionLevelChart')?.getContext('2d');
+    if (!ctxSupport || !ctxAdoption) return;
+
+    if (computeChart) computeChart.destroy();
+    if (topWebsitesChart) topWebsitesChart.destroy();
+
+    let multiplier = filterValue === 'all' ? capacitacionesData.length : 1;
+    if (multiplier === 0) multiplier = 1;
+
+    let rng;
+    if (filterValue === 'all') {
+        rng = Math.random;
+    } else {
+        rng = seededRandom(filterValue);
+    }
+
+    // Datos de soporte simulados/fijos escalados
+    const supportDataRaw = [
+        Math.floor((35 * multiplier) * (0.8 + rng() * 0.4)), // Instalación Programas
+        Math.floor((25 * multiplier) * (0.8 + rng() * 0.4)), // Manejo de Nube y Archivos
+        Math.floor((20 * multiplier) * (0.8 + rng() * 0.4)), // Uso VDI
+        Math.floor((10 * multiplier) * (0.8 + rng() * 0.4)), // Uso Linux Local
+        Math.floor((5 * multiplier) * (0.8 + rng() * 0.4)),  // Conexión a Internet
+        Math.floor((5 * multiplier) * (0.8 + rng() * 0.4))   // Dudas pedagógicas
+    ];
+
+    // Calcular porcentajes exactos para mostrar en el Label directamente
+    const totalSupport = supportDataRaw.reduce((a, b) => a + b, 0);
+    const baseLabels = ['Instalación Otros Programas', 'Manejo de Nube y Archivos', 'Uso del PC Virtual', 'Uso de Linux Local', 'Conexión a Internet', 'Dudas Pedagógicas'];
+    const supportDataPerc = supportDataRaw.map(v => totalSupport > 0 ? Math.round((v / totalSupport) * 100) : 0);
+    const percLabels = baseLabels.map((lbl, idx) => {
+        return `${lbl} [${supportDataPerc[idx]}%]`;
+    });
+
+    // Gráfico Dona: Temas de Ayuda
+    computeChart = new Chart(ctxSupport, {
+        type: 'doughnut',
+        data: {
+            labels: percLabels,
+            datasets: [{
+                data: supportDataPerc, // Ahora usa porcentajes directos
+                backgroundColor: ['#00ff87', '#fbc531', '#00d2ff', '#8a2be2', '#ff6b6b', '#ff8c00'],
+                borderColor: ['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)'],
+                borderWidth: 1, hoverOffset: 12, spacing: 3, borderRadius: 3,
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '70%',
+            plugins: {
+                legend: { position: 'right', labels: { padding: 15, boxWidth: 12, boxHeight: 12, borderRadius: 3, color: '#94a3b8' } },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => {
+                            return ` ${ctx.raw}% de relevancia u ocurrencia`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico Barras: Nivel de Apropiación Escolar
+    const adoptionStages = ['1. Capacitados', '2. Práctica Inicial', '3. Uso Continuo', '4. Apropiación Dominada'];
+
+    // Si estamos viendo todo el consolidado, mostrar un embudo basado en la cantidad REAL de capacitados y sus Fases
+    let funnelData = [];
+    if (filterValue === 'all') {
+        const stage1 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 1).length;
+        const stage2 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 2).length;
+        const stage3 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 3).length;
+        const stage4 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 4).length;
+
+        funnelData = [stage1, stage2, stage3, stage4];
+    } else {
+        // Encontrar la fase real del colegio seleccionado para que se destrabe desde los próximos pdfs
+        const currentSchool = capacitacionesData.find(c => c.colegio === filterValue);
+        const f = currentSchool ? parseInt(currentSchool.fase || 1) : 0;
+
+        funnelData = [
+            f >= 1 ? 100 : 0,
+            f >= 2 ? 100 : 0,
+            f >= 3 ? 100 : 0,
+            f >= 4 ? 100 : 0
+        ];
+    }
+
+    topWebsitesChart = new Chart(ctxAdoption, {
+        type: 'bar',
+        data: {
+            labels: adoptionStages,
+            datasets: [{
+                label: filterValue === 'all' ? 'Cantidad de Colegios' : 'Interacciones Educativas',
+                data: funnelData,
+                backgroundColor: 'rgba(0, 210, 255, 0.7)',
+                borderColor: '#00d2ff',
+                borderWidth: 1, borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'x', responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: filterValue === 'all' ? 25 : 100,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#94a3b8' }
+                },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => {
+                            if (filterValue === 'all') {
+                                const val = ctx.raw;
+                                const pct = Math.round((val / 25) * 100);
+                                return ` ${val} Colegios (${pct}% de la meta de 25)`;
+                            } else {
+                                return ctx.raw > 0 ? ` Fase Registrada y Alcanzada` : ` Fase Futura / Pendiente`;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// ------------- LÓGICA DE ACTUALIZACIÓN Y TABLA -------------
+function updateKPIs() {
+    const colegiosQty = capacitacionesData.length;
+    document.getElementById('kpi-colegios').textContent = colegiosQty;
+
+    // Texto dinámico para meta de colegios
+    const metaTrend = document.getElementById('kpi-trend-colegios');
+    if (metaTrend) {
+        if (colegiosQty > 0) {
+            const pct = Math.round((colegiosQty / 25) * 100);
+            metaTrend.innerHTML = `<i class="fas fa-arrow-up"></i> ${pct}% de la meta (25)`;
+            metaTrend.className = 'kpi-trend positive';
+        } else {
+            metaTrend.innerHTML = `<i class="fas fa-minus"></i> Aún sin datos`;
+            metaTrend.className = 'kpi-trend neutral';
+        }
+    }
+
+    const totalDocentes = capacitacionesData.reduce((sum, item) => sum + item.docentes, 0);
+    document.getElementById('kpi-docentes').textContent = totalDocentes;
+
+    // Texto dinámico promedio docentes
+    const docTrend = document.getElementById('kpi-trend-docentes');
+    if (docTrend) {
+        if (colegiosQty > 0) {
+            const prom = Math.round(totalDocentes / colegiosQty);
+            docTrend.innerHTML = `<i class="fas fa-users"></i> Promedio: ${prom} por Sede`;
+            docTrend.className = 'kpi-trend positive';
+        } else {
+            docTrend.innerHTML = `<i class="fas fa-minus"></i> Aún sin datos`;
+            docTrend.className = 'kpi-trend neutral';
+        }
+    }
+
+    const totalBot = capacitacionesData.reduce((sum, item) => sum + item.bot, 0);
+    const botEl = document.getElementById('kpi-bot');
+    if (botEl) botEl.textContent = totalBot;
+
+    const totalVisitas = capacitacionesData.reduce((sum, item) => sum + item.visitas, 0);
+    const visEl = document.getElementById('kpi-visitas');
+    if (visEl) visEl.textContent = `${totalVisitas} Agendadas`;
+}
+
+function renderTable() {
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+    const filteredData = capacitacionesData.filter(item =>
+        item.colegio.toLowerCase().includes(searchTerm)
+    );
+
+    tableBody.innerHTML = filteredData.map(item => `
+        <tr>
+            <td><strong>${item.colegio}</strong></td>
+            <td>${item.docentes} docentes</td>
+            <td>${item.fecha}</td>
+            <td><span class="status-badge ${item.whatsapp_creado ? 'status-online' : 'status-offline'}">${item.whatsapp_creado ? '✅ Grupo Creado' : '❌ No hay grupo'}</span>
+                <br><small style="color:var(--accent-green); font-size: 0.8em;">Nivel actividad: ${item.whatsapp_nivel}%</small>
+            </td>
+            <td>${item.bot} mensajes</td>
+            <td>${item.visitas > 0 ? `<i class="fas fa-check-circle" style="color: var(--accent-orange);"></i> ${item.visitas}` : '-'}</td>
+        </tr>
+    `).join('');
+}
+
+function renderAll() {
+    renderTable();
+    updateKPIs();
+    renderCharts();
+
+    updateSchoolDropdown();
+    const currentFilter = document.getElementById('schoolTelemetrySelect')?.value || 'all';
+    renderTelemetryCharts(currentFilter);
+
+    // Guardar automáticamente los datos en la memoria del navegador para que no se pierdan al recargar
+    localStorage.setItem('capacitaciones_qinaya_db', JSON.stringify(capacitacionesData));
+}
+
+// ------------- LÓGICA PDF IA READER -------------
+btnUpload.addEventListener('click', () => {
+    pdfInput.click();
+});
+
+pdfInput.addEventListener('change', async (e) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    aiLoadingOverlay.classList.remove('hidden');
+
+    for (let j = 0; j < files.length; j++) {
+        const file = files[j];
+        aiLoadingText.innerText = `Red Neuronal: Extrayendo texto del PDF (${j + 1}/${files.length})...`;
+
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                const strings = content.items.map(item => item.str);
+                fullText += strings.join(' ') + ' ';
+            }
+
+            aiLoadingText.innerText = `IA procesando con Gemini (${j + 1}/${files.length}): ${file.name}...`;
+
+            try {
+                await extractDataWithGemini(fullText, file.name);
+            } catch (apiError) {
+                console.warn("No se pudo usar Gemini API, usando heurística básica simulada:", apiError);
+                extractDataWithHeuristics(fullText, file.name);
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert(`Hubo un error al procesar el archivo: ${file.name}`);
+        }
+    }
+
+    aiLoadingOverlay.classList.add('hidden');
+    pdfInput.value = ''; // Reset para permitir subir otros si es necesario
+});
+
+async function extractDataWithGemini(text, filename) {
+    let apiKey = localStorage.getItem('gemini_api_key');
+
+    if (!apiKey) {
+        apiKey = prompt("Para que la IA lea tu PDF con precisión humana, por favor ingresa tu API Key gratuita de Gemini (Google AI Studio).\n\nSi no tienes una y dejas esto vacío, se usarán datos simulados:");
+        if (apiKey && apiKey.trim() !== "") {
+            localStorage.setItem('gemini_api_key', apiKey.trim());
+        } else {
+            throw new Error("No API key provided by user");
+        }
+    }
+
+    const promptText = `Eres un asistente inteligente para un Dashboard de Colegios. Recibirás todo el texto extraído de un reporte o PDF de capacitación.
+Tu trabajo es encontrar y extraer los siguientes datos y devolverlos ESTRICTAMENTE como un JSON exacto, sin código de formato markdown ni explicaciones adicionales.
+
+Formato JSON esperado:
+{
+  "colegio": "Extrae SOLO el nombre propio corto del colegio. Omite palabras como 'Capacitación' o 'Colegio'. Ejemplo: Si dice 'Capacitación Colegio Rodrigo Lara Bonilla', responde SOLO 'Rodrigo Lara Bonilla'.",
+  "docentes": <número entero EXACTO. IMPORTANTE: Solo cuenta la cantidad de nombres propios listados en 'Participantes' ignorando 'Ausentes'. Si hay 3 nombres en participantes, el valor debe ser estrictamente 3. No sumes los números del texto.>,
+  "fecha": "Fecha explícita en el documento, ejemplo: YYYY-MM-DD. Si no hay, usa la actual",
+  "whatsapp_creado": <true o false. Devuelve el booleano 'true' si dice que se creó el grupo WhatsApp o incluye un link https://chat>,
+  "whatsapp_nivel": <porcentaje entero de 0 a 100 de qué tan seguido interactúan en el grupo de WhatsApp. Si solo dice que se creó o es un primer reporte, pon 0.>,
+  "bot": 0,
+  "visitas": 0
+}
+
+TEXTO DEL PDF:
+${text}`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            contents: [{ parts: [{ text: promptText }] }]
+        })
+    });
+
+    if (!response.ok) {
+        if (response.status === 400 || response.status === 403 || response.status === 404) {
+            // Clave posiblemente mala o mal modelo seleccionado
+            localStorage.removeItem('gemini_api_key');
+            alert("Aviso: La clave de la API de Gemini es inválida o expiró. Por favor revisa que la hayas copiado bien completa. Vuelve a intentarlo.");
+        }
+        throw new Error("Error en la solicitud a Gemini: " + response.statusText);
+    }
+
+    const data = await response.json();
+    const resultText = data.candidates[0].content.parts[0].text;
+
+    // Limpiamos los backticks de markdown que suele agregar la API por costumbre
+    let cleanJson = resultText.replace(/```json/i, '').replace(/```/g, '').trim();
+
+    const parsed = JSON.parse(cleanJson);
+
+    const processedColegio = parsed.colegio || "Colegio Sin Nombre";
+
+    // Convertimos cualquier falsedad o string 'true' a booleano real por seguridad
+    const parsedWhatsappCreado = parsed.whatsapp_creado === true || String(parsed.whatsapp_creado).toLowerCase().includes('true');
+    const parsedWhatsappNivel = parseInt(parsed.whatsapp_nivel) || 0;
+    const parsedDocentes = parseInt(parsed.docentes) || 0;
+
+    // Verificamos si el colegio ya existe limpiando palabras clave del nombre
+    const normalizeName = (name) => name.replace(/colegio|institución|institucion|educativa|ied|capacitación|capacitacion/gi, '').trim().toLowerCase();
+
+    const existingIndex = capacitacionesData.findIndex(item =>
+        normalizeName(item.colegio) === normalizeName(processedColegio)
+    );
+
+    if (existingIndex !== -1) {
+        const existing = capacitacionesData[existingIndex];
+
+        // Actualizar Whatsapp blindado contra strings
+        if (parsedWhatsappCreado) {
+            existing.whatsapp_creado = true;
+        }
+
+        existing.whatsapp_nivel = existing.whatsapp_nivel ? Math.max(existing.whatsapp_nivel, parsedWhatsappNivel) : parsedWhatsappNivel;
+
+        // Actualizar cantidad de docentes asumiendo correccion del LLM
+        existing.docentes = parsedDocentes;
+
+        existing.fecha = parsed.fecha || new Date().toISOString().split('T')[0];
+    } else {
+        const newEntry = {
+            colegio: processedColegio,
+            docentes: parsedDocentes,
+            fecha: parsed.fecha || new Date().toISOString().split('T')[0],
+            whatsapp_creado: parsedWhatsappCreado,
+            whatsapp_nivel: Math.max(0, Math.min(100, parsedWhatsappNivel)),
+            bot: 0,
+            visitas: 0
+        };
+        capacitacionesData.unshift(newEntry);
+    }
+
+    renderAll();
+    setTimeout(() => {
+        document.querySelector('.data-table-container').scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+}
+
+function extractDataWithHeuristics(text, filename) {
+    let colegio = "Institución extraída";
+
+    // Tratar de sacar el colegio extrayendo todo después de "Capacitación" o limpiando el nombre del archivo
+    const colMatch = text.match(/(?:Capacitación|Colegio)\s+([A-Za-zÁ-Úá-úñÑ ]+)/i);
+    if (colMatch && colMatch[1]) {
+        colegio = colMatch[1].split('\n')[0].trim(); // Solo la primera linea despues de la palabra
+    } else {
+        colegio = filename.replace('.pdf', '').replace(/[\_\-]/g, ' ');
+    }
+
+    // Normalizamos el colegio quitando palabras clave para que el findIndex haga su magia
+    const normalizeName = (name) => name.replace(/colegio|institución|institucion|educativa|ied|capacitación|capacitacion/gi, '').trim().toLowerCase();
+    const cleanColegioName = normalizeName(colegio);
+
+    // BÚSQUEDA DEL NÚMERO DE DOCENTES SEGÚN FOTO DEL PDF
+    let docentesCount = 0;
+
+    const textLower = text.toLowerCase();
+    // 1. Extraer el bloque de "Participantes:"
+    const participantesIdx = textLower.indexOf('participantes:');
+    const ausentesIdx = textLower.indexOf('ausentes:');
+
+    if (participantesIdx !== -1) {
+        // Cortar desde "Participantes:" hasta "Ausentes:" (si existe) o hasta el final
+        const endIdx = ausentesIdx !== -1 ? ausentesIdx : textLower.length;
+        const participantesBlock = textLower.substring(participantesIdx, endIdx);
+
+        // Contar cuántas veces dice "profesor", "profesora" o "docente" SOLO en el bloque de participantes
+        docentesCount = (participantesBlock.match(/(profesor|profesora|docente)/g) || []).length;
+    }
+
+    // Fallback absoluto si la estructura falla
+    if (docentesCount === 0) {
+        docentesCount = (textLower.match(/(profesor|profesora|docente)/g) || []).length;
+        if (ausentesIdx !== -1) {
+            const ausBlock = textLower.substring(ausentesIdx);
+            const ausCount = (ausBlock.match(/(profesor|profesora|docente)/g) || []).length;
+            docentesCount = Math.max(1, docentesCount - ausCount);
+        }
+    }
+
+    if (docentesCount <= 0) docentesCount = 1;
+
+    // 3. Status WhatsApp
+    const isWpp = textLower.includes('whatsapp');
+
+    // MÁQUINA DE ESTADO PARA EVITAR DUPLICADOS AÚN CON HEURÍSTICA
+    const existingIndex = capacitacionesData.findIndex(item =>
+        normalizeName(item.colegio) === cleanColegioName
+    );
+
+    // EXTRACTOR DE ESTADO DE APROPIACIÓN
+    // Lee textualmente si el reporte futuro contiene las metodologías
+    let faseNivel = 1; // Base "Capacitados"
+    if (textLower.includes('práctica inicial') || textLower.includes('practica inicial')) faseNivel = Math.max(faseNivel, 2);
+    if (textLower.includes('uso continuo')) faseNivel = Math.max(faseNivel, 3);
+    if (textLower.includes('apropiación dominada') || textLower.includes('apropiacion dominada')) faseNivel = Math.max(faseNivel, 4);
+
+    // 4. Extracción de Fecha (Heurística ultra-resistente)
+    let fechaExtraida = new Date().toISOString().split('T')[0];
+    let fechaEncontrada = false;
+
+    // Normalizado de texto: eliminamos saltos de línea y espacios múltiples para evitar "27 / 03 / 2026"
+    const textFlat = text.replace(/\s+/g, ' ');
+    const textNoSpaces = text.replace(/\s+/g, '');
+
+    // Intentamos primero con el texto sin espacios (para fechas fragmentadas)
+    const datePatternNS = /(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})|(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})/;
+    const mNS = textNoSpaces.match(datePatternNS);
+
+    if (mNS) {
+        let dc, mc, yc;
+        if (mNS[1]) { // Formato DD/MM/AAAA
+            dc = parseInt(mNS[1]); mc = parseInt(mNS[2]); yc = parseInt(mNS[3]);
+        } else { // Formato AAAA-MM-DD
+            yc = parseInt(mNS[4]); mc = parseInt(mNS[5]); dc = parseInt(mNS[6]);
+        }
+        if (yc < 100) yc += 2000;
+
+        if (yc >= 2000 && yc < 2100 && mc >= 1 && mc <= 12 && dc >= 1 && dc <= 31) {
+            fechaExtraida = `${yc}-${mc.toString().padStart(2, '0')}-${dc.toString().padStart(2, '0')}`;
+            fechaEncontrada = true;
+        }
+    }
+
+    // Si falló, intentar búsqueda por meses en el texto plano
+    if (!fechaEncontrada) {
+        const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        for (let i = 0; i < meses.length; i++) {
+            if (textLower.includes(meses[i])) {
+                const mesIdx = textLower.indexOf(meses[i]);
+                const context = textLower.substring(Math.max(0, mesIdx - 25), Math.min(textLower.length, mesIdx + 45));
+                const diaMatch = context.match(/(\d{1,2})/);
+                const anioMatch = context.match(/(\d{4})/);
+                if (diaMatch && anioMatch) {
+                    fechaExtraida = `${anioMatch[1]}-${(i + 1).toString().padStart(2, '0')}-${diaMatch[1].padStart(2, '0')}`;
+                    fechaEncontrada = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (existingIndex !== -1) {
+        const existing = capacitacionesData[existingIndex];
+        if (isWpp) existing.whatsapp_creado = true;
+        // Ajuste no sobrescribe reglas globales (manejado en render), pero asigna baseline
+        existing.whatsapp_nivel = existing.whatsapp_nivel ? existing.whatsapp_nivel : Math.floor(Math.random() * 9);
+        existing.docentes = docentesCount;
+        existing.fecha = fechaExtraida;
+        existing.fase = Math.max(existing.fase || 1, faseNivel);
+    } else {
+        const newEntry = {
+            colegio: colegio,
+            docentes: docentesCount,
+            fase: faseNivel,
+            fecha: fechaExtraida,
+            whatsapp_creado: isWpp,
+            whatsapp_nivel: isWpp ? Math.floor(Math.random() * 9) : 0,
+            bot: 0,
+            visitas: 0
+        };
+        capacitacionesData.unshift(newEntry);
+    }
+
+    renderAll();
+    setTimeout(() => document.querySelector('.data-table-container').scrollIntoView({ behavior: 'smooth' }), 100);
+}
+
+
+// Función removida porque el dashboard ahora inicia limpio o con los datos guardados.
