@@ -77,14 +77,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const lockIcon = document.getElementById('unlockAdmin');
     const adminPanel = document.getElementById('adminControls');
     if (lockIcon && adminPanel) {
+        lockIcon.style.padding = "10px"; // Área de clic más grande
         lockIcon.addEventListener('click', () => {
+            console.log("Intentando desbloquear admin...");
             const pass = prompt("Ingresa la clave de administrador para habilitar los controles de carga:");
             if (pass === "qinaya2026") {
                 adminPanel.style.display = "flex";
-                lockIcon.classList.replace('fa-lock', 'fa-unlock-alt');
-                lockIcon.style.color = "var(--accent-blue)";
+                lockIcon.classList.remove('fa-lock');
+                lockIcon.classList.add('fa-unlock-alt');
+                lockIcon.style.color = "#4dabf7";
                 alert("Acceso administrativo concedido. Botones habilitados.");
-            } else {
+            } else if (pass !== null) {
                 alert("Clave incorrecta. Acceso denegado.");
             }
         });
