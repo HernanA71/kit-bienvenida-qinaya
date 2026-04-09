@@ -29,17 +29,37 @@ if (btnResetData) {
 // Configuración Worker PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyuQzKFvUuSz6wmUl-WMzhALDCnP_BGvR5VgU1hMoKxwfUPKGQ_lk1k-tUDQfeTaiqy7A/exec";
+
 // Inicialización
-document.addEventListener('DOMContentLoaded', () => {
-    // Intentar recuperar los datos previamente procesados, si no hay, iniciar vacío
-    const savedData = localStorage.getItem('capacitaciones_qinaya_db');
-    if (savedData) {
-        capacitacionesData = JSON.parse(savedData);
-        // Las reglas de negocio ahora se aplican en renderAll para cubrir tanto datos guardados como recien extraidos
-    } else {
-        capacitacionesData = []; // Dashboard inicia en cero
+document.addEventListener('DOMContentLoaded', async () => {
+    // Intentar recuperar los datos desde Google Sheets en la nube
+    try {
+        if (aiLoadingOverlay && aiLoadingText) {
+            aiLoadingText.innerText = 'Sincronizando con la Nube (Google Sheets)...';
+            aiLoadingOverlay.classList.remove('hidden');
+        }
+
+        const res = await fetch(SHEET_URL);
+        const data = await res.json();
+
+        if (data && Array.isArray(data) && data.length > 0) {
+            capacitacionesData = data;
+            localStorage.setItem('capacitaciones_qinaya_db', JSON.stringify(data)); // Backup local
+        } else {
+            // Fallback a local storage si Sheets está vacío
+            const savedData = localStorage.getItem('capacitaciones_qinaya_db');
+            if (savedData) capacitacionesData = JSON.parse(savedData);
+            else capacitacionesData = [];
+        }
+    } catch (err) {
+        console.error("Error cargando Google Sheets:", err);
+        const savedData = localStorage.getItem('capacitaciones_qinaya_db');
+        if (savedData) capacitacionesData = JSON.parse(savedData);
+        else capacitacionesData = [];
     }
 
+    if (aiLoadingOverlay) aiLoadingOverlay.classList.add('hidden');
     renderAll();
 
     if (searchInput) {
@@ -450,9 +470,30 @@ pdfInput.addEventListener('change', async (e) => {
         }
     }
 
+    aiLoadingText.innerText = 'Guardando datos en Google Sheets...';
+    await syncToGoogleSheets(capacitacionesData);
+
     aiLoadingOverlay.classList.add('hidden');
     pdfInput.value = ''; // Reset para permitir subir otros si es necesario
 });
+
+async function syncToGoogleSheets(data) {
+    if (!data || data.length === 0) return;
+    try {
+        const payload = JSON.stringify(data);
+        const res = await fetch(SHEET_URL, {
+            method: 'POST',
+            body: payload,
+            headers: {
+                'Content-Type': 'text/plain'
+            }
+        });
+        const result = await res.json();
+        console.log('Google Sheets Sync:', result);
+    } catch (err) {
+        console.error("Error sincronizando a Sheets:", err);
+    }
+}
 
 async function extractDataWithGemini(text, filename) {
     if (window.skipGeminiBatch) {
