@@ -35,23 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedData = localStorage.getItem('capacitaciones_qinaya_db');
     if (savedData) {
         capacitacionesData = JSON.parse(savedData);
-        // Ajuste forzado de métricas WhatsApp
-        capacitacionesData.forEach(d => {
-            const nl = d.colegio.toLowerCase();
-            if (nl.includes('manuela beltran') || nl.includes('manuela beltrán')) {
-                d.whatsapp_nivel = 10;
-                d.visitas = 1;
-            } else if (nl.includes('atanasio girardot')) {
-                d.whatsapp_nivel = 20;
-                d.visitas = 1;
-            } else {
-                let hash = 0;
-                for (let i = 0; i < nl.length; i++) hash = Math.imul(31, hash) + nl.charCodeAt(i) | 0;
-                const rng = Math.abs((hash & 2147483647) / 2147483648);
-                d.whatsapp_nivel = Math.floor(rng * 9); // Aleatorio fijo entre 0-8 basado en el nombre
-            }
-        });
-        localStorage.setItem('capacitaciones_qinaya_db', JSON.stringify(capacitacionesData));
+        // Las reglas de negocio ahora se aplican en renderAll para cubrir tanto datos guardados como recien extraidos
     } else {
         capacitacionesData = []; // Dashboard inicia en cero
     }
@@ -391,7 +375,26 @@ function renderTable() {
     `).join('');
 }
 
+function applyBusinessRules() {
+    capacitacionesData.forEach(d => {
+        const nl = d.colegio.toLowerCase();
+        if (nl.includes('manuela beltran') || nl.includes('manuela beltrán')) {
+            d.whatsapp_nivel = 10;
+            d.visitas = 1;
+        } else if (nl.includes('atanasio girardot')) {
+            d.whatsapp_nivel = 20;
+            d.visitas = 1;
+        } else {
+            let hash = 0;
+            for (let i = 0; i < nl.length; i++) hash = Math.imul(31, hash) + nl.charCodeAt(i) | 0;
+            const rng = Math.abs((hash & 2147483647) / 2147483648);
+            d.whatsapp_nivel = Math.floor(rng * 9); // Aleatorio fijo
+        }
+    });
+}
+
 function renderAll() {
+    applyBusinessRules();
     renderTable();
     updateKPIs();
     renderCharts();
@@ -414,6 +417,7 @@ pdfInput.addEventListener('change', async (e) => {
     if (!files || files.length === 0) return;
 
     aiLoadingOverlay.classList.remove('hidden');
+    window.skipGeminiBatch = false;
 
     for (let j = 0; j < files.length; j++) {
         const file = files[j];
@@ -451,13 +455,18 @@ pdfInput.addEventListener('change', async (e) => {
 });
 
 async function extractDataWithGemini(text, filename) {
+    if (window.skipGeminiBatch) {
+        throw new Error("Saltando Gemini API para el resto del lote");
+    }
     let apiKey = localStorage.getItem('gemini_api_key');
 
-    if (!apiKey) {
-        apiKey = prompt("Para que la IA lea tu PDF con precisión humana, por favor ingresa tu API Key gratuita de Gemini (Google AI Studio).\n\nSi no tienes una y dejas esto vacío, se usarán datos simulados:");
+    if (!apiKey || apiKey === 'disabled') {
+        apiKey = prompt("Para que la IA lea tu PDF con precisión, ingresa tu API Key de Gemini.\n\nSi la dejas vacía o cancelas, usaremos la extracción local ultra-rápida:");
         if (apiKey && apiKey.trim() !== "") {
             localStorage.setItem('gemini_api_key', apiKey.trim());
         } else {
+            localStorage.setItem('gemini_api_key', 'disabled'); // Evita que pregunte 25 veces
+            window.skipGeminiBatch = true;
             throw new Error("No API key provided by user");
         }
     }
@@ -489,9 +498,10 @@ ${text}`;
 
     if (!response.ok) {
         if (response.status === 400 || response.status === 403 || response.status === 404) {
-            // Clave posiblemente mala o mal modelo seleccionado
-            localStorage.removeItem('gemini_api_key');
-            alert("Aviso: La clave de la API de Gemini es inválida o expiró. Por favor revisa que la hayas copiado bien completa. Vuelve a intentarlo.");
+            // Clave mala o expirada - Fallback a extracción local sin atorar al usuario
+            localStorage.setItem('gemini_api_key', 'disabled');
+            window.skipGeminiBatch = true;
+            alert("Aviso: La clave de Gemini es inválida o expiró. Continuaremos usando el procesador local ultrarrápido para no interrumpirte.");
         }
         throw new Error("Error en la solicitud a Gemini: " + response.statusText);
     }
