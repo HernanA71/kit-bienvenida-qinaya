@@ -392,7 +392,7 @@ function updateKPIs() {
 
     const botTrend = document.getElementById('kpi-trend-bot');
     if (botTrend) {
-        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios con reporte`;
+        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Sedes con solicitud`;
         botTrend.className = 'kpi-trend neutral';
     }
 
