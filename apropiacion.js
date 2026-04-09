@@ -386,9 +386,15 @@ function updateKPIs() {
         }
     }
 
-    const totalBot = capacitacionesData.reduce((sum, item) => sum + item.bot, 0);
+    const schoolsWithFindings = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0).length;
     const botEl = document.getElementById('kpi-bot');
-    if (botEl) botEl.textContent = totalBot;
+    if (botEl) botEl.textContent = schoolsWithFindings;
+
+    const botTrend = document.getElementById('kpi-trend-bot');
+    if (botTrend) {
+        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios con reporte`;
+        botTrend.className = 'kpi-trend neutral';
+    }
 
     const totalVisitas = capacitacionesData.reduce((sum, item) => sum + item.visitas, 0);
     const visEl = document.getElementById('kpi-visitas');
