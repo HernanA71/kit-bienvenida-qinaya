@@ -396,25 +396,12 @@ function renderTable() {
 }
 
 function applyBusinessRules() {
-    capacitacionesData.forEach(d => {
-        const nl = d.colegio.toLowerCase();
-        if (nl.includes('manuela beltran') || nl.includes('manuela beltrán')) {
-            d.whatsapp_nivel = 10;
-            d.visitas = 1;
-        } else if (nl.includes('atanasio girardot')) {
-            d.whatsapp_nivel = 20;
-            d.visitas = 1;
-        } else {
-            let hash = 0;
-            for (let i = 0; i < nl.length; i++) hash = Math.imul(31, hash) + nl.charCodeAt(i) | 0;
-            const rng = Math.abs((hash & 2147483647) / 2147483648);
-            d.whatsapp_nivel = Math.floor(rng * 9); // Aleatorio fijo
-        }
-    });
+    // Las reglas de negocio ahora se gestionan directamente desde Google Sheets
+    // Esta función queda vacía para permitir que el usuario edite los valores manualmente
 }
 
 function renderAll() {
-    applyBusinessRules();
+    // applyBusinessRules(); // Desactivado para obedecer al Sheets
     renderTable();
     updateKPIs();
     renderCharts();
