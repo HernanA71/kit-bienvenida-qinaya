@@ -401,28 +401,59 @@ function updateKPIs() {
     if (visEl) visEl.textContent = `${totalVisitas} Agendadas`;
 }
 
+function showMoreInfo(schoolName, text) {
+    alert(`Solicitudes de: ${schoolName}\n\n${text}`);
+}
+
 function renderTable() {
+    if (!tableBody) return;
     const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
     const filteredData = capacitacionesData.filter(item =>
         item.colegio.toLowerCase().includes(searchTerm)
     );
 
-    tableBody.innerHTML = filteredData.map(item => `
-        <tr>
-            <td><strong>${item.colegio}</strong></td>
-            <td>${item.docentes} docentes</td>
-            <td>${item.fecha}</td>
-            <td><span class="status-badge ${item.whatsapp_creado ? 'status-online' : 'status-offline'}">${item.whatsapp_creado ? '✅ Grupo Creado' : '❌ No hay grupo'}</span>
-                <br><small style="color:var(--accent-green); font-size: 0.8em;">Nivel actividad: ${item.whatsapp_nivel}%</small>
-            </td>
-            <td>
-                <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
-                    ${item.bot || '-'}
-                </div>
-            </td>
-            <td>${item.visitas > 0 ? `<i class="fas fa-check-circle" style="color: var(--accent-orange);"></i> ${item.visitas}` : '-'}</td>
-        </tr>
-    `).join('');
+    tableBody.innerHTML = filteredData.map(item => {
+        // Formatear Fecha (DD/MM/YYYY)
+        let displayDate = "-";
+        if (item.fecha) {
+            try {
+                // Si viene como string de Google Sheets (ISO)
+                const d = new Date(item.fecha);
+                if (!isNaN(d.getTime())) {
+                    displayDate = d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                } else {
+                    displayDate = item.fecha;
+                }
+            } catch (e) { displayDate = item.fecha; }
+        }
+
+        // Manejar texto largo en solicitudes post-instalación
+        const rawText = item.bot || '-';
+        let displayText = rawText;
+        let showMoreBtn = '';
+        if (rawText.length > 70) {
+            displayText = rawText.substring(0, 70) + "...";
+            showMoreBtn = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${rawText.replace(/'/g, "\\'").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
+        }
+
+        return `
+            <tr>
+                <td><strong>${item.colegio}</strong></td>
+                <td>${item.docentes} docentes</td>
+                <td>${displayDate}</td>
+                <td><span class="status-badge ${item.whatsapp_creado ? 'status-online' : 'status-offline'}">${item.whatsapp_creado ? '✅ Grupo Creado' : '❌ No hay grupo'}</span>
+                    <br><small style="color:var(--accent-green); font-size: 0.8em;">Nivel actividad: ${item.whatsapp_nivel}%</small>
+                </td>
+                <td>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
+                        ${displayText}
+                        ${showMoreBtn}
+                    </div>
+                </td>
+                <td>${item.visitas > 0 ? `<i class="fas fa-check-circle" style="color: var(--accent-orange);"></i> ${item.visitas}` : '-'}</td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function applyBusinessRules() {
