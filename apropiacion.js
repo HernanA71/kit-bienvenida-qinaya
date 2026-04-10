@@ -378,7 +378,7 @@ function updateKPIs() {
     if (docTrend) {
         if (colegiosQty > 0) {
             const prom = Math.round(totalDocentes / colegiosQty);
-            docTrend.innerHTML = `<i class="fas fa-users"></i> Promedio: ${prom} por Sede`;
+            docTrend.innerHTML = `<i class="fas fa-users"></i> Promedio: ${prom} por Colegio`;
             docTrend.className = 'kpi-trend positive';
         } else {
             docTrend.innerHTML = `<i class="fas fa-minus"></i> Aún sin datos`;
@@ -392,7 +392,7 @@ function updateKPIs() {
 
     const botTrend = document.getElementById('kpi-trend-bot');
     if (botTrend) {
-        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Sedes con solicitud`;
+        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios con solicitud`;
         botTrend.className = 'kpi-trend neutral';
     }
 
