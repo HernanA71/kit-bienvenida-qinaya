@@ -436,6 +436,27 @@ function renderTable() {
             showMoreBtn = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${rawText.replace(/'/g, "\\'").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
         }
 
+        // Lógica de colores para Visitas Técnicas
+        let visitColor = 'var(--text-muted)'; // Default gris
+        let visitIcon = 'fa-check-circle';
+
+        const lowerBot = rawText.toLowerCase();
+        const isPending = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
+        const isSolved = lowerBot.includes('solucionó') || lowerBot.includes('resuelto') || lowerBot.includes('listo') || lowerBot.includes('visitó') || lowerBot.includes('exitos');
+
+        if (item.visitas > 0) {
+            if (isPending) {
+                visitColor = '#ff4d4d'; // Rojo fuerte
+                visitIcon = 'fa-exclamation-circle';
+            } else if (isSolved) {
+                visitColor = '#00ff87'; // Verde neón
+                visitIcon = 'fa-check-circle';
+            } else {
+                visitColor = 'var(--accent-orange)'; // Naranja (agendada pero sin reporte final)
+                visitIcon = 'fa-clock';
+            }
+        }
+
         return `
             <tr>
                 <td><strong>${item.colegio}</strong></td>
@@ -450,7 +471,9 @@ function renderTable() {
                         ${showMoreBtn}
                     </div>
                 </td>
-                <td>${item.visitas > 0 ? `<i class="fas fa-check-circle" style="color: var(--accent-orange);"></i> ${item.visitas}` : '-'}</td>
+                <td style="color: ${visitColor}; font-weight: bold;">
+                    ${item.visitas > 0 ? `<i class="fas ${visitIcon}"></i> ${item.visitas}` : '-'}
+                </td>
             </tr>
         `;
     }).join('');
