@@ -170,7 +170,7 @@ function renderCharts() {
                     borderRadius: 4
                 },
                 {
-                    label: 'Nivel Seguimiento WhatsApp (%)',
+                    label: 'Interacción WhatsApp (%)',
                     data: wppData,
                     backgroundColor: '#00ff87',
                     borderRadius: 4
@@ -442,7 +442,7 @@ function renderTable() {
                 <td>${item.docentes} docentes</td>
                 <td>${displayDate}</td>
                 <td><span class="status-badge ${item.whatsapp_creado ? 'status-online' : 'status-offline'}">${item.whatsapp_creado ? '✅ Grupo Creado' : '❌ No hay grupo'}</span>
-                    <br><small style="color:var(--accent-green); font-size: 0.8em;">Nivel actividad: ${item.whatsapp_nivel}%</small>
+                    <br><small style="color:var(--accent-green); font-size: 0.8em;">Interacción: ${item.whatsapp_nivel}%</small>
                 </td>
                 <td>
                     <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
