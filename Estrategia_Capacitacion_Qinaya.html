@@ -331,6 +331,42 @@
             </pre>
         </div>
 
+        <h3 style="margin-top: 30px; color: var(--secondary);">Cronograma de Apropiación (Fase 2 a Fase 4)</h3>
+        <p>Proyección de actividades tras la finalización de las instalaciones (mediados de mayo) hasta el 30 de
+            noviembre, detallando 6 actividades por cada fase de manera coordinada:</p>
+
+        <div class="gantt-container">
+            <pre class="mermaid">
+            gantt
+                title Fases Posteriores a Instalación (Mayo - Noviembre)
+                dateFormat  YYYY-MM-DD
+                
+                section Fase 2: Práctica Inicial
+                2.1 Reto Exploración Dual (Linux/Windows)       :f2_1, 2026-05-18, 11d
+                2.2 Creación Accesos y Configuración Entorno    :f2_2, after f2_1, 11d
+                2.3 Primer Entregable Ofimático en la Nube      :f2_3, after f2_2, 11d
+                2.4 Gestión de Guardado y Sincronización        :f2_4, after f2_3, 11d
+                2.5 Navegación y Descargas en Entorno Virtual   :f2_5, after f2_4, 11d
+                2.6 Evaluación de Fase 2 y Ajustes              :f2_6, after f2_5, 11d
+                
+                section Fase 3: Uso Continuo
+                3.1 Planificación Evidencia de Clase            :f3_1, after f2_6, 11d
+                3.2 Desarrollo de Clase con Nube                :f3_2, after f3_1, 11d
+                3.3 Gestión de Portafolio Docente               :f3_3, after f3_2, 11d
+                3.4 Organización de Planeadores Virtuales       :f3_4, after f3_3, 11d
+                3.5 Integración de Recursos Locales en Clase    :f3_5, after f3_4, 11d
+                3.6 Monitoreo Uso Continuo y Retroalimentación  :f3_6, after f3_5, 11d
+                
+                section Fase 4: Apropiación Dominada
+                4.1 Identificación y Formación de Mentores      :f4_1, after f3_6, 11d
+                4.2 Intercambio Casos de Éxito entre Sedes      :f4_2, after f4_1, 11d
+                4.3 Integración Hardware Externo (Robótica/3D)  :f4_3, after f4_2, 11d
+                4.4 Preparación Proyecto Tecnológico Autónomo   :f4_4, after f4_3, 11d
+                4.5 Feria Tecnológica Semestral / Exhibición    :f4_5, after f4_4, 10d
+                4.6 Cierre Anual y Certificación de Apropiación :f4_6, after f4_5, 10d
+            </pre>
+        </div>
+
         <h2>5. Demostración de Ventajas Competitivas</h2>
         <p>El núcleo de la capacitación es la <strong>Prueba de Valor</strong>. Se debe mostrar que el sistema Qinaya
             permite al docente:</p>
