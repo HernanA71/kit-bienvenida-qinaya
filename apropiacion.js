@@ -386,14 +386,24 @@ function updateKPIs() {
         }
     }
 
-    const schoolsWithFindings = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0).length;
+    const numSolicitudes = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0 && !String(d.bot).toLowerCase().includes('seguimiento')).length;
     const botEl = document.getElementById('kpi-bot');
-    if (botEl) botEl.textContent = schoolsWithFindings;
+    if (botEl) botEl.textContent = numSolicitudes;
 
     const botTrend = document.getElementById('kpi-trend-bot');
     if (botTrend) {
         botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios con solicitud`;
         botTrend.className = 'kpi-trend neutral';
+    }
+
+    const numSeguimientos = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0 && String(d.bot).toLowerCase().includes('seguimiento')).length;
+    const seqEl = document.getElementById('kpi-seguimiento');
+    if (seqEl) seqEl.textContent = numSeguimientos;
+
+    const seqTrend = document.getElementById('kpi-trend-seguimiento');
+    if (seqTrend) {
+        seqTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios en monitoreo`;
+        seqTrend.className = 'kpi-trend neutral';
     }
 
     const totalVisitas = capacitacionesData.reduce((sum, item) => sum + item.visitas, 0);
@@ -427,13 +437,64 @@ function renderTable() {
             } catch (e) { displayDate = item.fecha; }
         }
 
-        // Manejar texto largo en solicitudes post-instalación
-        const rawText = item.bot || '-';
-        let displayText = rawText;
-        let showMoreBtn = '';
-        if (rawText.length > 70) {
-            displayText = rawText.substring(0, 70) + "...";
-            showMoreBtn = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${rawText.replace(/'/g, "\\'").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
+        // Manejar texto largo separando solicitudes y seguimiento
+        const rawText = String(item.bot || '-');
+
+        let displaySol = '-';
+        let displaySeg = '-';
+        let btnSol = '';
+        let btnSeg = '';
+
+        if (rawText !== '-' && rawText !== '0' && rawText !== "0") {
+            let solParts = [];
+            let segParts = [];
+
+            // Dividir por palabras clave que inician una nueva acción temporal
+            const chunks = rawText.split(/(?=\bSeguimiento\b|\bVisita\b|\bSolicitan\b|\bSolicitud\b)/gi);
+
+            if (chunks.length === 1) {
+                if (rawText.toLowerCase().includes('seguimiento')) {
+                    segParts.push(rawText);
+                } else {
+                    solParts.push(rawText);
+                }
+            } else {
+                let currentIsSeg = false;
+                chunks.forEach(chunk => {
+                    const trimmed = chunk.trim();
+                    if (!trimmed) return;
+
+                    const lower = trimmed.toLowerCase();
+                    if (lower.startsWith('seguimiento')) {
+                        currentIsSeg = true;
+                    } else if (lower.startsWith('visita') || lower.startsWith('solicitan') || lower.startsWith('solicitud')) {
+                        currentIsSeg = false;
+                    }
+
+                    if (currentIsSeg) {
+                        segParts.push(trimmed);
+                    } else {
+                        solParts.push(trimmed);
+                    }
+                });
+            }
+
+            const solText = solParts.join(' // ');
+            const segText = segParts.join(' // ');
+
+            if (solText.length > 70) {
+                displaySol = solText.substring(0, 70) + "...";
+                btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
+            } else if (solText.length > 0) {
+                displaySol = solText;
+            }
+
+            if (segText.length > 70) {
+                displaySeg = segText.substring(0, 70) + "...";
+                btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
+            } else if (segText.length > 0) {
+                displaySeg = segText;
+            }
         }
 
         // Lógica de colores para Visitas Técnicas
@@ -467,8 +528,14 @@ function renderTable() {
                 </td>
                 <td>
                     <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
-                        ${displayText}
-                        ${showMoreBtn}
+                        ${displaySol}
+                        ${btnSol}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
+                        ${displaySeg}
+                        ${btnSeg}
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">

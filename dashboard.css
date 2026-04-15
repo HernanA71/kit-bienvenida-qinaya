@@ -257,15 +257,19 @@ body {
 /* KPIs de Resumen */
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
     margin-bottom: 30px;
+}
+
+.kpi-card.glass-panel {
+    padding: 15px;
 }
 
 .kpi-card {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     transition: var(--transition);
 }
 
@@ -275,13 +279,14 @@ body {
 }
 
 .kpi-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    flex-shrink: 0;
 }
 
 .kpi-icon.blue {
@@ -305,12 +310,13 @@ body {
 }
 
 .kpi-info h3 {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     font-weight: 500;
     margin-bottom: 5px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    line-height: 1.2;
 }
 
 .kpi-value {
