@@ -106,7 +106,7 @@ function renderCharts() {
     if (metaChart) metaChart.destroy();
     if (segChart) segChart.destroy();
 
-    const currentSchools = capacitacionesData.length;
+    const currentSchools = capacitacionesData.filter(d => d.docentes > 0).length;
     const targetSchools = 25;
     const remaining = Math.max(0, targetSchools - currentSchools);
 
@@ -290,10 +290,11 @@ function renderTelemetryCharts(filterValue = 'all') {
     // Si estamos viendo todo el consolidado, mostrar un embudo basado en la cantidad REAL de capacitados y sus Fases
     let funnelData = [];
     if (filterValue === 'all') {
-        const stage1 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 1).length;
-        const stage2 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 2).length;
-        const stage3 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 3).length;
-        const stage4 = capacitacionesData.filter(d => parseInt(d.fase || 1) >= 4).length;
+        const capacitadosConDocentes = capacitacionesData.filter(d => d.docentes > 0);
+        const stage1 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 1).length;
+        const stage2 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 2).length;
+        const stage3 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 3).length;
+        const stage4 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 4).length;
 
         funnelData = [stage1, stage2, stage3, stage4];
     } else {
@@ -354,7 +355,7 @@ function renderTelemetryCharts(filterValue = 'all') {
 
 // ------------- LÓGICA DE ACTUALIZACIÓN Y TABLA -------------
 function updateKPIs() {
-    const colegiosQty = capacitacionesData.length;
+    const colegiosQty = capacitacionesData.filter(d => d.docentes > 0).length;
     document.getElementById('kpi-colegios').textContent = colegiosQty;
 
     // Texto dinámico para meta de colegios
@@ -505,11 +506,11 @@ function renderTable() {
         const isPending = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
         const isSolved = lowerBot.includes('solucionó') || lowerBot.includes('resuelto') || lowerBot.includes('listo') || lowerBot.includes('visitó') || lowerBot.includes('exitos');
 
-        if (item.visitas > 0) {
-            if (isPending) {
-                visitColor = '#ff4d4d'; // Rojo fuerte
-                visitIcon = 'fa-exclamation-circle';
-            } else if (isSolved) {
+        if (isPending) {
+            visitColor = '#ff4d4d'; // Rojo fuerte
+            visitIcon = 'fa-exclamation-circle';
+        } else if (item.visitas > 0) {
+            if (isSolved) {
                 visitColor = '#00ff87'; // Verde neón
                 visitIcon = 'fa-check-circle';
             } else {
@@ -539,7 +540,7 @@ function renderTable() {
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">
-                    ${item.visitas > 0 ? `<i class="fas ${visitIcon}"></i> ${item.visitas}` : '-'}
+                    ${(item.visitas > 0 || isPending) ? `<i class="fas ${visitIcon}"></i> ${item.visitas || 0}` : '-'}
                 </td>
             </tr>
         `;
