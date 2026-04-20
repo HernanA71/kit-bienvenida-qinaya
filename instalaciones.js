@@ -11,7 +11,7 @@ let metaInstChart, incidenciasChartObj, resultadoChart, colegiosBarChartObj;
 // CONFIGURACIÓN: Cambia esta URL por la de tu Google Apps Script
 // desplegado desde la hoja "Qinaya Instalaciones SED"
 // =====================================================
-const INSTALACIONES_SHEET_URL = "PEGAR_AQUI_TU_URL_DEL_APPS_SCRIPT";
+const INSTALACIONES_SHEET_URL = "https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec";
 
 const META_INSTALACIONES = 1000;
 
