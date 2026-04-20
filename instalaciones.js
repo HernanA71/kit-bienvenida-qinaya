@@ -127,6 +127,8 @@ function updateKPIs() {
     const totalInstalados = instalacionesData.reduce((sum, d) => sum + d.computadores_instalados, 0);
     const pctMeta = META_INSTALACIONES > 0 ? Math.round((totalInstalados / META_INSTALACIONES) * 100) : 0;
 
+    const totalRegistros = instalacionesData.length;
+
     const incidenciasActivas = instalacionesData.filter(d => {
         const sev = clasificarSeveridad(d.estado, d.incidencia);
         return sev === 'grave' || sev === 'media' || sev === 'menor';
@@ -134,7 +136,7 @@ function updateKPIs() {
 
     // KPI: Colegios
     const colEl = document.getElementById('kpi-colegios');
-    if (colEl) colEl.textContent = totalColegiosCount;
+    if (colEl) colEl.textContent = `${totalColegiosCount} de ${totalRegistros}`;
     const colTrend = document.getElementById('kpi-trend-colegios');
     if (colTrend) {
         colTrend.innerHTML = `<i class="fas fa-building"></i> Sedes con instalación registrada`;
