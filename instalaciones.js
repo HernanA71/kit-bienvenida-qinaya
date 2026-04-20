@@ -1,16 +1,17 @@
 /**
  * Lógica para la vista de Instalaciones Técnicas
  * Carga datos desde Google Sheets y muestra KPIs, gráficas y tabla detallada
+ * Tema: Light Mode con acentos azules
  */
 
 let instalacionesData = [];
-let metaInstChart, incidenciasChart, resultadoChart, colegiosBarChart;
+let metaInstChart, incidenciasChartObj, resultadoChart, colegiosBarChartObj;
 
 // =====================================================
 // CONFIGURACIÓN: Cambia esta URL por la de tu Google Apps Script
-// que sirva los datos de la hoja "Instalaciones"
+// desplegado desde la hoja "Qinaya Instalaciones SED"
 // =====================================================
-const INSTALACIONES_SHEET_URL = "https://script.google.com/macros/s/AKfycbyuQzKFvUuSz6wmUl-WMzhALDCnP_BGvR5VgU1hMoKxwfUPKGQ_lk1k-tUDQfeTaiqy7A/exec?tab=Instalaciones";
+const INSTALACIONES_SHEET_URL = "PEGAR_AQUI_TU_URL_DEL_APPS_SCRIPT";
 
 const META_INSTALACIONES = 1000;
 
@@ -22,7 +23,6 @@ const loadingText = document.getElementById('loadingText');
 
 // Normalizar claves del objeto que viene de Google Sheets
 function normalizeRow(raw) {
-    // Mapeo flexible: busca por coincidencia parcial insensible a acentos
     const get = (obj, ...keywords) => {
         const keys = Object.keys(obj);
         for (const kw of keywords) {
@@ -52,21 +52,27 @@ function normalizeRow(raw) {
     };
 }
 
-// Clasificar severidad de incidencia basada en el texto
+// Clasificar severidad de incidencia
 function clasificarSeveridad(estado, incidencia) {
     const texto = ((estado || '') + ' ' + (incidencia || '')).toLowerCase();
-    if (!texto.trim() || texto.includes('sin incidencia') || texto.includes('n/a') || texto.includes('ninguna') || texto.includes('ok') || texto.includes('exitoso')) {
+    if (!texto.trim() || texto.includes('sin incidencia') || texto.includes('n/a') || texto.includes('ninguna') || texto.includes('funcionamiento')) {
         return 'ok';
     }
-    if (texto.includes('grave') || texto.includes('critico') || texto.includes('crítico') || texto.includes('fallo total') || texto.includes('no se pudo') || texto.includes('bloqueante')) {
+    if (texto.includes('grave') || texto.includes('critico') || texto.includes('crítico') || texto.includes('fallo total') || texto.includes('no se pudo') || texto.includes('no se instal') || texto.includes('bloqueante')) {
         return 'grave';
     }
-    if (texto.includes('media') || texto.includes('parcial') || texto.includes('intermitente') || texto.includes('pendiente')) {
+    if (texto.includes('media') || texto.includes('parcial') || texto.includes('intermitente') || texto.includes('latencia')) {
         return 'media';
     }
-    // Default para incidencias que existen pero no son graves ni medias
-    if (texto.includes('menor') || texto.includes('leve') || texto.includes('minima') || texto.includes('mínima') || texto.length > 3) {
+    if (texto.includes('menor') || texto.includes('leve') || texto.includes('minima') || texto.includes('mínima')) {
         return 'menor';
+    }
+    // Si hay texto de incidencia pero no matchea categorías exactas
+    if (texto.includes('incidencia')) {
+        if (texto.includes('grave')) return 'grave';
+        if (texto.includes('media')) return 'media';
+        if (texto.includes('menor')) return 'menor';
+        return 'media'; // Default para "Con Incidencia" sin especificar
     }
     return 'ok';
 }
@@ -111,10 +117,8 @@ function updateKPIs() {
     const totalInstalados = instalacionesData.reduce((sum, d) => sum + d.computadores_instalados, 0);
     const pctMeta = META_INSTALACIONES > 0 ? Math.round((totalInstalados / META_INSTALACIONES) * 100) : 0;
 
-    // Contar incidencias activas (que no son "ok")
     const incidenciasActivas = instalacionesData.filter(d => {
-        const sev = clasificarSeveridad(d.estado, d.incidencia);
-        return sev !== 'ok';
+        return clasificarSeveridad(d.estado, d.incidencia) !== 'ok';
     }).length;
 
     // KPI: Colegios
@@ -123,7 +127,7 @@ function updateKPIs() {
     const colTrend = document.getElementById('kpi-trend-colegios');
     if (colTrend) {
         colTrend.innerHTML = `<i class="fas fa-building"></i> Sedes con instalación registrada`;
-        colTrend.className = totalColegios > 0 ? 'kpi-trend positive' : 'kpi-trend neutral';
+        colTrend.className = totalColegios > 0 ? 'kpi-trend positive' : 'kpi-trend';
     }
 
     // KPI: Computadores
@@ -133,7 +137,7 @@ function updateKPIs() {
     if (compTrend) {
         const totalRegistrados = instalacionesData.reduce((sum, d) => sum + d.computadores_registrados, 0);
         compTrend.innerHTML = `<i class="fas fa-server"></i> De ${totalRegistrados.toLocaleString('es-CO')} registrados`;
-        compTrend.className = 'kpi-trend neutral';
+        compTrend.className = 'kpi-trend';
     }
 
     // KPI: Meta
@@ -142,7 +146,7 @@ function updateKPIs() {
     const metaTrend = document.getElementById('kpi-trend-meta');
     if (metaTrend) {
         metaTrend.innerHTML = `<i class="fas fa-arrow-up"></i> ${totalInstalados.toLocaleString('es-CO')} de ${META_INSTALACIONES.toLocaleString('es-CO')}`;
-        metaTrend.className = pctMeta >= 50 ? 'kpi-trend positive' : 'kpi-trend neutral';
+        metaTrend.className = pctMeta >= 50 ? 'kpi-trend positive' : 'kpi-trend';
     }
     const progressBar = document.getElementById('meta-progress-bar');
     if (progressBar) progressBar.style.width = `${Math.min(pctMeta, 100)}%`;
@@ -155,11 +159,10 @@ function updateKPIs() {
         const graves = instalacionesData.filter(d => clasificarSeveridad(d.estado, d.incidencia) === 'grave').length;
         if (graves > 0) {
             incTrend.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${graves} grave(s) requieren atención`;
-            incTrend.className = 'kpi-trend';
-            incTrend.style.color = '#ff4d4d';
+            incTrend.className = 'kpi-trend negative';
         } else if (incidenciasActivas > 0) {
             incTrend.innerHTML = `<i class="fas fa-info-circle"></i> Sin incidencias graves`;
-            incTrend.className = 'kpi-trend neutral';
+            incTrend.className = 'kpi-trend';
         } else {
             incTrend.innerHTML = `<i class="fas fa-check-circle"></i> Todo operando correctamente`;
             incTrend.className = 'kpi-trend positive';
@@ -167,7 +170,7 @@ function updateKPIs() {
     }
 }
 
-// ------------- GRÁFICAS -------------
+// ------------- GRÁFICAS (Light Theme Colors) -------------
 function renderCharts() {
     renderMetaChart();
     renderIncidenciasChart();
@@ -188,17 +191,16 @@ function renderMetaChart() {
     const centerText = {
         id: 'centerTextMeta',
         beforeDraw: function (chart) {
-            const width = chart.width, height = chart.height, ctx = chart.ctx;
-            ctx.restore();
-            const fontSize = (height / 114).toFixed(2);
-            ctx.font = "bold " + fontSize + "em Outfit";
-            ctx.textBaseline = "middle";
-            ctx.fillStyle = "#ffffff";
+            const w = chart.width, h = chart.height, ctx2 = chart.ctx;
+            ctx2.restore();
+            const fontSize = (h / 120).toFixed(2);
+            ctx2.font = "bold " + fontSize + "em Outfit";
+            ctx2.textBaseline = "middle";
+            ctx2.fillStyle = "#1e293b";
             const text = pct + "%";
-            const textX = Math.round((width - ctx.measureText(text).width) / 2);
-            const textY = height / 2.1;
-            ctx.fillText(text, textX, textY);
-            ctx.save();
+            const tX = Math.round((w - ctx2.measureText(text).width) / 2);
+            ctx2.fillText(text, tX, h / 2.1);
+            ctx2.save();
         }
     };
 
@@ -208,22 +210,16 @@ function renderMetaChart() {
             labels: ['Instalados', 'Pendientes'],
             datasets: [{
                 data: [totalInstalados, remaining],
-                backgroundColor: ['#00d2ff', 'rgba(255,255,255,0.05)'],
-                borderWidth: 1,
-                borderColor: 'rgba(255,255,255,0.1)'
+                backgroundColor: ['#3b82f6', '#e2e8f0'],
+                borderWidth: 0,
+                hoverOffset: 8
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '70%',
+            responsive: true, maintainAspectRatio: false, cutout: '72%',
             plugins: {
-                legend: { position: 'bottom', labels: { color: '#94a3b8' } },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => ` ${ctx.raw.toLocaleString('es-CO')} computadores`
-                    }
-                }
+                legend: { position: 'bottom', labels: { color: '#64748b', padding: 12 } },
+                tooltip: { callbacks: { label: (c) => ` ${c.raw.toLocaleString('es-CO')} computadores` } }
             }
         },
         plugins: [centerText]
@@ -234,39 +230,30 @@ function renderIncidenciasChart() {
     const canvas = document.getElementById('incidenciasChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (incidenciasChart) incidenciasChart.destroy();
+    if (incidenciasChartObj) incidenciasChartObj.destroy();
 
     let counts = { grave: 0, media: 0, menor: 0, ok: 0 };
-    instalacionesData.forEach(d => {
-        const sev = clasificarSeveridad(d.estado, d.incidencia);
-        counts[sev]++;
-    });
+    instalacionesData.forEach(d => { counts[clasificarSeveridad(d.estado, d.incidencia)]++; });
 
-    incidenciasChart = new Chart(ctx, {
+    incidenciasChartObj = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Grave', 'Media', 'Menor', 'Sin Incidencia'],
             datasets: [{
                 data: [counts.grave, counts.media, counts.menor, counts.ok],
-                backgroundColor: ['#ff4d4d', '#ff8c00', '#fbc531', '#00ff87'],
-                borderColor: ['rgba(0,0,0,0.4)', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.4)', 'rgba(0,0,0,0.4)'],
-                borderWidth: 1,
-                hoverOffset: 10,
-                spacing: 3,
+                backgroundColor: ['#dc2626', '#ea580c', '#eab308', '#059669'],
+                borderWidth: 2,
+                borderColor: '#ffffff',
+                hoverOffset: 8,
+                spacing: 2,
                 borderRadius: 3
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
+            responsive: true, maintainAspectRatio: false, cutout: '65%',
             plugins: {
-                legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, boxHeight: 12, color: '#94a3b8' } },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => ` ${ctx.raw} colegio(s) — ${ctx.label}`
-                    }
-                }
+                legend: { position: 'bottom', labels: { padding: 10, boxWidth: 12, boxHeight: 12, color: '#64748b' } },
+                tooltip: { callbacks: { label: (c) => ` ${c.raw} colegio(s) — ${c.label}` } }
             }
         }
     });
@@ -281,13 +268,8 @@ function renderResultadoChart() {
     let siCount = 0, noCount = 0;
     instalacionesData.forEach(d => {
         const val = String(d.se_pudo_instalar).toLowerCase().trim();
-        if (val === 'si' || val === 'sí' || val === 'yes' || val === 'true' || val === '1') {
-            siCount++;
-        } else if (val && val !== '0' && val !== '' && val !== '-') {
-            noCount++;
-        } else {
-            siCount++; // Default: si no dice nada, asumimos que sí
-        }
+        if (val === 'no') { noCount++; }
+        else { siCount++; }
     });
 
     resultadoChart = new Chart(ctx, {
@@ -296,25 +278,19 @@ function renderResultadoChart() {
             labels: ['Instalación Exitosa', 'No se pudo instalar'],
             datasets: [{
                 data: [siCount, noCount],
-                backgroundColor: ['#00ff87', '#ff4d4d'],
-                borderColor: ['rgba(0,0,0,0.4)', 'rgba(0,0,0,0.4)'],
-                borderWidth: 1,
-                hoverOffset: 10,
-                spacing: 3,
+                backgroundColor: ['#3b82f6', '#dc2626'],
+                borderWidth: 2,
+                borderColor: '#ffffff',
+                hoverOffset: 8,
+                spacing: 2,
                 borderRadius: 3
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
+            responsive: true, maintainAspectRatio: false, cutout: '65%',
             plugins: {
-                legend: { position: 'bottom', labels: { padding: 12, boxWidth: 12, boxHeight: 12, color: '#94a3b8' } },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => ` ${ctx.raw} colegio(s)`
-                    }
-                }
+                legend: { position: 'bottom', labels: { padding: 10, boxWidth: 12, boxHeight: 12, color: '#64748b' } },
+                tooltip: { callbacks: { label: (c) => ` ${c.raw} colegio(s)` } }
             }
         }
     });
@@ -324,13 +300,13 @@ function renderColegiosChart() {
     const canvas = document.getElementById('colegiosBarChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (colegiosBarChart) colegiosBarChart.destroy();
+    if (colegiosBarChartObj) colegiosBarChartObj.destroy();
 
-    const labels = instalacionesData.map(d => d.colegio.length > 22 ? d.colegio.substring(0, 22) + '...' : d.colegio);
+    const labels = instalacionesData.map(d => d.colegio.length > 25 ? d.colegio.substring(0, 25) + '...' : d.colegio);
     const registrados = instalacionesData.map(d => d.computadores_registrados);
     const instalados = instalacionesData.map(d => d.computadores_instalados);
 
-    colegiosBarChart = new Chart(ctx, {
+    colegiosBarChartObj = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
@@ -338,41 +314,40 @@ function renderColegiosChart() {
                 {
                     label: 'Registrados (Agatha)',
                     data: registrados,
-                    backgroundColor: 'rgba(138, 43, 226, 0.6)',
-                    borderColor: '#8a2be2',
+                    backgroundColor: 'rgba(147, 197, 253, 0.7)',
+                    borderColor: '#93c5fd',
                     borderWidth: 1,
-                    borderRadius: 4
+                    borderRadius: 6
                 },
                 {
                     label: 'Instalados',
                     data: instalados,
-                    backgroundColor: 'rgba(0, 210, 255, 0.7)',
-                    borderColor: '#00d2ff',
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                    borderColor: '#3b82f6',
                     borderWidth: 1,
-                    borderRadius: 4
+                    borderRadius: 6
                 }
             ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            responsive: true, maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
-                    grid: { color: 'rgba(255,255,255,0.05)' },
-                    ticks: { color: '#94a3b8' }
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: { color: '#64748b' }
                 },
                 x: {
                     grid: { display: false },
-                    ticks: { color: '#94a3b8', maxRotation: 45, minRotation: 30 }
+                    ticks: { color: '#64748b', maxRotation: 45, minRotation: 25, font: { size: 11 } }
                 }
             },
             plugins: {
-                legend: { labels: { color: '#94a3b8' } },
+                legend: { labels: { color: '#64748b', padding: 15 } },
                 tooltip: {
                     callbacks: {
-                        afterBody: (tooltipItems) => {
-                            const idx = tooltipItems[0].dataIndex;
+                        afterBody: (items) => {
+                            const idx = items[0].dataIndex;
                             const d = instalacionesData[idx];
                             const diff = d.computadores_instalados - d.computadores_registrados;
                             return `Diferencia: ${diff >= 0 ? '+' : ''}${diff}`;
@@ -395,39 +370,33 @@ function renderTable() {
     );
 
     tableBody.innerHTML = filteredData.map(item => {
-        // Formatear Fecha
         let displayDate = "-";
         if (item.fecha) {
             try {
                 const d = new Date(item.fecha);
                 if (!isNaN(d.getTime())) {
                     displayDate = d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                } else {
-                    displayDate = item.fecha;
-                }
+                } else { displayDate = item.fecha; }
             } catch (e) { displayDate = item.fecha; }
         }
 
-        // Severidad
         const severidad = clasificarSeveridad(item.estado, item.incidencia);
         const sevLabels = { grave: 'Grave', media: 'Media', menor: 'Menor', ok: 'OK' };
         const sevBadge = `<span class="severity-badge severity-${severidad}">${sevLabels[severidad]}</span>`;
 
-        // Diferencia visual
         const diff = item.diferencia_meta || (item.computadores_instalados - item.computadores_registrados);
-        let diffColor = diff >= 0 ? '#00ff87' : '#ff4d4d';
-        let diffText = diff >= 0 ? `+${diff}` : `${diff}`;
+        const diffColor = diff >= 0 ? '#059669' : '#dc2626';
+        const diffText = diff >= 0 ? `+${diff}` : `${diff}`;
 
-        // Incidencia truncada
         const incText = item.incidencia || '-';
-        const displayInc = incText.length > 50 ? incText.substring(0, 50) + '...' : incText;
+        const displayInc = incText.length > 55 ? incText.substring(0, 55) + '...' : incText;
 
         return `
             <tr>
-                <td><strong>${item.colegio}</strong></td>
+                <td><strong style="color: var(--blue-800);">${item.colegio}</strong></td>
                 <td>${displayDate}</td>
                 <td style="text-align:center;">${item.computadores_registrados}</td>
-                <td style="text-align:center; color: #00d2ff; font-weight: 600;">${item.computadores_instalados}</td>
+                <td style="text-align:center; color: var(--blue-600); font-weight: 700;">${item.computadores_instalados}</td>
                 <td style="text-align:center; color: ${diffColor}; font-weight: 600;">${diffText}</td>
                 <td><small style="color: var(--text-secondary);">${item.sedes || '-'}</small></td>
                 <td style="text-align:center;">${item.licencias || '-'}</td>
