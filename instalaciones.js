@@ -56,25 +56,36 @@ function normalizeRow(raw) {
 // Clasificar severidad de incidencia
 function clasificarSeveridad(estado, incidencia) {
     const texto = ((estado || '') + ' ' + (incidencia || '')).toLowerCase();
+    
+    // Si no se ha instalado o está en espera, no es una "incidencia técnica" del equipo
+    if (texto.includes('no se instal') || texto.includes('espera de instalaci') || texto.includes('pendiente')) {
+        return 'ok';
+    }
+
     if (!texto.trim() || texto.includes('sin incidencia') || texto.includes('n/a') || texto.includes('ninguna') || texto.includes('funcionamiento')) {
         return 'ok';
     }
-    if (texto.includes('grave') || texto.includes('critico') || texto.includes('crítico') || texto.includes('fallo total') || texto.includes('no se pudo') || texto.includes('no se instal') || texto.includes('bloqueante')) {
+    
+    if (texto.includes('grave') || texto.includes('critico') || texto.includes('crítico') || texto.includes('fallo total') || texto.includes('bloqueante')) {
         return 'grave';
     }
+    
     if (texto.includes('media') || texto.includes('parcial') || texto.includes('intermitente') || texto.includes('latencia')) {
         return 'media';
     }
+    
     if (texto.includes('menor') || texto.includes('leve') || texto.includes('minima') || texto.includes('mínima')) {
         return 'menor';
     }
-    // Si hay texto de incidencia pero no matchea categorías exactas
-    if (texto.includes('incidencia')) {
+
+    // Si explícitamente se menciona "Incidencia" sin calificar
+    if (texto.includes('con incidencia')) {
         if (texto.includes('grave')) return 'grave';
         if (texto.includes('media')) return 'media';
         if (texto.includes('menor')) return 'menor';
-        return 'media'; // Default para "Con Incidencia" sin especificar
+        return 'media'; 
     }
+    
     return 'ok';
 }
 
