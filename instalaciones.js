@@ -276,9 +276,13 @@ function renderResultadoChart() {
 
     let siCount = 0, noCount = 0;
     instalacionesData.forEach(d => {
-        const val = String(d.se_pudo_instalar).toLowerCase().trim();
-        if (val === 'no') { noCount++; }
-        else { siCount++; }
+        const pudoInstalarText = String(d.se_pudo_instalar || '').toLowerCase().trim();
+        // Contamos como "No" si el texto dice "no" O si la cantidad instalada es 0
+        if (pudoInstalarText === 'no' || d.computadores_instalados === 0) { 
+            noCount++; 
+        } else { 
+            siCount++; 
+        }
     });
 
     resultadoChart = new Chart(ctx, {
