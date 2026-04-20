@@ -57,8 +57,13 @@ function normalizeRow(raw) {
 function clasificarSeveridad(estado, incidencia) {
     const texto = ((estado || '') + ' ' + (incidencia || '')).toLowerCase();
     
-    // Categoría: GRAVE (Incluye explícitos y fallos de instalación)
-    if (texto.includes('grave') || texto.includes('no se instal') || texto.includes('no se pudo')) {
+    // Categoría: INFO (Gris - No aplica incidencia porque no se instaló)
+    if (texto.includes('no se instal') || texto.includes('no se pudo')) {
+        return 'info';
+    }
+
+    // Categoría: GRAVE (Explícitos)
+    if (texto.includes('grave')) {
         return 'grave';
     }
 
@@ -123,7 +128,8 @@ function updateKPIs() {
     const pctMeta = META_INSTALACIONES > 0 ? Math.round((totalInstalados / META_INSTALACIONES) * 100) : 0;
 
     const incidenciasActivas = instalacionesData.filter(d => {
-        return clasificarSeveridad(d.estado, d.incidencia) !== 'ok';
+        const sev = clasificarSeveridad(d.estado, d.incidencia);
+        return sev === 'grave' || sev === 'media' || sev === 'menor';
     }).length;
 
     // KPI: Colegios
@@ -397,7 +403,7 @@ function renderTable() {
         }
 
         const severidad = clasificarSeveridad(item.estado, item.incidencia);
-        const sevLabels = { grave: 'Grave', media: 'Media', menor: 'Menor', ok: 'OK' };
+        const sevLabels = { grave: 'Grave', media: 'Media', menor: 'Menor', ok: 'Funcionando', info: 'No Instalado' };
         const sevBadge = `<span class="severity-badge severity-${severidad}">${sevLabels[severidad]}</span>`;
 
         // Diferencia = faltante para meta de 40 (positivo = faltan, 0 = cumplido)
