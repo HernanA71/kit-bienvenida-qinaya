@@ -136,9 +136,16 @@ function updateKPIs() {
     if (compEl) compEl.textContent = totalInstalados.toLocaleString('es-CO');
     const compTrend = document.getElementById('kpi-trend-computadores');
     if (compTrend) {
-        const totalFaltante = instalacionesData.reduce((sum, d) => sum + d.diferencia_meta, 0);
-        compTrend.innerHTML = `<i class="fas fa-arrow-down"></i> Faltan ${totalFaltante.toLocaleString('es-CO')} para cubrir meta (${META_POR_COLEGIO}/colegio)`;
-        compTrend.className = totalFaltante > 0 ? 'kpi-trend negative' : 'kpi-trend positive';
+        const faltanteTotal = Math.max(0, META_INSTALACIONES - totalInstalados);
+        const colegiosParaMeta = Math.ceil(faltanteTotal / META_POR_COLEGIO);
+        
+        if (faltanteTotal > 0) {
+            compTrend.innerHTML = `<i class="fas fa-plus-circle"></i> Adicionar ~${colegiosParaMeta} sedes para meta 1k`;
+            compTrend.className = 'kpi-trend negative';
+        } else {
+            compTrend.innerHTML = `<i class="fas fa-check-circle"></i> Meta de 1.000 equipos cumplida`;
+            compTrend.className = 'kpi-trend positive';
+        }
     }
 
     // KPI: Meta
