@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qinaya | Instalaciones Técnicas</title>
+    <meta name="description" content="Dashboard de seguimiento de instalaciones técnicas del proyecto Qinaya - Secretaría de Educación">
+    <!-- CSS -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- Font Awesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilos adicionales específicos de Instalaciones */
+        .severity-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .severity-grave {
+            background: rgba(255, 77, 77, 0.18);
+            color: #ff4d4d;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+        }
+        .severity-media {
+            background: rgba(255, 140, 0, 0.18);
+            color: #ff8c00;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+        }
+        .severity-menor {
+            background: rgba(251, 197, 49, 0.18);
+            color: #fbc531;
+            border: 1px solid rgba(251, 197, 49, 0.3);
+        }
+        .severity-ok {
+            background: rgba(0, 255, 135, 0.12);
+            color: #00ff87;
+            border: 1px solid rgba(0, 255, 135, 0.25);
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #00d2ff, #00ff87);
+            transition: width 1s ease;
+        }
+        .install-status-yes {
+            color: #00ff87;
+            font-weight: 600;
+        }
+        .install-status-no {
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+        .charts-grid-triple {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 1200px) {
+            .charts-grid-triple {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo"
+                    onerror="this.src='https://via.placeholder.com/150x50?text=Qinaya'">
+                <h2>Analytics</h2>
+            </div>
+
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-desktop"></i> Equipos
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-file-export"></i> Reportes
+                </a>
+                <a href="apropiacion.html" class="menu-item">
+                    <i class="fas fa-users-cog"></i> Apropiación
+                </a>
+                <a href="instalaciones.html" class="menu-item active">
+                    <i class="fas fa-hard-hat"></i> Instalaciones
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar"><i class="fas fa-user-shield"></i></div>
+                    <div class="details">
+                        <span class="name">Admin</span>
+                        <span class="role">Acceso Total</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-titles">
+                    <h1>Instalaciones Técnicas</h1>
+                    <p>Seguimiento de instalaciones, avance frente a la meta y estado de incidencias por colegio.</p>
+                </div>
+            </header>
+
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card glass-panel">
+                    <div class="kpi-icon blue"><i class="fas fa-school"></i></div>
+                    <div class="kpi-info">
+                        <h3>Colegios Instalados</h3>
+                        <div class="kpi-value" id="kpi-colegios">0</div>
+                        <div class="kpi-trend neutral" id="kpi-trend-colegios"><i class="fas fa-minus"></i> Calculando...</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card glass-panel">
+                    <div class="kpi-icon purple"><i class="fas fa-laptop"></i></div>
+                    <div class="kpi-info">
+                        <h3>Computadores Instalados</h3>
+                        <div class="kpi-value" id="kpi-computadores">0</div>
+                        <div class="kpi-trend neutral" id="kpi-trend-computadores"><i class="fas fa-minus"></i> Calculando...</div>
+                    </div>
+                </div>
+
+                <div class="kpi-card glass-panel">
+                    <div class="kpi-icon green"><i class="fas fa-bullseye"></i></div>
+                    <div class="kpi-info">
+                        <h3>Avance Meta (1000)</h3>
+                        <div class="kpi-value" id="kpi-meta">0%</div>
+                        <div class="kpi-trend neutral" id="kpi-trend-meta"><i class="fas fa-minus"></i> Calculando...</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="meta-progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kpi-card glass-panel">
+                    <div class="kpi-icon orange"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="kpi-info">
+                        <h3>Incidencias Activas</h3>
+                        <div class="kpi-value" id="kpi-incidencias">0</div>
+                        <div class="kpi-trend neutral" id="kpi-trend-incidencias"><i class="fas fa-minus"></i> Calculando...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficas Principales -->
+            <div class="charts-grid-triple">
+                <!-- Donut: Avance Meta 1000 -->
+                <div class="chart-container glass-panel">
+                    <div class="chart-header">
+                        <h2>Avance de Instalación</h2>
+                    </div>
+                    <div class="canvas-wrapper donut-wrapper">
+                        <canvas id="metaInstalacionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Donut: Distribución de Incidencias -->
+                <div class="chart-container glass-panel">
+                    <div class="chart-header">
+                        <h2>Incidencias por Severidad</h2>
+                    </div>
+                    <div class="canvas-wrapper donut-wrapper">
+                        <canvas id="incidenciasChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Donut: Se pudo instalar Sí vs No -->
+                <div class="chart-container glass-panel">
+                    <div class="chart-header">
+                        <h2>Resultado de Instalación</h2>
+                    </div>
+                    <div class="canvas-wrapper donut-wrapper">
+                        <canvas id="resultadoInstalacionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfica de Barras: Computadores por Colegio -->
+            <div class="charts-grid-secondary" style="margin-bottom: 30px;">
+                <div class="chart-container glass-panel" style="grid-column: 1 / -1;">
+                    <div class="chart-header">
+                        <h2>Computadores por Colegio <span class="chart-subtitle">(Registrados vs Instalados)</span></h2>
+                    </div>
+                    <div class="canvas-wrapper" style="height: 350px;">
+                        <canvas id="colegiosBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Datos -->
+            <div class="data-table-container glass-panel">
+                <div class="table-header">
+                    <h2>Detalle por Colegio</h2>
+                    <div class="table-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar colegio..." id="searchInstInput">
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="dataTableInstalaciones">
+                        <thead>
+                            <tr>
+                                <th>Colegio</th>
+                                <th>Fecha</th>
+                                <th>Registrados</th>
+                                <th>Instalados</th>
+                                <th>Diferencia</th>
+                                <th>Sede(s)</th>
+                                <th>Licencias</th>
+                                <th>Estado Actual</th>
+                                <th>Incidencia</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBodyInstalaciones">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <footer class="dashboard-footer">
+                <p><b>Qinaya Analytics</b> — Panel de Instalaciones Técnicas — 2026</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p id="loadingText">Cargando datos de instalaciones...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="instalaciones.js"></script>
+</body>
+
+</html>
