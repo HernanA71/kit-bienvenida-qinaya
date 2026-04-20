@@ -14,6 +14,7 @@ let metaInstChart, incidenciasChartObj, resultadoChart, colegiosBarChartObj;
 const INSTALACIONES_SHEET_URL = "https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec";
 
 const META_INSTALACIONES = 1000;
+const META_POR_COLEGIO = 40;
 
 // Elementos del DOM
 const tableBody = document.getElementById('tableBodyInstalaciones');
@@ -135,9 +136,9 @@ function updateKPIs() {
     if (compEl) compEl.textContent = totalInstalados.toLocaleString('es-CO');
     const compTrend = document.getElementById('kpi-trend-computadores');
     if (compTrend) {
-        const totalRegistrados = instalacionesData.reduce((sum, d) => sum + d.computadores_registrados, 0);
-        compTrend.innerHTML = `<i class="fas fa-server"></i> De ${totalRegistrados.toLocaleString('es-CO')} registrados`;
-        compTrend.className = 'kpi-trend';
+        const totalFaltante = instalacionesData.reduce((sum, d) => sum + d.diferencia_meta, 0);
+        compTrend.innerHTML = `<i class="fas fa-arrow-down"></i> Faltan ${totalFaltante.toLocaleString('es-CO')} para cubrir meta (${META_POR_COLEGIO}/colegio)`;
+        compTrend.className = totalFaltante > 0 ? 'kpi-trend negative' : 'kpi-trend positive';
     }
 
     // KPI: Meta
@@ -384,9 +385,25 @@ function renderTable() {
         const sevLabels = { grave: 'Grave', media: 'Media', menor: 'Menor', ok: 'OK' };
         const sevBadge = `<span class="severity-badge severity-${severidad}">${sevLabels[severidad]}</span>`;
 
-        const diff = item.diferencia_meta || (item.computadores_instalados - item.computadores_registrados);
-        const diffColor = diff >= 0 ? '#059669' : '#dc2626';
-        const diffText = diff >= 0 ? `+${diff}` : `${diff}`;
+        // Diferencia = faltante para meta de 40 (positivo = faltan, 0 = cumplido)
+        const faltante = item.diferencia_meta;
+        let faltanteColor, faltanteText;
+        if (faltante > 0) {
+            faltanteColor = '#dc2626';
+            faltanteText = `<i class="fas fa-arrow-down" style="font-size:0.7rem;"></i> ${faltante}`;
+        } else {
+            faltanteColor = '#059669';
+            faltanteText = `<i class="fas fa-check" style="font-size:0.7rem;"></i> 0`;
+        }
+
+        // Acta: si contiene URL, hacerla clickeable
+        let actaDisplay = '-';
+        const actaVal = String(item.acta || '').trim();
+        if (actaVal && (actaVal.startsWith('http') || actaVal.startsWith('drive.google'))) {
+            actaDisplay = `<a href="${actaVal}" target="_blank" rel="noopener" style="color: var(--blue-600); text-decoration: none; font-weight: 600;"><i class="fas fa-file-alt"></i> Ver Acta</a>`;
+        } else if (actaVal && actaVal !== '-' && actaVal.length > 1) {
+            actaDisplay = `<small style="color: var(--text-secondary);">${actaVal}</small>`;
+        }
 
         const incText = item.incidencia || '-';
         const displayInc = incText.length > 55 ? incText.substring(0, 55) + '...' : incText;
@@ -397,9 +414,10 @@ function renderTable() {
                 <td>${displayDate}</td>
                 <td style="text-align:center;">${item.computadores_registrados}</td>
                 <td style="text-align:center; color: var(--blue-600); font-weight: 700;">${item.computadores_instalados}</td>
-                <td style="text-align:center; color: ${diffColor}; font-weight: 600;">${diffText}</td>
+                <td style="text-align:center; color: ${faltanteColor}; font-weight: 600;">${faltanteText}</td>
                 <td><small style="color: var(--text-secondary);">${item.sedes || '-'}</small></td>
                 <td style="text-align:center;">${item.licencias || '-'}</td>
+                <td>${actaDisplay}</td>
                 <td>${sevBadge}</td>
                 <td><small style="color: var(--text-secondary);" title="${incText}">${displayInc}</small></td>
             </tr>
