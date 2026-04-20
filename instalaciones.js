@@ -334,7 +334,7 @@ function renderColegiosChart() {
             labels: labels,
             datasets: [
                 {
-                    label: 'Registrados (Agatha)',
+                    label: 'Reportados Agatha',
                     data: registrados,
                     backgroundColor: 'rgba(147, 197, 253, 0.7)',
                     borderColor: '#93c5fd',
