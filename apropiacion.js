@@ -120,12 +120,16 @@ function renderCharts() {
 
     capacitacionesData.forEach(d => {
         const docCount = parseInt(d.docentes) || 0;
-        let enFaseCero = false;
-        if (d.fase !== undefined && (d.fase == 0 || d.fase === "0")) {
-            enFaseCero = true;
-        }
+        
+        // Mejorar la lectura de la columna 'fase' o 'Fase' desde G-Sheets
+        let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
+        let faseStr = String(rawFase).trim().toLowerCase();
+        
+        // Determinar si consideramos que el colegio está en fase 0 (No instalado)
+        let enFaseCero = (faseStr === "0" || faseStr === "" || faseStr === "false" || false);
 
-        if (enFaseCero) {
+        // Validar el estado:
+        if (enFaseCero && docCount === 0) {
             missingInstall++;
         } else if (docCount === 0) {
             missingTraining++;
