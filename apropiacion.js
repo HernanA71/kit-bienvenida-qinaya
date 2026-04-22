@@ -125,8 +125,11 @@ function renderCharts() {
         let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
         let faseStr = String(rawFase).trim().toLowerCase();
         
+        let botText = String(d.bot || "").toLowerCase();
+        
         // Determinar si consideramos que el colegio está en fase 0 (No instalado)
-        let enFaseCero = (faseStr === "0" || faseStr === "" || faseStr === "false" || false);
+        // Ya sea textual por la columna Fase, o buscando la palabra clave en el texto de seguimiento
+        let enFaseCero = (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
 
         // Validar el estado:
         if (enFaseCero && docCount === 0) {
