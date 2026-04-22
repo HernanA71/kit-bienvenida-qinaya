@@ -5,7 +5,7 @@
  */
 
 let capacitacionesData = [];
-let metaChart, segChart, computeChart, topWebsitesChart;
+let metaChart, segChart, computeChart, topWebsitesChart, estadoChart;
 
 // Elementos del DOM
 const tableBody = document.getElementById('tableBodyCapacitaciones');
@@ -98,6 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderCharts() {
     const metaCanvas = document.getElementById('metaColegiosChart');
     const segCanvas = document.getElementById('seguimientoChart');
+    const estadoCanvas = document.getElementById('estadoColegiosChart');
     if (!metaCanvas || !segCanvas) return;
 
     const ctxMeta = metaCanvas.getContext('2d');
@@ -105,10 +106,64 @@ function renderCharts() {
 
     if (metaChart) metaChart.destroy();
     if (segChart) segChart.destroy();
+    if (estadoChart) estadoChart.destroy();
 
     const currentSchools = capacitacionesData.filter(d => d.docentes > 0).length;
     const targetSchools = 25;
     const remaining = Math.max(0, targetSchools - currentSchools);
+
+    // LOGICA ESTADO DE COLEGIOS
+    const totalColegiosReg = capacitacionesData.length;
+    let missingTraining = 0;
+    let missingInstall = 0;
+    let installedAndTrained = 0;
+
+    capacitacionesData.forEach(d => {
+        const docCount = parseInt(d.docentes) || 0;
+        let enFaseCero = false;
+        if (d.fase !== undefined && (d.fase == 0 || d.fase === "0")) {
+            enFaseCero = true;
+        }
+
+        if (enFaseCero) {
+            missingInstall++;
+        } else if (docCount === 0) {
+            missingTraining++;
+        } else {
+            installedAndTrained++;
+        }
+    });
+
+    const totalSpan = document.getElementById('totalColegiosObj');
+    if (totalSpan) totalSpan.textContent = totalColegiosReg;
+
+    if (estadoCanvas) {
+        const ctxEstado = estadoCanvas.getContext('2d');
+        estadoChart = new Chart(ctxEstado, {
+            type: 'bar',
+            data: {
+                labels: ['Capacitados', 'Pendientes', 'No instalados'],
+                datasets: [{
+                    data: [installedAndTrained, missingTraining, missingInstall],
+                    backgroundColor: ['#00d2ff', '#ff8c00', '#ff4d4d'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { beginAtZero: true, suggestedMax: totalColegiosReg, ticks: { color: '#94a3b8', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    y: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                }
+            }
+        });
+    }
+
 
     // Plugin para mostrar el porcentaje en el centro de la dona
     const centerText = {

@@ -139,13 +139,26 @@
 
             <!-- Gráficas de Apropiación -->
             <div class="charts-grid-secondary" style="margin-bottom: 30px;">
-                <!-- Avance de Meta Colegios -->
-                <div class="chart-container glass-panel">
-                    <div class="chart-header">
-                        <h2>Meta de Capacitación (25 Colegios)</h2>
+                <!-- Columna Izquierda: Metas y Estado -->
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <!-- Avance de Meta Colegios -->
+                    <div class="chart-container glass-panel" style="padding: 15px;">
+                        <div class="chart-header" style="margin-bottom: 10px; padding-bottom: 5px;">
+                            <h2 style="font-size: 1rem;">Meta de Capacitación (25 Colegios)</h2>
+                        </div>
+                        <div class="canvas-wrapper donut-wrapper" style="height: 160px;">
+                            <canvas id="metaColegiosChart"></canvas>
+                        </div>
                     </div>
-                    <div class="canvas-wrapper donut-wrapper">
-                        <canvas id="metaColegiosChart"></canvas>
+
+                    <!-- Estado de los Colegios -->
+                    <div class="chart-container glass-panel" style="padding: 15px;">
+                        <div class="chart-header" style="margin-bottom: 10px; padding-bottom: 5px;">
+                            <h2 style="font-size: 1rem;">Estado General (<span id="totalColegiosObj" style="color:var(--accent-blue);">0</span>)</h2>
+                        </div>
+                        <div class="canvas-wrapper" style="height: 150px;">
+                            <canvas id="estadoColegiosChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
