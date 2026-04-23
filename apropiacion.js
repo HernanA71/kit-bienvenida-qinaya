@@ -417,8 +417,21 @@ function renderTelemetryCharts(filterValue = 'all') {
 
 // ------------- LÓGICA DE ACTUALIZACIÓN Y TABLA -------------
 function updateKPIs() {
+    let colegiosInstaladosTotales = 0;
+    capacitacionesData.forEach(d => {
+        let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
+        let faseStr = String(rawFase).trim().toLowerCase();
+        let botText = String(d.bot || "").toLowerCase();
+        let docCount = parseInt(d.docentes) || 0;
+        
+        let enFaseCero = (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
+        if (!(enFaseCero && docCount === 0)) {
+            colegiosInstaladosTotales++;
+        }
+    });
+
     const colegiosQty = capacitacionesData.filter(d => d.docentes > 0).length;
-    document.getElementById('kpi-colegios').textContent = colegiosQty;
+    document.getElementById('kpi-colegios').innerHTML = `${colegiosQty} <span style="font-size: 0.5em; color: #94a3b8; font-weight: normal;">de ${colegiosInstaladosTotales}</span>`;
 
     // Texto dinámico para meta de colegios
     const metaTrend = document.getElementById('kpi-trend-colegios');
