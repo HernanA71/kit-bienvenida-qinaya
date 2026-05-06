@@ -574,14 +574,21 @@ function renderTable() {
             const solTextForPopup = solParts.join('[NEWLINE]').replace(/\n/g, '[NEWLINE]');
             const segTextForPopup = segParts.join('[NEWLINE]').replace(/\n/g, '[NEWLINE]');
 
+            // Función para truncar el texto que se muestra en la celda
+            const truncateText = (txt, limit = 90) => {
+                if (!txt || txt === '-') return txt;
+                if (txt.length <= limit) return txt.replace(/\n/g, '<br>');
+                return txt.substring(0, limit).replace(/\n/g, '<br>') + '...';
+            };
+
             // Limpieza TOTAL: Si ya está OK o si hay seguimientos nuevos, quitamos los textos viejos de la columna de solicitudes
             if (estadoManual === 'ok' || segParts.length > 0) {
                 displaySol = '-';
             } else {
-                // Mostramos el primero de arriba completo
+                // Mostramos el primero de arriba (Vista previa truncada)
                 if (solParts.length > 0) {
-                    displaySol = solParts[0].replace(/\n/g, '<br>');
-                    if (solParts.length > 1) {
+                    displaySol = truncateText(solParts[0]);
+                    if (solParts.length > 1 || solParts[0].length > 90) {
                         btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solTextForPopup.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                     }
                 } else {
@@ -589,10 +596,10 @@ function renderTable() {
                 }
             }
 
-            // Seguimiento Académico: Mostramos el primero de arriba completo
+            // Seguimiento Académico: Mostramos el primero de arriba (Vista previa truncada)
             if (segParts.length > 0) {
-                displaySeg = segParts[0].replace(/\n/g, '<br>');
-                if (segParts.length > 1) {
+                displaySeg = truncateText(segParts[0]);
+                if (segParts.length > 1 || segParts[0].length > 90) {
                     btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segTextForPopup.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                 }
             } else {
