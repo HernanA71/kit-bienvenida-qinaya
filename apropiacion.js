@@ -500,8 +500,17 @@ function renderTable() {
 
     tableBody.innerHTML = filteredData.map(item => {
         // Mover definiciones de estado manual al inicio para evitar errores de referencia
-        const valSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
-        const estadoManual = String(item.estado_visita || item.estado || (valSolicitud === 'ok' || valSolicitud === 'fallo' ? valSolicitud : '')).trim().toLowerCase();
+        const rawEstadoVisita = String(item.estado_visita || '').trim().toLowerCase();
+        const rawEstado = String(item.estado || '').trim().toLowerCase();
+        const rawSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
+        
+        let estadoManual = '';
+        if (rawEstadoVisita === 'ok' || rawEstado === 'ok' || rawSolicitud === 'ok') {
+            estadoManual = 'ok';
+        } else if (rawEstadoVisita === 'fallo' || rawEstado === 'fallo' || rawSolicitud === 'fallo') {
+            estadoManual = 'fallo';
+        }
+
         const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
 
         // Formatear Fecha (DD/MM/YYYY)
@@ -593,12 +602,12 @@ function renderTable() {
         const tienePendientesEnTexto = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
 
         // Prioridad 1: Estado explícito "ok" (Verde)
-        if (estadoManual === 'ok' || valSolicitud === 'ok') {
+        if (estadoManual === 'ok') {
             visitColor = '#00ff87'; // Verde neón
             visitIcon = 'fa-check-circle';
         } 
         // Prioridad 2: Estado explícito "fallo" o Pendientes (Rojo)
-        else if (estadoManual === 'fallo' || valSolicitud === 'fallo' || tieneSolicitud || tienePendientesEnTexto) {
+        else if (estadoManual === 'fallo' || tieneSolicitud || tienePendientesEnTexto) {
             visitColor = '#ff4d4d'; // Rojo fuerte
             visitIcon = 'fa-exclamation-circle';
         } 
