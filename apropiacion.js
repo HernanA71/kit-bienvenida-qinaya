@@ -482,9 +482,9 @@ function updateKPIs() {
         seqTrend.className = 'kpi-trend neutral';
     }
 
-    const totalVisitas = capacitacionesData.reduce((sum, item) => sum + item.visitas, 0);
+    const totalVisitas = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.solicitud_visita) || 0), 0);
     const visEl = document.getElementById('kpi-visitas');
-    if (visEl) visEl.textContent = `${totalVisitas} Agendadas`;
+    if (visEl) visEl.textContent = `${totalVisitas} Solicitadas`;
 }
 
 function showMoreInfo(schoolName, text) {
@@ -573,23 +573,31 @@ function renderTable() {
             }
         }
 
-        // Lógica de colores para Visitas Técnicas
+        // Lógica de colores para Visitas Técnicas (Prioriza nuevas columnas de estado)
         let visitColor = 'var(--text-muted)'; // Default gris
         let visitIcon = 'fa-check-circle';
-
-        const lowerBot = rawText.toLowerCase();
-        const isPending = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
-        const isSolved = lowerBot.includes('solucionó') || lowerBot.includes('resuelto') || lowerBot.includes('listo') || lowerBot.includes('visitó') || lowerBot.includes('exitos');
-
-        if (isPending) {
+        
+        const estadoManual = String(item.estado_visita || item.estado || '').trim().toLowerCase();
+        const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
+        
+        // Si el estado es explícitamente "ok", se pone en verde sin importar el historial
+        if (estadoManual === 'ok') {
+            visitColor = '#00ff87'; // Verde neón
+            visitIcon = 'fa-check-circle';
+        } else if (estadoManual === 'fallo') {
             visitColor = '#ff4d4d'; // Rojo fuerte
             visitIcon = 'fa-exclamation-circle';
-        } else if (item.visitas > 0) {
-            if (isSolved) {
-                visitColor = '#00ff87'; // Verde neón
-                visitIcon = 'fa-check-circle';
-            } else {
-                visitColor = 'var(--accent-orange)'; // Naranja (agendada pero sin reporte final)
+        } else {
+            // Si no es OK ni FALLO manual, evaluamos si hay pendientes por texto o solicitud
+            const lowerBot = rawText.toLowerCase();
+            const isPendingText = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
+            
+            if (tieneSolicitud || isPendingText) {
+                visitColor = '#ff4d4d'; // Rojo fuerte
+                visitIcon = 'fa-exclamation-circle';
+            } else if (item.visitas > 0) {
+                // Fallback para datos antiguos de la columna 'visitas'
+                visitColor = 'var(--accent-orange)'; 
                 visitIcon = 'fa-clock';
             }
         }
@@ -615,7 +623,7 @@ function renderTable() {
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">
-                    ${(item.visitas > 0 || isPending) ? `<i class="fas ${visitIcon}"></i> ${item.visitas || 0}` : '-'}
+                    ${(tieneSolicitud || item.visitas > 0 || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${item.solicitud_visita || item.visitas || 0}` : '-'}
                 </td>
             </tr>
         `;
@@ -737,7 +745,9 @@ Formato JSON esperado:
   "whatsapp_creado": <true o false. Devuelve el booleano 'true' si dice que se creó el grupo WhatsApp o incluye un link https://chat>,
   "whatsapp_nivel": <porcentaje entero de 0 a 100 de qué tan seguido interactúan en el grupo de WhatsApp. Si solo dice que se creó o es un primer reporte, pon 0.>,
   "bot": 0,
-  "visitas": 0
+  "visitas": 0,
+  "solicitud_visita": 0,
+  "estado_visita": ""
 }
 
 TEXTO DEL PDF:
@@ -805,7 +815,9 @@ ${text}`;
             whatsapp_creado: parsedWhatsappCreado,
             whatsapp_nivel: Math.max(0, Math.min(100, parsedWhatsappNivel)),
             bot: 0,
-            visitas: 0
+            visitas: 0,
+            solicitud_visita: 0,
+            estado_visita: ""
         };
         capacitacionesData.unshift(newEntry);
     }
@@ -937,7 +949,9 @@ function extractDataWithHeuristics(text, filename) {
             whatsapp_creado: isWpp,
             whatsapp_nivel: isWpp ? Math.floor(Math.random() * 9) : 0,
             bot: 0,
-            visitas: 0
+            visitas: 0,
+            solicitud_visita: 0,
+            estado_visita: ""
         };
         capacitacionesData.unshift(newEntry);
     }
