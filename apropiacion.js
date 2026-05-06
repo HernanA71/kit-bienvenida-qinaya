@@ -29,7 +29,7 @@ if (btnResetData) {
 // Configuración Worker PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyuQzKFvUuSz6wmUl-WMzhALDCnP_BGvR5VgU1hMoKxwfUPKGQ_lk1k-tUDQfeTaiqy7A/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbweii8on4PSPcGnaW-I-zrFoKRhipTSq6AX2L-jFlo4sf7wXsIgl228IqBAaUFD94NB/exec";
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', async () => {
