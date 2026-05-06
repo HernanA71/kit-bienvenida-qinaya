@@ -574,22 +574,28 @@ function renderTable() {
             if (estadoManual === 'ok' || segParts.length > 0) {
                 displaySol = '-';
             } else {
-                // Solo mostramos la solicitud si es lo único que hay o si es la última
-                const latestSol = solParts.length > 0 ? solParts[solParts.length - 1] : '-';
-                
-                if (latestSol.length > 70) {
-                    displaySol = latestSol.substring(0, 70) + "...";
-                    btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${latestSol.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
-                } else {
+                // Mostramos la solicitud más reciente (la primera) COMPLETA en la celda
+                if (solParts.length > 0) {
+                    const latestSol = solParts[0];
                     displaySol = latestSol;
+                    // Si hay historial previo, añadimos el botón para ver todo
+                    if (solParts.length > 1) {
+                        btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                    }
+                } else {
+                    displaySol = '-';
                 }
             }
 
-            if (segText.length > 70) {
-                displaySeg = segText.substring(0, 70) + "...";
-                btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
-            } else if (segText.length > 0) {
-                displaySeg = segText;
+            // Para Seguimiento Académico: Mostramos el más reciente completo
+            if (segParts.length > 0) {
+                displaySeg = segParts[0];
+                // Si hay más seguimientos atrás, ponemos el botón
+                if (segParts.length > 1) {
+                    btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                }
+            } else {
+                displaySeg = '-';
             }
         }
 
