@@ -488,7 +488,8 @@ function updateKPIs() {
 }
 
 function showMoreInfo(schoolName, text) {
-    alert(`Solicitudes de: ${schoolName}\n\n${text}`);
+    const formattedText = text.replace(/\[NEWLINE\]/g, "\n");
+    alert(`Historial completo: ${schoolName}\n\n${formattedText}`);
 }
 
 function renderTable() {
@@ -568,7 +569,8 @@ function renderTable() {
                 });
             }
 
-            const segText = segParts.join(' // ');
+            const solText = solParts.join('[NEWLINE]');
+            const segText = segParts.join('[NEWLINE]');
 
             // Limpieza TOTAL: Si ya está OK o si hay seguimientos nuevos, quitamos los textos viejos de la columna de solicitudes
             if (estadoManual === 'ok' || segParts.length > 0) {
@@ -580,7 +582,7 @@ function renderTable() {
                     displaySol = latestSol;
                     // Si hay historial previo, añadimos el botón para ver todo
                     if (solParts.length > 1) {
-                        btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                        btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                     }
                 } else {
                     displaySol = '-';
@@ -592,7 +594,7 @@ function renderTable() {
                 displaySeg = segParts[0];
                 // Si hay más seguimientos atrás, ponemos el botón
                 if (segParts.length > 1) {
-                    btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                    btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                 }
             } else {
                 displaySeg = '-';
