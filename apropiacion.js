@@ -555,14 +555,19 @@ function renderTable() {
                 });
             }
 
-            const solText = solParts.join(' // ');
-            const segText = segParts.join(' // ');
-
-            if (solText.length > 70) {
-                displaySol = solText.substring(0, 70) + "...";
-                btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
-            } else if (solText.length > 0) {
-                displaySol = solText;
+            // Limpieza: Si ya está OK, no mostramos solicitudes viejas "pendientes" en la tabla
+            if (estadoManual === 'ok') {
+                displaySol = '-';
+            } else {
+                // Para "quitar los viejos", mostramos solo la última solicitud detectada
+                const latestSol = solParts.length > 0 ? solParts[solParts.length - 1] : '-';
+                
+                if (latestSol.length > 70) {
+                    displaySol = latestSol.substring(0, 70) + "...";
+                    btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${latestSol.replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver más</button>`;
+                } else {
+                    displaySol = latestSol;
+                }
             }
 
             if (segText.length > 70) {
@@ -577,7 +582,8 @@ function renderTable() {
         let visitColor = 'var(--text-muted)'; // Default gris
         let visitIcon = 'fa-check-circle';
         
-        const estadoManual = String(item.estado_visita || item.estado || '').trim().toLowerCase();
+        const valSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
+        const estadoManual = String(item.estado_visita || item.estado || (valSolicitud === 'ok' || valSolicitud === 'fallo' ? valSolicitud : '')).trim().toLowerCase();
         const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
         
         // Si el estado es explícitamente "ok", se pone en verde sin importar el historial
@@ -623,7 +629,7 @@ function renderTable() {
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">
-                    ${(tieneSolicitud || item.visitas > 0 || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${item.solicitud_visita || item.visitas || 0}` : '-'}
+                    ${(tieneSolicitud || item.visitas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${item.solicitud_visita || item.visitas || 0}` : '-'}
                 </td>
             </tr>
         `;
