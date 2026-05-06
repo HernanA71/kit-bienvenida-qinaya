@@ -462,8 +462,8 @@ function updateKPIs() {
         }
     }
 
-    // KPI Solicitudes Post-Instalación (Remoto): Suma de la columna solicitud_visita
-    const totalSolPost = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.solicitud_visita) || 0), 0);
+    // KPI Solicitudes Post-Instalación (Remoto): Suma de la columna solicitudes_post
+    const totalSolPost = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.solicitudes_post) || 0), 0);
     const botEl = document.getElementById('kpi-bot');
     if (botEl) botEl.textContent = totalSolPost;
 
@@ -484,8 +484,8 @@ function updateKPIs() {
         seqTrend.className = 'kpi-trend neutral';
     }
 
-    // KPI Visitas Técnicas (Presencial): Suma de la columna visitas
-    const totalVisitasPresencial = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.visitas) || 0), 0);
+    // KPI Visitas Técnicas (Presencial): Suma de la columna visitas_tecnicas
+    const totalVisitasPresencial = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.visitas_tecnicas) || 0), 0);
     const visEl = document.getElementById('kpi-visitas');
     if (visEl) visEl.textContent = `${totalVisitasPresencial} Presenciales`;
 }
@@ -513,8 +513,8 @@ function renderTable() {
             estadoManual = 'fallo';
         }
 
-        const rawSolicitud = String(item.solicitud_visita || item.solicitud || '').trim().toLowerCase();
-        const tieneSolicitudNum = (parseInt(item.solicitud_visita) || parseInt(item.visitas) || 0) > 0;
+        const rawSolicitud = String(item.solicitudes_post || item.solicitud || '').trim().toLowerCase();
+        const tieneSolicitudNum = (parseInt(item.solicitudes_post) || parseInt(item.visitas_tecnicas) || 0) > 0;
 
         // Formatear Fecha (DD/MM/YYYY)
         let displayDate = "-";
@@ -628,13 +628,13 @@ function renderTable() {
             visitIcon = 'fa-exclamation-circle';
         } 
         // Prioridad 3: Visitas agendadas sin reporte aún (Naranja)
-        else if (item.visitas > 0) {
+        else if (item.visitas_tecnicas > 0) {
             visitColor = 'var(--accent-orange)'; 
             visitIcon = 'fa-clock';
         }
 
         // Definir qué texto mostrar al lado del icono
-        let valorAMostrar = estadoManual || (parseInt(item.solicitud_visita) + parseInt(item.visitas) > 0 ? 'Pendiente' : 'ok');
+        let valorAMostrar = estadoManual || (parseInt(item.solicitudes_post) + parseInt(item.visitas_tecnicas) > 0 ? 'Pendiente' : 'ok');
         if (estadoManual === 'ok') valorAMostrar = 'ok';
         if (estadoManual === 'fallo') valorAMostrar = 'fallo';
 
@@ -659,7 +659,7 @@ function renderTable() {
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">
-                    ${(tieneSolicitudNum || item.visitas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${valorAMostrar}` : '-'}
+                    ${(tieneSolicitudNum || item.visitas_tecnicas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${valorAMostrar}` : '-'}
                 </td>
             </tr>
         `;
@@ -781,8 +781,8 @@ Formato JSON esperado:
   "whatsapp_creado": <true o false. Devuelve el booleano 'true' si dice que se creó el grupo WhatsApp o incluye un link https://chat>,
   "whatsapp_nivel": <porcentaje entero de 0 a 100 de qué tan seguido interactúan en el grupo de WhatsApp. Si solo dice que se creó o es un primer reporte, pon 0.>,
   "bot": 0,
-  "visitas": 0,
-  "solicitud_visita": 0,
+  "visitas_tecnicas": 0,
+  "solicitudes_post": 0,
   "estado_visita": ""
 }
 
@@ -851,8 +851,8 @@ ${text}`;
             whatsapp_creado: parsedWhatsappCreado,
             whatsapp_nivel: Math.max(0, Math.min(100, parsedWhatsappNivel)),
             bot: 0,
-            visitas: 0,
-            solicitud_visita: 0,
+            visitas_tecnicas: 0,
+            solicitudes_post: 0,
             estado_visita: ""
         };
         capacitacionesData.unshift(newEntry);
@@ -985,8 +985,8 @@ function extractDataWithHeuristics(text, filename) {
             whatsapp_creado: isWpp,
             whatsapp_nivel: isWpp ? Math.floor(Math.random() * 9) : 0,
             bot: 0,
-            visitas: 0,
-            solicitud_visita: 0,
+            visitas_tecnicas: 0,
+            solicitudes_post: 0,
             estado_visita: ""
         };
         capacitacionesData.unshift(newEntry);
