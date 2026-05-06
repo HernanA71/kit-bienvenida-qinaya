@@ -569,32 +569,30 @@ function renderTable() {
                 });
             }
 
-            const solText = solParts.join('[NEWLINE]');
-            const segText = segParts.join('[NEWLINE]');
+            // Preparar textos para el popup: Escapamos saltos de línea para que no rompan el atributo onclick
+            const solTextForPopup = solParts.join('[NEWLINE]').replace(/\n/g, '[NEWLINE]');
+            const segTextForPopup = segParts.join('[NEWLINE]').replace(/\n/g, '[NEWLINE]');
 
             // Limpieza TOTAL: Si ya está OK o si hay seguimientos nuevos, quitamos los textos viejos de la columna de solicitudes
             if (estadoManual === 'ok' || segParts.length > 0) {
                 displaySol = '-';
             } else {
-                // Mostramos la solicitud más reciente (la primera) COMPLETA en la celda
+                // Mostramos el primero de arriba completo
                 if (solParts.length > 0) {
-                    const latestSol = solParts[0];
-                    displaySol = latestSol;
-                    // Si hay historial previo, añadimos el botón para ver todo
+                    displaySol = solParts[0].replace(/\n/g, '<br>');
                     if (solParts.length > 1) {
-                        btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solText.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                        btnSol = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${solTextForPopup.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                     }
                 } else {
                     displaySol = '-';
                 }
             }
 
-            // Para Seguimiento Académico: Mostramos el más reciente (el primero de arriba) completo
+            // Seguimiento Académico: Mostramos el primero de arriba completo
             if (segParts.length > 0) {
-                displaySeg = segParts[0];
-                // Si hay más seguimientos atrás, ponemos el botón
+                displaySeg = segParts[0].replace(/\n/g, '<br>');
                 if (segParts.length > 1) {
-                    btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segText.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
+                    btnSeg = `<br><button onclick="showMoreInfo('${item.colegio.replace(/'/g, "\\'")}', '${segTextForPopup.replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:none; border:none; color:#00d2ff; cursor:pointer; font-size:0.75rem; text-decoration:underline; font-family:'Outfit'; padding:0;">Ver historial completo</button>`;
                 }
             } else {
                 displaySeg = '-';
@@ -637,13 +635,13 @@ function renderTable() {
                     <br><small style="color:var(--accent-green); font-size: 0.8em;">Interacción: ${item.whatsapp_nivel}%</small>
                 </td>
                 <td>
-                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2; white-space: pre-wrap;">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
                         ${displaySol}
                         ${btnSol}
                     </div>
                 </td>
                 <td>
-                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2; white-space: pre-wrap;">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
                         ${displaySeg}
                         ${btnSeg}
                     </div>
