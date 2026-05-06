@@ -585,30 +585,27 @@ function renderTable() {
             }
         }
 
-        // Lógica de colores para Visitas Técnicas (Prioriza nuevas columnas de estado)
+        // Lógica de colores para Visitas Técnicas (Blindada)
         let visitColor = 'var(--text-muted)'; // Default gris
         let visitIcon = 'fa-check-circle';
         
-        // Si el estado es explícitamente "ok", se pone en verde sin importar el historial
-        if (estadoManual === 'ok') {
+        const lowerBot = rawText.toLowerCase();
+        const tienePendientesEnTexto = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
+
+        // Prioridad 1: Estado explícito "ok" (Verde)
+        if (estadoManual === 'ok' || valSolicitud === 'ok') {
             visitColor = '#00ff87'; // Verde neón
             visitIcon = 'fa-check-circle';
-        } else if (estadoManual === 'fallo') {
+        } 
+        // Prioridad 2: Estado explícito "fallo" o Pendientes (Rojo)
+        else if (estadoManual === 'fallo' || valSolicitud === 'fallo' || tieneSolicitud || tienePendientesEnTexto) {
             visitColor = '#ff4d4d'; // Rojo fuerte
             visitIcon = 'fa-exclamation-circle';
-        } else {
-            // Si no es OK ni FALLO manual, evaluamos si hay pendientes por texto o solicitud
-            const lowerBot = rawText.toLowerCase();
-            const isPendingText = lowerBot.includes('pendiente') || lowerBot.includes('falla') || lowerBot.includes('error') || lowerBot.includes('no se pudo') || lowerBot.includes('por revisar');
-            
-            if (tieneSolicitud || isPendingText) {
-                visitColor = '#ff4d4d'; // Rojo fuerte
-                visitIcon = 'fa-exclamation-circle';
-            } else if (item.visitas > 0) {
-                // Fallback para datos antiguos de la columna 'visitas'
-                visitColor = 'var(--accent-orange)'; 
-                visitIcon = 'fa-clock';
-            }
+        } 
+        // Prioridad 3: Visitas agendadas sin reporte aún (Naranja)
+        else if (item.visitas > 0) {
+            visitColor = 'var(--accent-orange)'; 
+            visitIcon = 'fa-clock';
         }
 
         return `
