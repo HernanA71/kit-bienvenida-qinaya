@@ -589,7 +589,7 @@ function renderTable() {
                 }
             }
 
-            // Para Seguimiento Académico: Mostramos el más reciente completo
+            // Para Seguimiento Académico: Mostramos el más reciente (el primero de arriba) completo
             if (segParts.length > 0) {
                 displaySeg = segParts[0];
                 // Si hay más seguimientos atrás, ponemos el botón
@@ -637,13 +637,13 @@ function renderTable() {
                     <br><small style="color:var(--accent-green); font-size: 0.8em;">Interacción: ${item.whatsapp_nivel}%</small>
                 </td>
                 <td>
-                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2; white-space: pre-wrap;">
                         ${displaySol}
                         ${btnSol}
                     </div>
                 </td>
                 <td>
-                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2;">
+                    <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.2; white-space: pre-wrap;">
                         ${displaySeg}
                         ${btnSeg}
                     </div>
