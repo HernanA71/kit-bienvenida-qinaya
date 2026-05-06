@@ -539,35 +539,36 @@ function renderTable() {
             let solParts = [];
             let segParts = [];
 
-            // Dividir por palabras clave que inician una nueva acción temporal
-            const chunks = rawText.split(/(?=\bSeguimiento\b|\bVisita\b|\bSolicitan\b|\bSolicitud\b)/gi);
+            // Procesamos línea por línea para evitar cortes por palabras clave en medio de frases
+            const lines = rawText.split(/\r?\n/);
+            let currentEntries = [];
+            let tempEntry = "";
 
-            if (chunks.length === 1) {
-                if (rawText.toLowerCase().includes('seguimiento')) {
-                    segParts.push(rawText);
+            lines.forEach(line => {
+                const trimmedLine = line.trim();
+                if (!trimmedLine) return;
+
+                // Si la línea comienza con una palabra clave, es un nuevo registro
+                if (trimmedLine.match(/^(Seguimiento|Visita|Solicitud|Solicitan)/i)) {
+                    if (tempEntry) currentEntries.push(tempEntry);
+                    tempEntry = trimmedLine;
                 } else {
-                    solParts.push(rawText);
+                    // Si no, es continuación del registro anterior (mantiene el salto de línea)
+                    tempEntry += (tempEntry ? "\n" : "") + trimmedLine;
                 }
-            } else {
-                let currentIsSeg = false;
-                chunks.forEach(chunk => {
-                    const trimmed = chunk.trim();
-                    if (!trimmed) return;
+            });
+            if (tempEntry) currentEntries.push(tempEntry);
 
-                    const lower = trimmed.toLowerCase();
-                    if (lower.startsWith('seguimiento')) {
-                        currentIsSeg = true;
-                    } else if (lower.startsWith('visita') || lower.startsWith('solicitan') || lower.startsWith('solicitud')) {
-                        currentIsSeg = false;
-                    }
-
-                    if (currentIsSeg) {
-                        segParts.push(trimmed);
-                    } else {
-                        solParts.push(trimmed);
-                    }
-                });
-            }
+            // Clasificar cada entrada completa
+            currentEntries.forEach(entry => {
+                const low = entry.toLowerCase();
+                const isSeg = low.startsWith('seguimiento') || low.startsWith('visita');
+                if (isSeg) {
+                    segParts.push(entry);
+                } else {
+                    solParts.push(entry);
+                }
+            });
 
             // Preparar textos para el popup: Escapamos saltos de línea para que no rompan el atributo onclick
             const solTextForPopup = solParts.join('[NEWLINE]').replace(/\n/g, '[NEWLINE]');
