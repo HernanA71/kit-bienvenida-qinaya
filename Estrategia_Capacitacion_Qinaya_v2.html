@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategia de Capacitación Qinaya - 1000 Licencias (V2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Mermaid para el diagrama de Gantt -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #1a202c;
+            --accent: #00aaff;
+            --text: #2d3748;
+            --bg: #f7fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: #edf2f7;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .document {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 50px 70px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .doc-meta {
+            text-align: right;
+            font-size: 13px;
+            color: #718096;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        p,
+        li {
+            font-size: 15px;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        .highlight-card {
+            background: #f0f7ff;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .tool-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .tool-item strong {
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .gantt-container {
+            margin: 30px 0;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: #a0aec0;
+            text-align: center;
+        }
+
+        .signature-block {
+            margin-top: 40px;
+            padding-top: 10px;
+            text-align: left;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .document {
+                box-shadow: none;
+                padding: 30px 50px;
+                width: 100%;
+                border-radius: 0;
+            }
+
+            h2 {
+                margin-top: 20px;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            /* Evita que los encabezados se queden solos al final de la página */
+            h2,
+            h1 {
+                page-break-after: avoid;
+            }
+        }
+
+        .btn-action {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btn-action no-print" onclick="window.print()">Descargar / Imprimir Propuesta</button>
+
+    <div class="document">
+        <header>
+            <div class="logo-text">QINAYA <span style="font-weight: 300; font-size: 20px; color: #718096;">| Estrategia
+                    de Soporte y Acompañamiento</span></div>
+            <div class="doc-meta">
+                <strong>PROPUESTA DE APROPIACIÓN</strong><br>
+                Despliegue 1000 Licencias<br>
+                Marzo - Noviembre 2026
+            </div>
+        </header>
+
+        <h1>Plan de Acompañamiento, Soporte y Medición de Uso Tecnológico</h1>
+
+        <p>Esta propuesta establece la estrategia de acompañamiento para las instituciones asignadas por la Secretaría de Educación, enfocándose en la meta de <strong>1.000 licencias instaladas</strong>. El objetivo principal no es sobrecargar a los docentes con actividades extracurriculares, sino garantizar un acompañamiento continuo, soporte técnico y medición de la satisfacción durante el año del proyecto.</p>
+
+        <h2>1. Objetivo de la Intervención</h2>
+        <p>El núcleo del proyecto radica en la <strong>instalación y habilitación de la solución Qinaya</strong>. Nuestro enfoque es capacitar en el uso de la ISO base (Linux) con sus aplicaciones educativas locales y facilitar el acceso a la potencia del <strong>computador virtual</strong> (Windows y Office), destacando la navegación rápida y las altas prestaciones del entorno cloud.</p>
+
+        <div class="highlight-card">
+            <strong>Alcance de la Apropiación:</strong>
+            <ul>
+                <li>Capacitar inicialmente a cada colegio en el momento de la instalación.</li>
+                <li>Entregar el Kit de Bienvenida y habilitar canales de soporte inmediatos (WhatsApp y Bot).</li>
+                <li>Hacer seguimiento al uso real de la plataforma durante todo el año escolar.</li>
+                <li>Realizar encuestas de satisfacción para evidenciar el impacto positivo en los colegios y sustentar la continuidad del proyecto para el año entrante.</li>
+            </ul>
+        </div>
+
+        <h2>2. Metodología: Las 4 Fases de Acompañamiento Escolar</h2>
+        <p>Hemos diseñado un modelo de seguimiento enfocado en el soporte y la medición de satisfacción, garantizando que el docente se sienta respaldado sin exigirle evidencias o entregables académicos:</p>
+
+        <div class="highlight-card">
+            <h3 style="margin-top: 0; color: var(--secondary);">Fase 1: Capacitación Inicial (Instalación)</h3>
+            <p><strong>Descripción:</strong> Se realiza de forma paralela a la instalación técnica en sala, seguida de un periodo de ajuste y soporte correctivo post-instalación.</p>
+            <ul>
+                <li><strong>Capacitación Virtual y Visitas de Revisión:</strong> Introducción al ecosistema realizada de forma virtual, complementada con visitas presenciales a los colegios para revisión y apropiación académica.</li>
+                <li><strong>Visitas Técnicas y Soporte de Red:</strong> Solución de problemas de red locales en las instituciones mediante revisitas técnicas y coordinación con los funcionarios de la OIT de la SED.</li>
+                <li><strong>Canales de Comunicación:</strong> Vinculación inmediata al grupo de WhatsApp (utilizado como herramienta central de trabajo para reportar fallas y dar soporte) y entrega del Bot de Soporte Qinaya.</li>
+                <li style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e0;"><strong>KPI para Dashboard:</strong> % de colegios con capacitación virtual y visita de revisión completada exitosamente.</li>
+            </ul>
+        </div>
+
+        <div class="highlight-card">
+            <h3 style="margin-top: 0; color: var(--secondary);">Fase 2: Práctica Inicial</h3>
+            <p><strong>Descripción:</strong> Etapa en la que ya se han solucionado todos los incidentes iniciales de red o conectividad, y el colegio empieza a fluir libremente con el uso de la herramienta.</p>
+            <ul>
+                <li><strong>Actividad 1 - Monitoreo de Uso Real:</strong> Verificación desde la consola Qinaya de las conexiones recurrentes a los escritorios virtuales para confirmar la apropiación estable de la solución.<br><em style="color: var(--primary);">KPI: % de colegios con conexiones activas en los últimos 15 días.</em></li>
+                <li><strong>Actividad 2 - Primera Encuesta de Satisfacción:</strong> Envío de un formulario breve por WhatsApp para evaluar la experiencia de uso, la fluidez de navegación y la rapidez del sistema.<br><em style="color: var(--primary);">KPI: % de colegios con índice de satisfacción inicial superior al 80%.</em></li>
+                <li><strong>Actividad 3 - Soporte de Adecuación (Plan de Choque):</strong> Si la encuesta arroja respuestas no satisfactorias o hay baja telemetría, se programa una intervención directa para subsanar la percepción y reforzar el acompañamiento técnico o académico.<br><em style="color: var(--primary);">KPI: % de colegios con percepción revertida a positiva tras la intervención.</em></li>
+            </ul>
+        </div>
+
+        <div class="highlight-card">
+            <h3 style="margin-top: 0; color: var(--secondary);">Fase 3: Uso Continuo</h3>
+            <p><strong>Descripción:</strong> Etapa de consolidación donde la herramienta forma parte del día a día de la institución educativa.</p>
+            <ul>
+                <li><strong>Actividad 1 - Soporte Proactivo:</strong> Interacción constante a través del grupo de WhatsApp, enviando tips de uso rápidos y atendiendo cualquier inquietud sobre la ofimática o herramientas locales.<br><em style="color: var(--primary);">KPI: N° de interacciones de soporte proactivo atendidas por colegio.</em></li>
+                <li><strong>Actividad 2 - Encuesta de Medio Término y Soporte de Adecuación:</strong> Evaluación a mitad del ciclo. Ante cualquier percepción negativa, se activa automáticamente el acompañamiento correctivo para reenganchar al colegio.<br><em style="color: var(--primary);">KPI: % de colegios que mantienen o mejoran su nivel de satisfacción en medio término.</em></li>
+            </ul>
+        </div>
+
+        <div class="highlight-card">
+            <h3 style="margin-top: 0; color: var(--secondary);">Fase 4: Apropiación Dominada</h3>
+            <p><strong>Descripción:</strong> Etapa final del proyecto anual. El objetivo es recopilar evidencia cuantitativa y cualitativa del éxito de la implementación.</p>
+            <ul>
+                <li><strong>Actividad 1 - Consolidación de Estadísticas de Uso:</strong> Generación de reportes de conexión y horas de uso de los computadores virtuales a lo largo del año.<br><em style="color: var(--primary);">KPI: Promedio de horas de uso consolidado mensual por colegio.</em></li>
+                <li><strong>Actividad 2 - Encuesta Final y Recuperación de Percepción:</strong> Medición de la satisfacción global. Se aplica un último soporte de adecuación a casos críticos para asegurar que todos finalicen con percepción positiva, logrando un buen NPS.<br><em style="color: var(--primary);">KPI: % de colegios que recomiendan la continuidad de la solución (NPS).</em></li>
+            </ul>
+        </div>
+
+        <h2>3. Componentes Clave del Kit de Bienvenida</h2>
+        <p>El kit virtual es el soporte fundamental para la autonomía del docente post-intervención:</p>
+        <div class="tool-grid">
+            <div class="tool-item"><strong>🤖 Bot de Soporte:</strong> Atención automatizada 24/7 para resolución de dudas frecuentes.</div>
+            <div class="tool-item"><strong>📱 Grupo WhatsApp:</strong> Canal directo con el equipo técnico y académico para atención personalizada.</div>
+            <div class="tool-item"><strong>🎥 Videos Tutoriales:</strong> Cápsulas cortas sobre el funcionamiento de la Nube Qinaya.</div>
+            <div class="tool-item"><strong>💻 Accesos Claros:</strong> Instrucciones paso a paso para la correcta conexión al Computador Virtual.</div>
+        </div>
+
+        <h2>4. Propuesta de Cronograma (Gantt)</h2>
+        <p>Proyección de despliegue y acompañamiento continuo:</p>
+
+        <div class="gantt-container">
+            <pre class="mermaid">
+            gantt
+                title Despliegue e Instalación Técnica (1000 Licencias)
+                dateFormat  YYYY-MM-DD
+                section Preparación
+                Alistamiento ISO y Equipos       :active, a1, 2026-03-01, 10d
+                Confirmación SED / Agenda        :a2, 2026-03-10, 5d
+                section Ejecución y Capacitación Inicial
+                Instalación Bloque 1             :b1, after a2, 15d
+                Instalación Bloque 2             :b2, 2026-04-06, 20d
+                Consolidación Bloque Final       :b3, 2026-05-04, 8d
+            </pre>
+        </div>
+
+        <h3 style="margin-top: 30px; color: var(--secondary);">Cronograma de Acompañamiento y Encuestas (Mayo - Noviembre)</h3>
+
+        <div class="gantt-container">
+            <pre class="mermaid">
+            gantt
+                title Fases de Acompañamiento Post-Instalación
+                dateFormat  YYYY-MM-DD
+                
+                section Fase 2: Práctica Inicial
+                Monitoreo de Conexiones Estables           :f2_1, 2026-05-18, 15d
+                Envío Primera Encuesta de Satisfacción     :f2_2, 2026-06-01, 7d
+                Análisis de Resultados Encuesta 1          :f2_3, after f2_2, 7d
+                
+                section Fase 3: Uso Continuo
+                Soporte Proactivo y Tips Tecnológicos      :f3_1, 2026-07-15, 30d
+                Monitoreo Continuo de Estabilidad          :f3_2, 2026-07-15, 30d
+                Envío Encuesta de Medio Término            :f3_3, 2026-08-15, 10d
+                Análisis de Percepción Docente             :f3_4, after f3_3, 7d
+                
+                section Fase 4: Apropiación Dominada
+                Extracción Estadísticas de Uso Globales    :f4_1, 2026-10-15, 15d
+                Envío Encuesta Final de Impacto            :f4_2, 2026-10-20, 10d
+                Recopilación de Testimonios                :f4_3, after f4_2, 10d
+                Presentación de Informe a SED              :f4_4, 2026-11-15, 10d
+            </pre>
+        </div>
+
+        <h2>5. Valor Agregado del Modelo</h2>
+        <p>Este modelo de acompañamiento está pensado para facilitar la vida del docente, demostrando que Qinaya es una solución y no una carga adicional:</p>
+        <ol>
+            <li><strong>Cero Entregables Obligatorios:</strong> El éxito se mide por telemetría (uso) y encuestas voluntarias, no por tareas académicas impuestas.</li>
+            <li><strong>Soporte Inmediato:</strong> La combinación del Bot y WhatsApp asegura que ninguna clase se detenga por barreras tecnológicas.</li>
+            <li><strong>Demostración de Impacto:</strong> Las encuestas iterativas construirán un caso de éxito sólido respaldado por la opinión de los propios docentes, asegurando el interés en continuar el proyecto.</li>
+        </ol>
+
+        <div class="footer">
+            Propuesta enfocada en la experiencia de usuario y adopción natural. <br>
+            Qinaya 2026 - Computación en la Nube para una Educación sin Limites.
+        </div>
+
+        <div class="signature-block">
+            <p style="margin-bottom: 0;"><strong>Atentamente,</strong></p>
+            <p
+                style="font-size: 18px; font-weight: 700; margin-top: 10px; margin-bottom: 5px; color: var(--secondary);">
+                Hernán A. Rodríguez</p>
+            <p style="margin-top: 0; color: #718096; font-size: 14px;">Coordinador académico y de apropiación
+                tecnológica Qinaya</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

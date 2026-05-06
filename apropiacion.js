@@ -462,17 +462,19 @@ function updateKPIs() {
         }
     }
 
-    const numSolicitudes = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0 && !String(d.bot).toLowerCase().includes('seguimiento')).length;
+    // KPI Solicitudes Post-Instalación (Remoto): Suma de la columna solicitud_visita
+    const totalSolPost = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.solicitud_visita) || 0), 0);
     const botEl = document.getElementById('kpi-bot');
-    if (botEl) botEl.textContent = numSolicitudes;
+    if (botEl) botEl.textContent = totalSolPost;
 
     const botTrend = document.getElementById('kpi-trend-bot');
     if (botTrend) {
-        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Colegios con solicitud`;
+        botTrend.innerHTML = `<i class="fas fa-info-circle"></i> Soporte remoto / Software`;
         botTrend.className = 'kpi-trend neutral';
     }
 
-    const numSeguimientos = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0 && String(d.bot).toLowerCase().includes('seguimiento')).length;
+    // KPI Seguimiento Académico: Mantiene conteo de colegios con texto en bot
+    const numSeguimientos = capacitacionesData.filter(d => d.bot && d.bot !== "0" && d.bot !== 0).length;
     const seqEl = document.getElementById('kpi-seguimiento');
     if (seqEl) seqEl.textContent = numSeguimientos;
 
@@ -482,9 +484,10 @@ function updateKPIs() {
         seqTrend.className = 'kpi-trend neutral';
     }
 
-    const totalVisitas = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.solicitud_visita) || 0), 0);
+    // KPI Visitas Técnicas (Presencial): Suma de la columna visitas
+    const totalVisitasPresencial = capacitacionesData.reduce((sum, item) => sum + (parseInt(item.visitas) || 0), 0);
     const visEl = document.getElementById('kpi-visitas');
-    if (visEl) visEl.textContent = `${totalVisitas} Solicitadas`;
+    if (visEl) visEl.textContent = `${totalVisitasPresencial} Presenciales`;
 }
 
 function showMoreInfo(schoolName, text) {
@@ -631,8 +634,9 @@ function renderTable() {
         }
 
         // Definir qué texto mostrar al lado del icono
-        let valorAMostrar = item.solicitud_visita || item.visitas || 0;
-        if (estadoManual === 'ok' && (valorAMostrar === 0 || valorAMostrar === '0')) valorAMostrar = 'ok';
+        let valorAMostrar = estadoManual || (parseInt(item.solicitud_visita) + parseInt(item.visitas) > 0 ? 'Pendiente' : 'ok');
+        if (estadoManual === 'ok') valorAMostrar = 'ok';
+        if (estadoManual === 'fallo') valorAMostrar = 'fallo';
 
         return `
             <tr>
