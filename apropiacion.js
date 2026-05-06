@@ -499,19 +499,18 @@ function renderTable() {
     );
 
     tableBody.innerHTML = filteredData.map(item => {
-        // Mover definiciones de estado manual al inicio para evitar errores de referencia
-        const rawEstadoVisita = String(item.estado_visita || '').trim().toLowerCase();
-        const rawEstado = String(item.estado || '').trim().toLowerCase();
-        const rawSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
-        
+        // BÚSQUEDA PROFUNDA: Buscar 'ok' o 'fallo' en cualquier propiedad del objeto (por si los nombres de columnas varían)
         let estadoManual = '';
-        if (rawEstadoVisita === 'ok' || rawEstado === 'ok' || rawSolicitud === 'ok') {
+        const allValues = Object.values(item).map(v => String(v).trim().toLowerCase());
+        
+        if (allValues.includes('ok')) {
             estadoManual = 'ok';
-        } else if (rawEstadoVisita === 'fallo' || rawEstado === 'fallo' || rawSolicitud === 'fallo') {
+        } else if (allValues.includes('fallo')) {
             estadoManual = 'fallo';
         }
 
-        const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
+        const rawSolicitud = String(item.solicitud_visita || item.solicitud || '').trim().toLowerCase();
+        const tieneSolicitudNum = (parseInt(item.solicitud_visita) || parseInt(item.visitas) || 0) > 0;
 
         // Formatear Fecha (DD/MM/YYYY)
         let displayDate = "-";
@@ -571,11 +570,11 @@ function renderTable() {
 
             const segText = segParts.join(' // ');
 
-            // Limpieza: Si ya está OK, no mostramos solicitudes viejas "pendientes" en la tabla
-            if (estadoManual === 'ok') {
+            // Limpieza TOTAL: Si ya está OK o si hay seguimientos nuevos, quitamos los textos viejos de la columna de solicitudes
+            if (estadoManual === 'ok' || segParts.length > 0) {
                 displaySol = '-';
             } else {
-                // Para "quitar los viejos", mostramos solo la última solicitud detectada
+                // Solo mostramos la solicitud si es lo único que hay o si es la última
                 const latestSol = solParts.length > 0 ? solParts[solParts.length - 1] : '-';
                 
                 if (latestSol.length > 70) {
@@ -607,7 +606,7 @@ function renderTable() {
             visitIcon = 'fa-check-circle';
         } 
         // Prioridad 2: Estado explícito "fallo" o Pendientes (Rojo)
-        else if (estadoManual === 'fallo' || tieneSolicitud || tienePendientesEnTexto) {
+        else if (estadoManual === 'fallo' || tieneSolicitudNum || tienePendientesEnTexto) {
             visitColor = '#ff4d4d'; // Rojo fuerte
             visitIcon = 'fa-exclamation-circle';
         } 
@@ -616,6 +615,10 @@ function renderTable() {
             visitColor = 'var(--accent-orange)'; 
             visitIcon = 'fa-clock';
         }
+
+        // Definir qué texto mostrar al lado del icono
+        let valorAMostrar = item.solicitud_visita || item.visitas || 0;
+        if (estadoManual === 'ok' && (valorAMostrar === 0 || valorAMostrar === '0')) valorAMostrar = 'ok';
 
         return `
             <tr>
@@ -638,7 +641,7 @@ function renderTable() {
                     </div>
                 </td>
                 <td style="color: ${visitColor}; font-weight: bold;">
-                    ${(tieneSolicitud || item.visitas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${item.solicitud_visita || item.visitas || 0}` : '-'}
+                    ${(tieneSolicitudNum || item.visitas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${valorAMostrar}` : '-'}
                 </td>
             </tr>
         `;
