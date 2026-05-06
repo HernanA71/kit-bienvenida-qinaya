@@ -499,6 +499,11 @@ function renderTable() {
     );
 
     tableBody.innerHTML = filteredData.map(item => {
+        // Mover definiciones de estado manual al inicio para evitar errores de referencia
+        const valSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
+        const estadoManual = String(item.estado_visita || item.estado || (valSolicitud === 'ok' || valSolicitud === 'fallo' ? valSolicitud : '')).trim().toLowerCase();
+        const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
+
         // Formatear Fecha (DD/MM/YYYY)
         let displayDate = "-";
         if (item.fecha) {
@@ -555,6 +560,8 @@ function renderTable() {
                 });
             }
 
+            const segText = segParts.join(' // ');
+
             // Limpieza: Si ya está OK, no mostramos solicitudes viejas "pendientes" en la tabla
             if (estadoManual === 'ok') {
                 displaySol = '-';
@@ -581,10 +588,6 @@ function renderTable() {
         // Lógica de colores para Visitas Técnicas (Prioriza nuevas columnas de estado)
         let visitColor = 'var(--text-muted)'; // Default gris
         let visitIcon = 'fa-check-circle';
-        
-        const valSolicitud = String(item.solicitud_visita || '').trim().toLowerCase();
-        const estadoManual = String(item.estado_visita || item.estado || (valSolicitud === 'ok' || valSolicitud === 'fallo' ? valSolicitud : '')).trim().toLowerCase();
-        const tieneSolicitud = (parseInt(item.solicitud_visita) || 0) > 0;
         
         // Si el estado es explícitamente "ok", se pone en verde sin importar el historial
         if (estadoManual === 'ok') {
