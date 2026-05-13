@@ -6,7 +6,11 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1uJKZlXIxGY
 
 let faqData = [];
 let currentCategory = 'all';
-let currentProduct = 'Upcycle';
+
+// Leer parámetros de URL para configuración inicial
+const urlParams = new URLSearchParams(window.location.search);
+let currentProduct = urlParams.get('product') || 'Upcycle';
+const hideTabs = urlParams.get('hideTabs') === 'true';
 
 // Referencias del DOM
 const faqItemsContainer = document.getElementById('faqItems');
@@ -16,6 +20,7 @@ const loadingState = document.getElementById('loading');
 const noResults = document.getElementById('noResults');
 const videoModal = document.getElementById('videoModal');
 const closeBtn = document.querySelector('.close-modal');
+const productTabsContainer = document.querySelector('.product-tabs');
 const productTabs = document.querySelectorAll('.prod-tab');
 
 /**
@@ -60,7 +65,18 @@ async function loadFAQData() {
  * Gestión de pestañas de Producto (Upcycle / STB)
  */
 function initProductTabs() {
+    // Si se solicita ocultar las pestañas, esconder el contenedor
+    if (hideTabs && productTabsContainer) {
+        productTabsContainer.style.display = 'none';
+    }
+
     productTabs.forEach(tab => {
+        // Sincronizar estado inicial de pestañas con el producto actual
+        if (tab.dataset.product === currentProduct) {
+            productTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+        }
+
         tab.addEventListener('click', () => {
             productTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
