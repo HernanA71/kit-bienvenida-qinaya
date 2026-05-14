@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (aiLoadingOverlay) aiLoadingOverlay.classList.add('hidden');
+
+    // Filtro de Exclusión: Colegios que no se realizaron
+    const colegiosAExcluir = ["GUSTAVO RESTREPO", "CEDID SAN PABLO"];
+    capacitacionesData = capacitacionesData.filter(item => {
+        const nombre = String(item.colegio || "").toUpperCase();
+        return !colegiosAExcluir.some(excluido => nombre.includes(excluido));
+    });
+
     renderAll();
 
     if (searchInput) {
@@ -109,7 +117,7 @@ function renderCharts() {
     if (estadoChart) estadoChart.destroy();
 
     const currentSchools = capacitacionesData.filter(d => d.docentes > 0).length;
-    const targetSchools = 25;
+    const targetSchools = 40;
     const remaining = Math.max(0, targetSchools - currentSchools);
 
     // LOGICA ESTADO DE COLEGIOS
@@ -389,7 +397,7 @@ function renderTelemetryCharts(filterValue = 'all') {
             scales: {
                 y: {
                     beginAtZero: true,
-                    suggestedMax: filterValue === 'all' ? 25 : 100,
+                    suggestedMax: filterValue === 'all' ? 40 : 100,
                     grid: { color: 'rgba(255,255,255,0.05)' },
                     ticks: { color: '#94a3b8' }
                 },
@@ -402,8 +410,8 @@ function renderTelemetryCharts(filterValue = 'all') {
                         label: (ctx) => {
                             if (filterValue === 'all') {
                                 const val = ctx.raw;
-                                const pct = Math.round((val / 25) * 100);
-                                return ` ${val} Colegios (${pct}% de la meta de 25)`;
+                                const pct = Math.round((val / 40) * 100);
+                                return ` ${val} Colegios (${pct}% de la meta de 40)`;
                             } else {
                                 return ctx.raw > 0 ? ` Fase Registrada y Alcanzada` : ` Fase Futura / Pendiente`;
                             }
@@ -437,8 +445,8 @@ function updateKPIs() {
     const metaTrend = document.getElementById('kpi-trend-colegios');
     if (metaTrend) {
         if (colegiosQty > 0) {
-            const pct = Math.round((colegiosQty / 25) * 100);
-            metaTrend.innerHTML = `<i class="fas fa-arrow-up"></i> ${pct}% de la meta (25)`;
+            const pct = Math.round((colegiosQty / 40) * 100);
+            metaTrend.innerHTML = `<i class="fas fa-arrow-up"></i> ${pct}% de la meta (40)`;
             metaTrend.className = 'kpi-trend positive';
         } else {
             metaTrend.innerHTML = `<i class="fas fa-minus"></i> Aún sin datos`;

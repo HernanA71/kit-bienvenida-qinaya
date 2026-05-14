@@ -385,7 +385,7 @@
                 <li>Inspeccionar otras salas e infraestructuras en los colegios visitados donde se reportaron
                     diferencias.</li>
                 <li>Verificar presencia de equipos en otras sedes de los de los colegios ya visitados.</li>
-                <li>Solicitar y buscar nuevos colegios directamente a la SED adicionales a los 25 asignados formalmente
+                <li>Solicitar y buscar nuevos colegios directamente a la SED adicionales a los 40 asignados formalmente
                     para llegar a las <strong>1000 licencias pactadas.</strong></li>
             </ul>
         </div>
@@ -402,7 +402,7 @@
                 <div class="chart-container">
                     <canvas id="metaColegiosChart"></canvas>
                 </div>
-                <div style="font-size: 12px; margin-top: 10px; color:#718096">Base Proyecto Piloto Inicial: 25
+                <div style="font-size: 12px; margin-top: 10px; color:#718096">Base Proyecto Piloto: 40
                     Instituciones</div>
             </div>
             <div class="chart-box">
@@ -486,9 +486,9 @@
             new Chart(ctx1, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Visitados / Capacitados', 'Pendientes (De los 25)'],
+                    labels: ['Visitados / Capacitados', 'Pendientes (De los 40)'],
                     datasets: [{
-                        data: [15, 10],
+                        data: [15, 25],
                         backgroundColor: ['#00aaff', '#e2e8f0'],
                         borderWidth: 0
                     }]
@@ -521,7 +521,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        x: { beginAtZero: true, max: 25 }
+                        x: { beginAtZero: true, max: 40 }
                     },
                     plugins: {
                         legend: { display: false }

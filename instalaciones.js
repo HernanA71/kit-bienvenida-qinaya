@@ -99,6 +99,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (data && Array.isArray(data) && data.length > 0) {
             instalacionesData = data.map(normalizeRow);
+
+            // Filtro de Exclusión: Colegios que no se realizaron
+            const colegiosAExcluir = ["GUSTAVO RESTREPO", "CEDID SAN PABLO"];
+            instalacionesData = instalacionesData.filter(item => {
+                const nombre = String(item.colegio || "").toUpperCase();
+                return !colegiosAExcluir.some(excluido => nombre.includes(excluido));
+            });
+
             localStorage.setItem('instalaciones_qinaya_db', JSON.stringify(instalacionesData));
         } else {
             const savedData = localStorage.getItem('instalaciones_qinaya_db');
