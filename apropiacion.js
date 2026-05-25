@@ -7,6 +7,15 @@
 let capacitacionesData = [];
 let metaChart, segChart, computeChart, topWebsitesChart, estadoChart;
 
+// Helper para determinar si el colegio está en Fase 0 (No instalado)
+function isFaseCero(d) {
+    if (!d) return false;
+    let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
+    let faseStr = String(rawFase).trim().toLowerCase();
+    let botText = String(d.bot || "").toLowerCase();
+    return (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
+}
+
 // Elementos del DOM
 const tableBody = document.getElementById('tableBodyCapacitaciones');
 const searchInput = document.getElementById('searchSchoolInput');
@@ -61,12 +70,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (aiLoadingOverlay) aiLoadingOverlay.classList.add('hidden');
 
-    // Filtro de Exclusión: Colegios que no se realizaron
-    const colegiosAExcluir = ["GUSTAVO RESTREPO", "CEDID SAN PABLO"];
-    capacitacionesData = capacitacionesData.filter(item => {
-        const nombre = String(item.colegio || "").toUpperCase();
-        return !colegiosAExcluir.some(excluido => nombre.includes(excluido));
-    });
+    // Filtro de Exclusión desactivado a petición del usuario para que sumen en "No instalados"
+    // const colegiosAExcluir = ["GUSTAVO RESTREPO", "CEDID SAN PABLO"];
+    // capacitacionesData = capacitacionesData.filter(item => {
+    //     const nombre = String(item.colegio || "").toUpperCase();
+    //     return !colegiosAExcluir.some(excluido => nombre.includes(excluido));
+    // });
 
     renderAll();
 
@@ -116,7 +125,7 @@ function renderCharts() {
     if (segChart) segChart.destroy();
     if (estadoChart) estadoChart.destroy();
 
-    const currentSchools = capacitacionesData.filter(d => d.docentes > 0).length;
+    const currentSchools = capacitacionesData.filter(d => (parseInt(d.docentes) || 0) > 0 && !isFaseCero(d)).length;
     const targetSchools = 40;
     const remaining = Math.max(0, targetSchools - currentSchools);
 
@@ -128,19 +137,10 @@ function renderCharts() {
 
     capacitacionesData.forEach(d => {
         const docCount = parseInt(d.docentes) || 0;
-        
-        // Mejorar la lectura de la columna 'fase' o 'Fase' desde G-Sheets
-        let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
-        let faseStr = String(rawFase).trim().toLowerCase();
-        
-        let botText = String(d.bot || "").toLowerCase();
-        
-        // Determinar si consideramos que el colegio está en fase 0 (No instalado)
-        // Ya sea textual por la columna Fase, o buscando la palabra clave en el texto de seguimiento
-        let enFaseCero = (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
+        const enFaseCero = isFaseCero(d);
 
         // Validar el estado:
-        if (enFaseCero && docCount === 0) {
+        if (enFaseCero) {
             missingInstall++;
         } else if (docCount === 0) {
             missingTraining++;
@@ -360,7 +360,7 @@ function renderTelemetryCharts(filterValue = 'all') {
     // Si estamos viendo todo el consolidado, mostrar un embudo basado en la cantidad REAL de capacitados y sus Fases
     let funnelData = [];
     if (filterValue === 'all') {
-        const capacitadosConDocentes = capacitacionesData.filter(d => d.docentes > 0);
+        const capacitadosConDocentes = capacitacionesData.filter(d => (parseInt(d.docentes) || 0) > 0 && !isFaseCero(d));
         const stage1 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 1).length;
         const stage2 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 2).length;
         const stage3 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 3).length;
@@ -427,18 +427,12 @@ function renderTelemetryCharts(filterValue = 'all') {
 function updateKPIs() {
     let colegiosInstaladosTotales = 0;
     capacitacionesData.forEach(d => {
-        let rawFase = d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : "");
-        let faseStr = String(rawFase).trim().toLowerCase();
-        let botText = String(d.bot || "").toLowerCase();
-        let docCount = parseInt(d.docentes) || 0;
-        
-        let enFaseCero = (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
-        if (!(enFaseCero && docCount === 0)) {
+        if (!isFaseCero(d)) {
             colegiosInstaladosTotales++;
         }
     });
 
-    const colegiosQty = capacitacionesData.filter(d => d.docentes > 0).length;
+    const colegiosQty = capacitacionesData.filter(d => (parseInt(d.docentes) || 0) > 0 && !isFaseCero(d)).length;
     document.getElementById('kpi-colegios').innerHTML = `${colegiosQty} <span style="font-size: 0.5em; color: #94a3b8; font-weight: normal;">de ${colegiosInstaladosTotales}</span>`;
 
     // Texto dinámico para meta de colegios
