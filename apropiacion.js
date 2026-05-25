@@ -16,6 +16,27 @@ function isFaseCero(d) {
     return (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
 }
 
+// Helper para obtener la fase efectiva de un colegio (mínimo Fase 2 si lleva un mes o más desde la instalación/capacitación)
+function getEffectiveFase(d) {
+    if (!d) return 1;
+    if (isFaseCero(d)) return 0;
+    
+    let baseFase = parseInt(d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : 1)) || 1;
+    
+    if (d.fecha) {
+        const installDate = new Date(d.fecha);
+        if (!isNaN(installDate.getTime())) {
+            const today = new Date();
+            const diffTime = today - installDate;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            if (diffDays >= 30) {
+                baseFase = Math.max(baseFase, 2);
+            }
+        }
+    }
+    return baseFase;
+}
+
 // Elementos del DOM
 const tableBody = document.getElementById('tableBodyCapacitaciones');
 const searchInput = document.getElementById('searchSchoolInput');
@@ -361,16 +382,16 @@ function renderTelemetryCharts(filterValue = 'all') {
     let funnelData = [];
     if (filterValue === 'all') {
         const capacitadosConDocentes = capacitacionesData.filter(d => (parseInt(d.docentes) || 0) > 0 && !isFaseCero(d));
-        const stage1 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 1).length;
-        const stage2 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 2).length;
-        const stage3 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 3).length;
-        const stage4 = capacitadosConDocentes.filter(d => parseInt(d.fase || 1) >= 4).length;
+        const stage1 = capacitadosConDocentes.filter(d => getEffectiveFase(d) >= 1).length;
+        const stage2 = capacitadosConDocentes.filter(d => getEffectiveFase(d) >= 2).length;
+        const stage3 = capacitadosConDocentes.filter(d => getEffectiveFase(d) >= 3).length;
+        const stage4 = capacitadosConDocentes.filter(d => getEffectiveFase(d) >= 4).length;
 
         funnelData = [stage1, stage2, stage3, stage4];
     } else {
         // Encontrar la fase real del colegio seleccionado para que se destrabe desde los próximos pdfs
         const currentSchool = capacitacionesData.find(c => c.colegio === filterValue);
-        const f = currentSchool ? parseInt(currentSchool.fase || 1) : 0;
+        const f = currentSchool ? getEffectiveFase(currentSchool) : 0;
 
         funnelData = [
             f >= 1 ? 100 : 0,
