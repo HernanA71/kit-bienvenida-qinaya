@@ -16,48 +16,11 @@ function isFaseCero(d) {
     return (faseStr === "0" || faseStr === "false" || botText.includes("no se instalo") || botText.includes("no se instaló"));
 }
 
-// Helper para intentar extraer el primer string de fecha válido en caso de fechas múltiples o saltos de línea
-function parseStartDate(fechaStr) {
-    if (!fechaStr) return null;
-    const parts = String(fechaStr).split(/[\r\n]+/);
-    for (const part of parts) {
-        const trimmed = part.trim();
-        if (!trimmed) continue;
-        const d = new Date(trimmed);
-        if (!isNaN(d.getTime())) {
-            return d;
-        }
-    }
-    return null;
-}
-
-// Helper para obtener la fase efectiva de un colegio (mínimo Fase 2 si lleva mes y medio o más desde la instalación/capacitación)
+// Helper para obtener la fase de un colegio respetando estrictamente el valor del Google Sheets
 function getEffectiveFase(d) {
     if (!d) return 1;
     if (isFaseCero(d)) return 0;
-    
-    let baseFase = parseInt(d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : 1)) || 1;
-    
-    // Tratamos de obtener la primera fecha de inicio válida
-    let dateToUse = parseStartDate(d.fecha);
-    
-    if (dateToUse) {
-        const today = new Date();
-        const diffTime = today - dateToUse;
-        const diffDays = diffTime / (1000 * 60 * 60 * 24);
-        // Cambiado a mes y medio (45 días) a petición de Hernán
-        if (diffDays >= 45) {
-            baseFase = Math.max(baseFase, 2);
-        }
-    }
-    
-    // Excepción para Sorrento: aunque no tiene fecha de capacitación formal,
-    // se les explicó y están operando con la solución (Fase 2)
-    if (String(d.colegio || "").toLowerCase().includes("sorrento")) {
-        baseFase = Math.max(baseFase, 2);
-    }
-    
-    return baseFase;
+    return parseInt(d.fase !== undefined ? d.fase : (d.Fase !== undefined ? d.Fase : 1)) || 1;
 }
 
 // Elementos del DOM
