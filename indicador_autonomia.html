@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicador Q-07 Autonomía Operativa</title>
+    <!-- Modern Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="data_indicadores.js"></script>
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        .card h3 {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .card .value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+            color: white;
+        }
+        .card .desc {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .chart-container, .table-container {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .status-badge {
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+        .status-high { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .status-med { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .status-low { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            text-decoration: none;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(58, 123, 213, 0.4);
+        }
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 20px -3px rgba(58, 123, 213, 0.5);
+        }
+        
+        .chart-title {
+            color: #f8fafc;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Dashboard Q-07: Autonomía Operativa</h1>
+        <p>Mide la estabilidad en aula: (Sesiones sin soporte / Total sesiones) * 100</p>
+    </div>
+
+    <div class="summary-cards">
+        <div class="card">
+            <h3>Promedio Global Q-07</h3>
+            <div class="value" id="global-q07">0%</div>
+            <div class="desc">Autonomía Operativa General</div>
+        </div>
+        <div class="card">
+            <h3>Sesiones Estimadas (Periodo)</h3>
+            <div class="value" id="total-sessions">0</div>
+            <div class="desc">Del 13 Abr al 15 Jun (Aprox 44 días hábiles)</div>
+        </div>
+        <div class="card">
+            <h3>Soportes Promedio</h3>
+            <div class="value" id="avg-supports">0</div>
+            <div class="desc">Requeridos por Colegio en el Periodo</div>
+        </div>
+        <div class="card">
+            <h3>Colegios Evaluados</h3>
+            <div class="value" id="total-schools">0</div>
+            <div class="desc">Total de Instituciones</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="table-container">
+            <h3 class="chart-title">Detalle por Institución Educativa</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Colegio</th>
+                            <th>Soportes Req.</th>
+                            <th>Sesiones Exitosas</th>
+                            <th>Indicador Q-07</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <h3 class="chart-title">Autonomía Operativa por Colegio (%)</h3>
+            <canvas id="q07Chart"></canvas>
+            
+            <div style="margin-top: 3rem;"></div>
+            
+            <h3 class="chart-title">Soportes Técnicos Requeridos</h3>
+            <canvas id="supportChart"></canvas>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="indicadores_soportes.csv" download="Q07_Autonomia_Operativa.csv" class="download-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Descargar Datos CSV (Para Google Sheets)
+        </a>
+    </div>
+
+    <script>
+        // Usamos los datos cargados desde data_indicadores.js (bypassa CORS local)
+        document.addEventListener("DOMContentLoaded", () => {
+            const data = dataIndicadores;
+                // Update Summary Cards
+                document.getElementById('global-q07').innerText = data.resumen.promedio_autonomia_global + '%';
+                document.getElementById('total-sessions').innerText = data.resumen.sesiones_mes_estimadas;
+                document.getElementById('avg-supports').innerText = data.resumen.promedio_soportes_colegio_mes;
+                document.getElementById('total-schools').innerText = data.resumen.total_colegios;
+
+                // Update Table
+                const tbody = document.getElementById('table-body');
+                const labels = [];
+                const q07Data = [];
+                const supportData = [];
+
+                data.detalle_colegios.forEach(item => {
+                    // Populate Arrays for charts
+                    labels.push(item.colegio.substring(0, 20) + (item.colegio.length > 20 ? '...' : ''));
+                    q07Data.push(item.indicador_q07);
+                    supportData.push(item.soportes_requeridos);
+
+                    // Create row
+                    const tr = document.createElement('tr');
+                    
+                    let statusClass = 'status-high';
+                    if(item.indicador_q07 < 90) statusClass = 'status-med';
+                    if(item.indicador_q07 < 80) statusClass = 'status-low';
+
+                    tr.innerHTML = `
+                        <td style="font-weight: 600;">${item.colegio}</td>
+                        <td style="color: #cbd5e1;">${item.soportes_requeridos}</td>
+                        <td style="color: #cbd5e1;">${item.sesiones_sin_soporte}</td>
+                        <td><span class="status-badge ${statusClass}">${item.indicador_q07}%</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Colors
+                Chart.defaults.color = '#94a3b8';
+                Chart.defaults.font.family = "'Outfit', sans-serif";
+
+                // Init Charts
+                const ctxQ07 = document.getElementById('q07Chart').getContext('2d');
+                new Chart(ctxQ07, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Indicador Q-07 (%)',
+                            data: q07Data,
+                            backgroundColor: q07Data.map(val => val >= 90 ? 'rgba(16, 185, 129, 0.7)' : (val >= 80 ? 'rgba(245, 158, 11, 0.7)' : 'rgba(239, 68, 68, 0.7)')),
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            },
+                            y: {
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+
+                // Filtrar solo colegios con > 0 soportes para la gráfica circular
+                const doughnutLabels = [];
+                const doughnutData = [];
+                data.detalle_colegios.forEach(item => {
+                    if (item.soportes_requeridos > 0) {
+                        doughnutLabels.push(item.colegio);
+                        doughnutData.push(item.soportes_requeridos);
+                    }
+                });
+
+                // Generar colores dinámicos
+                const colors = doughnutData.map((_, i) => `hsl(${(i * 360) / doughnutData.length}, 70%, 55%)`);
+
+                const ctxSupport = document.getElementById('supportChart').getContext('2d');
+                new Chart(ctxSupport, {
+                    type: 'doughnut',
+                    data: {
+                        labels: doughnutLabels,
+                        datasets: [{
+                            label: 'Soportes Requeridos',
+                            data: doughnutData,
+                            backgroundColor: colors,
+                            borderColor: '#1e293b',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { 
+                                display: true,
+                                position: 'right',
+                                labels: { 
+                                    color: '#94a3b8',
+                                    font: { family: "'Outfit', sans-serif" }
+                                }
+                            }
+                        }
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

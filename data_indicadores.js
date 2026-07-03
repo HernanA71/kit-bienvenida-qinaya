@@ -1,0 +1,222 @@
+const dataIndicadores = {
+    "resumen": {
+        "sesiones_promedio_dia": 3.5,
+        "dias_habiles_periodo": 44,
+        "sesiones_mes_estimadas": 154,
+        "total_colegios": 30,
+        "promedio_autonomia_global": 98.94,
+        "promedio_soportes_colegio_mes": 1.63
+    },
+    "detalle_colegios": [
+        {
+            "colegio": "Colegio Eduardo Santos",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 6,
+            "sesiones_sin_soporte": 148,
+            "indicador_q07": 96.1
+        },
+        {
+            "colegio": "Colegio Los Comuneros",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 6,
+            "sesiones_sin_soporte": 148,
+            "indicador_q07": 96.1
+        },
+        {
+            "colegio": "Colegio El Salitre Suba",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 5,
+            "sesiones_sin_soporte": 149,
+            "indicador_q07": 96.75
+        },
+        {
+            "colegio": "Colegio Santa Lucia",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 4,
+            "sesiones_sin_soporte": 150,
+            "indicador_q07": 97.4
+        },
+        {
+            "colegio": "Colegio Atanasio Girardot",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 4,
+            "sesiones_sin_soporte": 150,
+            "indicador_q07": 97.4
+        },
+        {
+            "colegio": "Colegio Manuel Cepeda",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 4,
+            "sesiones_sin_soporte": 150,
+            "indicador_q07": 97.4
+        },
+        {
+            "colegio": "Colegio Nuevo Horizonte",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 4,
+            "sesiones_sin_soporte": 150,
+            "indicador_q07": 97.4
+        },
+        {
+            "colegio": "Colegio Marco Tulio",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 3,
+            "sesiones_sin_soporte": 151,
+            "indicador_q07": 98.05
+        },
+        {
+            "colegio": "Colegio Ciudad de Villavicencio",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 3,
+            "sesiones_sin_soporte": 151,
+            "indicador_q07": 98.05
+        },
+        {
+            "colegio": "Colegio Antonio García",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 2,
+            "sesiones_sin_soporte": 152,
+            "indicador_q07": 98.7
+        },
+        {
+            "colegio": "Colegio Gustavo Morales Morales",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 2,
+            "sesiones_sin_soporte": 152,
+            "indicador_q07": 98.7
+        },
+        {
+            "colegio": "Colegio Rodrigo Lara Bonilla Sede A",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio Manuela Beltran",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio Costa Rica Sede B",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio Virginia Gutierrez de Pineda (IED)",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio La joya",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio Moralba Suroriental Sede A",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 1,
+            "sesiones_sin_soporte": 153,
+            "indicador_q07": 99.35
+        },
+        {
+            "colegio": "Colegio José Manuel Restrepo",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Ext Camilo Torres",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Paraíso Mirador",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Rural Pasquilla",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Liceo Nacional  Agustín Nieto Caballero",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio San francisco de Asis",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Sorrento",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Rodrigo Lara Bonilla Sede B",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Villamar",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio La Estrella del Sur",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Union Europea",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Monteverde",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        },
+        {
+            "colegio": "Colegio Antonia Santos",
+            "total_sesiones_estimadas": 154,
+            "soportes_requeridos": 0,
+            "sesiones_sin_soporte": 154,
+            "indicador_q07": 100.0
+        }
+    ]
+};
