@@ -57,22 +57,35 @@ async function loadFase1Data() {
 }
 
 async function loadFase2Data() {
-    return new Promise((resolve, reject) => {
-        Papa.parse(FASE2_CSV_URL, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                const data = results.data;
-                renderFase2Table(data);
-                resolve();
-            },
-            error: function(err) {
-                console.error("Error cargando CSV Fase 2:", err);
-                reject(err);
-            }
+    try {
+        const res = await fetch(FASE2_CSV_URL);
+        let csvText = await res.text();
+        
+        // El Google Sheet tiene un título fusionado en la fila 1, así que debemos omitirla
+        const lineas = csvText.split('\n');
+        if (lineas.length > 1 && lineas[0].toLowerCase().includes('seguimiento de instalaciones')) {
+            lineas.shift(); // Elimina la primera línea del título
+            csvText = lineas.join('\n');
+        }
+
+        return new Promise((resolve, reject) => {
+            Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const data = results.data;
+                    renderFase2Table(data);
+                    resolve();
+                },
+                error: function(err) {
+                    console.error("Error cargando CSV Fase 2:", err);
+                    reject(err);
+                }
+            });
         });
-    });
+    } catch (err) {
+        console.error("Error al descargar CSV Fase 2:", err);
+    }
 }
 
 function renderFase2Table(data) {
