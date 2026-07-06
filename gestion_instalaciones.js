@@ -85,7 +85,7 @@ function renderFase2Table(data) {
 
     reversedData.forEach(row => {
         // Extraer valores con nombres de columna (pueden variar un poco, usamos fallback seguro)
-        const fecha = row['Fecha'] || '-';
+        const fecha = row['Fecha Contacto'] || row['Fecha'] || '-';
         const colegio = row['Colegio'] || 'Sin nombre';
         const sede = row['Sede'] || '-';
         const direccion = row['Direccion'] || '-';
