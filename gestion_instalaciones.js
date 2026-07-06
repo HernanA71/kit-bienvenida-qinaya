@@ -121,12 +121,13 @@ function renderFase2Table(data) {
             <tr>
                 <td><small style="color:var(--text-secondary);">${fecha}</small></td>
                 <td><strong style="color:var(--blue-800);">${colegio}</strong><br><small>${sede}</small></td>
-                <td>${direccion}</td>
-                <td>${almacenista}<br><small style="color:var(--text-secondary);"><i class="fas fa-phone-alt" style="font-size:0.75rem;"></i> ${telefono}</small></td>
-                <td><span style="font-weight:500;">${diaVisita}</span></td>
+                <td><small>${direccion}</small></td>
+                <td>${almacenista}</td>
                 <td><span class="badge ${tipoClase}">${tipoEquipos}</span></td>
                 <td style="text-align: center; font-weight:700; color:var(--blue-600);">${posibles}</td>
-                <td><small>${observaciones}<br>Instalador: ${instalador}</small></td>
+                <td><small>${observaciones}</small></td>
+                <td>${instalador}</td>
+                <td><span style="font-weight:500;">${diaVisita}</span></td>
                 <td><span class="badge ${estadoClase}">${estado}</span></td>
             </tr>
         `;
