@@ -58,7 +58,8 @@ async function loadFase1Data() {
 
 async function loadFase2Data() {
     try {
-        const res = await fetch(FASE2_CSV_URL);
+        // Añadimos un parámetro de tiempo para evitar que el navegador guarde la respuesta en caché
+        const res = await fetch(FASE2_CSV_URL + '&t=' + new Date().getTime());
         let csvText = await res.text();
         
         // El Google Sheet tiene un título fusionado en la fila 1, así que debemos omitirla
