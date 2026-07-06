@@ -136,7 +136,6 @@ function renderFase2Table(data) {
     
     // Actualizar KPI de Fase 2
     document.getElementById('kpi-f2-equipos').innerText = totalEquiposFase2Completados;
-    document.getElementById('kpi-f2-trend').innerHTML = `<i class="fas fa-arrow-up"></i> Equipos sumados a la meta`;
 }
 
 function updateMeta() {
@@ -145,9 +144,9 @@ function updateMeta() {
 
     // Update Text and Progress Bar
     document.getElementById('meta-total-text').innerText = totalAcumulado.toLocaleString('es-CO');
+    document.getElementById('meta-faltan-text').innerText = pendientes.toLocaleString('es-CO');
     const progressBar = document.getElementById('meta-progress-bar');
     progressBar.style.width = `${porcentaje}%`;
-    progressBar.innerText = `${porcentaje}%`;
 
     // Render Doughnut Chart
     const canvas = document.getElementById('metaChart');
@@ -181,6 +180,12 @@ function updateMeta() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Insertar Fecha Actual
+    const docDateEl = document.getElementById('docDate');
+    if (docDateEl) {
+        docDateEl.innerText = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
     try {
         // Cargar ambas fuentes en paralelo
         await Promise.all([

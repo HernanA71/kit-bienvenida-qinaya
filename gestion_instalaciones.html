@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qinaya | Seguimiento Instalaciones Fase 2</title>
-    <meta name="description" content="Dashboard interactivo para la gestión de nuevas instalaciones - Fase 2">
+    <title>Qinaya | Informe Seguimiento Instalaciones</title>
+    <meta name="description" content="Informe interactivo tipo acta para la gestión de nuevas instalaciones - Fase 2">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -17,259 +17,267 @@
 
     <style>
         /* ============================================
-           THEME: Light Mode con acentos azules (Qinaya Style)
+           THEME: Documento Corporativo
            ============================================ */
         :root {
-            --bg-main: #f0f4f8;
-            --bg-card: #ffffff;
-            --bg-sidebar: #0a1628;
-            --blue-50: #eff6ff;
-            --blue-100: #dbeafe;
-            --blue-200: #bfdbfe;
-            --blue-300: #93c5fd;
-            --blue-400: #60a5fa;
-            --blue-500: #3b82f6;
-            --blue-600: #2563eb;
-            --blue-700: #1d4ed8;
-            --blue-800: #1e3a5f;
+            --bg-body: #f3f4f6;
+            --bg-doc: #ffffff;
+            --blue-qinaya: #2563eb;
+            --blue-qinaya-dark: #1d4ed8;
+            --blue-qinaya-light: #eff6ff;
             --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.07);
-            --radius: 16px;
-            --transition: all 0.3s ease;
+            --shadow-doc: 0 10px 25px rgba(0,0,0,0.05), 0 4px 10px rgba(0,0,0,0.03);
+            --radius: 8px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-body);
             color: var(--text-primary);
+            padding: 40px 20px;
             min-height: 100vh;
-            overflow-x: hidden;
+            position: relative;
         }
 
-        .dashboard-container { display: flex; height: 100vh; }
+        /* Botón Flotante Imprimir */
+        .btn-print {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            background-color: var(--blue-qinaya);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        .btn-print:hover { background-color: var(--blue-qinaya-dark); transform: translateY(-2px); }
+        .btn-print:active { transform: translateY(0); }
 
-        /* ---- SIDEBAR (Dark) ---- */
-        .sidebar {
-            width: 200px; background: var(--bg-sidebar); display: flex; flex-direction: column;
-            padding: 15px 0; position: fixed; height: 100vh; z-index: 10;
-        }
-        .sidebar-header {
-            padding: 15px 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 15px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .sidebar-header .logo { width: 100px; margin-bottom: 8px; }
-        .sidebar-header h2 { font-size: 1.25rem; color: var(--blue-400); letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
-        .sidebar-menu { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
-        .menu-item {
-            color: #94a3b8; text-decoration: none; padding: 12px 16px;
-            border-radius: 10px; display: flex; align-items: center; gap: 12px; font-weight: 500;
-        }
-        .menu-item:hover { color: #ffffff; background: rgba(255,255,255,0.05); }
-        .menu-item.active {
-            background: linear-gradient(90deg, rgba(59,130,246,0.2) 0%, transparent 100%);
-            color: var(--blue-400); border-left: 3px solid var(--blue-400); border-radius: 0 10px 10px 0;
+        /* Contenedor tipo Hoja/Acta */
+        .document-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-doc);
+            box-shadow: var(--shadow-doc);
+            border-top: 6px solid var(--blue-qinaya);
+            padding: 50px 60px;
+            border-radius: 4px;
+            position: relative;
         }
 
-        /* ---- MAIN CONTENT ---- */
-        .main-content { margin-left: 200px; padding: 20px 25px; width: calc(100% - 200px); overflow-y: auto; }
+        /* Encabezado Corporativo */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
 
-        .top-header { margin-bottom: 20px; }
-        .header-titles h1 {
-            font-size: 1.6rem; font-weight: 700; margin-bottom: 2px;
-            background: linear-gradient(to right, var(--blue-800), var(--blue-500));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .header-titles p { color: var(--text-secondary); font-size: 1.05rem; }
-
-        /* KPI Cards */
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .kpi-card {
-            background: var(--bg-card); border-radius: 12px; padding: 12px 15px;
-            display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);
-        }
-        .kpi-icon {
-            width: 40px; height: 40px; border-radius: 10px; display: flex; justify-content: center; align-items: center;
-            font-size: 1.1rem; flex-shrink: 0;
-        }
-        .kpi-icon.blue { background: var(--blue-100); color: var(--blue-600); }
-        .kpi-icon.green { background: #ecfdf5; color: #059669; }
-        .kpi-icon.purple { background: #ede9fe; color: #7c3aed; }
+        .header-left { flex: 1; display: flex; align-items: center; gap: 20px; }
+        .header-left .logo { height: 45px; }
         
-        .kpi-info h3 { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; margin-bottom: 2px; }
-        .kpi-value { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
-        .kpi-trend { font-size: 0.75rem; color: var(--text-muted); }
+        .header-center { flex: 2; text-align: center; }
+        .header-center h1 {
+            color: var(--blue-qinaya);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
 
-        /* Meta Section */
+        .header-right { flex: 1; text-align: right; font-size: 0.9rem; color: var(--text-secondary); }
+        .header-right p { margin-bottom: 4px; }
+        .header-right strong { color: var(--text-primary); }
+
+        /* KPI Resumen Horizontal */
+        .summary-bar {
+            display: flex;
+            justify-content: space-around;
+            background: var(--blue-qinaya-light);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .summary-item { text-align: center; }
+        .summary-item h3 { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 5px; }
+        .summary-item .value { font-size: 1.8rem; font-weight: 700; color: var(--blue-qinaya-dark); }
+        .summary-item .sub { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Meta Section Minimalista */
         .meta-section {
-            background: var(--bg-card); border-radius: 12px; padding: 15px 20px;
-            box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);
-            margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px 30px;
+            margin-bottom: 30px;
         }
         .meta-info { flex: 1; }
-        .meta-info h2 { font-size: 1.2rem; color: var(--text-primary); margin-bottom: 5px; }
-        .meta-info p { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 10px; }
-        .progress-bar-container { width: 100%; height: 18px; background: var(--blue-100); border-radius: 9px; overflow: hidden; position: relative; }
-        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #10b981, #3b82f6); transition: width 1s ease; display: flex; align-items: center; padding-left: 10px; color: white; font-weight: bold; font-size: 0.75rem;}
+        .meta-info h2 { font-size: 1.2rem; color: var(--text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;}
+        .meta-info h2 i { color: var(--blue-qinaya); }
         
-        .meta-chart-container { width: 100px; height: 100px; margin-left: 20px; position: relative; }
+        .progress-container { margin-top: 15px; }
+        .progress-bar-bg { width: 100%; height: 12px; background: var(--border-color); border-radius: 6px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--blue-qinaya); width: 0%; transition: width 1s ease; }
+        .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px; font-weight: 600;}
 
-        /* Table */
-        .table-card { background: var(--bg-card); border-radius: 12px; padding: 15px 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .table-header h2 { font-size: 1.1rem; color: var(--text-primary); }
+        .meta-chart-wrapper { width: 90px; height: 90px; margin-left: 30px; }
+
+        /* Tabla Estilo Documento */
+        .doc-section-title { font-size: 1.15rem; color: var(--blue-qinaya-dark); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;}
         
-        .table-responsive { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; margin-bottom: 30px;}
         thead th {
-            padding: 10px 8px; color: var(--text-secondary); font-weight: 600; font-size: 0.75rem; text-transform: uppercase;
-            border-bottom: 2px solid var(--blue-100); background: var(--blue-50); white-space: nowrap;
+            padding: 10px 8px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase;
+            border-bottom: 2px solid var(--text-muted); font-size: 0.75rem;
         }
-        tbody td { padding: 8px 8px; border-bottom: 1px solid var(--border-color); font-size: 0.8rem; color: var(--text-primary); }
-        tbody tr:hover td { background: var(--blue-50); }
+        tbody td { padding: 10px 8px; border-bottom: 1px solid var(--border-color); vertical-align: top;}
+        
+        /* Badges Sobrios para Impresión */
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+        .badge-cableados { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+        .badge-wifi { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+        .badge-ambos { background: #f1f5f9; color: #0f172a; border: 1px solid #94a3b8; }
+        
+        .estado-pendiente { color: #b91c1c; font-weight: 600; }
+        .estado-proceso { color: #b45309; font-weight: 600; }
+        .estado-completado { color: #047857; font-weight: 700; }
+        .estado-visita { color: #4338ca; font-weight: 600; }
 
-        /* Badges for Type and Status */
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-align: center; display: inline-block; white-space: nowrap; }
-        
-        /* Tipo Equipos */
-        .badge-cableados { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
-        .badge-wifi { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
-        .badge-ambos { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
-        
-        /* Estados */
-        .estado-pendiente { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-        .estado-proceso { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
-        .estado-completado { background: #d1fae5; color: #047857; border: 1px solid #a7f3d0; }
-        .estado-visita { background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; }
-        .estado-default { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 15px;}
 
         /* Loading */
         .loading-overlay {
-            position: fixed; inset: 0; background: rgba(240,244,248,0.92); backdrop-filter: blur(8px); z-index: 1000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.4s ease;
+            position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
-        .spinner { width: 50px; height: 50px; border: 4px solid var(--blue-100); border-top-color: var(--blue-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay.hidden { display: none; }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--border-color); border-top-color: var(--blue-qinaya); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .btn-print { display: none !important; }
+            .document-container { box-shadow: none; border-top: 6px solid var(--blue-qinaya); padding: 0; max-width: 100%; margin: 0; }
+            @page { margin: 15mm; size: A4 portrait; }
+            .meta-section { page-break-inside: avoid; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            thead { display: table-header-group; }
+        }
     </style>
 </head>
 
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
+    <!-- Botón Flotante para PDF -->
+    <button class="btn-print" onclick="window.print()">
+        <i class="fas fa-print"></i> Imprimir a PDF
+    </button>
+
+    <div class="document-container">
+        
+        <!-- Encabezado Corporativo -->
+        <div class="doc-header">
+            <div class="header-left">
                 <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo" onerror="this.src='https://via.placeholder.com/150x50?text=Qinaya'">
-                <h2>Analytics</h2>
             </div>
-            <div class="sidebar-menu">
-                <a href="dashboard-qinaya.html" class="menu-item"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <a href="dashboard.html" class="menu-item"><i class="fas fa-desktop"></i> Equipos</a>
-                <a href="apropiacion.html" class="menu-item"><i class="fas fa-users-cog"></i> Apropiación</a>
-                <a href="instalaciones.html" class="menu-item"><i class="fas fa-hard-hat"></i> Instalaciones F1</a>
-                <a href="gestion_instalaciones.html" class="menu-item active"><i class="fas fa-tasks"></i> Gestión F2</a>
+            <div class="header-center">
+                <h1>Seguimiento y respuesta a<br>Solicitudes (Fase 2)</h1>
             </div>
-        </aside>
+            <div class="header-right">
+                <p><strong>Fecha:</strong> <span id="docDate">--</span></p>
+                <p><strong>Asunto:</strong> Reporte de Instalaciones</p>
+            </div>
+        </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-header">
-                <div class="header-titles">
-                    <h1><i class="fas fa-clipboard-list" style="margin-right: 12px;"></i>Seguimiento Instalaciones Fase 2</h1>
-                    <p>Gestión comercial y logística de nuevas sedes, sincronizado en tiempo real desde Google Sheets.</p>
-                </div>
-            </header>
+        <!-- Resumen -->
+        <div class="summary-bar">
+            <div class="summary-item">
+                <h3>Sedes (Fase 1)</h3>
+                <div class="value" id="kpi-f1-sedes">0</div>
+                <div class="sub">Histórico</div>
+            </div>
+            <div class="summary-item">
+                <h3>Equipos Instalados (Fase 1)</h3>
+                <div class="value" id="kpi-f1-equipos">0</div>
+                <div class="sub">Base de datos inicial</div>
+            </div>
+            <div class="summary-item">
+                <h3>Nuevos Equipos Completados</h3>
+                <div class="value" style="color: #047857;" id="kpi-f2-equipos">0</div>
+                <div class="sub">Registrados en Gestión actual</div>
+            </div>
+        </div>
 
-            <!-- Resumen Profesional -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-icon blue"><i class="fas fa-school"></i></div>
-                    <div class="kpi-info">
-                        <h3>Total Sedes Fase 1</h3>
-                        <div class="kpi-value" id="kpi-f1-sedes">0</div>
-                        <div class="kpi-trend">Instaladas previamente</div>
+        <!-- Progreso a la Meta -->
+        <div class="meta-section">
+            <div class="meta-info">
+                <h2><i class="fas fa-flag-checkered"></i> Avance hacia la Meta: 1.000 Equipos</h2>
+                <div class="progress-container">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="meta-progress-bar"></div>
                     </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon blue"><i class="fas fa-desktop"></i></div>
-                    <div class="kpi-info">
-                        <h3>Equipos Instalados Fase 1</h3>
-                        <div class="kpi-value" id="kpi-f1-equipos">0</div>
-                        <div class="kpi-trend">Base inicial</div>
-                    </div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-icon green"><i class="fas fa-box-open"></i></div>
-                    <div class="kpi-info">
-                        <h3>Nuevos Equipos (Fase 2)</h3>
-                        <div class="kpi-value" id="kpi-f2-equipos">0</div>
-                        <div class="kpi-trend" id="kpi-f2-trend">Completados en nueva gestión</div>
+                    <div class="progress-labels">
+                        <span>Total Acumulado: <strong id="meta-total-text" style="color: var(--blue-qinaya);">0</strong></span>
+                        <span>Faltan: <strong id="meta-faltan-text">1.000</strong></span>
                     </div>
                 </div>
             </div>
-
-            <!-- Meta Section -->
-            <div class="meta-section">
-                <div class="meta-info">
-                    <h2><i class="fas fa-bullseye" style="color: var(--blue-600); margin-right: 10px;"></i>Meta Global: 1.000 Equipos</h2>
-                    <p>Suma consolidada de equipos de la Fase 1 más las instalaciones completadas de la Fase 2.</p>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" id="meta-progress-bar" style="width: 0%">0%</div>
-                    </div>
-                    <p style="margin-top: 10px; font-weight: 600; color: var(--text-primary);">
-                        Total Acumulado: <span id="meta-total-text" style="color: var(--blue-600); font-size: 1.2rem;">0</span> de 1.000
-                    </p>
-                </div>
-                <div class="meta-chart-container">
-                    <canvas id="metaChart"></canvas>
-                </div>
+            <div class="meta-chart-wrapper">
+                <canvas id="metaChart"></canvas>
             </div>
+        </div>
 
-            <!-- Tabla de Datos -->
-            <div class="table-card">
-                <div class="table-header">
-                    <h2><i class="fas fa-list-alt" style="color: var(--blue-500); margin-right: 8px;"></i>Progreso de Instalaciones</h2>
-                    <a href="https://docs.google.com/spreadsheets/d/1gu-gf5Kz4oxOhQUmaw3VZ7eoIzAkd-peY_wO2Yge0PM/edit" target="_blank" class="menu-item" style="background: var(--blue-50); border: 1px solid var(--blue-200); padding: 8px 16px; border-radius: 8px; color: var(--blue-600); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                        <i class="fas fa-external-link-alt"></i> Editar en Google Sheets
-                    </a>
-                </div>
-                <div class="table-responsive">
-                    <table id="gestionTable">
-                        <thead>
-                            <tr>
-                                <th>Fecha Registro</th>
-                                <th>Colegio / Sede</th>
-                                <th>Localidad / Dir</th>
-                                <th>Contacto Almacén</th>
-                                <th>Fecha Visita</th>
-                                <th>Tipo Equipos</th>
-                                <th style="text-align: center;">Posibles a Instalar</th>
-                                <th>Rector / Contacto</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBodyGestion">
-                            <!-- Datos inyectados por JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- Tabla -->
+        <h2 class="doc-section-title">Detalle de Gestión Operativa</h2>
+        <table id="gestionTable">
+            <thead>
+                <tr>
+                    <th>Fecha Registro</th>
+                    <th>Colegio / Sede</th>
+                    <th>Contacto / Teléfono</th>
+                    <th>Día Visita</th>
+                    <th>Tipo Eq.</th>
+                    <th style="text-align: center;">Cant.</th>
+                    <th>Observaciones / Inst.</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tableBodyGestion">
+                <!-- Datos inyectados por JS -->
+            </tbody>
+        </table>
 
-            <footer style="text-align: center; padding: 25px 0 10px; color: var(--text-muted); font-size: 0.85rem;">
-                <p><b>Qinaya Analytics</b> — Gestión de Instalaciones Fase 2 — 2026</p>
-            </footer>
-        </main>
+        <div class="footer">
+            <p>Documento generado automáticamente a partir de datos en tiempo real de Google Sheets.</p>
+            <p><strong>Qinaya Analytics</strong> - 2026</p>
+        </div>
+
     </div>
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <p style="margin-top: 20px; color: var(--text-secondary); font-weight: 500;" id="loadingText">Sincronizando con Google Sheets...</p>
+        <p style="margin-top: 15px; font-weight: 500; color: var(--text-secondary);">Generando reporte corporativo...</p>
     </div>
 
     <script src="gestion_instalaciones.js"></script>
