@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requerimientos API - Dashboard Qinaya</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 6px solid #2b6cb0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .title-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .title {
+            color: #1a365d;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 0;
+        }
+        .subtitle {
+            color: #4a5568;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        h3 {
+            color: #2b6cb0;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        p {
+            font-size: 1.1em;
+            color: #4a5568;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95em;
+            margin-bottom: 25px;
+        }
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e53e3e;
+            font-size: 0.9em;
+        }
+        .print-btn {
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .print-btn:hover {
+            background-color: #1a365d;
+        }
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+        svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">
+        <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+        Guardar como PDF
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <div class="title-container">
+                <h1 class="title">Documentación de API</h1>
+                <span class="subtitle">Estructuras de datos requeridas para el Dashboard Analítico de Qinaya</span>
+            </div>
+            <div>
+                <img src="logo Qinaya.png" alt="Logo Qinaya" style="height: 50px;">
+            </div>
+        </div>
+
+        <p>Este documento detalla la estructura JSON exacta que la aplicación frontend (Dashboard) espera recibir por parte de la API de Qinaya para renderizar todas las gráficas y tablas. Se requieren <strong>4 endpoints principales</strong>.</p>
+        <p><em>Nota para el desarrollador: Una vez expuestos estos endpoints, se debe actualizar la variable <code>API_BASE_URL</code> en el archivo <code>dashboard.js</code> (línea 24).</em></p>
+
+        <h3>1. Lista de Clientes y Colegios <code>/organizations</code></h3>
+        <p><strong>Propósito:</strong> Alimenta el filtro principal (Secretaría, Fundaciones, etc.) y los sub-filtros de sedes/colegios.</p>
+        <p><strong>Estructura esperada (Array de objetos JSON):</strong></p>
+<pre>[
+  {
+    "id": "sec-edu-bogota",
+    "name": "Secretaría de Educación de Bogotá",
+    "isPrimary": true,
+    "sites": [
+      "Colegio Virginia Gutiérrez",
+      "Colegio El Salitre",
+      "Colegio Los Comuneros"
+    ]
+  },
+  {
+    "id": "comfandi",
+    "name": "Comfandi",
+    "sites": ["Sede Palmira", "Sede Yumbo"]
+  }
+]</pre>
+
+        <h3>2. Histórico de Uso <code>/usage</code></h3>
+        <p><strong>Propósito:</strong> Alimenta la gráfica principal de horas de uso local vs VDI a lo largo del tiempo.</p>
+        <p><strong>Parámetros enviados (GET):</strong> <code>?org={id_cliente}&days={dias}&site={nombre_sede}</code></p>
+        <p><strong>Estructura esperada:</strong> Un objeto con 4 arreglos (arrays) paralelos, de igual longitud.</p>
+<pre>{
+  "labels": ["lun, 24 jun", "mar, 25 jun", "mié, 26 jun", "jue, 27 jun"],
+  "localUsage": [1.5, 2.0, 1.2, 3.1],
+  "vmUsage": [3.5, 4.2, 3.8, 5.0],
+  "totalUsage": [5.0, 6.2, 5.0, 8.1]
+}</pre>
+
+        <h3>3. Detalle de Equipos <code>/computers</code></h3>
+        <p><strong>Propósito:</strong> Llena la tabla de detalle inferior y la gráfica de dona (Virtual vs Local) calculando sumatorias.</p>
+        <p><strong>Parámetros enviados (GET):</strong> <code>?org={id_cliente}&site={nombre_sede}</code></p>
+        <p><strong>Estructura esperada (Array de objetos):</strong></p>
+<pre>[
+  {
+    "id": "QPC-001",
+    "site": "Colegio Virginia Gutiérrez",
+    "status": "online",
+    "localHours": 4.5,
+    "vmHours": 6.2,
+    "totalHours": 10.7,
+    "topApp": "Google Docs"
+  },
+  {
+    "id": "QPC-002",
+    "site": "Colegio Virginia Gutiérrez",
+    "status": "offline",
+    "localHours": 0.5,
+    "vmHours": 1.2,
+    "totalHours": 1.7,
+    "topApp": "Scratch"
+  }
+]</pre>
+
+        <h3>4. Sitios Web Más Visitados <code>/websites</code></h3>
+        <p><strong>Propósito:</strong> Llena la gráfica de barras horizontales categorizadas.</p>
+        <p><strong>Parámetros enviados (GET):</strong> <code>?org={id_cliente}&site={nombre_sede}</code></p>
+        <p><strong>Estructura esperada (Array ordenado por visitas):</strong></p>
+<pre>[
+  { "name": "youtube.com", "visits": 3200, "category": "General" },
+  { "name": "docs.google.com", "visits": 1950, "category": "Productividad" },
+  { "name": "colombiaaprende.edu.co", "visits": 1100, "category": "Educación" },
+  { "name": "tinkercad.com", "visits": 800, "category": "Educación" }
+]</pre>
+    </div>
+</body>
+</html>

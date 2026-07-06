@@ -4,15 +4,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qinaya | Dashboard de Uso Analítico</title>
-    <!-- CSS -->
+    <title>Qinaya | Dashboard en Tiempo Real</title>
+    <meta name="description" content="Panel analítico en tiempo real conectado a la API de Qinaya. Monitoreo de uso de equipos, horas locales vs VDI, y top aplicaciones web.">
+    <!-- CSS compartido -->
     <link rel="stylesheet" href="dashboard.css">
-    <!-- Font Awesome para Iconos -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Badge "En Vivo" en el header */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 135, 0.12);
+            border: 1px solid rgba(0, 255, 135, 0.35);
+            color: #00ff87;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .live-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: #00ff87;
+            border-radius: 50%;
+            animation: pulse-live 1.4s ease-in-out infinite;
+        }
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* Etiqueta de rango de fechas activo */
+        .date-range-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+        .date-range-info i {
+            color: #00d2ff;
+        }
+        #dateRangeLabel {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-family: 'Consolas', monospace;
+        }
+
+        /* Resaltar item activo Qinaya en sidebar */
+        .menu-item.active-qinaya {
+            background: linear-gradient(90deg, rgba(0,210,255,0.18), transparent);
+            border-left: 3px solid #00d2ff;
+            color: #00d2ff !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -26,14 +84,14 @@
             </div>
 
             <div class="sidebar-menu">
-                <!-- Dashboard Demo — ACTIVO -->
-                <a href="dashboard.html" class="menu-item active" title="Dashboard con datos de ejemplo">
+                <!-- Dashboard Demo (enlace de vuelta al ejemplo) -->
+                <a href="dashboard.html" class="menu-item" title="Dashboard con datos de ejemplo">
                     <i class="fas fa-chart-line"></i> Dashboard
-                    <span style="font-size:0.65rem; color:#94a3b8; margin-left:4px;">(Demo)</span>
+                    <span style="font-size:0.65rem; color:#64748b; margin-left:4px;">(Demo)</span>
                 </a>
 
-                <!-- Dashboard Qinaya — API Real -->
-                <a href="dashboard-qinaya.html" class="menu-item" title="Dashboard conectado a la API real de Qinaya" style="color:#00d2ff;">
+                <!-- Dashboard Qinaya — ACTIVO -->
+                <a href="dashboard-qinaya.html" class="menu-item active active-qinaya">
                     <i class="fas fa-satellite-dish"></i> Dashboard Qinaya
                 </a>
 
@@ -67,8 +125,17 @@
             <!-- Header con Filtros -->
             <header class="top-header">
                 <div class="header-titles">
-                    <h1>Monitoreo de Uso de Equipos</h1>
-                    <p>Visualiza en tiempo real el comportamiento y uso de la base instalada.</p>
+                    <h1>
+                        Monitoreo de Uso de Equipos
+                        <span class="live-badge">En Vivo</span>
+                    </h1>
+                    <p>Datos en tiempo real desde <strong>panel.qinaya.co/api2</strong> — uso local vs VDI por organización.</p>
+
+                    <div class="date-range-info">
+                        <i class="fas fa-calendar-range"></i>
+                        Periodo consultado: <span id="dateRangeLabel">—</span>
+                    </div>
+
                     <div class="connection-status" id="connectionStatus">
                         <span class="status-dot"></span>
                         <span class="status-text">Conectando...</span>
@@ -88,13 +155,12 @@
                             <option value="today">Hoy</option>
                             <option value="week" selected>Últimos 7 días</option>
                             <option value="month">Este Mes</option>
-                            <option value="custom">Personalizado</option>
                         </select>
                     </div>
                 </div>
             </header>
 
-            <!-- Sub-filtro de Colegio / Sede (aparece si la org tiene más de 1 sitio) -->
+            <!-- Sub-filtro de Colegio / Sede -->
             <div class="sub-filter-bar glass-panel" id="schoolFilterBar" style="display: none;">
                 <div class="sub-filter-left">
                     <i class="fas fa-school"></i>
@@ -110,23 +176,23 @@
                 </div>
             </div>
 
-            <!-- Cards de KPIs (Key Performance Indicators) -->
+            <!-- KPIs -->
             <div class="kpi-grid">
                 <div class="kpi-card glass-panel">
                     <div class="kpi-icon blue"><i class="fas fa-laptop"></i></div>
                     <div class="kpi-info">
                         <h3>Equipos Registrados</h3>
-                        <div class="kpi-value" id="kpi-total-pcs">40</div>
-                        <div class="kpi-trend positive"><i class="fas fa-arrow-up"></i> 100% de la meta</div>
+                        <div class="kpi-value" id="kpi-total-pcs">—</div>
+                        <div class="kpi-trend neutral"><i class="fas fa-sync-alt"></i> Datos reales</div>
                     </div>
                 </div>
 
                 <div class="kpi-card glass-panel">
                     <div class="kpi-icon purple"><i class="fas fa-clock"></i></div>
                     <div class="kpi-info">
-                        <h3>Promedio Uso Diario</h3>
-                        <div class="kpi-value" id="kpi-avg-hours">4.5 hrs</div>
-                        <div class="kpi-trend positive"><i class="fas fa-arrow-up"></i> 15% vs sem. ant.</div>
+                        <h3>Promedio Uso por Equipo</h3>
+                        <div class="kpi-value" id="kpi-avg-hours">— hrs</div>
+                        <div class="kpi-trend neutral"><i class="fas fa-sync-alt"></i> En el periodo</div>
                     </div>
                 </div>
 
@@ -134,27 +200,26 @@
                     <div class="kpi-icon green"><i class="fas fa-bolt"></i></div>
                     <div class="kpi-info">
                         <h3>Uso Máquina Virtual</h3>
-                        <div class="kpi-value" id="kpi-vm-percent">78%</div>
-                        <div class="kpi-trend neutral"><i class="fas fa-minus"></i> Estable</div>
+                        <div class="kpi-value" id="kpi-vm-percent">—%</div>
+                        <div class="kpi-trend neutral"><i class="fas fa-sync-alt"></i> Del total</div>
                     </div>
                 </div>
 
                 <div class="kpi-card glass-panel">
                     <div class="kpi-icon orange"><i class="fas fa-globe"></i></div>
                     <div class="kpi-info">
-                        <h3>Sitio más visitado</h3>
-                        <div class="kpi-value text-medium" id="kpi-top-site">colombiaaprende.edu.co</div>
-                        <div class="kpi-trend">Categoría: Educación</div>
+                        <h3>Sitio con más horas</h3>
+                        <div class="kpi-value text-medium" id="kpi-top-site">—</div>
+                        <div class="kpi-trend">Tiempo de uso acumulado</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Grillas de Gráficos -->
+            <!-- Gráfico Principal -->
             <div class="charts-grid-main">
-                <!-- Gráfico Principal (Líneas - Simil a la foto del cliente) -->
                 <div class="chart-container large-chart glass-panel">
                     <div class="chart-header">
-                        <h2>Horas de Uso x Equipo <span class="chart-subtitle">(Histórico del periodo)</span></h2>
+                        <h2>Horas de Uso Acumuladas <span class="chart-subtitle">(por día en el periodo)</span></h2>
                         <button class="btn-action" title="Descargar como CSV"><i class="fas fa-download"></i></button>
                     </div>
                     <div class="canvas-wrapper">
@@ -163,8 +228,8 @@
                 </div>
             </div>
 
+            <!-- Gráficos Secundarios -->
             <div class="charts-grid-secondary">
-                <!-- Gráfico de Donas (Local vs Virtual) -->
                 <div class="chart-container glass-panel">
                     <div class="chart-header">
                         <h2>Distribución del Cómputo</h2>
@@ -174,10 +239,9 @@
                     </div>
                 </div>
 
-                <!-- Gráfico de Barras (Websites) -->
                 <div class="chart-container glass-panel">
                     <div class="chart-header">
-                        <h2>Top Aplicaciones Web</h2>
+                        <h2>Top Dominios Web <span class="chart-subtitle">(horas de uso)</span></h2>
                     </div>
                     <div class="canvas-wrapper">
                         <canvas id="topWebsitesChart"></canvas>
@@ -191,7 +255,7 @@
                     <h2>Detalle por Computador</h2>
                     <div class="table-search">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Buscar por ID..." id="searchPcInput">
+                        <input type="text" placeholder="Buscar por ID o colegio..." id="searchPcInput">
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -202,7 +266,7 @@
                                 <th>Estado</th>
                                 <th>Uso Local (hrs)</th>
                                 <th>Uso Virtual (hrs)</th>
-                                <th>Total (hrs/sem)</th>
+                                <th>Total (hrs)</th>
                                 <th>Top App</th>
                             </tr>
                         </thead>
@@ -214,7 +278,7 @@
             </div>
 
             <footer class="dashboard-footer">
-                <p><b>Qinaya Analytics</b> — Panel de Uso en Tiempo Real — 2026</p>
+                <p><b>Qinaya Analytics</b> — Datos en Tiempo Real desde <code>panel.qinaya.co/api2</code> — 2026</p>
             </footer>
         </main>
     </div>
@@ -227,8 +291,8 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="dashboard.js"></script>
+    <!-- Script de producción -->
+    <script src="dashboard-qinaya.js"></script>
 </body>
 
 </html>
