@@ -95,10 +95,10 @@ function renderFase2Table(data) {
     totalEquiposFase2Completados = 0;
     let totalEquiposFase2Pendientes = 0;
 
-    // Invertir para mostrar los más recientes arriba
-    const reversedData = [...data].reverse();
+    // Respetar el orden original (el usuario ya pone los más recientes arriba en su Sheet)
+    const renderData = data;
 
-    reversedData.forEach(row => {
+    renderData.forEach(row => {
         // Extraer valores con nombres de columna (pueden variar un poco, usamos fallback seguro)
         const fecha = row['Fecha Contacto'] || row['Fecha'] || '-';
         const colegio = row['Colegio'] || 'Sin nombre';
