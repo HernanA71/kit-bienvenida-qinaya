@@ -59,15 +59,15 @@ function formatDate(date) {
 
 /**
  * Calcula { since, until } a partir del período seleccionado
- * @param {string} period - 'today' | 'week' | 'month'
+ * @param {string} period      - 'today' | 'week' | 'month' | 'custom'
+ * @param {string} customFrom  - YYYY-MM-DD (solo cuando period === 'custom')
+ * @param {string} customTo    - YYYY-MM-DD (solo cuando period === 'custom')
  */
-function getDateRange(period) {
+function getDateRange(period, customFrom = '', customTo = '') {
     const today = new Date();
     const until = formatDate(today);
 
-    if (period === 'today') {
-        return { since: until, until };
-    }
+    if (period === 'today')  return { since: until, until };
 
     if (period === 'week') {
         const d = new Date(today);
@@ -78,6 +78,10 @@ function getDateRange(period) {
     if (period === 'month') {
         const d = new Date(today.getFullYear(), today.getMonth(), 1);
         return { since: formatDate(d), until };
+    }
+
+    if (period === 'custom' && customFrom && customTo) {
+        return { since: customFrom, until: customTo };
     }
 
     // Default: últimos 7 días
@@ -378,13 +382,17 @@ class DashboardController {
     }
 
     selectDefaultOrg() {
-        const defaultOrg = this.organizations.find(o => o.name === CONFIG.DEFAULT_ORG || o.isPrimary);
-        if (defaultOrg) {
-            this.orgFilter.value = defaultOrg.id;
-            this.currentOrg = defaultOrg;
-        } else if (this.organizations.length > 0) {
-            this.orgFilter.value = this.organizations[0].id;
-            this.currentOrg = this.organizations[0];
+        // Buscar primero por nombre exacto, luego por búsqueda parcial, finalmente isPrimary
+        const sedBogota =
+            this.organizations.find(o => o.name === CONFIG.DEFAULT_ORG) ||
+            this.organizations.find(o => o.name.toLowerCase().includes('secretar') &&
+                                        o.name.toLowerCase().includes('bogot')) ||
+            this.organizations.find(o => o.isPrimary) ||
+            this.organizations[0];
+
+        if (sedBogota) {
+            this.orgFilter.value = sedBogota.id;
+            this.currentOrg = sedBogota;
         }
     }
 
@@ -421,7 +429,10 @@ class DashboardController {
         this.currentOrg = this.organizations.find(o => o.id === orgId);
         if (!this.currentOrg) return;
 
-        const { since, until } = getDateRange(this.currentPeriod);
+        // Obtener fechas (incluyendo rango personalizado si aplica)
+        const customFrom = document.getElementById('dateFrom')?.value || '';
+        const customTo   = document.getElementById('dateTo')?.value   || '';
+        const { since, until } = getDateRange(this.currentPeriod, customFrom, customTo);
 
         // Actualizar etiqueta de rango de fechas
         if (this.dateRangeLabel) {
@@ -464,6 +475,7 @@ class DashboardController {
     }
 
     bindEvents() {
+        // Cambio de organización (oculto, pero funcional)
         this.orgFilter.addEventListener('change', async () => {
             this.currentSchool = '__all__';
             this.currentOrg    = this.organizations.find(o => o.id === this.orgFilter.value);
@@ -473,6 +485,7 @@ class DashboardController {
             this.showLoading(false);
         });
 
+        // Cambio de colegio/sede
         this.schoolFilter.addEventListener('change', async (e) => {
             this.currentSchool = e.target.value;
             this.showLoading(true);
@@ -480,13 +493,45 @@ class DashboardController {
             this.showLoading(false);
         });
 
+        // Cambio de periodo
         this.dateFilter.addEventListener('change', async (e) => {
-            this.currentPeriod = e.target.value; // 'today' | 'week' | 'month'
+            this.currentPeriod = e.target.value;
+            const customGroup = document.getElementById('customRangeGroup');
+
+            if (e.target.value === 'custom') {
+                // Mostrar pickers de fecha — no cargar datos todavía
+                customGroup.style.display = 'flex';
+                // Prellenar con rango de la semana actual como sugerencia
+                const { since, until } = getDateRange('week');
+                document.getElementById('dateFrom').value = since;
+                document.getElementById('dateTo').value   = until;
+                return;
+            } else {
+                customGroup.style.display = 'none';
+                this.showLoading(true);
+                await this.loadOrgData();
+                this.showLoading(false);
+            }
+        });
+
+        // Botón "Consultar" del rango personalizado
+        document.getElementById('applyCustomDate').addEventListener('click', async () => {
+            const from = document.getElementById('dateFrom').value;
+            const to   = document.getElementById('dateTo').value;
+            if (!from || !to) {
+                alert('Por favor selecciona las fechas de inicio y fin.');
+                return;
+            }
+            if (from > to) {
+                alert('La fecha “Desde” debe ser anterior o igual a “Hasta”.');
+                return;
+            }
             this.showLoading(true);
             await this.loadOrgData();
             this.showLoading(false);
         });
 
+        // Búsqueda en tabla
         this.searchInput.addEventListener('input', (e) => {
             const filter = e.target.value.toLowerCase();
             document.querySelectorAll('#tableBody tr').forEach(row => {
