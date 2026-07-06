@@ -142,6 +142,8 @@ function updateMeta() {
     const totalAcumulado = totalEquiposFase1 + totalEquiposFase2Completados;
     const porcentaje = Math.min(100, Math.round((totalAcumulado / META_GLOBAL) * 100));
 
+    const pendientes = Math.max(0, META_GLOBAL - totalAcumulado);
+
     // Update Text and Progress Bar
     document.getElementById('meta-total-text').innerText = totalAcumulado.toLocaleString('es-CO');
     document.getElementById('meta-faltan-text').innerText = pendientes.toLocaleString('es-CO');
@@ -154,15 +156,13 @@ function updateMeta() {
     const ctx = canvas.getContext('2d');
     if (metaChartObj) metaChartObj.destroy();
 
-    const pendientes = Math.max(0, META_GLOBAL - totalAcumulado);
-
     metaChartObj = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: ['Completados', 'Faltantes'],
             datasets: [{
                 data: [totalAcumulado, pendientes],
-                backgroundColor: ['#10b981', '#e2e8f0'],
+                backgroundColor: ['#2563eb', '#e2e8f0'],
                 borderWidth: 0,
                 hoverOffset: 4
             }]
