@@ -1,0 +1,50 @@
+Plan Estratégico Post-Instalación: Soporte, Apropiación y Gestión (Fase 1.000 Licencias)
+
+Objetivo Ejecutivo: 
+Presentar a la Gerencia la ruta de acción estratégica para asegurar la estabilidad técnica, la adopción tecnológica en las instituciones y la viabilidad financiera del proyecto, a partir de la recepción de las 1.000 licencias instaladas por el líder técnico.
+
+-------------------------------------------------------------------------------
+
+1. Estrategia de Soporte Técnico Especializado
+
+Objetivo: Garantizar tiempos de respuesta óptimos y la resolución efectiva de incidencias en sitio.
+
+* Retención de Talento Estratégico: Se mantendrá en el equipo central a Edwin y Felipe (perfiles destacados en la instalación) para operar como especialistas de respuesta rápida ante cualquier solicitud en sitio.
+* Automatización de Agendamientos: Despliegue del Bot del Kit Qinaya como canal centralizado para la programación eficiente de visitas técnicas.
+* Integración y Monitoreo en WhatsApp: 
+  - Consolidación de los grupos de WhatsApp existentes por colegio como canales de primera línea (Nivel 1).
+  - Se integrará a la totalidad del equipo técnico de Qinaya en todos los grupos institucionales (anteriormente restringido a casos complejos). Esto garantiza un monitoreo 360°, respuesta ágil y máxima visibilidad del nivel de servicio.
+
+-------------------------------------------------------------------------------
+
+2. Estrategia de Apropiación Tecnológica y Acompañamiento
+
+Objetivo: Fomentar el uso activo de las herramientas instaladas por parte de los docentes, trabajando en sinergia con el integrador (Ágata).
+
+* Sinergia para Webinars: Apoyo táctico a la propuesta de Ágata (intermediario y validador ante la Secretaría) mediante la ejecución de webinars interactivos, orientados a la retención y capacitación del cuerpo docente.
+* Visitas de Seguimiento Integral: Ejecución de visitas presenciales con enfoque dual:
+  1. Soporte Técnico: Resolución preventiva y correctiva.
+  2. Apoyo Académico: Acompañamiento in situ sobre la correcta aplicación de la tecnología en el aula.
+* Evolución a Comunidad de Práctica: Una vez superada la fase crítica de estabilización post-instalación, los grupos individuales convergerán en una Comunidad General por WhatsApp. El objetivo es escalar la apropiación tecnológica de forma masiva y fomentar el intercambio de casos de éxito.
+
+2.1. Medición de Satisfacción y Calidad del Servicio
+
+Se implementará un modelo de medición de doble vía para gestionar la calidad del servicio y cumplir con los requisitos contractuales:
+
+* 1. Encuestas Internas (Pulso Operativo):
+  - Ejecutadas de manera ágil a través de los grupos de WhatsApp de cada colegio.
+  - Propósito: Monitoreo constante del clima en las instituciones, identificación temprana de fricciones y acompañamiento proactivo.
+
+* 2. Encuestas Formales (Requerimientos Secretaría / Ágata):
+  - Ejecución formal y estructurada en cumplimiento estricto con los indicadores de CNC.
+  - Propósito: Generación del entregable oficial de calidad requerido por Ágata y la Secretaría.
+  - Plan de Mitigación: Ante cualquier resultado o calificación deficiente, se activará un protocolo de solventación individualizada y directa con la institución o docente afectado para revertir la insatisfacción.
+
+-------------------------------------------------------------------------------
+
+3. Gestión Documental y Viabilidad Financiera
+
+Objetivo: Asegurar la recolección oportuna y precisa de los entregables documentales requeridos para la liberación de pagos, mitigando riesgos administrativos.
+
+* Célula Administrativa-Legal: Conformación de un frente de trabajo colaborativo liderado por Santiago (Líder Administrativo) y Daniela (Abogada de Qinaya).
+* Gestión de Entregables: Trabajo en equipo enfocado en la validación, estructuración y radicación impecable de toda la documentación exigida para la facturación.

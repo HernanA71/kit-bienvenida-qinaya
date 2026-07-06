@@ -41,6 +41,7 @@ function normalizeRow(raw) {
         computadores_registrados: parseInt(get(raw, 'computadores total', 'registrados por agatha', 'total registrados')) || 0,
         se_pudo_instalar: get(raw, 'se pudo', 'pudo instalar'),
         computadores_instalados: parseInt(get(raw, 'cantidad de computadores', 'computadores instalados')) || 0,
+        wifi_instalados: parseInt(get(raw, 'wifi')) || 0,
         diferencia_meta: parseInt(get(raw, 'diferencia')) || 0,
         sedes: get(raw, 'sede'),
         aula: get(raw, 'aula'),
@@ -168,13 +169,14 @@ function updateKPIs() {
         }
     }
 
-    // KPI: Meta
-    const metaEl = document.getElementById('kpi-meta');
-    if (metaEl) metaEl.textContent = `${pctMeta}%`;
-    const metaTrend = document.getElementById('kpi-trend-meta');
-    if (metaTrend) {
-        metaTrend.innerHTML = `<i class="fas fa-arrow-up"></i> ${totalInstalados.toLocaleString('es-CO')} de ${META_INSTALACIONES.toLocaleString('es-CO')}`;
-        metaTrend.className = pctMeta >= 50 ? 'kpi-trend positive' : 'kpi-trend';
+// KPI: WiFi
+    const totalWifi = instalacionesData.reduce((sum, d) => sum + d.wifi_instalados, 0);
+    const totalLicWifi = instalacionesData.reduce((sum, d) => sum + (d.wifi_instalados > 0 ? d.licencias : 0), 0);
+    const wifiEl = document.getElementById('kpi-wifi');
+    if (wifiEl) wifiEl.textContent = totalWifi.toLocaleString('es-CO');
+    const wifiTrend = document.getElementById('kpi-wifi-licencias');
+    if (wifiTrend) {
+        wifiTrend.textContent = `Licencias: ${totalLicWifi.toLocaleString('es-CO')}`;
     }
     const progressBar = document.getElementById('meta-progress-bar');
     if (progressBar) progressBar.style.width = `${Math.min(pctMeta, 100)}%`;
