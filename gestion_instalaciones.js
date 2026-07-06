@@ -93,6 +93,7 @@ function renderFase2Table(data) {
     const tableBody = document.getElementById('tableBodyGestion');
     let html = '';
     totalEquiposFase2Completados = 0;
+    let totalEquiposFase2Pendientes = 0;
 
     // Invertir para mostrar los más recientes arriba
     const reversedData = [...data].reverse();
@@ -115,14 +116,23 @@ function renderFase2Table(data) {
         // Determinar badge para Estado
         let estadoClase = 'estado-default';
         const estLower = estado.toLowerCase();
-        if (estLower.includes('pendiente') || estLower.includes('contactar')) estadoClase = 'estado-pendiente';
-        else if (estLower.includes('proceso') || estLower.includes('agendado')) estadoClase = 'estado-proceso';
+        if (estLower.includes('pendiente') || estLower.includes('contactar')) {
+            estadoClase = 'estado-pendiente';
+            totalEquiposFase2Pendientes += posibles;
+        }
+        else if (estLower.includes('proceso') || estLower.includes('agendado')) {
+            estadoClase = 'estado-proceso';
+            totalEquiposFase2Pendientes += posibles;
+        }
         else if (estLower.includes('completado') || estLower.includes('instalado')) {
             estadoClase = 'estado-completado';
             // Sumamos los posibles a equipos completados
             totalEquiposFase2Completados += posibles;
         }
-        else if (estLower.includes('visita')) estadoClase = 'estado-visita';
+        else if (estLower.includes('visita')) {
+            estadoClase = 'estado-visita';
+            totalEquiposFase2Pendientes += posibles;
+        }
 
         // Determinar badge para Tipo Equipos
         let tipoClase = '';
@@ -151,6 +161,7 @@ function renderFase2Table(data) {
     
     // Actualizar KPI de Fase 2
     document.getElementById('kpi-f2-equipos').innerText = totalEquiposFase2Completados;
+    document.getElementById('kpi-f2-pendientes').innerText = totalEquiposFase2Pendientes;
 }
 
 function updateMeta() {
