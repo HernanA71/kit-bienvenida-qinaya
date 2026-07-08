@@ -94,6 +94,7 @@ function renderFase2Table(data) {
     let html = '';
     totalEquiposFase2Completados = 0;
     let totalEquiposFase2Pendientes = 0;
+    let colegiosFase2Completados = new Set();
 
     // Ordenar por fecha de más reciente a más antigua (robusto para YYYY-MM-DD)
     const renderData = [...data].sort((a, b) => {
@@ -144,6 +145,7 @@ function renderFase2Table(data) {
             estadoClase = 'estado-completado';
             // Sumamos los posibles a equipos completados
             totalEquiposFase2Completados += posibles;
+            colegiosFase2Completados.add(colegio.trim());
         }
         else if (estLower.includes('visita')) {
             estadoClase = 'estado-visita';
@@ -175,7 +177,8 @@ function renderFase2Table(data) {
 
     tableBody.innerHTML = html;
     
-    // Actualizar KPI de Fase 2
+    // Actualizar KPIs de la parte superior (Nuevos equipos y pendientes y Colegios Fase 2)
+    document.getElementById('kpi-f2-sedes').innerText = colegiosFase2Completados.size;
     document.getElementById('kpi-f2-equipos').innerText = totalEquiposFase2Completados;
     document.getElementById('kpi-f2-pendientes').innerText = totalEquiposFase2Pendientes;
 }
