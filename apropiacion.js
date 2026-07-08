@@ -644,9 +644,12 @@ function renderTable() {
         }
 
         // Definir qué texto mostrar al lado del icono
-        let valorAMostrar = estadoManual || (parseInt(item.solicitudes_post) + parseInt(item.visitas_tecnicas) > 0 ? 'Pendiente' : 'ok');
+        let valorAMostrar = estadoManual || ((parseInt(item.solicitudes_post) + parseInt(item.visitas_tecnicas) > 0 || tienePendientesEnTexto) ? 'Pendiente' : 'ok');
         if (estadoManual === 'ok') valorAMostrar = 'ok';
         if (estadoManual === 'fallo') valorAMostrar = 'fallo';
+
+        // Si el colegio no se instaló (Fase 0), forzamos la rayita en la columna de soporte
+        const mostrarRayita = isFaseCero(item) || !(tieneSolicitudNum || item.visitas_tecnicas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle');
 
         return `
             <tr>
@@ -668,8 +671,8 @@ function renderTable() {
                         ${btnSeg}
                     </div>
                 </td>
-                <td style="color: ${visitColor}; font-weight: bold;">
-                    ${(tieneSolicitudNum || item.visitas_tecnicas > 0 || estadoManual !== '' || visitIcon === 'fa-exclamation-circle') ? `<i class="fas ${visitIcon}"></i> ${valorAMostrar}` : '-'}
+                <td style="color: ${mostrarRayita ? 'var(--text-muted)' : visitColor}; font-weight: bold;">
+                    ${mostrarRayita ? '-' : `<i class="fas ${visitIcon}"></i> ${valorAMostrar}`}
                 </td>
             </tr>
         `;
