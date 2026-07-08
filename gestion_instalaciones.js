@@ -95,8 +95,12 @@ function renderFase2Table(data) {
     totalEquiposFase2Completados = 0;
     let totalEquiposFase2Pendientes = 0;
 
-    // Respetar el orden original (el usuario ya pone los más recientes arriba en su Sheet)
-    const renderData = data;
+    // Ordenar por fecha de más reciente a más antigua
+    const renderData = [...data].sort((a, b) => {
+        const dateA = new Date(a['Fecha Contacto'] || a['Fecha'] || '1970-01-01');
+        const dateB = new Date(b['Fecha Contacto'] || b['Fecha'] || '1970-01-01');
+        return dateB - dateA;
+    });
 
     renderData.forEach(row => {
         // Extraer valores con nombres de columna (pueden variar un poco, usamos fallback seguro)
