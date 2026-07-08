@@ -95,11 +95,18 @@ function renderFase2Table(data) {
     totalEquiposFase2Completados = 0;
     let totalEquiposFase2Pendientes = 0;
 
-    // Ordenar por fecha de más reciente a más antigua
+    // Ordenar por fecha de más reciente a más antigua (robusto para YYYY-MM-DD)
     const renderData = [...data].sort((a, b) => {
-        const dateA = new Date(a['Fecha Contacto'] || a['Fecha'] || '1970-01-01');
-        const dateB = new Date(b['Fecha Contacto'] || b['Fecha'] || '1970-01-01');
-        return dateB - dateA;
+        let valA = String(a['Fecha Contacto'] || a['Fecha'] || '').trim();
+        let valB = String(b['Fecha Contacto'] || b['Fecha'] || '').trim();
+        // Si no hay fecha, mandarlo al fondo
+        if (!valA) valA = '0000-00-00';
+        if (!valB) valB = '0000-00-00';
+        
+        // Comparación alfabética inversa funciona perfecto para formato YYYY-MM-DD
+        if (valA > valB) return -1;
+        if (valA < valB) return 1;
+        return 0;
     });
 
     renderData.forEach(row => {
