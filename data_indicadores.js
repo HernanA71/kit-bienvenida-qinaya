@@ -3,9 +3,9 @@ const dataIndicadores = {
         "sesiones_promedio_dia": 3.5,
         "dias_habiles_periodo": 44,
         "sesiones_mes_estimadas": 154,
-        "total_colegios": 30,
-        "promedio_autonomia_global": 98.94,
-        "promedio_soportes_colegio_mes": 1.63
+        "total_colegios": 29,
+        "promedio_autonomia_global": 98.90,
+        "promedio_soportes_colegio_mes": 1.69
     },
     "detalle_colegios": [
         {
@@ -192,13 +192,6 @@ const dataIndicadores = {
         },
         {
             "colegio": "Colegio La Estrella del Sur",
-            "total_sesiones_estimadas": 154,
-            "soportes_requeridos": 0,
-            "sesiones_sin_soporte": 154,
-            "indicador_q07": 100.0
-        },
-        {
-            "colegio": "Colegio Union Europea",
             "total_sesiones_estimadas": 154,
             "soportes_requeridos": 0,
             "sesiones_sin_soporte": 154,
