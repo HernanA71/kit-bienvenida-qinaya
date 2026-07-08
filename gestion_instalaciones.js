@@ -116,7 +116,12 @@ function renderFase2Table(data) {
         // Determinar badge para Estado
         let estadoClase = 'estado-default';
         const estLower = estado.toLowerCase();
-        if (estLower.includes('pendiente') || estLower.includes('contactar')) {
+        
+        if (estLower.includes('no se pudo')) {
+            estadoClase = 'estado-fallido';
+            // No suma ni a completados ni a pendientes
+        }
+        else if (estLower.includes('pendiente') || estLower.includes('contactar')) {
             estadoClase = 'estado-pendiente';
             totalEquiposFase2Pendientes += posibles;
         }
