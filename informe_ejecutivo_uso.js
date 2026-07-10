@@ -29,8 +29,8 @@ class QinayaAPI {
         this.proxy    = config.CORS_PROXY;
         this.headers  = config.HEADERS;
         this.timeout  = config.TIMEOUT;
-        // Forzar proxy en local o si falla
-        this.useProxy = window.location.protocol === 'file:';
+        // Intentar siempre conexión directa primero
+        this.useProxy = false;
     }
 
     async request(endpoint, params = {}) {
