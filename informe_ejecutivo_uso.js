@@ -80,42 +80,7 @@ class QinayaAPI {
     }
 }
 
-// Datos de demostración en caso de fallo de API
-const DEMO_DATA = {
-    generateComputers() {
-        const apps = ['Chrome', 'QinayaDeskLauncher', 'Scratch', 'TinkerCAD', 'Word'];
-        const sites = [];
-        for (let i = 1; i <= 29; i++) sites.push(`Colegio Piloto ${i}`);
-        
-        const pcs = [];
-        sites.forEach(s => {
-            const count = 5 + Math.floor(Math.random() * 25);
-            for (let i = 0; i < count; i++) {
-                const loc = parseFloat((10 + Math.random() * 90).toFixed(2));
-                const vm = parseFloat((Math.random() * 5).toFixed(2));
-                pcs.push({
-                    id: `PC-${Math.floor(Math.random()*10000)}`,
-                    site: s,
-                    status: 'online',
-                    localHours: loc,
-                    vmHours: vm,
-                    totalHours: parseFloat((loc + vm).toFixed(2)),
-                    topApp: apps[Math.floor(Math.random() * apps.length)]
-                });
-            }
-        });
-        return pcs;
-    },
-    generateWebsites() {
-        return [
-            { name: 'www.google.com', visits: 1200 },
-            { name: 'www.youtube.com', visits: 850 },
-            { name: 'scratch.mit.edu', visits: 420 },
-            { name: 'tinkercad.com', visits: 310 },
-            { name: 'colombiaaprende.edu.co', visits: 250 }
-        ];
-    }
-};
+// Eliminado DEMO_DATA para mostrar solo datos reales
 
 // ============================================
 // LÓGICA DEL REPORTE
@@ -128,15 +93,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     document.getElementById('fecha-hoy').textContent = new Date().toLocaleDateString('es-ES', options);
 
-    // Configurar selectores de fecha (por defecto últimos 30 días)
+    // Configurar selectores de fecha por defecto
+    // Para que muestre todos los datos iniciales, pondremos desde el inicio del proyecto (marzo 2026)
+    const projectStart = new Date(2026, 2, 4); // 4 de marzo de 2026
     const today = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(today.getDate() - 30);
 
     const fromInput = document.getElementById('dateFrom');
     const toInput = document.getElementById('dateTo');
     
-    fromInput.value = formatDate(thirtyDaysAgo);
+    fromInput.value = formatDate(projectStart);
     toInput.value = formatDate(today);
 
     document.getElementById('btnConsultar').addEventListener('click', loadData);
@@ -164,14 +129,14 @@ async function loadData() {
             api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until)
         ]);
         
-        // Validar si la API devolvió estructura válida, si no, usar demo
-        if (!Array.isArray(pcData) || pcData.length === 0) {
-            throw new Error("Datos vacíos");
-        }
+        if (!Array.isArray(pcData)) pcData = [];
+        if (!Array.isArray(websiteData)) websiteData = [];
+        
     } catch (e) {
-        console.warn("Fallo al conectar con la API, usando datos demo. Error:", e);
-        pcData = DEMO_DATA.generateComputers();
-        websiteData = DEMO_DATA.generateWebsites();
+        console.error("Fallo al conectar con la API:", e);
+        pcData = [];
+        websiteData = [];
+        alert("Hubo un error al conectar con la base de datos. Por favor intenta de nuevo más tarde o verifica tu conexión.");
     }
 
     processReportData(pcData, websiteData);
