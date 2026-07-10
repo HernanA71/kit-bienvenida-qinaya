@@ -29,7 +29,8 @@ class QinayaAPI {
         this.proxy    = config.CORS_PROXY;
         this.headers  = config.HEADERS;
         this.timeout  = config.TIMEOUT;
-        this.useProxy = false;
+        // Forzar proxy en local o si falla
+        this.useProxy = window.location.protocol === 'file:';
     }
 
     async request(endpoint, params = {}) {
@@ -124,10 +125,9 @@ async function loadData() {
     let pcData, websiteData;
 
     try {
-        [pcData, websiteData] = await Promise.all([
-            api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until),
-            api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until)
-        ]);
+        // Ejecución secuencial para mayor estabilidad con el proxy CORS gratuito
+        pcData = await api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until);
+        websiteData = await api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until);
         
         if (!Array.isArray(pcData)) pcData = [];
         if (!Array.isArray(websiteData)) websiteData = [];
@@ -197,6 +197,9 @@ function processReportData(pcData, websiteData) {
     renderColegiosTable('tableTopColegios', top5);
     renderColegiosTable('tableBottomColegios', bottom5);
 
+    // Renderizar Gráfico
+    renderComputeTypeChart(totalLocal, totalVM);
+
     // 3. Procesar Apps
     const appsArray = Array.from(appsMap.entries()).map(([name, count]) => ({ name, count }));
     appsArray.sort((a, b) => b.count - a.count);
@@ -253,5 +256,43 @@ function renderWebsTable(data) {
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs aprox.</td>
         `;
         tbody.appendChild(tr);
+    });
+}
+
+let computeChart = null;
+function renderComputeTypeChart(totalLocal, totalVM) {
+    const ctx = document.getElementById('computeTypeChart');
+    if (!ctx) return;
+    
+    if (computeChart) computeChart.destroy();
+    
+    Chart.defaults.font.family = 'Outfit';
+    
+    computeChart = new Chart(ctx.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Máquina Virtual (VDI)', 'Equipo Local'],
+            datasets: [{
+                data: [totalVM.toFixed(1), totalLocal.toFixed(1)],
+                backgroundColor: ['rgba(138,43,226,0.7)', 'rgba(0,210,255,0.7)'],
+                borderColor:     ['rgba(138,43,226,1)',   'rgba(0,210,255,1)'],
+                borderWidth: 2, hoverOffset: 10, spacing: 4, borderRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '65%',
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 10, boxWidth: 12, boxHeight: 12, font: {size: 11} } },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => {
+                            const total = ctx.dataset.data.reduce((a, b) => parseFloat(a) + parseFloat(b), 0);
+                            const pct   = ((parseFloat(ctx.parsed) / total) * 100).toFixed(1);
+                            return ` ${ctx.label}: ${ctx.parsed} hrs (${pct}%)`;
+                        }
+                    }
+                }
+            }
+        }
     });
 }

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         /* ============================================
@@ -69,7 +71,7 @@
             background: var(--bg-doc);
             box-shadow: var(--shadow-doc);
             border-top: 6px solid var(--blue-qinaya);
-            padding: 50px 60px;
+            padding: 40px 40px;
             border-radius: 4px;
             position: relative;
         }
@@ -142,8 +144,8 @@
             background: var(--blue-qinaya-light);
             border: 1px solid #bfdbfe;
             border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 40px;
+            padding: 15px;
+            margin-bottom: 25px;
         }
         .summary-item { flex: 1; text-align: center; border-right: 1px solid #bfdbfe; }
         .summary-item:last-child { border-right: none; }
@@ -264,6 +266,19 @@
             </div>
         </div>
 
+        <!-- Gráfico de Uso -->
+        <div class="chart-section" style="height: 220px; margin-bottom: 25px; display: flex; justify-content: center; align-items: center; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 10px;">
+            <div style="width: 220px; height: 100%;">
+                <canvas id="computeTypeChart"></canvas>
+            </div>
+            <div style="margin-left: 20px; font-size: 0.85rem; color: var(--text-secondary);">
+                <strong>Distribución de Trabajo:</strong><br>
+                El gráfico refleja qué porcentaje del tiempo<br>
+                los estudiantes utilizaron las capacidades de la<br>
+                nube (VDI) frente al procesamiento local (offline).
+            </div>
+        </div>
+
         <!-- Colegios -->
         <div class="grid-2-cols">
             <div>
@@ -346,6 +361,6 @@
     </div>
 
     <!-- Lógica JS -->
-    <script src="informe_ejecutivo_uso.js"></script>
+    <script src="informe_ejecutivo_uso.js?v=1.2"></script>
 </body>
 </html>
