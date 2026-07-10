@@ -135,12 +135,20 @@ async function loadData() {
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
 
-    let pcData, websiteData;
+    let pcData, websiteData, instalacionesData;
 
     try {
         // Ejecución secuencial para mayor estabilidad con el proxy CORS gratuito
         pcData = await api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until);
         websiteData = await api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until);
+        
+        try {
+            const res = await fetch(CONFIG.INSTALACIONES_SHEET_URL);
+            instalacionesData = await res.json();
+        } catch (e) {
+            console.warn("No se pudo cargar hoja de instalaciones", e);
+            instalacionesData = [];
+        }
         
         if (!Array.isArray(pcData)) pcData = [];
         if (!Array.isArray(websiteData)) websiteData = [];
@@ -159,11 +167,11 @@ async function loadData() {
     let daysCount = getBusinessDays(sinceDate, untilDate);
     if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
 
-    processReportData(pcData, websiteData, daysCount);
+    processReportData(pcData, websiteData, instalacionesData, daysCount, sinceDate, untilDate);
     showLoading(false);
 }
 
-function processReportData(pcData, websiteData, daysCount) {
+function processReportData(pcData, websiteData, instalacionesData, daysCount, sinceDate, untilDate) {
     // 1. KPIs Globales
     const totalEquipos = pcData.length;
     let totalLocal = 0;
@@ -197,9 +205,41 @@ function processReportData(pcData, websiteData, daysCount) {
     });
 
     // 2. Procesar Colegios para obtener promedios por colegio primero
+    const mapInstalaciones = new Map();
+    if (Array.isArray(instalacionesData)) {
+        instalacionesData.forEach(row => {
+            if (row.colegio && row["fecha de instalación"]) {
+                mapInstalaciones.set(row.colegio.toLowerCase().trim(), new Date(row["fecha de instalación"]));
+            }
+        });
+    }
+
     const colegiosArray = Array.from(colegiosMap.values()).map(c => {
         c.avgHours = c.count > 0 ? (c.totalHours / c.count) : 0;
-        c.avgDailyHours = c.avgHours / daysCount;
+        
+        // Buscar si el colegio tiene una fecha de instalación específica
+        let schoolDaysCount = daysCount;
+        const nombreBuscado = c.name.toLowerCase().trim();
+        let fechaInst = mapInstalaciones.get(nombreBuscado);
+        
+        if (!fechaInst) {
+            // Intentar búsqueda parcial si no hay coincidencia exacta
+            for (let [key, val] of mapInstalaciones.entries()) {
+                if (nombreBuscado.includes(key) || key.includes(nombreBuscado)) {
+                    fechaInst = val;
+                    break;
+                }
+            }
+        }
+        
+        if (fechaInst) {
+            // Si la fecha de instalación es posterior al inicio del reporte, contamos desde instalación
+            const startCalcDate = fechaInst > sinceDate ? fechaInst : sinceDate;
+            schoolDaysCount = getBusinessDays(startCalcDate, untilDate);
+            if (schoolDaysCount < 1) schoolDaysCount = 1;
+        }
+
+        c.avgDailyHours = c.avgHours / schoolDaysCount;
         return c;
     });
 
@@ -269,12 +309,14 @@ function renderColegiosTable(elementId, data) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
+        const displayDaily = item.avgDailyHours > 0 && item.avgDailyHours < 0.1 ? '< 0.1' : item.avgDailyHours.toFixed(1);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados">${item.count}</span></td>
             <td><strong>${displayAvg} hrs</strong></td>
+            <td><strong style="color: #ea580c;">${displayDaily} hrs</strong></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
