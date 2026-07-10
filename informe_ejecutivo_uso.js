@@ -201,6 +201,10 @@ function processReportData(pcData, websiteData) {
     renderColegiosTable('tableTopColegios', top5);
     renderColegiosTable('tableBottomColegios', bottom5);
 
+    // Renderizar Detalle de Todos los Colegios (Ordenado Alfabéticamente)
+    const allColegios = colegiosArray.slice().sort((a, b) => a.name.localeCompare(b.name));
+    renderColegiosTable('tableAllColegios', allColegios);
+
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
 
