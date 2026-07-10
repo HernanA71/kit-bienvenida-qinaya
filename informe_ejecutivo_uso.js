@@ -153,11 +153,15 @@ function processReportData(pcData, websiteData) {
     const appsMap = new Map();
 
     pcData.forEach(pc => {
+        const site = pc.site || 'Sin Asignar';
+        
+        // Excluir colegios de prueba o demostración
+        if (site === 'Colegio La Bici') return;
+
         totalLocal += pc.localHours || 0;
         totalVM += pc.vmHours || 0;
         
         // Agrupar por colegio
-        const site = pc.site || 'Sin Asignar';
         if (!colegiosMap.has(site)) {
             colegiosMap.set(site, { name: site, count: 0, totalHours: 0 });
         }
