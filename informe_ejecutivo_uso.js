@@ -139,11 +139,16 @@ async function loadData() {
         alert("Hubo un error al conectar con la base de datos. Por favor intenta de nuevo más tarde o verifica tu conexión.");
     }
 
-    processReportData(pcData, websiteData);
+    const sinceDate = new Date(since + 'T00:00:00');
+    const untilDate = new Date(until + 'T23:59:59');
+    let daysCount = Math.round((untilDate - sinceDate) / (1000 * 60 * 60 * 24));
+    if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
+
+    processReportData(pcData, websiteData, daysCount);
     showLoading(false);
 }
 
-function processReportData(pcData, websiteData) {
+function processReportData(pcData, websiteData, daysCount) {
     // 1. KPIs Globales
     const totalEquipos = pcData.length;
     let totalLocal = 0;
@@ -178,17 +183,20 @@ function processReportData(pcData, websiteData) {
 
     const totalHoras = totalLocal + totalVM;
     const promedioGeneral = totalEquipos > 0 ? (totalHoras / totalEquipos) : 0;
+    const promedioDiario = promedioGeneral / daysCount;
     const porcentajeVM = totalHoras > 0 ? ((totalVM / totalHoras) * 100) : 0;
 
     document.getElementById('kpi-equipos').textContent = totalEquipos.toLocaleString();
     document.getElementById('kpi-colegios').textContent = colegiosMap.size.toLocaleString();
     document.getElementById('kpi-promedio').textContent = promedioGeneral.toFixed(1) + ' hrs';
+    document.getElementById('kpi-promedio-diario').textContent = promedioDiario.toFixed(1) + ' hrs';
     document.getElementById('kpi-horas').textContent = Math.round(totalHoras).toLocaleString() + ' hrs';
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
     // 2. Procesar Colegios (Top y Bottom)
     const colegiosArray = Array.from(colegiosMap.values()).map(c => {
         c.avgHours = c.count > 0 ? (c.totalHours / c.count) : 0;
+        c.avgDailyHours = c.avgHours / daysCount;
         return c;
     });
 
@@ -235,6 +243,7 @@ function renderColegiosTable(elementId, data) {
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados">${item.count}</span></td>
             <td><strong>${item.avgHours.toFixed(1)} hrs</strong></td>
+            <td><strong style="color: #ea580c;">${item.avgDailyHours.toFixed(1)} hrs</strong></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
