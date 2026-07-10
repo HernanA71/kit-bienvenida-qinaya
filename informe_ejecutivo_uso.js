@@ -23,6 +23,19 @@ function formatDate(date) {
     return `${y}-${m}-${d}`;
 }
 
+function getBusinessDays(startDate, endDate) {
+    let count = 0;
+    let curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+        const dayOfWeek = curDate.getDay();
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Lunes a Viernes
+            count++;
+        }
+        curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+}
+
 class QinayaAPI {
     constructor(config) {
         this.baseURL  = config.API_BASE_URL;
@@ -141,7 +154,9 @@ async function loadData() {
 
     const sinceDate = new Date(since + 'T00:00:00');
     const untilDate = new Date(until + 'T23:59:59');
-    let daysCount = Math.round((untilDate - sinceDate) / (1000 * 60 * 60 * 24));
+    
+    // Calcular solo días hábiles (lunes a viernes) escolares
+    let daysCount = getBusinessDays(sinceDate, untilDate);
     if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
 
     processReportData(pcData, websiteData, daysCount);
@@ -238,12 +253,16 @@ function renderColegiosTable(elementId, data) {
 
     data.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
+        
+        const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
+        const displayDaily = item.avgDailyHours > 0 && item.avgDailyHours < 0.1 ? '< 0.1' : item.avgDailyHours.toFixed(1);
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados">${item.count}</span></td>
-            <td><strong>${item.avgHours.toFixed(1)} hrs</strong></td>
-            <td><strong style="color: #ea580c;">${item.avgDailyHours.toFixed(1)} hrs</strong></td>
+            <td><strong>${displayAvg} hrs</strong></td>
+            <td><strong style="color: #ea580c;">${displayDaily} hrs</strong></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
