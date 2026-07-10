@@ -26,9 +26,16 @@ function formatDate(date) {
 function getBusinessDays(startDate, endDate) {
     let count = 0;
     let curDate = new Date(startDate.getTime());
+    
+    // Vacaciones: Junio 16 a Julio 3 de 2026
+    const vacacionInicio = new Date('2026-06-16T00:00:00');
+    const vacacionFin = new Date('2026-07-03T23:59:59');
+
     while (curDate <= endDate) {
         const dayOfWeek = curDate.getDay();
-        if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Lunes a Viernes
+        const enVacaciones = (curDate >= vacacionInicio && curDate <= vacacionFin);
+
+        if (dayOfWeek !== 0 && dayOfWeek !== 6 && !enVacaciones) { // Lunes a Viernes y no vacaciones
             count++;
         }
         curDate.setDate(curDate.getDate() + 1);
