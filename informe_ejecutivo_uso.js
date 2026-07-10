@@ -196,10 +196,30 @@ function processReportData(pcData, websiteData, daysCount) {
         }
     });
 
+    // 2. Procesar Colegios para obtener promedios por colegio primero
+    const colegiosArray = Array.from(colegiosMap.values()).map(c => {
+        c.avgHours = c.count > 0 ? (c.totalHours / c.count) : 0;
+        c.avgDailyHours = c.avgHours / daysCount;
+        return c;
+    });
+
+    // Calcular promedio general total
     const totalHoras = totalLocal + totalVM;
     const promedioGeneral = totalEquipos > 0 ? (totalHoras / totalEquipos) : 0;
-    const promedioDiario = promedioGeneral / daysCount;
     const porcentajeVM = totalHoras > 0 ? ((totalVM / totalHoras) * 100) : 0;
+
+    // Calcular Promedio Diario EFECTIVO (solo con colegios que sí lo usan regularmente, ej. > 1 hr/día)
+    // para que los colegios recién instalados no tiren el promedio general al piso.
+    const colegiosActivos = colegiosArray.filter(c => c.avgDailyHours >= 1.0);
+    let horasActivos = 0;
+    let equiposActivos = 0;
+    colegiosActivos.forEach(c => {
+        horasActivos += c.totalHours;
+        equiposActivos += c.count;
+    });
+    
+    // Si por alguna razón no hay ninguno mayor a 1, hacemos fallback al general
+    let promedioDiario = equiposActivos > 0 ? (horasActivos / equiposActivos) / daysCount : (promedioGeneral / daysCount);
 
     document.getElementById('kpi-equipos').textContent = totalEquipos.toLocaleString();
     document.getElementById('kpi-colegios').textContent = colegiosMap.size.toLocaleString();
@@ -208,12 +228,6 @@ function processReportData(pcData, websiteData, daysCount) {
     document.getElementById('kpi-horas').textContent = Math.round(totalHoras).toLocaleString() + ' hrs';
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
-    // 2. Procesar Colegios (Top y Bottom)
-    const colegiosArray = Array.from(colegiosMap.values()).map(c => {
-        c.avgHours = c.count > 0 ? (c.totalHours / c.count) : 0;
-        c.avgDailyHours = c.avgHours / daysCount;
-        return c;
-    });
 
     // Ordenar por promedio de horas
     colegiosArray.sort((a, b) => b.avgHours - a.avgHours);
