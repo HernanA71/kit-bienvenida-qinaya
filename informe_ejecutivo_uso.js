@@ -269,14 +269,12 @@ function renderColegiosTable(elementId, data) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
-        const displayDaily = item.avgDailyHours > 0 && item.avgDailyHours < 0.1 ? '< 0.1' : item.avgDailyHours.toFixed(1);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados">${item.count}</span></td>
             <td><strong>${displayAvg} hrs</strong></td>
-            <td><strong style="color: #ea580c;">${displayDaily} hrs</strong></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
