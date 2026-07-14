@@ -245,8 +245,12 @@ function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount,
         colData.totalHours += pc.totalHours || 0;
         
         // Agrupar por App
-        const app = pc.topApp || 'N/A';
+        let app = pc.topApp || 'N/A';
         if (app !== 'N/A' && app !== '') {
+            let lowerApp = app.toLowerCase().trim();
+            if (lowerApp === 'chrome' || lowerApp === 'msedge' || lowerApp === 'edge') {
+                app = 'Navegadores (Plataformas Web)';
+            }
             if (!appsMap.has(app)) appsMap.set(app, { count: 0, hours: 0 });
             const a = appsMap.get(app);
             a.count += 1;
@@ -336,8 +340,8 @@ function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount,
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
 
-    // 3. Procesar Apps (Filtrando sistema y webs)
-    const ignoreApps = ['chrome', 'msedge', 'explorer', 'taskmgr', 'qinayadesklauncher', 'systemsettings', 'searchapp', 'applicationframehost', 'minstall', 'tinkercad', 'zzzfm'];
+    // 3. Procesar Apps (Filtrando sistema y webs, respetando navegadores renombrados)
+    const ignoreApps = ['explorer', 'taskmgr', 'qinayadesklauncher', 'systemsettings', 'searchapp', 'applicationframehost', 'minstall', 'tinkercad', 'zzzfm'];
     let appsArray = Array.from(appsMap.entries()).map(([name, data]) => ({ name, count: data.count, hours: data.hours }));
     appsArray = appsArray.filter(a => {
         const appName = a.name.toLowerCase().trim();
