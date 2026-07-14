@@ -220,7 +220,10 @@ function processReportData(pcData, websiteData, instalacionesData, daysCount, si
         // Agrupar por App
         const app = pc.topApp || 'N/A';
         if (app !== 'N/A' && app !== '') {
-            appsMap.set(app, (appsMap.get(app) || 0) + 1);
+            if (!appsMap.has(app)) appsMap.set(app, { count: 0, hours: 0 });
+            const a = appsMap.get(app);
+            a.count += 1;
+            a.hours += (pc.totalHours || 0);
         }
     });
 
@@ -306,12 +309,12 @@ function processReportData(pcData, websiteData, instalacionesData, daysCount, si
 
     // 3. Procesar Apps (Filtrando sistema)
     const ignoreApps = ['chrome', 'msedge', 'explorer', 'taskmgr', 'qinayadesklauncher', 'systemsettings', 'searchapp', 'applicationframehost', 'minstall'];
-    let appsArray = Array.from(appsMap.entries()).map(([name, count]) => ({ name, count }));
+    let appsArray = Array.from(appsMap.entries()).map(([name, data]) => ({ name, count: data.count, hours: data.hours }));
     appsArray = appsArray.filter(a => {
-        const appName = a.name.toLowerCase();
+        const appName = a.name.toLowerCase().trim();
         return !ignoreApps.some(ignore => appName.includes(ignore));
     });
-    appsArray.sort((a, b) => b.count - a.count);
+    appsArray.sort((a, b) => b.hours - a.hours);
     renderAppsTable(appsArray.slice(0, 10));
 
     // 4. Procesar Webs (Filtrando sistema y newtab)
@@ -359,7 +362,8 @@ function renderAppsTable(data) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
-            <td><span class="badge badge-wifi">${item.count} equipos</span> la tienen como principal</td>
+            <td><span class="badge badge-wifi">${item.count} equipos</span></td>
+            <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs aprox.</td>
         `;
         tbody.appendChild(tr);
     });

@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descripción Técnica de la Mesa de Servicios y SLA | Qinaya</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f3460;
+            --primary-light: #1a5276;
+            --accent: #0077b6;
+            --accent-light: #00b4d8;
+            --success: #06d6a0;
+            --warning: #ff8800;
+            --danger: #ef476f;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: linear-gradient(135deg, #667eea10 0%, #764ba220 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Botón Imprimir */
+        .btn-print {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 8px 25px rgba(15, 52, 96, 0.3);
+            border: none;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(15, 52, 96, 0.4);
+        }
+
+        .btn-back {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Documento */
+        .document {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 60px 70px;
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+        }
+
+        /* Header del documento */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .doc-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 32px;
+            color: var(--primary);
+            letter-spacing: -1.5px;
+        }
+
+        .brand-sub {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .doc-meta {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .doc-meta strong {
+            color: var(--primary);
+            font-size: 13px;
+        }
+
+        .doc-type-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        /* Título principal */
+        .doc-title {
+            text-align: center;
+            margin: 30px 0 25px;
+        }
+
+        .doc-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .doc-title .subtitle {
+            font-size: 13.5px;
+            color: var(--text-light);
+            font-weight: 400;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* Secciones */
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 35px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 .section-number {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        h3 {
+            font-size: 14.5px;
+            color: var(--primary-light);
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        p, li {
+            font-size: 13.5px;
+            margin-bottom: 10px;
+            text-align: left;
+            color: var(--text);
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        /* Tarjeta de Canales */
+        .channel-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .channel-image-container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .channel-image {
+            max-width: 100%;
+            max-height: 240px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+            object-fit: contain;
+        }
+
+        /* Callout Cards */
+        .callout {
+            padding: 18px 22px;
+            margin: 18px 0;
+            border-radius: 10px;
+            border-left: 5px solid;
+        }
+
+        .callout-info {
+            background: #eff6ff;
+            border-color: var(--accent);
+        }
+
+        .callout-success {
+            background: #f0fdf4;
+            border-color: var(--success);
+        }
+
+        .callout-warning {
+            background: #fffbeb;
+            border-color: var(--warning);
+        }
+
+        .callout-highlight {
+            background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+            border-color: var(--primary);
+        }
+
+        .callout h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .callout p, .callout li {
+            font-size: 13px;
+        }
+
+        /* Tabla de SLA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12.5px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Badges de Prioridad y Nivel */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-alta {
+            background: #fee2e2;
+            color: #ef476f;
+            border: 1px solid #fca5a5;
+        }
+
+        .badge-media {
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fde68a;
+        }
+
+        .badge-baja {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .badge-nivel1 {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+        }
+
+        .badge-nivel2 {
+            background: #e0e7ff;
+            color: #4338ca;
+            border: 1px solid #c7d2fe;
+        }
+
+        .badge-nivel3 {
+            background: #faf5ff;
+            color: #7e22ce;
+            border: 1px solid #e9d5ff;
+        }
+
+        /* Niveles de Soporte Grid */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .level-card {
+            background: var(--border-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .level-card.l1::before {
+            background: var(--accent);
+        }
+
+        .level-card.l2::before {
+            background: #8a2be2;
+        }
+
+        .level-card.l3::before {
+            background: var(--primary);
+        }
+
+        .level-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .level-desc {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .level-channels {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        /* Footer */
+        .doc-footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+            font-size: 11px;
+            color: var(--text-light);
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* Firma */
+        .signature-block {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            page-break-inside: avoid;
+        }
+
+        .signature-line {
+            border-top: 1px solid var(--text-light);
+            margin-top: 45px;
+            padding-top: 8px;
+            font-size: 12px;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .signature-line strong {
+            color: var(--primary);
+        }
+
+        /* Page breaks para impresión */
+        .page-break {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .document {
+                box-shadow: none;
+                padding: 20px 35px !important;
+                border-radius: 0;
+                max-width: 100%;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .page-break {
+                display: block;
+                page-break-before: always;
+            }
+
+            .channel-card {
+                box-shadow: none;
+                border: 1px solid var(--border);
+                page-break-inside: avoid;
+                padding: 20px !important;
+                margin: 15px 0 !important;
+            }
+
+            .channel-grid {
+                display: grid !important;
+                grid-template-columns: 1.25fr 0.75fr !important;
+                gap: 20px !important;
+                align-items: center !important;
+            }
+
+            .channel-image-container {
+                text-align: right !important;
+            }
+
+            .channel-image {
+                max-width: 100% !important;
+                max-height: 220px !important;
+                height: auto !important;
+                width: auto !important;
+                object-fit: contain !important;
+                border-radius: 8px !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+            }
+
+            h2 {
+                margin-top: 20px !important;
+                margin-bottom: 8px !important;
+                padding-bottom: 5px !important;
+                page-break-inside: avoid;
+            }
+
+            h3 {
+                margin-top: 12px !important;
+                margin-bottom: 6px !important;
+            }
+
+            p, li {
+                margin-bottom: 6px !important;
+                font-size: 13px !important;
+                text-align: left !important;
+            }
+
+            .level-card {
+                padding: 12px !important;
+                page-break-inside: avoid;
+            }
+
+            .levels-grid {
+                gap: 10px !important;
+                margin: 10px 0 !important;
+                page-break-inside: avoid;
+            }
+
+            .callout {
+                page-break-inside: avoid;
+                padding: 12px 16px !important;
+                margin: 12px 0 !important;
+            }
+
+            table {
+                page-break-inside: auto;
+                margin: 10px 0 !important;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
+            th, td {
+                padding: 8px 10px !important;
+                font-size: 11.5px !important;
+            }
+
+            .signature-block {
+                margin-top: 30px !important;
+            }
+
+            .signature-line {
+                margin-top: 25px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="btn-back no-print"><i class="fas fa-home"></i> Inicio / Kit de Bienvenida</a>
+    <button class="btn-print no-print" onclick="window.print()"><i class="fas fa-print"></i> Imprimir / Guardar
+        PDF</button>
+
+    <div class="document">
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="doc-header-left">
+                <img src="logo Qinaya.png" alt="Logo Qinaya" style="height: 60px; object-fit: contain; display: block; margin: 0;">
+            </div>
+            <div class="doc-meta">
+                <span class="doc-type-badge">Informe Técnico</span><br>
+                <strong>Mesa de Servicios y SLA</strong><br>
+                Fecha de vigencia: Julio 2026<br>
+                Versión: 1.0 — Oficial para SED
+            </div>
+        </div>
+
+        <div class="doc-title">
+            <h1>Descripción Técnica de la Mesa de Servicios y Ayuda</h1>
+            <p class="subtitle">Documento oficial con la descripción de canales, niveles de atención y Acuerdos de
+                Niveles de Servicio (SLA) para el soporte técnico y acompañamiento del proyecto Qinaya en las
+                Instituciones Educativas Distritales.</p>
+        </div>
+
+        <!-- ===== SECCIÓN 1: RESUMEN EJECUTIVO ===== -->
+        <h2><span class="section-number">1</span> Resumen Ejecutivo</h2>
+        <p>El éxito de la adopción y apropiación tecnológica del ecosistema Qinaya radica no solo en el suministro de
+            infraestructura de punta y acceso a la nube, sino en la solidez de su <strong>Mesa de Servicios y
+                Ayuda</strong>. Este documento detalla la estrategia multicanal diseñada para dar soporte técnico y
+            pedagógico ágil a las instituciones educativas, asegurando que todos los computadores operen con la máxima
+            estabilidad y que los docentes tengan el acompañamiento necesario en tiempo real.</p>
+        <p>A través de la articulación de canales conversacionales inmediatos (WhatsApp), portales de autoformación (Kit
+            de Bienvenida) y sistemas de agendamiento autónomos con IA (QinayaBot), se estructuran tres niveles claros de
+            atención regidos por un estricto acuerdo de niveles de servicio (SLA) adecuado para el entorno educativo
+            público distrital.</p>
+
+        <!-- ===== SECCIÓN 2: ESTRATEGIA DE CANALES ===== -->
+        <h2><span class="section-number">2</span> Canales de Soporte (Mesa de Servicios)</h2>
+        <p>Nuestra Mesa de Ayuda se concibe como una estrategia multicanal que integra inmediatez, disponibilidad de
+            recursos y automatización inteligente:</p>
+
+        <!-- Canal 1: WhatsApp -->
+        <div class="channel-card">
+            <div class="channel-grid">
+                <div>
+                    <h3><i class="fab fa-whatsapp" style="color: #25d366;"></i> 1. Grupos de WhatsApp por Colegio</h3>
+                    <p>Constituye el <strong>medio más eficaz de ayuda inmediata</strong>. Funciona bajo un esquema
+                        personalizado por cada Institución Educativa, donde participan todos los docentes que usan la
+                        sala de cómputo junto a la totalidad del equipo de soporte de Qinaya.</p>
+                    <ul>
+                        <li><strong>Atención en tiempo real:</strong> Respuesta y asesoría ágil frente a cualquier
+                            requerimiento técnico imprevisto que surja con algún computador durante el desarrollo de las clases.</li>
+                        <li><strong>Agendamiento técnico preventivo:</strong> Programación de visitas técnicas en sitio de forma coordinada, adaptándose a los días y horas específicos en los que se encuentra el delegado de la Oficina de Tecnología de la Información y las Comunicaciones (OTIC) de la SED.</li>
+                        <li><strong>Coordinación pedagógica:</strong> Canal para programar las jornadas de capacitación técnica y pedagógica de los docentes.</li>
+                    </ul>
+                </div>
+                <div class="channel-image-container">
+                    <img src="grupowhatsaap.png" alt="Grupos de WhatsApp" class="channel-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Canal 2: Portal de Bienvenida -->
+        <div class="channel-card">
+            <div class="channel-grid">
+                <div>
+                    <h3><i class="fas fa-desktop" style="color: var(--accent);"></i> 2. Portal de Bienvenida (Kit Digital Docente)</h3>
+                    <p>Es un portal web interactivo diseñado como un repositorio central de autoformación y documentación técnica y pedagógica. El kit incluye:</p>
+                    <ul>
+                        <li><strong>Tutoriales de Software Clave:</strong> Videos y guías paso a paso de las herramientas más solicitadas por los docentes, tales como <strong>Scratch</strong> (fundamentos y lógica de programación), <strong>MakeCode</strong> (micro:bit), <strong>Arduino</strong> y simulación 3D en <strong>Tinkercad</strong>.</li>
+                        <li><strong>Zona de Juegos Educativos:</strong> Herramientas lúdicas e interactivas creadas para retar y consolidar conocimientos en Scratch, lógica de programación y robótica.</li>
+                        <li><strong>Notebook Inteligente (NotebookLM):</strong> Espacio de consulta interactivo donde la IA asiste en tiempo real a los docentes con los manuales cargados del proyecto.</li>
+                    </ul>
+                </div>
+                <div class="channel-image-container">
+                    <img src="fotokitdebienvenida.png" alt="Portal de Bienvenida" class="channel-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Canal 3: Bot en Línea -->
+        <div class="channel-card">
+            <div class="channel-grid">
+                <div>
+                    <h3><i class="fas fa-robot" style="color: var(--primary-light);"></i> 3. Bot en línea (QinayaBot)</h3>
+                    <p>Asistente virtual de inteligencia artificial integrado directamente en el Portal de Bienvenida:</p>
+                    <ul>
+                        <li><strong>Agendamiento autónomo:</strong> Capacitado para recibir y registrar solicitudes de visita técnica en sitio, interactuando con el usuario para establecer la fecha y hora más conveniente.</li>
+                        <li><strong>Integración con Calendar:</strong> Reporta de manera inmediata las solicitudes de soporte directamente al calendario corporativo de los ingenieros de Qinaya, agilizando el flujo de asignación técnica.</li>
+                        <li><strong>Respuestas automatizadas a FAQs:</strong> Programado para responder al instante dudas comunes de configuración, conectividad o uso básico del ecosistema QinayaLinux y Qinaya Nube.</li>
+                    </ul>
+                </div>
+                <div class="channel-image-container">
+                    <img src="fotobotvisitatecnica.png" alt="QinayaBot de Soporte" class="channel-image">
+                </div>
+            </div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- ===== SECCIÓN 3: NIVELES DE ATENCIÓN ===== -->
+        <h2><span class="section-number">3</span> Niveles de Soporte y Escalabilidad</h2>
+        <p>Para asegurar una correcta gestión y eficiencia en la resolución de incidencias, la Mesa de Servicios de
+            Qinaya opera bajo una estructura jerárquica de <strong>tres niveles de soporte</strong>:</p>
+
+        <div class="levels-grid">
+            <div class="level-card l1">
+                <div class="level-title"><i class="fas fa-headset"></i> Nivel 1</div>
+                <p class="level-desc"><strong>Soporte Inicial de Primera Línea y Acompañamiento Académico:</strong> Atención inmediata a través de
+                    WhatsApp y el Asistente Virtual (QinayaBot). Filtrado de solicitudes, resolución de dudas operativas
+                    básicas, soporte ágil en el aula durante la clase y acompañamiento pedagógico mediante capacitaciones virtuales para los docentes que utilizan la sala.</p>
+                <div class="level-channels">WhatsApp / Chatbot / Capacitación Virtual</div>
+            </div>
+            <div class="level-card l2">
+                <div class="level-title"><i class="fas fa-laptop-code"></i> Nivel 2</div>
+                <p class="level-desc"><strong>Soporte Técnico Especializado Remoto:</strong> Escalado cuando el Nivel 1 no soluciona el requerimiento. Intervención remota del equipo de soporte para configuración y revisión de conexiones a los computadores en la nube, fallas en la red local o remota, diagnóstico de software local que requiera revisión remota, y corrección de incidencias comunes como fallas de audio o aspectos similares.</p>
+                <div class="level-channels">Conexión Remota / Teléfono</div>
+            </div>
+            <div class="level-card l3">
+                <div class="level-title"><i class="fas fa-tools"></i> Nivel 3</div>
+                <p class="level-desc"><strong>Soporte Técnico en Sitio:</strong> Visitas físicas a cargo de nuestros ingenieros especialistas de campo (instaladores de Qinaya) para resolver incidencias complejas y realizar ajustes técnicos directamente relacionados con el funcionamiento de la solución Qinaya (como cableado de red, reconexión física o estabilidad de terminales).</p>
+                <div class="level-channels">Visita Presencial en Sitio</div>
+            </div>
+        </div>
+
+        <!-- ===== SECCIÓN 4: ACUERDOS DE NIVELES DE SERVICIO ===== -->
+        <h2><span class="section-number">4</span> Acuerdos de Niveles de Servicio (SLA)</h2>
+        <p>Los Acuerdos de Niveles de Servicio definen los tiempos de respuesta y solución comprometidos por Qinaya ante
+            el reporte de incidencias en las salas de sistemas escolares. El horario hábil de operación técnica coincide
+            con las jornadas de clase: <strong>Lunes a Viernes de 6:30 a.m. a 5:30 p.m.</strong></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Gravedad de Incidencia</th>
+                    <th style="width: 30%;">Descripción del Impacto</th>
+                    <th style="width: 20%;">Tiempo Actual de Respuesta</th>
+                    <th style="width: 20%;">Tiempo Actual de Solución</th>
+                    <th style="width: 15%;">Límite Contractual (RFP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center"><strong>Incidencias críticas</strong><br><span class="badge badge-alta" style="margin-top: 5px;">Crítica</span></td>
+                    <td><strong>Problemas de conectividad con la nube.</strong> Computadores que tienen inestabilidad de conexiones a la red en donde se revisa si la inestabilidad es local, internet del colegio, o es desde la nube.</td>
+                    <td class="text-center">1 a 2 minutos<br><span style="font-size: 10px; color: var(--text-light);">(Grupo de WhatsApp)</span></td>
+                    <td><strong>Remoto:</strong> 5 a 10 minutos<br><strong>Presencial:</strong> Visita técnica en sitio si es falla de red física local</td>
+                    <td class="text-center"><strong>Máximo 4 horas hábiles</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><strong>Incidencias moderadas</strong><br><span class="badge badge-media" style="margin-top: 5px;">Media</span></td>
+                    <td><strong>Fallo parcial o individual.</strong> Computadores específicos con problemas localizados de audio o video, fallas de software, o requerimiento de instalación de software complementario.</td>
+                    <td class="text-center">2 a 3 minutos<br><span style="font-size: 10px; color: var(--text-light);">(WhatsApp / Chatbot)</span></td>
+                    <td><strong>Remoto:</strong> 10 a 15 minutos máximo<br><strong>Presencial:</strong> Coordinado según necesidad</td>
+                    <td class="text-center"><strong>Máximo 24 horas hábiles</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-center"><strong>Consultas o incidencias menores</strong><br><span class="badge badge-baja" style="margin-top: 5px;">Baja</span></td>
+                    <td><strong>Consultas, capacitaciones y mejoras.</strong> Dudas de uso del Kit de Bienvenida, solicitud de agendamiento de nuevas capacitaciones para docentes o sugerencias de actualización tecnológica.</td>
+                    <td class="text-center">1 a 2 minutos<br><span style="font-size: 10px; color: var(--text-light);">(Canales Digitales)</span></td>
+                    <td>De acuerdo al agendamiento del colegio para la capacitación o consulta</td>
+                    <td class="text-center"><strong>Máximo 72 horas hábiles</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-info">
+            <h3><i class="fas fa-calculator" style="margin-right: 6px;"></i>Cómputo y Medición de los SLAs</h3>
+            <p>Los tiempos de respuesta inician en el momento en que el docente o delegado de la OTIC realiza el reporte en el grupo de WhatsApp o el bot registra la solicitud. El tiempo de solución se detiene una vez el técnico confirma la resolución y el docente valida el correcto funcionamiento del sistema.</p>
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- ===== SECCIÓN 5: COORDINACIÓN Y CONTROL ===== -->
+        <h2><span class="section-number">5</span> Mecanismos de Coordinación y Control</h2>
+        <p>Para asegurar que los compromisos de SLA se traduzcan en una experiencia de usuario sobresaliente sin generar
+            cargas administrativas innecesarias a los colegios, se han establecido los siguientes protocolos:</p>
+
+        <h3><i class="fas fa-handshake" style="color: var(--primary-light);"></i> Sinergia Operativa con OTIC del Distrito</h3>
+        <p>Las visitas técnicas presenciales de Nivel 3 no se programan de manera aislada. Se realiza una coordinación
+            directa por el grupo de WhatsApp institucional para agendarlas <strong>específicamente en los días y horas
+                en los que el funcionario delegado de la OTIC se encuentre presente en el colegio</strong>. Esta práctica garantiza que cualquier intervención técnica en sitio se realice bajo el acompañamiento institucional de la SED, optimizando los tiempos de validación y asegurando la correcta puesta a punto de la solución.</p>
+
+        <h3><i class="fas fa-comments" style="color: var(--accent);"></i> Monitoreo Conversacional Proactivo</h3>
+        <p>Conociendo la alta carga administrativa del cuerpo docente y con el fin de facilitar la comunicación en los grupos de WhatsApp, Qinaya implementa un modelo de <strong>Monitoreo Conversacional Proactivo</strong>.</p>
+        <p>A través de los grupos de WhatsApp de cada colegio, el grupo de soporte técnico realiza indagaciones directas y periódicas a los docentes (ej. <i>"Profe, ¿cómo han funcionado los equipos esta semana? ¿Tiene alguna novedad técnica o duda de uso?"</i>). Esto permite verificar de primera mano el estado real de la solución en la sala de forma oportuna y con gran facilidad, asegurando estabilidad técnica y una retroalimentación ágil.</p>
+
+        <!-- Bloque de firmas -->
+        <div class="signature-block" style="display: flex; justify-content: flex-start; grid-template-columns: none;">
+            <div class="signature-line" style="width: 350px; margin-top: 40px; text-align: left;">
+                <strong>Hernán Alberto Rodríguez</strong><br>
+                Coordinador Académico y de Apropiación del Proyecto<br>
+                Qinaya SAS
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            Qinaya SAS — Mesa de Servicios y Ayuda Distrital<br>
+            Contacto de Soporte: bit.ly/Qinaya-Soporte | Bogotá D.C., Colombia
+        </div>
+    </div>
+</body>
+
+</html>
