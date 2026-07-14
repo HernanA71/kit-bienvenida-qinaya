@@ -161,7 +161,13 @@ async function loadData() {
         // Ejecución secuencial para mayor estabilidad con el proxy CORS gratuito
         pcData = await api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until);
         websiteData = await api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until);
-        usageData = await api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until });
+        
+        try {
+            usageData = await api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until });
+        } catch (e) {
+            console.warn("No se pudo cargar usageData", e);
+            usageData = null;
+        }
         
         try {
             const res = await fetch(CONFIG.INSTALACIONES_SHEET_URL);
@@ -324,6 +330,7 @@ function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount,
         
         if (sumNumComputers > 0) {
             promedioDiario = sumTotalUsage / sumNumComputers;
+            if (promedioDiario > 8.5) promedioDiario = 8.5; // Tope estricto de horas diarias global
         }
     } else {
         // Fallback por si la API no devuelve la data
