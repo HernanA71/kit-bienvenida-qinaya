@@ -155,12 +155,13 @@ async function loadData() {
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
 
-    let pcData, websiteData, instalacionesData;
+    let pcData, websiteData, instalacionesData, usageData;
 
     try {
         // Ejecución secuencial para mayor estabilidad con el proxy CORS gratuito
         pcData = await api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until);
         websiteData = await api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until);
+        usageData = await api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until });
         
         try {
             const res = await fetch(CONFIG.INSTALACIONES_SHEET_URL);
@@ -187,20 +188,21 @@ async function loadData() {
     let daysCount = getBusinessDays(sinceDate, untilDate);
     if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
 
-    processReportData(pcData, websiteData, instalacionesData, daysCount, sinceDate, untilDate);
+    processReportData(pcData, websiteData, instalacionesData, daysCount, sinceDate, untilDate, usageData);
     showLoading(false);
 }
 
-function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount, sinceDate, untilDate) {
+function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount, sinceDate, untilDate, usageData) {
     // 0. Filtrar equipos activos y aplicar factor de corrección (Tiempo real de clase vs CPU activo)
     const pcData = [];
+    
+    // Variables globales para los multiplicadores
+    const FACTOR_LOCAL = 3.8;
+    const FACTOR_VM = 25.0; // Elevado según instrucción para reflejar mayor peso al uso virtual
+
     pcDataRaw.forEach(pc => {
         // Ignorar equipos con cero uso absoluto
         if (!pc.totalHours || pc.totalHours < 0.05) return;
-        
-        // Multiplicadores para simular tiempo de sesión de clase vs tiempo CPU
-        const FACTOR_LOCAL = 3.8;
-        const FACTOR_VM = 25.0; // Elevado según instrucción para reflejar mayor peso al uso virtual
         
         const adjustedPc = { ...pc };
         adjustedPc.localHours = (pc.localHours || 0) * FACTOR_LOCAL;
@@ -303,18 +305,38 @@ function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount,
     const porcentajeVM = totalHorasRaw > 0 ? ((totalVM / totalHorasRaw) * 100) : 0;
 
     // Calcular Promedio Diario EFECTIVO
-    // Ajustado a la cantidad de PCs activos y con un tope de 10 horas/día 
-    // para evitar que equipos dejados encendidos distorsionen la media.
-    let sumaPromediosDiarios = 0;
-    let equiposValidosDiario = 0;
-    pcData.forEach(pc => {
-        let pcDaily = pc.totalHours / daysCount;
-        if (pcDaily > 10) pcDaily = 10;
-        sumaPromediosDiarios += pcDaily;
-        equiposValidosDiario++;
-    });
+    // Ahora utiliza la métrica numComputers enviada por la API en el endpoint usage.
+    let promedioDiario = 0;
     
-    let promedioDiario = equiposValidosDiario > 0 ? (sumaPromediosDiarios / equiposValidosDiario) : 0;
+    if (usageData && usageData.totalUsage && usageData.numComputers) {
+        let sumTotalUsage = 0;
+        let sumNumComputers = 0;
+        for (let i = 0; i < usageData.totalUsage.length; i++) {
+            let rawLocal = usageData.localUsage ? (usageData.localUsage[i] || 0) : 0;
+            let rawVm = usageData.vmUsage ? (usageData.vmUsage[i] || 0) : 0;
+            
+            // Aplicar los mismos multiplicadores matemáticos para consistencia
+            let adjustedTotal = (rawLocal * FACTOR_LOCAL) + (rawVm * FACTOR_VM);
+            
+            sumTotalUsage += adjustedTotal;
+            sumNumComputers += (usageData.numComputers[i] || 0);
+        }
+        
+        if (sumNumComputers > 0) {
+            promedioDiario = sumTotalUsage / sumNumComputers;
+        }
+    } else {
+        // Fallback por si la API no devuelve la data
+        let sumaPromediosDiarios = 0;
+        let equiposValidosDiario = 0;
+        pcData.forEach(pc => {
+            let pcDaily = pc.totalHours / daysCount;
+            if (pcDaily > 10) pcDaily = 10;
+            sumaPromediosDiarios += pcDaily;
+            equiposValidosDiario++;
+        });
+        promedioDiario = equiposValidosDiario > 0 ? (sumaPromediosDiarios / equiposValidosDiario) : 0;
+    }
 
     document.getElementById('kpi-equipos').textContent = pcDataRaw.length.toLocaleString(); // Mostrar total de BD
     document.getElementById('kpi-colegios').textContent = colegiosMap.size.toLocaleString();
