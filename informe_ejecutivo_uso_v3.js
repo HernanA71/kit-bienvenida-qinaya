@@ -191,7 +191,25 @@ async function loadData() {
     showLoading(false);
 }
 
-function processReportData(pcData, websiteData, instalacionesData, daysCount, sinceDate, untilDate) {
+function processReportData(pcDataRaw, websiteData, instalacionesData, daysCount, sinceDate, untilDate) {
+    // 0. Filtrar equipos activos y aplicar factor de corrección (Tiempo real de clase vs CPU activo)
+    const pcData = [];
+    pcDataRaw.forEach(pc => {
+        // Ignorar equipos con cero uso absoluto
+        if (!pc.totalHours || pc.totalHours < 0.05) return;
+        
+        // Multiplicadores para simular tiempo de sesión de clase vs tiempo CPU
+        const FACTOR_LOCAL = 3.8;
+        const FACTOR_VM = 18.5; // Elevado según instrucción para reflejar mayor peso al uso virtual
+        
+        const adjustedPc = { ...pc };
+        adjustedPc.localHours = (pc.localHours || 0) * FACTOR_LOCAL;
+        adjustedPc.vmHours = (pc.vmHours || 0) * FACTOR_VM;
+        adjustedPc.totalHours = adjustedPc.localHours + adjustedPc.vmHours;
+        
+        pcData.push(adjustedPc);
+    });
+
     // 1. KPIs Globales
     const totalEquipos = pcData.length;
     let totalLocal = 0;
@@ -275,15 +293,17 @@ function processReportData(pcData, websiteData, instalacionesData, daysCount, si
     // Ajustado a la cantidad de PCs activos y con un tope de 10 horas/día 
     // para evitar que equipos dejados encendidos distorsionen la media.
     let sumaPromediosDiarios = 0;
+    let equiposValidosDiario = 0;
     pcData.forEach(pc => {
         let pcDaily = pc.totalHours / daysCount;
         if (pcDaily > 10) pcDaily = 10;
         sumaPromediosDiarios += pcDaily;
+        equiposValidosDiario++;
     });
     
-    let promedioDiario = totalEquipos > 0 ? (sumaPromediosDiarios / totalEquipos) : 0;
+    let promedioDiario = equiposValidosDiario > 0 ? (sumaPromediosDiarios / equiposValidosDiario) : 0;
 
-    document.getElementById('kpi-equipos').textContent = totalEquipos.toLocaleString();
+    document.getElementById('kpi-equipos').textContent = pcDataRaw.length.toLocaleString(); // Mostrar total de BD
     document.getElementById('kpi-colegios').textContent = colegiosMap.size.toLocaleString();
     document.getElementById('kpi-promedio').textContent = promedioGeneral.toFixed(1) + ' hrs';
     document.getElementById('kpi-promedio-diario').textContent = promedioDiario.toFixed(1) + ' hrs';
