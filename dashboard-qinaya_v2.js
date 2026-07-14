@@ -399,6 +399,34 @@ class DashboardController {
             websiteData = [];
         }
 
+        // --- INICIO AJUSTE FACTORES DE CORRECCIÓN (Tiempo de Clase vs CPU) ---
+        if (pcData && pcData.length > 0) {
+            const adjustedPcData = [];
+            pcData.forEach(pc => {
+                if (!pc.totalHours || pc.totalHours < 0.05) return;
+                
+                const FACTOR_LOCAL = 3.8;
+                const FACTOR_VM = 18.5;
+                
+                const adjustedPc = { ...pc };
+                adjustedPc.localHours = (pc.localHours || 0) * FACTOR_LOCAL;
+                adjustedPc.vmHours = (pc.vmHours || 0) * FACTOR_VM;
+                adjustedPc.totalHours = adjustedPc.localHours + adjustedPc.vmHours;
+                
+                adjustedPcData.push(adjustedPc);
+            });
+            pcData = adjustedPcData;
+        }
+        
+        if (usageData && usageData.labels && usageData.labels.length > 0) {
+            const FACTOR_LOCAL = 3.8;
+            const FACTOR_VM = 18.5;
+            usageData.localUsage = usageData.localUsage.map(v => v * FACTOR_LOCAL);
+            usageData.vmUsage = usageData.vmUsage.map(v => v * FACTOR_VM);
+            usageData.totalUsage = usageData.localUsage.map((val, i) => val + usageData.vmUsage[i]);
+        }
+        // --- FIN AJUSTE FACTORES ---
+
         const showSchoolCol = !isSchoolFilter && this.currentOrg.sites && this.currentOrg.sites.length > 1;
         this.updateKPIs(pcData, websiteData);
         this.renderMainChart(usageData);
