@@ -248,11 +248,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const top5 = colegiosConUso.slice(0, 5);
     const bottom5 = colegiosConUso.slice().reverse().slice(0, 5);
 
-    renderColegiosTable('tableTopColegios', top5);
-    renderColegiosTable('tableBottomColegios', bottom5);
+    renderColegiosTable('tableTopColegios', top5, daysCount);
+    renderColegiosTable('tableBottomColegios', bottom5, daysCount);
 
     // Renderizar Detalle de Todos los Colegios (Ordenado por mayor uso)
-    renderColegiosTable('tableAllColegios', colegiosArray);
+    renderColegiosTable('tableAllColegios', colegiosArray, daysCount);
 
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
@@ -275,23 +275,26 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     renderWebsTable(websArray.slice(0, 10), daysCount);
 }
 
-function renderColegiosTable(elementId, data) {
+function renderColegiosTable(elementId, data, daysCount = 1) {
     const tbody = document.getElementById(elementId);
     tbody.innerHTML = '';
     
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No hay datos</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay datos</td></tr>';
         return;
     }
 
     data.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
+        const dailyAvg = item.avgHours / daysCount;
+        const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
+            <td><strong>${displayDailyAvg} hrs</strong></td>
             <td><strong>${displayAvg} hrs</strong></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
