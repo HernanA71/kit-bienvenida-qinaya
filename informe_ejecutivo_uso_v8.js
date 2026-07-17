@@ -141,11 +141,16 @@ async function loadData() {
         currentOrg = orgDataList.value.find(o => o.id == CONFIG.DEFAULT_ORG_ID);
     }
 
-    processReportData(pcData, websiteData, usageData, appsData, currentOrg);
+    const sinceDate = new Date(since);
+    const untilDate = new Date(until);
+    let daysCount = Math.ceil((untilDate - sinceDate) / (1000 * 60 * 60 * 24)) + 1;
+    if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
+
+    processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
     showLoading(false);
 }
 
-function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg) {
+function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1) {
     
     // Extraer inventario instalado de la organización
     let totalEquiposInstalados = 0;
@@ -228,7 +233,8 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
 
     document.getElementById('kpi-equipos').textContent = totalEquiposInstalados.toLocaleString();
     document.getElementById('kpi-colegios').textContent = totalColegiosInstalados.toLocaleString();
-    document.getElementById('kpi-promedio').textContent = promedioGeneral.toFixed(1) + ' hrs';
+    const kpiPromedio = document.getElementById('kpi-promedio');
+    if (kpiPromedio) kpiPromedio.textContent = promedioGeneral.toFixed(1) + ' hrs';
     document.getElementById('kpi-promedio-diario').textContent = promedioDiario.toFixed(1) + ' hrs';
     document.getElementById('kpi-horas').textContent = Math.round(totalHorasRaw).toLocaleString() + ' hrs';
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
@@ -261,12 +267,12 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderAppsTable(appsArray.slice(0, 10));
+    renderAppsTable(appsArray.slice(0, 10), daysCount);
 
     // 4. Procesar Webs
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
-    renderWebsTable(websArray.slice(0, 10));
+    renderWebsTable(websArray.slice(0, 10), daysCount);
 }
 
 function renderColegiosTable(elementId, data) {
@@ -293,27 +299,31 @@ function renderColegiosTable(elementId, data) {
     });
 }
 
-function renderAppsTable(data) {
+function renderAppsTable(data, daysCount = 1) {
     const tbody = document.getElementById('tableApps');
     tbody.innerHTML = '';
     data.forEach(item => {
+        const dailyAvg = item.hours / daysCount;
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs</td>
+            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-function renderWebsTable(data) {
+function renderWebsTable(data, daysCount = 1) {
     const tbody = document.getElementById('tableWebs');
     tbody.innerHTML = '';
     data.forEach(item => {
+        const dailyAvg = item.visits / daysCount;
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs</td>
+            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
         `;
         tbody.appendChild(tr);
     });
