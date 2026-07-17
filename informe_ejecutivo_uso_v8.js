@@ -141,10 +141,37 @@ async function loadData() {
         currentOrg = orgDataList.value.find(o => o.id == CONFIG.DEFAULT_ORG_ID);
     }
 
-    const sinceDate = new Date(since);
-    const untilDate = new Date(until);
-    let daysCount = Math.ceil((untilDate - sinceDate) / (1000 * 60 * 60 * 24)) + 1;
-    if (daysCount < 1 || isNaN(daysCount)) daysCount = 1;
+    function getBusinessDays(startDateStr, endDateStr) {
+        if (!startDateStr || !endDateStr) return 1;
+        let startParts = startDateStr.split('-');
+        let endParts = endDateStr.split('-');
+        let curDate = new Date(startParts[0], startParts[1] - 1, startParts[2]);
+        let end = new Date(endParts[0], endParts[1] - 1, endParts[2]);
+
+        const holidays = [
+            "2026-01-01", "2026-01-12", "2026-03-23", "2026-04-02", "2026-04-03",
+            "2026-05-01", "2026-05-18", "2026-06-08", "2026-06-15", "2026-06-29",
+            "2026-07-20", "2026-08-07", "2026-08-17", "2026-10-12", "2026-11-02",
+            "2026-11-16", "2026-12-08", "2026-12-25"
+        ];
+
+        let count = 0;
+        while (curDate <= end) {
+            const dayOfWeek = curDate.getDay();
+            const y = curDate.getFullYear();
+            const m = String(curDate.getMonth() + 1).padStart(2, '0');
+            const d = String(curDate.getDate()).padStart(2, '0');
+            const dateStr = `${y}-${m}-${d}`;
+            
+            if (dayOfWeek !== 0 && dayOfWeek !== 6 && !holidays.includes(dateStr)) {
+                count++;
+            }
+            curDate.setDate(curDate.getDate() + 1);
+        }
+        return count === 0 ? 1 : count;
+    }
+
+    let daysCount = getBusinessDays(since, until);
 
     processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
     showLoading(false);
