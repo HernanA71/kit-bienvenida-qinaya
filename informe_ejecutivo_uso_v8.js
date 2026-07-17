@@ -273,6 +273,53 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
     renderWebsTable(websArray.slice(0, 10), daysCount);
+
+    // 5. Resumen Uso Académico Escolar
+    processAcademicSummary(appsArray, websArray, daysCount);
+}
+
+function processAcademicSummary(apps, webs, daysCount) {
+    const buckets = [
+        { name: "Navegación web Chrome", totalHours: 0, dailyAvg: 0, match: /chrome/i },
+        { name: "Programas de Ofimática", totalHours: 0, dailyAvg: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
+        { name: "Programas de Formación en Programación(Scratch, Arduino, Makecode)", totalHours: 0, dailyAvg: 0, match: /scratch|arduino|makecode/i },
+        { name: "Programas de Simulación, diseño 3D (Thinkercad, Cocodrile, Cabri, Freecad)", totalHours: 0, dailyAvg: 0, match: /thinkercad|tinkercad|cocodrile|cabri|freecad|geogebra|creality/i },
+        { name: "Otros", totalHours: 0, dailyAvg: 0, match: /.*/ }
+    ];
+
+    const allItems = [
+        ...apps.map(a => ({ name: a.name, hours: a.hours })),
+        ...webs.map(w => ({ name: w.name, hours: w.visits }))
+    ];
+
+    allItems.forEach(item => {
+        let matched = false;
+        for (let i = 0; i < 4; i++) {
+            if (buckets[i].match.test(item.name)) {
+                buckets[i].totalHours += (item.hours || 0);
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            buckets[4].totalHours += (item.hours || 0);
+        }
+    });
+
+    const tbody = document.getElementById('tableAcademicSummary');
+    if (tbody) {
+        tbody.innerHTML = '';
+        buckets.forEach(b => {
+            const dailyAvg = b.totalHours / daysCount;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${b.name}</strong></td>
+                <td><span class="status-high">${Math.round(b.totalHours).toLocaleString()}</span> hrs</td>
+                <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 }
 
 function renderColegiosTable(elementId, data, daysCount = 1) {
