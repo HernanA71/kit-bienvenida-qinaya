@@ -244,10 +244,18 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const promedioGeneral = totalEquiposActivos > 0 ? (totalHorasRaw / totalEquiposActivos) : 0;
     const porcentajeVM = totalHorasRaw > 0 ? ((totalVM / totalHorasRaw) * 100) : 0;
 
-    // Calcular Promedio Diario (Excluyendo fines de semana y festivos)
+    // Calcular Promedio Diario (Usando solo datos de días activos reportados por la API)
     let promedioDiario = 0;
-    if (totalEquiposActivos > 0) {
-        promedioDiario = promedioGeneral / daysCount;
+    if (usageData && usageData.totalUsage && usageData.numComputers) {
+        let sumTotalUsage = 0;
+        let sumNumComputers = 0;
+        for (let i = 0; i < usageData.totalUsage.length; i++) {
+            sumTotalUsage += (usageData.totalUsage[i] || 0);
+            sumNumComputers += (usageData.numComputers[i] || 0);
+        }
+        if (sumNumComputers > 0) {
+            promedioDiario = sumTotalUsage / sumNumComputers;
+        }
     }
 
     document.getElementById('kpi-equipos').textContent = totalEquiposInstalados.toLocaleString();
