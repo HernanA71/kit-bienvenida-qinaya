@@ -267,20 +267,9 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
 
-    // Calcular días escolares de jornada completa (días donde el uso fue >= 35% del día pico)
-    // Esto descarta días de prueba, pings de fin de semana o media jornada aislada que diluyen el promedio.
-    let activeDaysCount = 1;
-    if (usageData && Array.isArray(usageData.totalUsage) && usageData.totalUsage.length > 0) {
-        const maxDaily = Math.max(...usageData.totalUsage.map(u => u || 0));
-        if (maxDaily > 0) {
-            const fullDays = usageData.totalUsage.filter(u => (u || 0) >= maxDaily * 0.35).length;
-            activeDaysCount = fullDays > 0 ? fullDays : 1;
-        } else {
-            activeDaysCount = Math.max(1, Math.round(daysCount * 0.5));
-        }
-    } else {
-        activeDaysCount = Math.max(1, Math.round(daysCount * 0.5));
-    }
+    // Calcular días efectivos de laboratorio escolar activo (aprox. 45% de los días hábiles del periodo)
+    // Esto evita que días sin laboratorio o fuera de rotación diluyan el promedio diario real de las jornadas.
+    let activeDaysCount = Math.max(1, Math.round(daysCount * 0.45));
 
     // Ordenar por promedio de horas
     colegiosArray.sort((a, b) => b.avgHours - a.avgHours);
