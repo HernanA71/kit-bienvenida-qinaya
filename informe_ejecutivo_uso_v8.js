@@ -362,21 +362,7 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Adaptar días de uso activo por colegio según su volumen de horas
-        let schoolActiveDays = daysCount;
-        if (item.avgHours > 0) {
-            const estimatedDays = item.avgHours / 6.0; // asumiendo jornada típica de laboratorio
-            schoolActiveDays = Math.max(daysCount * 0.45, Math.min(daysCount, estimatedDays));
-        }
-        if (schoolActiveDays < 1) schoolActiveDays = 1;
-
-        let dailyAvg = item.avgHours / schoolActiveDays;
-
-        // Límite máximo de seguridad: ningún colegio puede superar 12.0 hrs/día (máximo 2 jornadas completas)
-        if (dailyAvg > 12.0) {
-            dailyAvg = 12.0;
-        }
-
+        const dailyAvg = item.avgHours / daysCount;
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
         const tr = document.createElement('tr');
