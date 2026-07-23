@@ -267,13 +267,18 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
 
-    // Calcular días efectivamente activos en el periodo (días con uso registrado > 0)
-    let activeDaysCount = 0;
-    if (usageData && Array.isArray(usageData.totalUsage)) {
-        activeDaysCount = usageData.totalUsage.filter(u => u > 0).length;
+    // Calcular días efectivos de operación escolar (Horas Totales del Periodo / Uso en un día pico)
+    // Esto previene que días parciales, festivos o pings aislados diluyan el promedio diario real.
+    let activeDaysCount = daysCount;
+    if (usageData && Array.isArray(usageData.totalUsage) && usageData.totalUsage.length > 0) {
+        const sumUsage = usageData.totalUsage.reduce((a, b) => a + (b || 0), 0);
+        const maxDaily = Math.max(...usageData.totalUsage.map(u => u || 0));
+        if (maxDaily > 0 && sumUsage > 0) {
+            activeDaysCount = sumUsage / maxDaily;
+        }
     }
-    if (activeDaysCount < 1) {
-        activeDaysCount = daysCount;
+    if (activeDaysCount < 1 || isNaN(activeDaysCount)) {
+        activeDaysCount = 1;
     }
 
     // Ordenar por promedio de horas
