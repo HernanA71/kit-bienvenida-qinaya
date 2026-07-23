@@ -267,6 +267,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
 
+    // Calcular días efectivamente activos en el periodo (días con uso registrado > 0)
+    let activeDaysCount = 0;
+    if (usageData && Array.isArray(usageData.totalUsage)) {
+        activeDaysCount = usageData.totalUsage.filter(u => u > 0).length;
+    }
+    if (activeDaysCount < 1) {
+        activeDaysCount = daysCount;
+    }
+
     // Ordenar por promedio de horas
     colegiosArray.sort((a, b) => b.avgHours - a.avgHours);
 
@@ -275,11 +284,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const top5 = colegiosConUso.slice(0, 5);
     const bottom5 = colegiosConUso.slice().reverse().slice(0, 5);
 
-    renderColegiosTable('tableTopColegios', top5, daysCount);
-    renderColegiosTable('tableBottomColegios', bottom5, daysCount);
+    renderColegiosTable('tableTopColegios', top5, activeDaysCount);
+    renderColegiosTable('tableBottomColegios', bottom5, activeDaysCount);
 
     // Renderizar Detalle de Todos los Colegios (Ordenado por mayor uso)
-    renderColegiosTable('tableAllColegios', colegiosArray, daysCount);
+    renderColegiosTable('tableAllColegios', colegiosArray, activeDaysCount);
 
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
@@ -294,15 +303,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderAppsTable(appsArray.slice(0, 10), daysCount);
+    renderAppsTable(appsArray.slice(0, 10), activeDaysCount);
 
     // 4. Procesar Webs
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
-    renderWebsTable(websArray.slice(0, 10), daysCount);
+    renderWebsTable(websArray.slice(0, 10), activeDaysCount);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, daysCount);
+    processAcademicSummary(appsArray, websArray, activeDaysCount);
 }
 
 function processAcademicSummary(apps, webs, daysCount) {
