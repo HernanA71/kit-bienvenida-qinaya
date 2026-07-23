@@ -206,7 +206,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
 
     // Inicializar el mapa con TODOS los colegios instalados, aunque no tengan uso
     for (let [sName, sCount] of installedMap.entries()) {
-        colegiosMap.set(sName, { name: sName, activeCount: 0, installedCount: sCount, totalHours: 0, localHours: 0, vmHours: 0 });
+        colegiosMap.set(sName, { name: sName, activeCount: 0, installedCount: sCount, totalHours: 0, localHours: 0, vmHours: 0, topAppMap: new Map() });
     }
 
     // Procesar uso
@@ -219,14 +219,18 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         
         // Agrupar por colegio
         if (!colegiosMap.has(site)) {
-            // Si hay un colegio en uso que no estaba en installedMap, lo agregamos con installedCount = 0 (o fallback a 1)
-            colegiosMap.set(site, { name: site, activeCount: 0, installedCount: 0, totalHours: 0, localHours: 0, vmHours: 0 });
+            colegiosMap.set(site, { name: site, activeCount: 0, installedCount: 0, totalHours: 0, localHours: 0, vmHours: 0, topAppMap: new Map() });
         }
         const s = colegiosMap.get(site);
         s.activeCount += 1;
         s.totalHours += (pc.totalHours || 0);
         s.localHours += (pc.localHours || 0);
         s.vmHours += (pc.vmHours || 0);
+
+        if (pc.topApp) {
+            const currentAppCount = s.topAppMap.get(pc.topApp) || 0;
+            s.topAppMap.set(pc.topApp, currentAppCount + (pc.totalHours || 1));
+        }
     });
 
     // 2. Procesar Colegios
@@ -237,6 +241,20 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         if (c.installedCount === 0 && c.activeCount > 0) {
             c.installedCount = c.activeCount;
         }
+
+        // Determinar el programa más usado del colegio
+        let bestApp = 'Google Chrome';
+        let maxVal = -1;
+        if (c.topAppMap && c.topAppMap.size > 0) {
+            for (let [appName, appVal] of c.topAppMap.entries()) {
+                if (appVal > maxVal) {
+                    maxVal = appVal;
+                    bestApp = appName;
+                }
+            }
+        }
+        c.topApp = bestApp;
+
         return c;
     });
 
@@ -383,7 +401,7 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
             <td><strong>${displayDailyAvg} hrs</strong></td>
-            <td><strong>${displayAvg} hrs</strong></td>
+            <td><span class="status-high" style="font-weight: 600;">${item.topApp || 'Google Chrome'}</span></td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
