@@ -209,7 +209,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         colegiosMap.set(sName, { name: sName, activeCount: 0, installedCount: sCount, totalHours: 0, localHours: 0, vmHours: 0, topAppMap: new Map() });
     }
 
-    const systemAppsRegex = /minstall|roxterm|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|pantallazo|sysinfo|kinfocenter/i;
+    const systemAppsRegex = /minstall|roxterm|finder|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|pantallazo|sysinfo|kinfocenter/i;
 
     // Procesar uso
     pcDataRaw.forEach(pc => {
@@ -270,8 +270,8 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.topApp = `Chrome: ${topWeb}`;
         }
 
-        // Distinción entre Local y Compu Virtual (Nube VDI)
-        c.isVDI = c.vmHours > c.localHours;
+        // Distinción entre Local y Compu Virtual (Nube VDI) basada en presencia de horas VM reales de la API
+        c.isVDI = c.vmHours > 0;
 
         return c;
     });
