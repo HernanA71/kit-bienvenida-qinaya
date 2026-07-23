@@ -267,18 +267,19 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
 
-    // Calcular días efectivos de operación escolar (Horas Totales del Periodo / Uso en un día pico)
-    // Esto previene que días parciales, festivos o pings aislados diluyan el promedio diario real.
-    let activeDaysCount = daysCount;
+    // Calcular días escolares de jornada completa (días donde el uso fue >= 35% del día pico)
+    // Esto descarta días de prueba, pings de fin de semana o media jornada aislada que diluyen el promedio.
+    let activeDaysCount = 1;
     if (usageData && Array.isArray(usageData.totalUsage) && usageData.totalUsage.length > 0) {
-        const sumUsage = usageData.totalUsage.reduce((a, b) => a + (b || 0), 0);
         const maxDaily = Math.max(...usageData.totalUsage.map(u => u || 0));
-        if (maxDaily > 0 && sumUsage > 0) {
-            activeDaysCount = sumUsage / maxDaily;
+        if (maxDaily > 0) {
+            const fullDays = usageData.totalUsage.filter(u => (u || 0) >= maxDaily * 0.35).length;
+            activeDaysCount = fullDays > 0 ? fullDays : 1;
+        } else {
+            activeDaysCount = Math.max(1, Math.round(daysCount * 0.5));
         }
-    }
-    if (activeDaysCount < 1 || isNaN(activeDaysCount)) {
-        activeDaysCount = 1;
+    } else {
+        activeDaysCount = Math.max(1, Math.round(daysCount * 0.5));
     }
 
     // Ordenar por promedio de horas
