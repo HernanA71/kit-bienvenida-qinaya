@@ -209,6 +209,8 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         colegiosMap.set(sName, { name: sName, activeCount: 0, installedCount: sCount, totalHours: 0, localHours: 0, vmHours: 0, topAppMap: new Map() });
     }
 
+    const systemAppsRegex = /minstall|roxterm|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|pantallazo|sysinfo|kinfocenter/i;
+
     // Procesar uso
     pcDataRaw.forEach(pc => {
         const site = pc.site || 'Sin Asignar';
@@ -227,7 +229,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         s.localHours += (pc.localHours || 0);
         s.vmHours += (pc.vmHours || 0);
 
-        if (pc.topApp) {
+        if (pc.topApp && !systemAppsRegex.test(pc.topApp)) {
             const currentAppCount = s.topAppMap.get(pc.topApp) || 0;
             s.topAppMap.set(pc.topApp, currentAppCount + (pc.totalHours || 1));
         }
@@ -248,12 +250,12 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.installedCount = c.activeCount;
         }
 
-        // Buscar si hay una aplicación de escritorio local (Scratch, LibreOffice, etc.)
+        // Buscar si hay una aplicación de escritorio local (Scratch, LibreOffice, etc.), ignorando programas del sistema
         let specificApp = '';
         let maxVal = -1;
         if (c.topAppMap && c.topAppMap.size > 0) {
             for (let [appName, appVal] of c.topAppMap.entries()) {
-                if (appVal > maxVal && !/chrome|browser|msedge|firefox/i.test(appName)) {
+                if (appVal > maxVal && !/chrome|browser|msedge|firefox/i.test(appName) && !systemAppsRegex.test(appName)) {
                     maxVal = appVal;
                     specificApp = appName;
                 }
@@ -318,13 +320,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
 
-    // 3. Procesar Apps
+    // 3. Procesar Apps (filtrando utilidades del sistema)
     let appsArray = [];
     if (appsData && appsData.progams && appsData.usage) {
         for (let i = 0; i < appsData.progams.length; i++) {
             let name = appsData.progams[i];
             let hours = appsData.usage[i] || 0;
-            appsArray.push({ name, hours });
+            if (!systemAppsRegex.test(name)) {
+                appsArray.push({ name, hours });
+            }
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
@@ -412,14 +416,16 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
-        const vdiBadge = item.isVDI ? ' <small style="color:#0284c7; font-weight:600;" title="Uso predominantemente en computador virtual (VDI)">[VDI]</small>' : '';
+        const typeBadge = item.isVDI 
+            ? '<span class="badge-vdi" title="Uso predominantemente en computador virtual (VDI)">VDI</span>'
+            : '<span class="badge-local" title="Uso predominantemente en computador local">Local</span>';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
             <td><strong>${displayDailyAvg} hrs</strong></td>
-            <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span>${vdiBadge}</td>
+            <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span>${typeBadge}</td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
