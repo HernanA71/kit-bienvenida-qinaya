@@ -294,15 +294,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderAppsTable(appsArray.slice(0, 10), activeDaysCount);
+    renderAppsTable(appsArray.slice(0, 10), daysCount);
 
     // 4. Procesar Webs
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
-    renderWebsTable(websArray.slice(0, 10), activeDaysCount);
+    renderWebsTable(websArray.slice(0, 10), daysCount);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, activeDaysCount);
+    processAcademicSummary(appsArray, websArray, daysCount);
 }
 
 function processAcademicSummary(apps, webs, daysCount) {
