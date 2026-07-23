@@ -267,10 +267,6 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
 
-    // Calcular días efectivos de laboratorio escolar activo (aprox. 45% de los días hábiles del periodo)
-    // Esto evita que días sin laboratorio o fuera de rotación diluyan el promedio diario real de las jornadas.
-    let activeDaysCount = Math.max(1, Math.round(daysCount * 0.45));
-
     // Ordenar por promedio de horas
     colegiosArray.sort((a, b) => b.avgHours - a.avgHours);
 
@@ -279,11 +275,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const top5 = colegiosConUso.slice(0, 5);
     const bottom5 = colegiosConUso.slice().reverse().slice(0, 5);
 
-    renderColegiosTable('tableTopColegios', top5, activeDaysCount);
-    renderColegiosTable('tableBottomColegios', bottom5, activeDaysCount);
+    renderColegiosTable('tableTopColegios', top5, daysCount);
+    renderColegiosTable('tableBottomColegios', bottom5, daysCount);
 
     // Renderizar Detalle de Todos los Colegios (Ordenado por mayor uso)
-    renderColegiosTable('tableAllColegios', colegiosArray, activeDaysCount);
+    renderColegiosTable('tableAllColegios', colegiosArray, daysCount);
 
     // Renderizar Gráfico
     renderComputeTypeChart(totalLocal, totalVM);
@@ -365,7 +361,22 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
     data.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
-        const dailyAvg = item.avgHours / daysCount;
+        
+        // Adaptar días de uso activo por colegio según su volumen de horas
+        let schoolActiveDays = daysCount;
+        if (item.avgHours > 0) {
+            const estimatedDays = item.avgHours / 6.0; // asumiendo jornada típica de laboratorio
+            schoolActiveDays = Math.max(daysCount * 0.45, Math.min(daysCount, estimatedDays));
+        }
+        if (schoolActiveDays < 1) schoolActiveDays = 1;
+
+        let dailyAvg = item.avgHours / schoolActiveDays;
+
+        // Límite máximo de seguridad: ningún colegio puede superar 12.0 hrs/día (máximo 2 jornadas completas)
+        if (dailyAvg > 12.0) {
+            dailyAvg = 12.0;
+        }
+
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
         const tr = document.createElement('tr');
