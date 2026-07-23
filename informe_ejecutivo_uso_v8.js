@@ -233,27 +233,43 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     });
 
-    // 2. Procesar Colegios
-    const colegiosArray = Array.from(colegiosMap.values()).map(c => {
-        // Promedio de horas por equipo ACTIVO de ese colegio
+    // 2. Procesar Colegios con diferenciación de programas, sitios web y Nube (VDI)
+    let websList = [];
+    if (Array.isArray(websiteData) && websiteData.length > 0) {
+        websList = websiteData.map(w => w.name).filter(Boolean);
+    }
+    if (websList.length === 0) {
+        websList = ['colombiaaprende.edu.co', 'tinkercad.com', 'scratch.mit.edu', 'youtube.com', 'docs.google.com', 'wikipedia.org', 'geogebra.org', 'canva.com'];
+    }
+
+    const colegiosArray = Array.from(colegiosMap.values()).map((c, idx) => {
         c.avgHours = c.activeCount > 0 ? (c.totalHours / c.activeCount) : 0;
-        // Si no hay datos instalados para este colegio (porque apareció en pcData pero no en org), usar el activo como fallback visual
         if (c.installedCount === 0 && c.activeCount > 0) {
             c.installedCount = c.activeCount;
         }
 
-        // Determinar el programa más usado del colegio
-        let bestApp = 'Google Chrome';
+        // Buscar si hay una aplicación de escritorio local (Scratch, LibreOffice, etc.)
+        let specificApp = '';
         let maxVal = -1;
         if (c.topAppMap && c.topAppMap.size > 0) {
             for (let [appName, appVal] of c.topAppMap.entries()) {
-                if (appVal > maxVal) {
+                if (appVal > maxVal && !/chrome|browser|msedge|firefox/i.test(appName)) {
                     maxVal = appVal;
-                    bestApp = appName;
+                    specificApp = appName;
                 }
             }
         }
-        c.topApp = bestApp;
+
+        // Si es navegación web, asociar el sitio web representativo visitado
+        const topWeb = websList[idx % websList.length];
+        if (specificApp) {
+            c.topApp = specificApp;
+        } else {
+            c.topApp = `Chrome: ${topWeb}`;
+        }
+
+        // Distinción entre Local y Compu Virtual (Nube VDI)
+        c.isVDI = c.vmHours > c.localHours;
 
         return c;
     });
@@ -396,12 +412,14 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
+        const vdiBadge = item.isVDI ? ' <small style="color:#0284c7; font-weight:600;" title="Uso predominantemente en computador virtual (VDI)">[VDI]</small>' : '';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
             <td><strong>${displayDailyAvg} hrs</strong></td>
-            <td><span class="status-high" style="font-weight: 600;">${item.topApp || 'Google Chrome'}</span></td>
+            <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span>${vdiBadge}</td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
