@@ -173,7 +173,21 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     });
 
     const promedioGeneral = totalEquiposActivos > 0 ? (totalHorasRaw / totalEquiposActivos) : 0;
+    
+    // Calcular porcentaje de VDI reciente (últimos días de transmisión)
+    let recienteVM = totalVM;
+    let recienteTotal = totalHorasRaw;
+    if (usageData && usageData.vmUsage && usageData.totalUsage && usageData.totalUsage.length > 5) {
+        const len = usageData.totalUsage.length;
+        recienteVM = 0;
+        recienteTotal = 0;
+        for (let i = Math.max(0, len - 10); i < len; i++) {
+            recienteVM += (usageData.vmUsage[i] || 0);
+            recienteTotal += (usageData.totalUsage[i] || 0);
+        }
+    }
     const porcentajeVM = totalHorasRaw > 0 ? ((totalVM / totalHorasRaw) * 100) : 0;
+    const porcentajeVMReciente = recienteTotal > 0 ? ((recienteVM / recienteTotal) * 100) : porcentajeVM;
     const porcentajeLocal = 100 - porcentajeVM;
 
     let promedioDiario = 0;
@@ -188,28 +202,28 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     }
 
     // Llenar tabla resumen superior
-    document.getElementById('m-meta').innerHTML = `${totalEquiposInstalados.toLocaleString()}<small>Equipos Meta</small>`;
-    document.getElementById('m-colegios').innerHTML = `${totalColegiosInstalados}<small>Instituciones SED</small>`;
-    document.getElementById('m-equipos').innerHTML = `${totalEquiposActivos.toLocaleString()}<small>Equipos Reportando</small>`;
+    document.getElementById('m-meta').innerHTML = `1.000<small>Equipos Meta</small>`;
+    document.getElementById('m-colegios').innerHTML = `${totalColegiosInstalados}<small>Colegios Intervenidos</small>`;
+    document.getElementById('m-equipos').innerHTML = `${totalEquiposInstalados.toLocaleString()}<small>Equipos Instalados</small>`;
     document.getElementById('m-horas').innerHTML = `${Math.round(totalHorasRaw).toLocaleString()} h<small>Horas Totales</small>`;
     document.getElementById('m-prom-diario').innerHTML = `${promedioDiario.toFixed(1)} hrs<small>Hrs / Día Hábil</small>`;
-    document.getElementById('m-vdi-pct').innerHTML = `${porcentajeVM.toFixed(1)}%<small>Participación VDI</small>`;
+    document.getElementById('m-vdi-pct').innerHTML = `${porcentajeVMReciente.toFixed(1)}%<small>Participación VDI (Reciente)</small>`;
 
     // Llenar tabla indicadores comparativos
-    const activacionPct = ((totalEquiposActivos / totalEquiposInstalados) * 100).toFixed(1);
-    document.getElementById('ind-activacion').textContent = `${activacionPct}% (${totalEquiposActivos} de ${totalEquiposInstalados} equipos)`;
+    const activacionPct = totalEquiposInstalados > 0 ? ((totalEquiposActivos / totalEquiposInstalados) * 100).toFixed(1) : '0.0';
+    document.getElementById('ind-activacion').textContent = `${activacionPct}% (${totalEquiposActivos} activos de ${totalEquiposInstalados} instalados a la fecha)`;
     
     const colegiosContinuos = colegiosArray.filter(c => c.dailyAvg >= 5.0).length;
     const colegiosContinuosPct = colegiosArray.length > 0 ? ((colegiosContinuos / colegiosArray.length) * 100).toFixed(1) : '0.0';
-    document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${colegiosArray.length} sedes)`;
-    document.getElementById('ind-vdi').textContent = `${porcentajeVM.toFixed(1)}% VDI / ${porcentajeLocal.toFixed(1)}% Local`;
+    document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${totalColegiosInstalados} sedes intervenidas)`;
+    document.getElementById('ind-vdi').textContent = `${porcentajeVM.toFixed(1)}% VDI / ${porcentajeLocal.toFixed(1)}% Local (Tendencia reciente: ${porcentajeVMReciente.toFixed(1)}% VDI)`;
     document.getElementById('ind-prom-diario').textContent = `${promedioDiario.toFixed(1)} hrs/día por equipo`;
 
     // Cobertura
-    document.getElementById('cob-instalados').textContent = `${totalEquiposInstalados.toLocaleString()} dispositivos`;
-    document.getElementById('cob-activos').textContent = `${totalEquiposActivos.toLocaleString()} dispositivos (${activacionPct}%)`;
-    document.getElementById('cob-colegios').textContent = `${totalColegiosInstalados} colegios intervenidos`;
-    document.getElementById('cob-horas').textContent = `${Math.round(totalHorasRaw).toLocaleString()} horas de clase`;
+    document.getElementById('cob-instalados').textContent = `${totalEquiposInstalados.toLocaleString()} dispositivos instalados (Meta: 1.000 equipos)`;
+    document.getElementById('cob-activos').textContent = `${totalEquiposActivos.toLocaleString()} equipos activos con transmisión de datos (Vista Actual a la Fecha: ${activacionPct}% del total instalados)`;
+    document.getElementById('cob-colegios').textContent = `${totalColegiosInstalados} colegios intervenidos a la fecha`;
+    document.getElementById('cob-horas').textContent = `${Math.round(totalHorasRaw).toLocaleString()} horas lectivas registradas`;
 
     // 4. Franjas de intensidad de uso
     renderFranjas(colegiosArray);
