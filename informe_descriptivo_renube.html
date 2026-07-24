@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qinaya | Informe General de Seguimiento Proyecto Renube - SED Bogotá</title>
+    <meta name="description" content="Informe General de Seguimiento y Adopción Tecnológica - Proyecto Renube Secretaría de Educación de Bogotá">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-doc: #ffffff;
+            --blue-qinaya: #2563eb;
+            --blue-qinaya-dark: #1d4ed8;
+            --blue-qinaya-light: #eff6ff;
+            --teal-qinaya: #0d9488;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --shadow-doc: 0 10px 25px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.04);
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding: 40px 20px;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Botones Flotantes */
+        .header-actions {
+            position: fixed;
+            top: 25px;
+            right: 40px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .btn-action {
+            background-color: var(--blue-qinaya);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-action:hover { background-color: var(--blue-qinaya-dark); transform: translateY(-2px); }
+        .btn-action-teal { background-color: var(--teal-qinaya); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25); }
+        .btn-action-teal:hover { background-color: #0f766e; }
+
+        /* Contenedor tipo Hoja de Informe */
+        .document-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            background: var(--bg-doc);
+            box-shadow: var(--shadow-doc);
+            border-top: 8px solid var(--blue-qinaya);
+            padding: 50px 60px;
+            border-radius: 6px;
+        }
+
+        /* Encabezado Corporativo */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .header-left .logo { height: 48px; }
+        .header-center { text-align: center; flex: 1; margin: 0 20px; }
+        .header-center h1 { color: var(--blue-qinaya); font-size: 1.4rem; font-weight: 700; line-height: 1.2; font-family: 'Outfit', sans-serif; }
+        .header-center p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
+        .header-right { text-align: right; font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Filtros */
+        .filters-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f8fafc;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+        .filter-group { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .filter-group input { padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 4px; }
+        .btn-consultar { background: var(--blue-qinaya); color: white; border: none; padding: 6px 14px; border-radius: 4px; font-weight: 600; cursor: pointer; }
+        .btn-consultar:hover { background: var(--blue-qinaya-dark); }
+
+        /* Secciones Narrativas */
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--blue-qinaya-dark);
+            margin-top: 35px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        .paragraph { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 14px; text-align: justify; }
+
+        /* Tabla Ejecutiva Resumen Métricas */
+        .metrics-grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px 0;
+        }
+        .metrics-grid-table th {
+            background-color: var(--blue-qinaya-light);
+            color: var(--blue-qinaya-dark);
+            border: 1px solid #bfdbfe;
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .metrics-grid-table td {
+            border: 1px solid #cbd5e1;
+            padding: 14px 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--blue-qinaya);
+        }
+        .metrics-grid-table td small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
+
+        /* Tablas de Datos */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px 0;
+            font-size: 0.88rem;
+        }
+        table.data-table th {
+            background: #f8fafc;
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        table.data-table td {
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        table.data-table tr:nth-child(even) { background-color: #fafafa; }
+
+        /* Badges */
+        .badge { padding: 3px 7px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; display: inline-block; }
+        .badge-vdi { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; margin-left: 4px; }
+        .badge-local { background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; margin-left: 4px; }
+        .badge-installed { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+
+        /* Gráficos */
+        .chart-container {
+            width: 100%;
+            max-width: 750px;
+            margin: 25px auto;
+            padding: 15px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+        }
+
+        /* Listas con viñetas */
+        ul.bullet-list { margin: 12px 0 20px 25px; color: var(--text-secondary); font-size: 0.93rem; }
+        ul.bullet-list li { margin-bottom: 8px; text-align: justify; }
+        ul.bullet-list li strong { color: var(--text-primary); }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Spinner */
+        .loading-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loading-overlay.hidden { display: none; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #e2e8f0; border-top-color: var(--blue-qinaya); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .header-actions, .filters-section { display: none !important; }
+            .document-container { box-shadow: none; border-top: none; padding: 0; max-width: 100%; }
+            .section-title { page-break-after: avoid; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Overlay de Carga -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top:15px; color:var(--text-secondary); font-weight:600;">Generando Informe General de Seguimiento (SED Bogotá)...</p>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="header-actions">
+        <a href="informe_ejecutivo_uso.html" class="btn-action" style="background:#475569;">
+            <i class="fas fa-arrow-left"></i> Volver al Dashboard
+        </a>
+        <button class="btn-action" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimir a PDF
+        </button>
+    </div>
+
+    <div class="document-container">
+        
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="header-left">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo" onerror="this.src='https://qinaya.co/wp-content/uploads/2021/04/Logo-Qinaya.png'">
+            </div>
+            <div class="header-center">
+                <h1>Informe General de Seguimiento Proyecto Renube</h1>
+                <p><strong>Secretaría de Educación del Distrito (SED Bogotá)</strong> | Monitoreo de Apropiación y Laboratorios</p>
+            </div>
+            <div class="header-right">
+                <p><strong>Emisión:</strong> <span id="docEmitDate">--</span></p>
+                <p><strong>Corte:</strong> Real-Time API</p>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="startDate"><i class="far fa-calendar-alt"></i> Desde:</label>
+                <input type="date" id="startDate" value="2026-03-04">
+            </div>
+            <div class="filter-group">
+                <label for="endDate"><i class="far fa-calendar-alt"></i> Hasta:</label>
+                <input type="date" id="endDate">
+            </div>
+            <button class="btn-consultar" onclick="loadReportData()">
+                <i class="fas fa-search"></i> Actualizar Informe
+            </button>
+        </div>
+
+        <!-- 1. Para qué este informe -->
+        <h2 class="section-title">1. Para qué este informe</h2>
+        <p class="paragraph">
+            El presente informe analiza los datos acumulados de utilización de la infraestructura tecnológica Qinaya en las Instituciones Educativas Distritales de la <strong>Secretaría de Educación de Bogotá (Proyecto Renube)</strong>. Su propósito principal es identificar los patrones reales de uso en salas de cómputo, evaluar los niveles de apropiación digital en las jornadas académicas y formular recomendaciones estratégicas orientadas a maximizar el aprovechamiento pedagógico de las herramientas desplegadas.
+        </p>
+        <p class="paragraph">
+            Para este análisis se integran métricas en tiempo real servidas por la API de Qinaya, evaluando la adopción a través de indicadores de intensidad diaria, distribución de la carga de procesamiento entre entornos de cómputo físico <strong>(Local)</strong> y computadores virtuales en la nube <strong>(VDI)</strong>, así como la identificación de las aplicaciones y recursos educativos de mayor valor para docentes y estudiantes.
+        </p>
+
+        <!-- Tabla Resumen Ejecutiva -->
+        <h3 style="font-size:0.95rem; color:var(--text-secondary); margin-top:20px; font-weight:700; text-align:center;">Resumen de Métricas Generales del Proyecto Renube</h3>
+        <table class="metrics-grid-table">
+            <thead>
+                <tr>
+                    <th>Meta Instalaciones</th>
+                    <th>Colegios Activos</th>
+                    <th>Equipos en Uso</th>
+                    <th>Horas Totales</th>
+                    <th>Promedio Diario / PC</th>
+                    <th>Procesamiento Nube VDI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="m-meta">--<small>Equipos Meta</small></td>
+                    <td id="m-colegios">--<small>Instituciones SED</small></td>
+                    <td id="m-equipos">--<small>Equipos Reportando</small></td>
+                    <td id="m-horas">--<small>Horas Acumuladas</small></td>
+                    <td id="m-prom-diario">--<small>Hrs / Día Hábil</small></td>
+                    <td id="m-vdi-pct">--<small>Participación VDI</small></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 2. Referentes históricos de Qinaya y comparación de indicadores -->
+        <h2 class="section-title">2. Referentes históricos de Qinaya y comparación de indicadores</h2>
+        <p class="paragraph">
+            Los proyectos de infraestructura tecnológica educativa desarrollados por Qinaya demuestran que la incorporación efectiva de la tecnología en salas de informática sigue patrones graduales de adopción. La evidencia acumulada en proyectos institucionales muestra que entre el 80% y el 90% de los laboratorios activan sus estaciones de cómputo de forma inmediata, mientras que la frecuencia de uso diario responde a la programación de clases de tecnología e informática en doble jornada escolar.
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Indicador de Adopción</th>
+                    <th>Referente Histórico Qinaya</th>
+                    <th>Proyecto Renube (SED Bogotá)</th>
+                    <th>Interpretación Operativa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Tasa de Activación Inicial</strong></td>
+                    <td>80% – 90% de equipos</td>
+                    <td id="ind-activacion">--</td>
+                    <td>Porcentaje de equipos en las sedes que han registrado actividad en el servidor.</td>
+                </tr>
+                <tr>
+                    <td><strong>Colegios de Uso Continuo (>5 hrs/día)</strong></td>
+                    <td>40% – 50% de las sedes</td>
+                    <td id="ind-continuo">--</td>
+                    <td>Instituciones que integran los computadores en ambas jornadas académicas.</td>
+                </tr>
+                <tr>
+                    <td><strong>Participación de Nube (VDI)</strong></td>
+                    <td>15% – 35% del tiempo total</td>
+                    <td id="ind-vdi">--</td>
+                    <td>Uso de computadores virtuales para software especializado o entornos centralizados.</td>
+                </tr>
+                <tr>
+                    <td><strong>Promedio Diario de Laboratorio</strong></td>
+                    <td>5.0 - 8.0 horas / día</td>
+                    <td id="ind-prom-diario">--</td>
+                    <td>Horas promedio de funcionamiento por equipo en días hábiles escolares.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 3. Cobertura del Programa por Instituciones Educativas -->
+        <h2 class="section-title">3. Cobertura y uso del programa por Instituciones Educativas</h2>
+        <p class="paragraph">
+            El proyecto abarca las Instituciones Educativas Distritales seleccionadas por la Secretaría de Educación de Bogotá. El despliegue combina salas de informática conectadas a servidores locales con acceso a la infraestructura de cómputo virtual en la nube (VDI) de Qinaya.
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Indicador de Cobertura</th>
+                    <th>Valor Registrado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Equipos Instalados en Sedes Educativas</strong></td>
+                    <td id="cob-instalados">-- equipos</td>
+                </tr>
+                <tr>
+                    <td><strong>Equipos Activos con Transmisión de Datos</strong></td>
+                    <td id="cob-activos">-- equipos</td>
+                </tr>
+                <tr>
+                    <td><strong>Instituciones Educativas Distritales Intervenidas</strong></td>
+                    <td id="cob-colegios">-- colegios</td>
+                </tr>
+                <tr>
+                    <td><strong>Total de Horas Lectivas Registradas</strong></td>
+                    <td id="cob-horas">-- horas acumuladas</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 4. Segmentación por franjas de uso -->
+        <h2 class="section-title">4. Segmentación por franjas de intensidad de uso escolar</h2>
+        <p class="paragraph">
+            Con base en el promedio de horas diarias registrado por cada una de las instituciones educativas, se establecieron cuatro franjas de intensidad de uso sobre el universo total de colegios intervenidos:
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Franja de Intensidad</th>
+                    <th>Criterio de Horas Diarias</th>
+                    <th>Colegios</th>
+                    <th>% del Total</th>
+                    <th>Diagnóstico Operativo</th>
+                </tr>
+            </thead>
+            <tbody id="tableFranjas">
+                <!-- JS Populated -->
+            </tbody>
+        </table>
+
+        <!-- Gráfico de Franjas -->
+        <div class="chart-container">
+            <h4 style="text-align:center; font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Distribución de Instituciones Educativas por Franja de Uso Diario</h4>
+            <canvas id="chartFranjas" height="220"></canvas>
+        </div>
+
+        <ul class="bullet-list">
+            <li><strong>Intensidad en Doble Jornada:</strong> Las instituciones ubicadas en la franja de <em>Uso Alto (>6 hrs/día)</em> demuestran un aprovechamiento óptimo del laboratorio durante las jornadas de la mañana y de la tarde.</li>
+            <li><strong>Oportunidad en Sedes de Uso Bajo:</strong> Las sedes clasificadas en <em>Uso Bajo (<3 hrs/día)</em> representan la oportunidad más directa de acompañamiento para dinamizar los horarios de asignación de salas.</li>
+        </ul>
+
+        <!-- 5. Programas y aplicaciones más utilizados -->
+        <h2 class="section-title">5. Programas y aplicaciones más utilizados</h2>
+        <p class="paragraph">
+            El monitoreo de software permite entender qué tipo de actividades académicas ejecutan los estudiantes. En los laboratorios del Proyecto Renube, la mayor parte del tiempo efectivo de trabajo se concentra en la navegación web educativa (Google Chrome) para investigación, plataformas interactivas y simulación, seguida de aplicaciones locales de ofimática (LibreOffice Writer, PowerPoint) y entornos de programación y diseño escolar (Scratch, Tinkercad, Arduino).
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Programa / Aplicación</th>
+                    <th>Horas Totales Acumuladas</th>
+                    <th>Promedio Diario Escolar</th>
+                    <th>Modalidad de Ejecución</th>
+                </tr>
+            </thead>
+            <tbody id="tableTopAppsNarrative">
+                <!-- JS Populated -->
+            </tbody>
+        </table>
+
+        <!-- 6. Sitios y Plataformas Webapps Más Utilizados -->
+        <h2 class="section-title">6. Sitios web y plataformas educativas (Webapps) más visitados</h2>
+        <p class="paragraph">
+            Las herramientas basadas en web constituyen el núcleo de la actividad académica en las aulas virtuales. A continuación se detallan las plataformas web más consultadas por los estudiantes de las sedes educativas:
+        </p>
+
+        <div class="chart-container">
+            <h4 style="text-align:center; font-size:0.9rem; color:var(--text-secondary); margin-bottom:15px;">Top 8 Plataformas y Portales Web Más Utilizados (Horas de Tráfico)</h4>
+            <canvas id="chartWebapps" height="250"></canvas>
+        </div>
+
+        <ul class="bullet-list">
+            <li><strong>Plataformas Pedagógicas y de Diseño:</strong> Portales como <em>Tinkercad.com</em>, <em>Scratch.mit.edu</em> y <em>Colombiaaprende.edu.co</em> evidencian el desarrollo de proyectos de ciencia, tecnología, ingeniería y matemáticas (STEM).</li>
+            <li><strong>Herramientas de Investigación y Consulta:</strong> Google, Wikipedia y herramientas de productividad respaldan las actividades transversales en las distintas asignaturas escolares.</li>
+        </ul>
+
+        <!-- 7. Resumen Uso Académico Escolar -->
+        <h2 class="section-title">7. Resumen por Ejes Académicos de Aprendizaje</h2>
+        <p class="paragraph">
+            Agrupando las aplicaciones y portales web en categorías pedagógicas, se obtiene la siguiente distribución del tiempo en los laboratorios de cómputo:
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Eje Académico Escolar</th>
+                    <th>Horas Acumuladas</th>
+                    <th>Promedio Diario Escolar</th>
+                    <th>Participación (%)</th>
+                </tr>
+            </thead>
+            <tbody id="tableAcademicCategoryNarrative">
+                <!-- JS Populated -->
+            </tbody>
+        </table>
+
+        <!-- 8. Detalle General por Institución Educativa -->
+        <h2 class="section-title">8. Detalle General por Institución Educativa Distrital</h2>
+        <p class="paragraph">
+            A continuación se presenta el desglose consolidado de equipos, intensidad diaria, principal recurso utilizado y balance entre procesamiento <strong>Local</strong> y en <strong>Nube VDI</strong> para cada colegio intervenido por el proyecto:
+        </p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Institución Educativa (SED Bogotá)</th>
+                    <th style="text-align:center;">Equipos</th>
+                    <th>Promedio Diario</th>
+                    <th>Programa / Recurso Principal</th>
+                    <th>Procesamiento (Local vs VDI)</th>
+                    <th>Total Horas</th>
+                </tr>
+            </thead>
+            <tbody id="tableAllColegiosNarrative">
+                <!-- JS Populated -->
+            </tbody>
+        </table>
+
+        <!-- 9. Conclusiones y Recomendaciones -->
+        <h2 class="section-title">9. Conclusiones y pasos a seguir para la Secretaría de Educación</h2>
+        <p class="paragraph">
+            El monitoreo continuo de los laboratorios del Proyecto Renube permite concluir que la infraestructura tecnológica desplegada por Qinaya está generando un impacto positivo en las salas de informática de Bogotá, con una alta estabilidad operativa y un uso sostenido en las sedes de mayor intensidad.
+        </p>
+        <p class="paragraph">
+            Para continuar fortaleciendo la apropiación digital y profundizar el uso pedagógico de la solución, se recomiendan las siguientes acciones estratégicas:
+        </p>
+
+        <ul class="bullet-list">
+            <li><strong>1. Plan de Acompañamiento a Sedes de Uso Bajo:</strong> Focalizar jornadas de capacitación a los docentes de tecnología en las sedes clasificadas con promedio menor a 3.0 hrs/día para optimizar la programación horaria del laboratorio.</li>
+            <li><strong>2. Promoción de Herramientas de Creación STEM:</strong> Incentivar el uso de computadores virtuales y herramientas web de simulación 3D (Tinkercad), programación (Scratch/Makecode) y ofimática colaborativa.</li>
+            <li><strong>3. Seguimiento a la Conectividad de Salas:</strong> Mantener el monitoreo automatizado a través de la API de Qinaya para asegurar la rápida resolución de incidencias en red y garantizar que la experiencia en la Nube VDI sea fluida.</li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Informe General de Seguimiento Proyecto Renube</strong> — Generado automáticamente a partir de datos en tiempo real de la API de Qinaya.</p>
+            <p>Secretaría de Educación del Distrito (SED Bogotá) &copy; 2026 Qinaya Analytics</p>
+        </div>
+
+    </div>
+
+    <!-- Script de Carga de Datos -->
+    <script src="informe_descriptivo_renube.js"></script>
+</body>
+
+</html>

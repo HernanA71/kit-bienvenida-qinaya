@@ -205,10 +205,15 @@
 </head>
 
 <body>
-    <!-- Botón Flotante para PDF -->
-    <button class="btn-print" onclick="window.print()">
-        <i class="fas fa-print"></i> Imprimir a PDF
-    </button>
+    <!-- Botones Flotantes -->
+    <div style="position: fixed; top: 25px; left: 40px; right: 40px; display: flex; justify-content: space-between; pointer-events: none; z-index: 1000;">
+        <button class="btn-print" onclick="window.print()" style="pointer-events: auto; position: static;">
+            <i class="fas fa-print"></i> Imprimir a PDF (Dashboard)
+        </button>
+        <a href="informe_descriptivo_renube.html" target="_blank" class="btn-print" style="pointer-events: auto; position: static; background-color: #0d9488; text-decoration: none; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);">
+            <i class="fas fa-file-alt"></i> Informe General de Seguimiento (Estilo CreSERTEC)
+        </a>
+    </div>
 
     <div class="document-container">
         
