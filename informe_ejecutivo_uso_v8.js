@@ -421,16 +421,25 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
-        const typeBadge = item.isVDI 
-            ? `<span class="badge-vdi" title="${item.vdiTooltip || 'Uso predominantemente en computador virtual (VDI)'}">VDI</span>`
-            : `<span class="badge-local" title="${item.vdiTooltip || 'Uso predominantemente en computador local'}">Local</span>`;
+        // Generar etiquetas de uso con porcentajes exactos derivados de la API
+        const vmPct = item.totalHours > 0 ? Math.round((item.vmHours / item.totalHours) * 100) : 0;
+        const localPct = item.totalHours > 0 ? Math.max(0, 100 - vmPct) : 100;
+
+        let badgesHTML = '';
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge-local" title="${localPct}% de procesamiento en equipo físico local">Local ${localPct}%</span><span class="badge-vdi" title="${vmPct}% de procesamiento en computador virtual">VDI ${vmPct}%</span>`;
+        } else if (vmPct > 0) {
+            badgesHTML = `<span class="badge-vdi" title="100% computador virtual">VDI 100%</span>`;
+        } else {
+            badgesHTML = `<span class="badge-local" title="100% procesamiento local">Local 100%</span>`;
+        }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
             <td><strong>${displayDailyAvg} hrs</strong></td>
-            <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span>${typeBadge}</td>
+            <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span> ${badgesHTML}</td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
