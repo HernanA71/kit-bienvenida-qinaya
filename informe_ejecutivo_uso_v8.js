@@ -270,10 +270,12 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.topApp = `Chrome: ${topWeb}`;
         }
 
-        // Distinción estricta de modo mayoritario basada en la API real (>50% de horas)
+        // Distinción de Nube (VDI) vs Local:
+        // Si el programa es de Windows (POWERPNT, WINWORD, EXCEL, etc.) o hay horas VM registradas (vmHours > 0), pasa a VDI.
+        const isWindowsApp = /windows|powerpnt|winword|excel|photoshop|illustrator/i.test(c.topApp);
         const vmPct = c.totalHours > 0 ? Math.round((c.vmHours / c.totalHours) * 100) : 0;
         const localPct = 100 - vmPct;
-        c.isVDI = c.vmHours > c.localHours;
+        c.isVDI = isWindowsApp || c.vmHours > 0;
         c.vdiTooltip = `Uso Local: ${localPct}% | Nube VDI: ${vmPct}%`;
 
         return c;
