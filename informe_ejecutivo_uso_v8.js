@@ -270,8 +270,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.topApp = `Chrome: ${topWeb}`;
         }
 
-        // Distinción entre Local y Compu Virtual (Nube VDI) basada en presencia de horas VM reales de la API
-        c.isVDI = c.vmHours > 0;
+        // Distinción estricta de modo mayoritario basada en la API real (>50% de horas)
+        const vmPct = c.totalHours > 0 ? Math.round((c.vmHours / c.totalHours) * 100) : 0;
+        const localPct = 100 - vmPct;
+        c.isVDI = c.vmHours > c.localHours;
+        c.vdiTooltip = `Uso Local: ${localPct}% | Nube VDI: ${vmPct}%`;
 
         return c;
     });
@@ -417,8 +420,8 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
         const typeBadge = item.isVDI 
-            ? '<span class="badge-vdi" title="Uso predominantemente en computador virtual (VDI)">VDI</span>'
-            : '<span class="badge-local" title="Uso predominantemente en computador local">Local</span>';
+            ? `<span class="badge-vdi" title="${item.vdiTooltip || 'Uso predominantemente en computador virtual (VDI)'}">VDI</span>`
+            : `<span class="badge-local" title="${item.vdiTooltip || 'Uso predominantemente en computador local'}">Local</span>`;
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
