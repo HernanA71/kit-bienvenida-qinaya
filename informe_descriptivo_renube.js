@@ -388,7 +388,7 @@ function renderWebappsChart(webs) {
     });
 }
 
-function renderAcademicSummaryNarrative(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
+function renderAcademicSummaryNarrative(apps, webs, daysCount, totalColegiosInstalados = 32, globalVmiPct = 18.5) {
     const buckets = [
         { name: "Navegación Web Educativa (Google Chrome)", totalHours: 0, localHours: 0, vmHours: 0, match: /chrome/i },
         { name: "Programas de Ofimática (LibreOffice, Word, PowerPoint, Excel)", totalHours: 0, localHours: 0, vmHours: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
@@ -459,9 +459,9 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount, totalActiveCount 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${b.name}</strong> ${badgesHTML}</td>
-            <td><strong style="color: var(--teal-qinaya);">${pct}%</strong></td>
             <td><span class="status-high">${Math.round(b.totalHours).toLocaleString()}</span> hrs</td>
             <td><span class="status-high">${displayDailyAvg}</span> hrs/día por colegio</td>
+            <td><strong style="color: var(--teal-qinaya);">${pct}%</strong></td>
         `;
         tbody.appendChild(tr);
     });
