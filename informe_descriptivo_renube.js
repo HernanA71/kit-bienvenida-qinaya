@@ -141,9 +141,10 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         c.avgHours = c.activeCount > 0 ? (c.totalHours / c.activeCount) : 0;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
-        // Calcular promedio diario puro sobre los días hábiles del periodo
+        // Calcular promedio diario sobre los días hábiles del periodo
         c.dailyAvg = c.avgHours / daysCount;
-        if (c.dailyAvg > 12.0) c.dailyAvg = 12.0;
+        // Techo máximo de jornada académica escolar (máximo 8.0 hrs/día por PC)
+        if (c.dailyAvg > 8.0) c.dailyAvg = 8.0;
 
         // App más usada
         let specificApp = '';

@@ -405,9 +405,10 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Calcular promedio diario puro sobre los días hábiles del periodo
+        // Calcular promedio diario sobre los días hábiles del periodo
         let dailyAvg = item.avgHours / daysCount;
-        if (dailyAvg > 12.0) dailyAvg = 12.0;
+        // Techo máximo de jornada académica escolar (máximo 8.0 hrs/día por PC)
+        if (dailyAvg > 8.0) dailyAvg = 8.0;
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
