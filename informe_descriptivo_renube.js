@@ -251,7 +251,7 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     renderWebappsChart(websArray.slice(0, 8));
 
     // 7. Ejes Académicos
-    renderAcademicSummaryNarrative(appsArray, websArray, daysCount);
+    renderAcademicSummaryNarrative(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVMReciente);
 
     // 8. Todos los colegios
     colegiosArray.sort((a, b) => b.dailyAvg - a.dailyAvg);
@@ -382,18 +382,30 @@ function renderWebappsChart(webs) {
     });
 }
 
-function renderAcademicSummaryNarrative(apps, webs, daysCount) {
+function renderAcademicSummaryNarrative(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
     const buckets = [
-        { name: "Navegación Web Educativa (Google Chrome)", totalHours: 0, match: /chrome/i },
-        { name: "Programas de Ofimática (LibreOffice, Word, PowerPoint, Excel)", totalHours: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
-        { name: "Programación e Informática (Scratch, Arduino, MakeCode)", totalHours: 0, match: /scratch|arduino|makecode/i },
-        { name: "Simulación 3D y Diseño (Tinkercad, Crocodile, GeoGebra, FreeCAD)", totalHours: 0, match: /thinkercad|tinkercad|cocodrile|cabri|freecad|geogebra|creality/i },
-        { name: "Otros Recursos Digitales", totalHours: 0, match: /.*/ }
+        { name: "Navegación Web Educativa (Google Chrome)", totalHours: 0, localHours: 0, vmHours: 0, match: /chrome/i },
+        { name: "Programas de Ofimática (LibreOffice, Word, PowerPoint, Excel)", totalHours: 0, localHours: 0, vmHours: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
+        { name: "Programación e Informática (Scratch, Arduino, MakeCode)", totalHours: 0, localHours: 0, vmHours: 0, match: /scratch|arduino|makecode/i },
+        { name: "Simulación 3D y Diseño (Tinkercad, Crocodile, GeoGebra, FreeCAD)", totalHours: 0, localHours: 0, vmHours: 0, match: /thinkercad|tinkercad|cocodrile|cabri|freecad|geogebra|creality/i },
+        { name: "Otros Recursos Digitales", totalHours: 0, localHours: 0, vmHours: 0, match: /.*/ }
     ];
 
     const allItems = [
-        ...apps.map(a => ({ name: a.name, hours: a.hours })),
-        ...webs.map(w => ({ name: w.name, hours: w.visits }))
+        ...apps.map(a => {
+            const isVDI = /powerpnt|winword|excel|windows|photoshop/i.test(a.name);
+            return {
+                name: a.name,
+                hours: a.hours,
+                vmHours: isVDI ? a.hours : 0,
+                localHours: isVDI ? 0 : a.hours
+            };
+        }),
+        ...webs.map(w => {
+            const vm = w.visits * (globalVmiPct / 100);
+            const loc = w.visits * ((100 - globalVmiPct) / 100);
+            return { name: w.name, hours: w.visits, vmHours: vm, localHours: loc };
+        })
     ];
 
     let totalSum = 0;
@@ -402,6 +414,8 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount) {
         for (let i = 0; i < 4; i++) {
             if (buckets[i].match.test(item.name)) {
                 buckets[i].totalHours += (item.hours || 0);
+                buckets[i].vmHours += (item.vmHours || 0);
+                buckets[i].localHours += (item.localHours || 0);
                 totalSum += (item.hours || 0);
                 matched = true;
                 break;
@@ -409,6 +423,8 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount) {
         }
         if (!matched) {
             buckets[4].totalHours += (item.hours || 0);
+            buckets[4].vmHours += (item.vmHours || 0);
+            buckets[4].localHours += (item.localHours || 0);
             totalSum += (item.hours || 0);
         }
     });
@@ -417,16 +433,30 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount) {
 
     const tbody = document.getElementById('tableAcademicCategoryNarrative');
     tbody.innerHTML = '';
+    const activePCs = totalActiveCount > 0 ? totalActiveCount : 1;
 
     buckets.forEach(b => {
-        const dailyAvg = b.totalHours / daysCount;
+        const dailyAvgPerPC = (b.totalHours / activePCs) / daysCount;
+        const displayDailyAvg = dailyAvgPerPC > 0 && dailyAvgPerPC < 0.1 ? '< 0.1' : dailyAvgPerPC.toFixed(1);
         const pct = ((b.totalHours / totalSum) * 100).toFixed(1);
+
+        const vmPct = b.totalHours > 0 ? Math.round((b.vmHours / b.totalHours) * 100) : 0;
+        const localPct = b.totalHours > 0 ? Math.max(0, 100 - vmPct) : 100;
+
+        let badgesHTML = '';
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge badge-local" style="margin-left:6px;">Local ${localPct}%</span><span class="badge badge-vdi" style="margin-left:4px;">VDI ${vmPct}%</span>`;
+        } else if (vmPct > 0) {
+            badgesHTML = `<span class="badge badge-vdi" style="margin-left:6px;">VDI 100%</span>`;
+        } else {
+            badgesHTML = `<span class="badge badge-local" style="margin-left:6px;">Local 100%</span>`;
+        }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong>${b.name}</strong></td>
+            <td><strong>${b.name}</strong> ${badgesHTML}</td>
             <td>${Math.round(b.totalHours).toLocaleString()} hrs</td>
-            <td>${dailyAvg.toFixed(1)} hrs/día</td>
+            <td>${displayDailyAvg} hrs/día x PC</td>
             <td><strong>${pct}%</strong></td>
         `;
         tbody.appendChild(tr);

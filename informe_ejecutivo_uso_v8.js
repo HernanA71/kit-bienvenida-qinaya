@@ -345,21 +345,33 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     renderWebsTable(websArray.slice(0, 10), daysCount);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, daysCount);
+    processAcademicSummary(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVMReciente);
 }
 
-function processAcademicSummary(apps, webs, daysCount) {
+function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
     const buckets = [
-        { name: "Navegación web Chrome", totalHours: 0, dailyAvg: 0, match: /chrome/i },
-        { name: "Programas de Ofimática", totalHours: 0, dailyAvg: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
-        { name: "Programas de Formación en Programación(Scratch, Arduino, Makecode)", totalHours: 0, dailyAvg: 0, match: /scratch|arduino|makecode/i },
-        { name: "Programas de Simulación, diseño 3D (Thinkercad, Cocodrile, Cabri, Freecad)", totalHours: 0, dailyAvg: 0, match: /thinkercad|tinkercad|cocodrile|cabri|freecad|geogebra|creality/i },
-        { name: "Otros", totalHours: 0, dailyAvg: 0, match: /.*/ }
+        { name: "Navegación web Chrome", totalHours: 0, localHours: 0, vmHours: 0, match: /chrome/i },
+        { name: "Programas de Ofimática", totalHours: 0, localHours: 0, vmHours: 0, match: /libreoffice|writer|calc|impress|word|excel|powerpoint/i },
+        { name: "Programas de Formación en Programación(Scratch, Arduino, Makecode)", totalHours: 0, localHours: 0, vmHours: 0, match: /scratch|arduino|makecode/i },
+        { name: "Programas de Simulación, diseño 3D (Thinkercad, Cocodrile, Cabri, Freecad)", totalHours: 0, localHours: 0, vmHours: 0, match: /thinkercad|tinkercad|cocodrile|cabri|freecad|geogebra|creality/i },
+        { name: "Otros", totalHours: 0, localHours: 0, vmHours: 0, match: /.*/ }
     ];
 
     const allItems = [
-        ...apps.map(a => ({ name: a.name, hours: a.hours })),
-        ...webs.map(w => ({ name: w.name, hours: w.visits }))
+        ...apps.map(a => {
+            const isVDI = /powerpnt|winword|excel|windows|photoshop/i.test(a.name);
+            return {
+                name: a.name,
+                hours: a.hours,
+                vmHours: isVDI ? a.hours : 0,
+                localHours: isVDI ? 0 : a.hours
+            };
+        }),
+        ...webs.map(w => {
+            const vm = w.visits * (globalVmiPct / 100);
+            const loc = w.visits * ((100 - globalVmiPct) / 100);
+            return { name: w.name, hours: w.visits, vmHours: vm, localHours: loc };
+        })
     ];
 
     allItems.forEach(item => {
@@ -367,25 +379,44 @@ function processAcademicSummary(apps, webs, daysCount) {
         for (let i = 0; i < 4; i++) {
             if (buckets[i].match.test(item.name)) {
                 buckets[i].totalHours += (item.hours || 0);
+                buckets[i].vmHours += (item.vmHours || 0);
+                buckets[i].localHours += (item.localHours || 0);
                 matched = true;
                 break;
             }
         }
         if (!matched) {
             buckets[4].totalHours += (item.hours || 0);
+            buckets[4].vmHours += (item.vmHours || 0);
+            buckets[4].localHours += (item.localHours || 0);
         }
     });
 
     const tbody = document.getElementById('tableAcademicSummary');
     if (tbody) {
         tbody.innerHTML = '';
+        const activePCs = totalActiveCount > 0 ? totalActiveCount : 1;
         buckets.forEach(b => {
-            const dailyAvg = b.totalHours / daysCount;
+            const dailyAvgPerPC = (b.totalHours / activePCs) / daysCount;
+            const displayDailyAvg = dailyAvgPerPC > 0 && dailyAvgPerPC < 0.1 ? '< 0.1' : dailyAvgPerPC.toFixed(1);
+
+            const vmPct = b.totalHours > 0 ? Math.round((b.vmHours / b.totalHours) * 100) : 0;
+            const localPct = b.totalHours > 0 ? Math.max(0, 100 - vmPct) : 100;
+
+            let badgesHTML = '';
+            if (vmPct > 0 && localPct > 0) {
+                badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
+            } else if (vmPct > 0) {
+                badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
+            } else {
+                badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
+            }
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td><strong>${b.name}</strong></td>
+                <td><strong>${b.name}</strong> ${badgesHTML}</td>
                 <td><span class="status-high">${Math.round(b.totalHours).toLocaleString()}</span> hrs</td>
-                <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
+                <td><span class="status-high">${displayDailyAvg}</span> hrs/día x PC</td>
             `;
             tbody.appendChild(tr);
         });
@@ -405,16 +436,10 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
-        let schoolActiveDays = daysCount;
-        if (item.avgHours > 0) {
-            const estimatedDays = Math.round(item.avgHours / 6.0);
-            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
-        }
+        // Calcular promedio diario puro sobre los días hábiles del periodo
+        let dailyAvg = item.avgHours / daysCount;
 
-        let dailyAvg = item.avgHours / schoolActiveDays;
-
-        // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos de noche)
+        // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos 24/7)
         if (/manuela beltr/i.test(item.name)) {
             if (dailyAvg > 6.6) dailyAvg = 6.6;
         }
