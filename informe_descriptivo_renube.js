@@ -138,7 +138,8 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     }
 
     const colegiosArray = Array.from(colegiosMap.values()).map((c, idx) => {
-        c.avgHours = c.activeCount > 0 ? (c.totalHours / c.activeCount) : 0;
+        const divisorCount = c.installedCount > 0 ? c.installedCount : (c.activeCount > 0 ? c.activeCount : 1);
+        c.avgHours = c.totalHours / divisorCount;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
         // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
