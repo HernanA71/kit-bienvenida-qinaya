@@ -346,15 +346,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderAppsTable(appsArray.slice(0, 10), daysCount);
+    renderAppsTable(appsArray.slice(0, 10), daysCount, totalColegiosInstalados);
 
     // 4. Procesar Webs
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
-    renderWebsTable(websArray.slice(0, 10), daysCount);
+    renderWebsTable(websArray.slice(0, 10), daysCount, totalColegiosInstalados);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVM);
+    processAcademicSummary(appsArray, websArray, daysCount, totalColegiosInstalados, porcentajeVM);
 }
 
 function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
@@ -404,10 +404,10 @@ function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, glo
     const tbody = document.getElementById('tableAcademicSummary');
     if (tbody) {
         tbody.innerHTML = '';
-        const activePCs = totalActiveCount > 0 ? totalActiveCount : 1;
+        const numColegios = totalColegiosInstalados > 0 ? totalColegiosInstalados : 32;
         buckets.forEach(b => {
-            const dailyAvgPerPC = (b.totalHours / activePCs) / daysCount;
-            const displayDailyAvg = dailyAvgPerPC > 0 && dailyAvgPerPC < 0.1 ? '< 0.1' : dailyAvgPerPC.toFixed(1);
+            const dailyAvgPerSchool = (b.totalHours / numColegios) / daysCount;
+            const displayDailyAvg = dailyAvgPerSchool.toFixed(1);
 
             const vmPct = b.totalHours > 0 ? Math.round((b.vmHours / b.totalHours) * 100) : 0;
             const localPct = b.totalHours > 0 ? Math.max(0, 100 - vmPct) : 100;
@@ -425,7 +425,7 @@ function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, glo
             tr.innerHTML = `
                 <td><strong>${b.name}</strong> ${badgesHTML}</td>
                 <td><span class="status-high">${Math.round(b.totalHours).toLocaleString()}</span> hrs</td>
-                <td><span class="status-high">${displayDailyAvg}</span> hrs/día x PC</td>
+                <td><span class="status-high">${displayDailyAvg}</span> hrs/día por colegio</td>
             `;
             tbody.appendChild(tr);
         });
@@ -480,31 +480,33 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
     });
 }
 
-function renderAppsTable(data, daysCount = 1) {
+function renderAppsTable(data, daysCount = 1, numColegios = 32) {
     const tbody = document.getElementById('tableApps');
     tbody.innerHTML = '';
+    const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
-        const dailyAvg = item.hours / daysCount;
+        const dailyAvg = (item.hours / numCol) / daysCount;
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs</td>
-            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
+            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs/día</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-function renderWebsTable(data, daysCount = 1) {
+function renderWebsTable(data, daysCount = 1, numColegios = 32) {
     const tbody = document.getElementById('tableWebs');
     tbody.innerHTML = '';
+    const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
-        const dailyAvg = item.visits / daysCount;
+        const dailyAvg = (item.visits / numCol) / daysCount;
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs</td>
-            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs</td>
+            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs/día</td>
         `;
         tbody.appendChild(tr);
     });

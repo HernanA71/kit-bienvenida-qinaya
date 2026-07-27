@@ -432,15 +432,13 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount, totalActiveCount 
         }
     });
 
-    if (totalSum === 0) totalSum = 1;
-
     const tbody = document.getElementById('tableAcademicCategoryNarrative');
     tbody.innerHTML = '';
-    const activePCs = totalActiveCount > 0 ? totalActiveCount : 1;
+    const numColegios = totalColegiosInstalados > 0 ? totalColegiosInstalados : 32;
 
     buckets.forEach(b => {
-        const dailyAvgPerPC = (b.totalHours / activePCs) / daysCount;
-        const displayDailyAvg = dailyAvgPerPC > 0 && dailyAvgPerPC < 0.1 ? '< 0.1' : dailyAvgPerPC.toFixed(1);
+        const dailyAvgPerSchool = (b.totalHours / numColegios) / daysCount;
+        const displayDailyAvg = dailyAvgPerSchool.toFixed(1);
         const pct = ((b.totalHours / totalSum) * 100).toFixed(1);
 
         const vmPct = b.totalHours > 0 ? Math.round((b.vmHours / b.totalHours) * 100) : 0;
@@ -448,19 +446,19 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount, totalActiveCount 
 
         let badgesHTML = '';
         if (vmPct > 0 && localPct > 0) {
-            badgesHTML = `<span class="badge badge-local" style="margin-left:6px;">Local ${localPct}%</span><span class="badge badge-vdi" style="margin-left:4px;">VDI ${vmPct}%</span>`;
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
         } else if (vmPct > 0) {
-            badgesHTML = `<span class="badge badge-vdi" style="margin-left:6px;">VDI 100%</span>`;
+            badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
         } else {
-            badgesHTML = `<span class="badge badge-local" style="margin-left:6px;">Local 100%</span>`;
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
         }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${b.name}</strong> ${badgesHTML}</td>
-            <td>${Math.round(b.totalHours).toLocaleString()} hrs</td>
-            <td>${displayDailyAvg} hrs/día x PC</td>
-            <td><strong>${pct}%</strong></td>
+            <td><strong style="color: var(--teal-qinaya);">${pct}%</strong></td>
+            <td><span class="status-high">${Math.round(b.totalHours).toLocaleString()}</span> hrs</td>
+            <td><span class="status-high">${displayDailyAvg}</span> hrs/día por colegio</td>
         `;
         tbody.appendChild(tr);
     });
