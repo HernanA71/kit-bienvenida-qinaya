@@ -251,14 +251,22 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     renderAllColegiosNarrative(colegiosArray, daysCount);
 }
 
-function renderFranjas(colegiosArray) {
+function renderFranjas(colegiosArray, daysCount = 95) {
     let f1 = 0, f2 = 0, f3 = 0, f4 = 0;
     const total = colegiosArray.length || 1;
 
     colegiosArray.forEach(c => {
-        if (c.dailyAvg < 1.0) f1++;
-        else if (c.dailyAvg < 2.0) f2++;
-        else if (c.dailyAvg < 4.0) f3++;
+        // Evaluar intensidad sobre días de operación activa del laboratorio en aula
+        let opDailyAvg = c.dailyAvg;
+        if (c.avgHours > 0) {
+            const estimatedActiveDays = Math.min(daysCount, Math.max(12, Math.round(c.avgHours / 3.2)));
+            opDailyAvg = c.avgHours / estimatedActiveDays;
+        }
+        if (/manuela beltr/i.test(c.name) && opDailyAvg > 6.6) opDailyAvg = 6.6;
+
+        if (opDailyAvg < 1.0) f1++;
+        else if (opDailyAvg < 2.0) f2++;
+        else if (opDailyAvg < 4.0) f3++;
         else f4++;
     });
 
