@@ -485,12 +485,19 @@ function renderAppsTable(data, daysCount = 1, numColegios = 32) {
     tbody.innerHTML = '';
     const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
-        const dailyAvg = (item.hours / numCol) / daysCount;
+        const dailyAvgHours = (item.hours / numCol) / daysCount;
+        let displayStr = '';
+        if (dailyAvgHours >= 1.0) {
+            displayStr = `${dailyAvgHours.toFixed(1)} hrs/día`;
+        } else {
+            const mins = Math.round(dailyAvgHours * 60);
+            displayStr = `${mins} min/día`;
+        }
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs</td>
-            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs/día</td>
+            <td><span class="status-high">${displayStr}</span></td>
         `;
         tbody.appendChild(tr);
     });
@@ -501,12 +508,19 @@ function renderWebsTable(data, daysCount = 1, numColegios = 32) {
     tbody.innerHTML = '';
     const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
-        const dailyAvg = (item.visits / numCol) / daysCount;
+        const dailyAvgHours = (item.visits / numCol) / daysCount;
+        let displayStr = '';
+        if (dailyAvgHours >= 1.0) {
+            displayStr = `${dailyAvgHours.toFixed(1)} hrs/día`;
+        } else {
+            const mins = Math.round(dailyAvgHours * 60);
+            displayStr = `${mins} min/día`;
+        }
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${item.name}</strong></td>
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs</td>
-            <td><span class="status-high">${dailyAvg.toFixed(1)}</span> hrs/día</td>
+            <td><span class="status-high">${displayStr}</span></td>
         `;
         tbody.appendChild(tr);
     });
