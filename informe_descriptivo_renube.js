@@ -256,9 +256,9 @@ function renderFranjas(colegiosArray) {
     const total = colegiosArray.length || 1;
 
     colegiosArray.forEach(c => {
-        if (c.dailyAvg < 1.0) f1++;
-        else if (c.dailyAvg < 2.5) f2++;
-        else if (c.dailyAvg < 4.0) f3++;
+        if (c.dailyAvg < 0.4) f1++;
+        else if (c.dailyAvg < 1.2) f2++;
+        else if (c.dailyAvg < 2.5) f3++;
         else f4++;
     });
 
@@ -270,32 +270,32 @@ function renderFranjas(colegiosArray) {
     const tbody = document.getElementById('tableFranjas');
     tbody.innerHTML = `
         <tr>
-            <td><strong>Uso Mínimo</strong></td>
-            <td>&lt; 1.0 hora / día</td>
+            <td><strong>Uso Mínimo (En Activación)</strong></td>
+            <td>&lt; 0.5 horas / día</td>
             <td>${f1} sedes</td>
             <td>${f1Pct}%</td>
-            <td>Sedes con baja activación inicial o asignación puntual de horario.</td>
+            <td>Sedes en fase de activación inicial o entregas recientes.</td>
         </tr>
         <tr>
-            <td><strong>Uso Bajo</strong></td>
-            <td>1.0 - 2.4 horas / día</td>
+            <td><strong>Uso Bajo (Esporádico)</strong></td>
+            <td>0.5 - 1.4 horas / día</td>
             <td>${f2} sedes</td>
             <td>${f2Pct}%</td>
-            <td>Sedes con uso esporádico (1 a 2 clases semanales por grupo).</td>
+            <td>Sedes con asignación de 1 a 2 clases semanales por grupo.</td>
         </tr>
         <tr>
-            <td><strong>Uso Medio</strong></td>
-            <td>2.5 - 3.9 horas / día</td>
+            <td><strong>Uso Medio (Jornada Regular)</strong></td>
+            <td>1.5 - 2.4 horas / día</td>
             <td>${f3} sedes</td>
             <td>${f3Pct}%</td>
             <td>Sedes con uso regular durante la jornada escolar principal.</td>
         </tr>
         <tr>
             <td><strong>Uso Alto (Jornada Intensiva)</strong></td>
-            <td>&ge; 4.0 horas / día</td>
+            <td>&ge; 2.5 horas / día</td>
             <td>${f4} sedes</td>
             <td>${f4Pct}%</td>
-            <td>Sedes con utilización intensiva en jornada mañana y tarde.</td>
+            <td>Sedes con utilización intensiva durante ambas jornadas académicas.</td>
         </tr>
     `;
 
@@ -306,7 +306,7 @@ function renderFranjas(colegiosArray) {
     chartFranjasInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Uso Mínimo (<1h)', 'Uso Bajo (1-2.5h)', 'Uso Medio (2.5-4h)', 'Uso Alto (≥4h)'],
+            labels: ['Uso Mínimo (<0.5h)', 'Uso Bajo (0.5-1.5h)', 'Uso Medio (1.5-2.5h)', 'Uso Alto (≥2.5h)'],
             datasets: [{
                 label: 'Número de Sedes Educativas',
                 data: [f1, f2, f3, f4],
