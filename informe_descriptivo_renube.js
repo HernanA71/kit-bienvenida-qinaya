@@ -12,7 +12,8 @@ const CONFIG = {
         computers: 'computers.asp',
         apps: 'apps.asp',
         websites: 'websites.asp'
-    }
+    },
+    SHEET_URL: "https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec"
 };
 
 let chartFranjasInstance = null;
@@ -66,15 +67,16 @@ async function loadReportData() {
     const queryParams = `?org=${CONFIG.DEFAULT_ORG}&since=${startDate}&until=${endDate}`;
 
     try {
-        const [orgRes, usageRes, compRes, appsRes, webRes] = await Promise.all([
+        const [orgRes, usageRes, compRes, appsRes, webRes, sheetRes] = await Promise.all([
             fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.organizations + queryParams).then(r => r.json()).catch(() => []),
             fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.usage + queryParams).then(r => r.json()).catch(() => ({})),
             fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.computers + queryParams).then(r => r.json()).catch(() => []),
             fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.apps + queryParams).then(r => r.json()).catch(() => ({})),
-            fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.websites + queryParams).then(r => r.json()).catch(() => [])
+            fetch(CONFIG.API_BASE + CONFIG.ENDPOINTS.websites + queryParams).then(r => r.json()).catch(() => []),
+            fetch(CONFIG.SHEET_URL).then(r => r.json()).catch(() => [])
         ]);
 
-        processReportData(orgRes, usageRes, compRes, appsRes, webRes, daysCount);
+        processReportData(orgRes, usageRes, compRes, appsRes, webRes, sheetRes, daysCount);
     } catch (err) {
         console.error('Error al cargar datos de la API:', err);
     } finally {
@@ -82,7 +84,7 @@ async function loadReportData() {
     }
 }
 
-function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData, daysCount) {
+function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData, sheetData, daysCount) {
     // 1. Mapa de Colegios instalados
     const installedMap = new Map();
     let totalEquiposInstalados = 0;
@@ -90,13 +92,40 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     if (Array.isArray(orgData) && orgData.length > 0) {
         const orgInfo = orgData.find(o => o.id == CONFIG.DEFAULT_ORG || o.sites);
         if (orgInfo && Array.isArray(orgInfo.sites)) {
-            orgInfo.sites.forEach(s => {
-                const count = parseInt(s.computersCount) || 0;
-                installedMap.set(s.name, count);
+            orgInfo.sites.forEach((sName, i) => {
+                const count = parseInt(orgInfo.computers ? orgInfo.computers[i] : 0) || 0;
+                installedMap.set(sName, count);
                 totalEquiposInstalados += count;
             });
         }
     }
+
+    // Complementar e integrar con la Hoja de Instalaciones de Campo en tiempo real (Google Sheets)
+    if (Array.isArray(sheetData) && sheetData.length > 0) {
+        sheetData.forEach(row => {
+            const rawName = String(row['Colegio'] || row['colegio'] || '').trim();
+            let count = 0;
+            for (let k in row) {
+                if (k.toLowerCase().includes('instalado') || k.toLowerCase().includes('cantidad de computadores')) {
+                    const parsed = parseInt(row[k]);
+                    if (!isNaN(parsed) && parsed > 0) count = parsed;
+                }
+            }
+            if (rawName && count > 0) {
+                // Verificar si el colegio ya está en el mapa (por coincidencia de nombre)
+                let matchName = Array.from(installedMap.keys()).find(k => k.toLowerCase().includes(rawName.toLowerCase()) || rawName.toLowerCase().includes(k.toLowerCase()));
+                if (!matchName) {
+                    // Nuevo colegio recién instalado no presente en la API aún (ej: Colegio Paulo VI IED)
+                    installedMap.set(rawName, count);
+                    totalEquiposInstalados += count;
+                } else if (installedMap.get(matchName) === 0) {
+                    installedMap.set(matchName, count);
+                    totalEquiposInstalados += count;
+                }
+            }
+        });
+    }
+
     if (totalEquiposInstalados === 0) totalEquiposInstalados = 1000; // Meta por defecto del convenio SED
 
     const totalColegiosInstalados = installedMap.size > 0 ? installedMap.size : 25;
