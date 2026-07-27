@@ -117,17 +117,16 @@ async function loadData() {
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
 
-    let orgDataList, pcData, websiteData, usageData, appsData, sheetData;
+    let orgDataList, pcData, websiteData, usageData, appsData;
 
     try {
         // Ejecución concurrente ya que no dependemos de proxies frágiles
-        [orgDataList, pcData, websiteData, usageData, appsData, sheetData] = await Promise.all([
+        [orgDataList, pcData, websiteData, usageData, appsData] = await Promise.all([
             api.getOrganizations().catch(e => { console.warn(e); return []; }),
             api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until }).catch(e => { console.warn(e); return null; }),
-            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
-            fetch("https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec").then(r => r.json()).catch(e => { console.warn(e); return []; })
+            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; })
         ]);
         
         if (!Array.isArray(pcData)) pcData = [];
@@ -181,7 +180,7 @@ async function loadData() {
     let daysCount = getBusinessDays(since, until);
 
     try {
-        processReportData(pcData, websiteData, usageData, appsData, currentOrg, sheetData, daysCount);
+        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
     } catch (err) {
         console.error("Error procesando reporte:", err);
     } finally {
@@ -189,7 +188,7 @@ async function loadData() {
     }
 }
 
-function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, sheetData, daysCount = 1) {
+function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1) {
     
     // Extraer inventario instalado de la organización
     let totalEquiposInstalados = 0;
@@ -203,30 +202,6 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             installedMap.set(sName, Number(sCount));
             totalEquiposInstalados += Number(sCount);
         }
-    }
-
-    // Complementar e integrar con la Hoja de Instalaciones de Campo en tiempo real (Google Sheets)
-    if (Array.isArray(sheetData) && sheetData.length > 0) {
-        sheetData.forEach(row => {
-            const rawName = String(row['Colegio'] || row['colegio'] || '').trim();
-            let count = 0;
-            for (let k in row) {
-                if (k.toLowerCase().includes('instalado') || k.toLowerCase().includes('cantidad de computadores')) {
-                    const parsed = parseInt(row[k]);
-                    if (!isNaN(parsed) && parsed > 0) count = parsed;
-                }
-            }
-            if (rawName && count > 0) {
-                let matchName = Array.from(installedMap.keys()).find(k => k.toLowerCase().includes(rawName.toLowerCase()) || rawName.toLowerCase().includes(k.toLowerCase()));
-                if (!matchName) {
-                    installedMap.set(rawName, count);
-                    totalEquiposInstalados += count;
-                } else if (installedMap.get(matchName) === 0) {
-                    installedMap.set(matchName, count);
-                    totalEquiposInstalados += count;
-                }
-            }
-        });
     }
 
     // 1. KPIs Globales de Uso Activo
