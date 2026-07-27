@@ -101,11 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function showLoading(show) {
-    const overlay = document.getElementById('loadingOverlay');
-    if (show) overlay.classList.remove('hidden');
-    else overlay.classList.add('hidden');
+    const el = document.getElementById('loadingOverlay');
+    if (el) {
+        if (show) {
+            el.style.display = 'flex';
+            el.classList.remove('hidden');
+        } else {
+            el.style.display = 'none';
+            el.classList.add('hidden');
+        }
+    }
 }
-
 async function loadData() {
     showLoading(true);
     const since = document.getElementById('dateFrom').value;
@@ -173,8 +179,13 @@ async function loadData() {
 
     let daysCount = getBusinessDays(since, until);
 
-    processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
-    showLoading(false);
+    try {
+        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
+    } catch (err) {
+        console.error("Error procesando reporte:", err);
+    } finally {
+        showLoading(false);
+    }
 }
 
 function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1) {
@@ -346,7 +357,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     renderWebsTable(websArray.slice(0, 10), daysCount);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVMReciente);
+    processAcademicSummary(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVM);
 }
 
 function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {

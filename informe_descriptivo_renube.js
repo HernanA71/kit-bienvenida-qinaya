@@ -501,7 +501,12 @@ function renderAllColegiosNarrative(colegios) {
 function showLoading(show) {
     const el = document.getElementById('loadingOverlay');
     if (el) {
-        if (show) el.classList.remove('hidden');
-        else el.classList.add('hidden');
+        if (show) {
+            el.style.display = 'flex';
+            el.classList.remove('hidden');
+        } else {
+            el.style.display = 'none';
+            el.classList.add('hidden');
+        }
     }
 }
