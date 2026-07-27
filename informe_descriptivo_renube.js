@@ -257,8 +257,8 @@ function renderFranjas(colegiosArray) {
 
     colegiosArray.forEach(c => {
         if (c.dailyAvg < 1.0) f1++;
-        else if (c.dailyAvg < 3.0) f2++;
-        else if (c.dailyAvg < 6.0) f3++;
+        else if (c.dailyAvg < 2.5) f2++;
+        else if (c.dailyAvg < 4.0) f3++;
         else f4++;
     });
 
@@ -278,21 +278,21 @@ function renderFranjas(colegiosArray) {
         </tr>
         <tr>
             <td><strong>Uso Bajo</strong></td>
-            <td>1.0 - 2.9 horas / día</td>
+            <td>1.0 - 2.4 horas / día</td>
             <td>${f2} sedes</td>
             <td>${f2Pct}%</td>
             <td>Sedes con uso esporádico (1 a 2 clases semanales por grupo).</td>
         </tr>
         <tr>
             <td><strong>Uso Medio</strong></td>
-            <td>3.0 - 5.9 horas / día</td>
+            <td>2.5 - 3.9 horas / día</td>
             <td>${f3} sedes</td>
             <td>${f3Pct}%</td>
             <td>Sedes con uso regular durante la jornada escolar principal.</td>
         </tr>
         <tr>
-            <td><strong>Uso Alto (Doble Jornada)</strong></td>
-            <td>&ge; 6.0 horas / día</td>
+            <td><strong>Uso Alto (Jornada Intensiva)</strong></td>
+            <td>&ge; 4.0 horas / día</td>
             <td>${f4} sedes</td>
             <td>${f4Pct}%</td>
             <td>Sedes con utilización intensiva en jornada mañana y tarde.</td>
@@ -306,11 +306,11 @@ function renderFranjas(colegiosArray) {
     chartFranjasInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Uso Mínimo (<1h)', 'Uso Bajo (1-3h)', 'Uso Medio (3-6h)', 'Uso Alto (>6h)'],
+            labels: ['Uso Mínimo (<1h)', 'Uso Bajo (1-2.5h)', 'Uso Medio (2.5-4h)', 'Uso Alto (≥4h)'],
             datasets: [{
-                label: 'Número de Colegios',
+                label: 'Número de Sedes Educativas',
                 data: [f1, f2, f3, f4],
-                backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'],
+                backgroundColor: ['#94a3b8', '#3b82f6', '#0d9488', '#1d4ed8'],
                 borderRadius: 4
             }]
         },
