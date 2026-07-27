@@ -85,7 +85,7 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     let totalEquiposInstalados = 0;
 
     if (Array.isArray(orgData) && orgData.length > 0) {
-        const orgInfo = orgData.find(o => o.id == CONFIG.DEFAULT_ORG || o.sites);
+        const orgInfo = orgData.find(o => (o.id == CONFIG.DEFAULT_ORG || o.id == 28) && Array.isArray(o.sites) && o.sites.length > 0) || orgData[0];
         if (orgInfo && Array.isArray(orgInfo.sites)) {
             orgInfo.sites.forEach((sName, i) => {
                 const count = parseInt(orgInfo.computers ? orgInfo.computers[i] : 0) || 0;
