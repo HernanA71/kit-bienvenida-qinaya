@@ -257,8 +257,8 @@ function renderFranjas(colegiosArray) {
 
     colegiosArray.forEach(c => {
         if (c.dailyAvg < 0.4) f1++;
-        else if (c.dailyAvg < 1.2) f2++;
-        else if (c.dailyAvg < 2.5) f3++;
+        else if (c.dailyAvg < 1.0) f2++;
+        else if (c.dailyAvg < 1.8) f3++;
         else f4++;
     });
 
@@ -271,31 +271,31 @@ function renderFranjas(colegiosArray) {
     tbody.innerHTML = `
         <tr>
             <td><strong>Uso Mínimo (En Activación)</strong></td>
-            <td>&lt; 0.5 horas / día</td>
+            <td>&lt; 0.4 horas / día</td>
             <td>${f1} sedes</td>
             <td>${f1Pct}%</td>
             <td>Sedes en fase de activación inicial o entregas recientes.</td>
         </tr>
         <tr>
             <td><strong>Uso Bajo (Esporádico)</strong></td>
-            <td>0.5 - 1.4 horas / día</td>
+            <td>0.4 - 0.9 horas / día</td>
             <td>${f2} sedes</td>
             <td>${f2Pct}%</td>
             <td>Sedes con asignación de 1 a 2 clases semanales por grupo.</td>
         </tr>
         <tr>
             <td><strong>Uso Medio (Jornada Regular)</strong></td>
-            <td>1.5 - 2.4 horas / día</td>
+            <td>1.0 - 1.7 horas / día</td>
             <td>${f3} sedes</td>
             <td>${f3Pct}%</td>
             <td>Sedes con uso regular durante la jornada escolar principal.</td>
         </tr>
         <tr>
             <td><strong>Uso Alto (Jornada Intensiva)</strong></td>
-            <td>&ge; 2.5 horas / día</td>
+            <td>&ge; 1.8 horas / día</td>
             <td>${f4} sedes</td>
             <td>${f4Pct}%</td>
-            <td>Sedes con utilización intensiva durante ambas jornadas académicas.</td>
+            <td>Sedes con utilización intensiva durante la jornada escolar.</td>
         </tr>
     `;
 
@@ -306,7 +306,7 @@ function renderFranjas(colegiosArray) {
     chartFranjasInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Uso Mínimo (<0.5h)', 'Uso Bajo (0.5-1.5h)', 'Uso Medio (1.5-2.5h)', 'Uso Alto (≥2.5h)'],
+            labels: ['Uso Mínimo (<0.4h)', 'Uso Bajo (0.4-1h)', 'Uso Medio (1-1.8h)', 'Uso Alto (≥1.8h)'],
             datasets: [{
                 label: 'Número de Sedes Educativas',
                 data: [f1, f2, f3, f4],
