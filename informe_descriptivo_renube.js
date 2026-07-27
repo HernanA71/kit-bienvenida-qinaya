@@ -140,14 +140,8 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         c.avgHours = c.totalHours / divisorCount;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
-        // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
-        let schoolActiveDays = daysCount;
-        if (c.avgHours > 0) {
-            const estimatedDays = Math.round(c.avgHours / 6.0);
-            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
-        }
-
-        c.dailyAvg = c.avgHours / schoolActiveDays;
+        // Calcular promedio diario puro sobre los días hábiles del periodo
+        c.dailyAvg = c.avgHours / daysCount;
 
         // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos de noche)
         if (/manuela beltr/i.test(c.name)) {
@@ -252,9 +246,9 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     // 7. Ejes Académicos
     renderAcademicSummaryNarrative(appsArray, websArray, daysCount, totalEquiposActivos, porcentajeVMReciente);
 
-    // 8. Todos los colegios
-    colegiosArray.sort((a, b) => b.dailyAvg - a.dailyAvg);
-    renderAllColegiosNarrative(colegiosArray);
+    // 8. Todos los colegios (Ordenados exactamente igual que el Dashboard principal por mayor uso)
+    colegiosArray.sort((a, b) => b.avgHours - a.avgHours);
+    renderAllColegiosNarrative(colegiosArray, daysCount);
 }
 
 function renderFranjas(colegiosArray) {
@@ -467,7 +461,7 @@ function renderAcademicSummaryNarrative(apps, webs, daysCount, totalColegiosInst
     });
 }
 
-function renderAllColegiosNarrative(colegios) {
+function renderAllColegiosNarrative(colegios, daysCount = 1) {
     const tbody = document.getElementById('tableAllColegiosNarrative');
     tbody.innerHTML = '';
 
@@ -479,20 +473,29 @@ function renderAllColegiosNarrative(colegios) {
     colegios.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
 
+        let dailyAvg = item.avgHours / daysCount;
+        if (/manuela beltr/i.test(item.name)) {
+            if (dailyAvg > 6.6) dailyAvg = 6.6;
+        }
+        const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
+
+        const vmPct = item.totalHours > 0 ? Math.round((item.vmHours / item.totalHours) * 100) : 0;
+        const localPct = item.totalHours > 0 ? Math.max(0, 100 - vmPct) : 100;
+
         let badgesHTML = '';
-        if (item.vmPct > 0 && item.localPct > 0) {
-            badgesHTML = `<span class="badge badge-local">Local ${item.localPct}%</span> <span class="badge badge-vdi">VDI ${item.vmPct}%</span>`;
-        } else if (item.vmPct > 0) {
-            badgesHTML = `<span class="badge badge-vdi">VDI 100%</span>`;
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
+        } else if (vmPct > 0) {
+            badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
         } else {
-            badgesHTML = `<span class="badge badge-local">Local 100%</span>`;
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
         }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
             <td style="text-align:center;"><span class="badge badge-installed">${item.installedCount}</span></td>
-            <td><strong>${item.dailyAvg.toFixed(1)} hrs</strong></td>
+            <td><strong>${displayDailyAvg} hrs</strong></td>
             <td><strong style="color:var(--teal-qinaya);">${item.topApp}</strong></td>
             <td>${badgesHTML}</td>
             <td style="color:var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
