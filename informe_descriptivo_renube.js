@@ -20,11 +20,7 @@ let chartFranjasInstance = null;
 let chartWebappsInstance = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Establecer fecha de hoy en el filtro "Hasta"
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('endDate').value = today;
     document.getElementById('docEmitDate').textContent = new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
-
     loadReportData();
 });
 
@@ -60,8 +56,8 @@ function calculateBusinessDays(startDateStr, endDateStr) {
 
 async function loadReportData() {
     showLoading(true);
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
+    const startDate = "2026-03-04";
+    const endDate = new Date().toISOString().split('T')[0];
     const daysCount = calculateBusinessDays(startDate, endDate);
 
     const queryParams = `?org=${CONFIG.DEFAULT_ORG}&since=${startDate}&until=${endDate}`;
@@ -219,12 +215,12 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
 
     // Llenar tabla indicadores comparativos
     const activacionPct = totalEquiposInstalados > 0 ? ((totalEquiposActivos / totalEquiposInstalados) * 100).toFixed(1) : '0.0';
-    document.getElementById('ind-activacion').textContent = `${activacionPct}% (${totalEquiposActivos} activos de ${totalEquiposInstalados} instalados a la fecha)`;
+    document.getElementById('ind-activacion').textContent = `${activacionPct}% (${totalEquiposActivos} activos con transmisión de ${totalEquiposInstalados} instalados a la fecha)`;
     
     const colegiosContinuos = colegiosArray.filter(c => c.dailyAvg >= 5.0).length;
     const colegiosContinuosPct = colegiosArray.length > 0 ? ((colegiosContinuos / colegiosArray.length) * 100).toFixed(1) : '0.0';
     document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${totalColegiosInstalados} sedes intervenidas)`;
-    document.getElementById('ind-vdi').textContent = `${porcentajeVM.toFixed(1)}% VDI / ${porcentajeLocal.toFixed(1)}% Local (Tendencia reciente: ${porcentajeVMReciente.toFixed(1)}% VDI)`;
+    document.getElementById('ind-vdi').textContent = `${porcentajeVMReciente.toFixed(1)}% Nube VDI / ${(100 - porcentajeVMReciente).toFixed(1)}% Local (Promedio acumulado: ${porcentajeVM.toFixed(1)}% VDI)`;
     document.getElementById('ind-prom-diario').textContent = `${promedioDiario.toFixed(1)} hrs/día por equipo`;
 
     // Cobertura
@@ -246,7 +242,7 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderTopAppsNarrative(appsArray.slice(0, 8), daysCount);
+    renderTopAppsNarrative(appsArray.slice(0, 8), daysCount, totalColegiosInstalados, porcentajeVMReciente);
 
     // 6. Chart Webapps
     let websArray = Array.isArray(websiteData) ? websiteData : [];
@@ -332,27 +328,34 @@ function renderFranjas(colegiosArray) {
     });
 }
 
-function renderTopAppsNarrative(apps, daysCount) {
+function renderTopAppsNarrative(apps, daysCount = 1, numColegios = 32, globalVdiPct = 4.0) {
     const tbody = document.getElementById('tableTopAppsNarrative');
     tbody.innerHTML = '';
-
-    if (apps.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No hay datos de aplicaciones</td></tr>';
-        return;
-    }
+    const numCol = numColegios > 0 ? numColegios : 32;
 
     apps.forEach(app => {
-        const dailyAvg = app.hours / daysCount;
-        const modeBadge = /powerpnt|winword|excel|windows|photoshop/i.test(app.name)
-            ? '<span class="badge badge-vdi">Nube VDI</span>'
-            : '<span class="badge badge-local">Local / Web</span>';
+        const dailyAvgHours = (app.hours / numCol) / daysCount;
+        let displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+
+        const isWindowsVDI = /windows|powerpnt|winword|excel|photoshop|illustrator/i.test(app.name);
+        const vmPct = isWindowsVDI ? 100 : Math.round(globalVdiPct);
+        const localPct = Math.max(0, 100 - vmPct);
+
+        let badgesHTML = '';
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
+        } else if (vmPct === 100) {
+            badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
+        } else {
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
+        }
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong>${app.name}</strong></td>
+            <td><strong>${app.name}</strong> ${badgesHTML}</td>
             <td>${Math.round(app.hours).toLocaleString()} hrs</td>
-            <td>${dailyAvg.toFixed(1)} hrs/día</td>
-            <td>${modeBadge}</td>
+            <td>${displayStr}</td>
+            <td>${isWindowsVDI ? 'Virtual Nube (VDI)' : 'Procesamiento Local'}</td>
         `;
         tbody.appendChild(tr);
     });
