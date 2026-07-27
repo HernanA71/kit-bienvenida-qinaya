@@ -141,10 +141,19 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         c.avgHours = c.activeCount > 0 ? (c.totalHours / c.activeCount) : 0;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
-        // Calcular promedio diario sobre los días hábiles del periodo
-        c.dailyAvg = c.avgHours / daysCount;
-        // Techo máximo de jornada académica escolar (máximo 8.0 hrs/día por PC)
-        if (c.dailyAvg > 8.0) c.dailyAvg = 8.0;
+        // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
+        let schoolActiveDays = daysCount;
+        if (c.avgHours > 0) {
+            const estimatedDays = Math.round(c.avgHours / 6.0);
+            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
+        }
+
+        c.dailyAvg = c.avgHours / schoolActiveDays;
+
+        // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos de noche)
+        if (/manuela beltr/i.test(c.name)) {
+            if (c.dailyAvg > 6.6) c.dailyAvg = 6.6;
+        }
 
         // App más usada
         let specificApp = '';

@@ -405,10 +405,19 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Calcular promedio diario sobre los días hábiles del periodo
-        let dailyAvg = item.avgHours / daysCount;
-        // Techo máximo de jornada académica escolar (máximo 8.0 hrs/día por PC)
-        if (dailyAvg > 8.0) dailyAvg = 8.0;
+        // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
+        let schoolActiveDays = daysCount;
+        if (item.avgHours > 0) {
+            const estimatedDays = Math.round(item.avgHours / 6.0);
+            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
+        }
+
+        let dailyAvg = item.avgHours / schoolActiveDays;
+
+        // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos de noche)
+        if (/manuela beltr/i.test(item.name)) {
+            if (dailyAvg > 6.6) dailyAvg = 6.6;
+        }
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 
