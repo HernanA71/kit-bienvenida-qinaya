@@ -211,9 +211,9 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     const activacionPct = totalEquiposInstalados > 0 ? ((totalEquiposActivos / totalEquiposInstalados) * 100).toFixed(1) : '0.0';
     document.getElementById('ind-activacion').textContent = `${activacionPct}% (${totalEquiposActivos} activos con transmisión de ${totalEquiposInstalados} instalados a la fecha)`;
     
-    const colegiosContinuos = colegiosArray.filter(c => c.dailyAvg >= 2.5).length;
+    const colegiosContinuos = colegiosArray.filter(c => c.totalHours > 30 || c.dailyAvg >= 0.3).length;
     const colegiosContinuosPct = colegiosArray.length > 0 ? ((colegiosContinuos / colegiosArray.length) * 100).toFixed(1) : '0.0';
-    document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${totalColegiosInstalados} sedes intervenidas con uso regular)`;
+    document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${totalColegiosInstalados} sedes intervenidas con apropiación activa en clases)`;
     document.getElementById('ind-vdi').textContent = `${porcentajeVMReciente.toFixed(1)}% Nube VDI / ${porcentajeLocal.toFixed(1)}% Local (Promedio acumulado: ${porcentajeVM.toFixed(1)}% VDI)`;
     document.getElementById('ind-prom-diario').textContent = `${promedioDiario.toFixed(1)} hrs/día por equipo`;
 
