@@ -405,19 +405,9 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Calcular días de laboratorio activo por colegio (limitado entre 1 y los días hábiles del periodo)
-        let schoolActiveDays = daysCount;
-        if (item.avgHours > 0) {
-            const estimatedDays = Math.round(item.avgHours / 6.0);
-            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
-        }
-
-        let dailyAvg = item.avgHours / schoolActiveDays;
-
-        // Límite de seguridad
-        if (dailyAvg > 12.0) {
-            dailyAvg = 12.0;
-        }
+        // Calcular promedio diario puro sobre los días hábiles del periodo
+        let dailyAvg = item.avgHours / daysCount;
+        if (dailyAvg > 12.0) dailyAvg = 12.0;
 
         const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
 

@@ -141,13 +141,8 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         c.avgHours = c.activeCount > 0 ? (c.totalHours / c.activeCount) : 0;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
-        // Calcular promedio diario del colegio en el rango
-        let schoolActiveDays = daysCount;
-        if (c.avgHours > 0) {
-            const estimatedDays = Math.round(c.avgHours / 6.0);
-            schoolActiveDays = Math.min(daysCount, Math.max(1, estimatedDays));
-        }
-        c.dailyAvg = c.avgHours / schoolActiveDays;
+        // Calcular promedio diario puro sobre los días hábiles del periodo
+        c.dailyAvg = c.avgHours / daysCount;
         if (c.dailyAvg > 12.0) c.dailyAvg = 12.0;
 
         // App más usada
