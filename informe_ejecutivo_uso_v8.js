@@ -346,12 +346,12 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
     }
     appsArray.sort((a, b) => b.hours - a.hours);
-    renderAppsTable(appsArray.slice(0, 10), daysCount, totalColegiosInstalados);
+    renderAppsTable(appsArray.slice(0, 10), daysCount, totalColegiosInstalados, porcentajeVM);
 
     // 4. Procesar Webs
     let websArray = Array.isArray(websiteData) ? websiteData : [];
     websArray.sort((a, b) => b.visits - a.visits);
-    renderWebsTable(websArray.slice(0, 10), daysCount, totalColegiosInstalados);
+    renderWebsTable(websArray.slice(0, 10), daysCount, totalColegiosInstalados, porcentajeVM);
 
     // 5. Resumen Uso Académico Escolar
     processAcademicSummary(appsArray, websArray, daysCount, totalColegiosInstalados, porcentajeVM);
@@ -480,22 +480,30 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
     });
 }
 
-function renderAppsTable(data, daysCount = 1, numColegios = 32) {
+function renderAppsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4.0) {
     const tbody = document.getElementById('tableApps');
     tbody.innerHTML = '';
     const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
         const dailyAvgHours = (item.hours / numCol) / daysCount;
-        let displayStr = '';
-        if (dailyAvgHours >= 1.0) {
-            displayStr = `${dailyAvgHours.toFixed(1)} hrs/día`;
+        let displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+
+        const isWindowsVDI = /windows|powerpnt|winword|excel|photoshop|illustrator/i.test(item.name);
+        const vmPct = isWindowsVDI ? 100 : Math.round(globalVdiPct);
+        const localPct = Math.max(0, 100 - vmPct);
+
+        let badgesHTML = '';
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
+        } else if (vmPct === 100) {
+            badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
         } else {
-            const mins = Math.round(dailyAvgHours * 60);
-            displayStr = `${mins} min/día`;
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
         }
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong>${item.name}</strong></td>
+            <td><strong>${item.name}</strong> ${badgesHTML}</td>
             <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs</td>
             <td><span class="status-high">${displayStr}</span></td>
         `;
@@ -503,22 +511,29 @@ function renderAppsTable(data, daysCount = 1, numColegios = 32) {
     });
 }
 
-function renderWebsTable(data, daysCount = 1, numColegios = 32) {
+function renderWebsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4.0) {
     const tbody = document.getElementById('tableWebs');
     tbody.innerHTML = '';
     const numCol = numColegios > 0 ? numColegios : 32;
+    const vmPct = Math.round(globalVdiPct);
+    const localPct = Math.max(0, 100 - vmPct);
+
     data.forEach(item => {
         const dailyAvgHours = (item.visits / numCol) / daysCount;
-        let displayStr = '';
-        if (dailyAvgHours >= 1.0) {
-            displayStr = `${dailyAvgHours.toFixed(1)} hrs/día`;
+        let displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+
+        let badgesHTML = '';
+        if (vmPct > 0 && localPct > 0) {
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local ${localPct}%</span><span class="badge-vdi" style="font-size:0.75rem; margin-left:4px;">VDI ${vmPct}%</span>`;
+        } else if (vmPct === 100) {
+            badgesHTML = `<span class="badge-vdi" style="font-size:0.75rem; margin-left:6px;">VDI 100%</span>`;
         } else {
-            const mins = Math.round(dailyAvgHours * 60);
-            displayStr = `${mins} min/día`;
+            badgesHTML = `<span class="badge-local" style="font-size:0.75rem; margin-left:6px;">Local 100%</span>`;
         }
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td><strong>${item.name}</strong></td>
+            <td><strong>${item.name}</strong> ${badgesHTML}</td>
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs</td>
             <td><span class="status-high">${displayStr}</span></td>
         `;
