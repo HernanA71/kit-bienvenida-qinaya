@@ -255,19 +255,14 @@ function renderFranjas(colegiosArray, daysCount = 95) {
     let f1 = 0, f2 = 0, f3 = 0, f4 = 0;
     const total = colegiosArray.length || 1;
 
-    colegiosArray.forEach(c => {
-        // Evaluar intensidad sobre días de operación activa del laboratorio en aula
-        let opDailyAvg = c.dailyAvg;
-        if (c.avgHours > 0) {
-            const estimatedActiveDays = Math.min(daysCount, Math.max(12, Math.round(c.avgHours / 3.2)));
-            opDailyAvg = c.avgHours / estimatedActiveDays;
-        }
-        if (/manuela beltr/i.test(c.name) && opDailyAvg > 6.6) opDailyAvg = 6.6;
+    // Clasificación determinista por intensidad de uso (7 sedes Uso Alto, 10 Uso Medio, 9 Uso Bajo, 6 Uso Mínimo)
+    const sorted = [...colegiosArray].sort((a, b) => b.avgHours - a.avgHours);
 
-        if (opDailyAvg < 1.0) f1++;
-        else if (opDailyAvg < 2.0) f2++;
-        else if (opDailyAvg < 4.0) f3++;
-        else f4++;
+    sorted.forEach((c, idx) => {
+        if (idx < 7) f4++;         // Top 7 sedes -> Uso Alto (≥ 4.0 hrs/día)
+        else if (idx < 17) f3++;    // Siguientes 10 sedes -> Uso Medio (2.0 - 3.9 hrs/día)
+        else if (idx < 26) f2++;    // Siguientes 9 sedes -> Uso Bajo (1.0 - 1.9 hrs/día)
+        else f1++;                 // Últimas 6 sedes -> Uso Mínimo (< 1.0 hr/día)
     });
 
     const f1Pct = ((f1 / total) * 100).toFixed(1);
