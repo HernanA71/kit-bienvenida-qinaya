@@ -521,10 +521,16 @@
                     <!-- Campo 2: Colegio / Sede -->
                     <div class="form-group">
                         <label for="selectColegio"><i class="fas fa-building"></i> Colegio / Sede Educativa:</label>
-                        <select id="selectColegio" class="form-control" required>
-                            <option value="">-- Seleccionar Colegio --</option>
+                        <select id="selectColegio" class="form-control" onchange="toggleCustomColegioInput()" required>
+                            <option value="">-- Seleccionar Colegio o escribir nuevo --</option>
                             <!-- Inyectados dinámicamente -->
                         </select>
+                    </div>
+
+                    <!-- Campo Adicional para Colegio Personalizado -->
+                    <div class="form-group" id="groupCustomColegio" style="display: none;">
+                        <label for="inputCustomColegio" style="color:var(--blue-qinaya);"><i class="fas fa-pen"></i> Escriba el nombre del nuevo colegio / sede:</label>
+                        <input type="text" id="inputCustomColegio" class="form-control" placeholder="Ej: Colegio San Cristóbal Sur...">
                     </div>
 
                     <!-- Campo 3: Cantidad de Computadores No Instalados -->

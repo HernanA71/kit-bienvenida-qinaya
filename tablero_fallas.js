@@ -113,18 +113,46 @@ document.addEventListener('DOMContentLoaded', () => {
     syncWithGoogleSheetRemote();
 });
 
-// Poblar desplegable de colegios
+// Poblar y reconstruir desplegable de colegios (incluyendo personalizados)
 function initColegiosSelect() {
     const select = document.getElementById('selectColegio');
     if (!select) return;
 
-    select.innerHTML = '<option value="">-- Seleccionar Colegio --</option>';
+    const currentVal = select.value;
+    select.innerHTML = '<option value="">-- Seleccionar Colegio o escribir nuevo --</option>';
+    
     LISTA_COLEGIOS.forEach(col => {
         const opt = document.createElement('option');
         opt.value = col;
         opt.textContent = col;
         select.appendChild(opt);
     });
+
+    const optNuevo = document.createElement('option');
+    optNuevo.value = "__NUEVO_COLEGIO__";
+    optNuevo.textContent = "+ Escribir otro colegio / sede personalizada...";
+    select.appendChild(optNuevo);
+
+    if (currentVal && currentVal !== "__NUEVO_COLEGIO__") {
+        select.value = currentVal;
+    }
+}
+
+// Mostrar/ocultar input para colegio personalizado
+function toggleCustomColegioInput() {
+    const select = document.getElementById('selectColegio');
+    const groupCustom = document.getElementById('groupCustomColegio');
+    const inputCustom = document.getElementById('inputCustomColegio');
+
+    if (select.value === '__NUEVO_COLEGIO__') {
+        groupCustom.style.display = 'block';
+        inputCustom.required = true;
+        inputCustom.focus();
+    } else {
+        groupCustom.style.display = 'none';
+        inputCustom.required = false;
+        inputCustom.value = '';
+    }
 }
 
 // Cargar datos desde localStorage o iniciales
@@ -145,8 +173,12 @@ function loadFallasData() {
         if (item.incidencia && !fallasOpciones.includes(item.incidencia)) {
             fallasOpciones.push(item.incidencia);
         }
+        if (item.colegio && !LISTA_COLEGIOS.includes(item.colegio)) {
+            LISTA_COLEGIOS.push(item.colegio);
+        }
     });
 
+    initColegiosSelect();
     rebuildIncidenciasSelect();
 }
 
@@ -235,15 +267,16 @@ function handleFormSubmit(e) {
     e.preventDefault();
 
     const selectIncidencia = document.getElementById('selectIncidencia');
-    const inputCustom = document.getElementById('inputCustomIncidencia');
+    const inputCustomIncidencia = document.getElementById('inputCustomIncidencia');
     const selectColegio = document.getElementById('selectColegio');
+    const inputCustomColegio = document.getElementById('inputCustomColegio');
     const inputCantidad = document.getElementById('inputCantidad');
     const selectEstadoSolucion = document.getElementById('selectEstadoSolucion');
     const inputSolucion = document.getElementById('inputSolucion');
 
     let incidenciaFinal = selectIncidencia.value;
     if (incidenciaFinal === '__NUEVA__') {
-        incidenciaFinal = inputCustom.value.trim();
+        incidenciaFinal = inputCustomIncidencia.value.trim();
         if (!incidenciaFinal) {
             alert('Por favor escriba el nombre de la nueva falla.');
             return;
@@ -251,6 +284,19 @@ function handleFormSubmit(e) {
         if (!fallasOpciones.includes(incidenciaFinal)) {
             fallasOpciones.push(incidenciaFinal);
             rebuildIncidenciasSelect();
+        }
+    }
+
+    let colegioFinal = selectColegio.value;
+    if (colegioFinal === '__NUEVO_COLEGIO__') {
+        colegioFinal = inputCustomColegio.value.trim();
+        if (!colegioFinal) {
+            alert('Por favor escriba el nombre del nuevo colegio o sede.');
+            return;
+        }
+        if (!LISTA_COLEGIOS.includes(colegioFinal)) {
+            LISTA_COLEGIOS.push(colegioFinal);
+            initColegiosSelect();
         }
     }
 
@@ -262,7 +308,7 @@ function handleFormSubmit(e) {
             updatedRecord = {
                 ...fallasData[targetIndex],
                 incidencia: incidenciaFinal,
-                colegio: selectColegio.value,
+                colegio: colegioFinal,
                 cantidad: parseInt(inputCantidad.value) || 0,
                 estado: selectEstadoSolucion.value,
                 solucion: inputSolucion.value.trim()
@@ -281,7 +327,7 @@ function handleFormSubmit(e) {
         const nuevoRegistro = {
             id: Date.now(),
             incidencia: incidenciaFinal,
-            colegio: selectColegio.value,
+            colegio: colegioFinal,
             cantidad: parseInt(inputCantidad.value) || 0,
             estado: selectEstadoSolucion.value,
             solucion: inputSolucion.value.trim(),
@@ -307,24 +353,36 @@ function editRegistro(id) {
     editingId = id;
 
     const selectIncidencia = document.getElementById('selectIncidencia');
-    const inputCustom = document.getElementById('inputCustomIncidencia');
-    const groupCustom = document.getElementById('groupCustomIncidencia');
+    const inputCustomIncidencia = document.getElementById('inputCustomIncidencia');
+    const groupCustomIncidencia = document.getElementById('groupCustomIncidencia');
+
     const selectColegio = document.getElementById('selectColegio');
+    const inputCustomColegio = document.getElementById('inputCustomColegio');
+    const groupCustomColegio = document.getElementById('groupCustomColegio');
+
     const inputCantidad = document.getElementById('inputCantidad');
     const selectEstadoSolucion = document.getElementById('selectEstadoSolucion');
     const inputSolucion = document.getElementById('inputSolucion');
 
     if (fallasOpciones.includes(item.incidencia)) {
         selectIncidencia.value = item.incidencia;
-        groupCustom.style.display = 'none';
-        inputCustom.value = '';
+        groupCustomIncidencia.style.display = 'none';
+        inputCustomIncidencia.value = '';
     } else {
         selectIncidencia.value = '__NUEVA__';
-        groupCustom.style.display = 'block';
-        inputCustom.value = item.incidencia;
+        groupCustomIncidencia.style.display = 'block';
+        inputCustomIncidencia.value = item.incidencia;
     }
 
-    selectColegio.value = item.colegio;
+    if (LISTA_COLEGIOS.includes(item.colegio)) {
+        selectColegio.value = item.colegio;
+        groupCustomColegio.style.display = 'none';
+        inputCustomColegio.value = '';
+    } else {
+        selectColegio.value = '__NUEVO_COLEGIO__';
+        groupCustomColegio.style.display = 'block';
+        inputCustomColegio.value = item.colegio;
+    }
     inputCantidad.value = item.cantidad;
     selectEstadoSolucion.value = item.estado;
     inputSolucion.value = item.solucion;
@@ -359,6 +417,7 @@ function cancelEdit() {
 function resetFormUI() {
     document.getElementById('formFalla').reset();
     document.getElementById('groupCustomIncidencia').style.display = 'none';
+    document.getElementById('groupCustomColegio').style.display = 'none';
     
     const btnSubmit = document.querySelector('.btn-submit');
     btnSubmit.style.backgroundColor = '';
