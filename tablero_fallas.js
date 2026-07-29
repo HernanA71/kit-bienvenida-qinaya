@@ -1,9 +1,12 @@
 /**
  * QINAYA ANALYTICS - Tablero de Fallas de Instalación
- * Registro interactivo de incidencias, propuesta de solución, edición completa y conteo dinámico.
+ * Registro interactivo de incidencias, propuesta de solución, edición completa y sincronización con Google Sheets.
  */
 
 const STORAGE_KEY = "qinaya_fallas_instalacion_v2";
+
+// URL opcional del WebApp de Google Apps Script desplegado (se puede configurar dinámicamente)
+let SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec";
 
 // Lista de Colegios Oficiales del Convenio SED Bogotá
 const LISTA_COLEGIOS = [
@@ -101,12 +104,13 @@ const DATOS_INICIALES = [
 
 let fallasData = [];
 let chartFallasInstance = null;
-let editingId = null; // ID del registro que se está editando (null si es creación)
+let editingId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     initColegiosSelect();
     loadFallasData();
     renderAll();
+    syncWithGoogleSheetRemote();
 });
 
 // Poblar desplegable de colegios
@@ -137,7 +141,6 @@ function loadFallasData() {
         saveToStorage();
     }
 
-    // Extraer incidencias personalizadas guardadas previamente
     fallasData.forEach(item => {
         if (item.incidencia && !fallasOpciones.includes(item.incidencia)) {
             fallasOpciones.push(item.incidencia);
@@ -194,6 +197,39 @@ function saveToStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fallasData));
 }
 
+// Enviar datos en segundo plano a Google Apps Script evitando problemas de CORS (Content-Type: text/plain)
+async function sendToGoogleSheet(record) {
+    if (!SHEETS_WEBAPP_URL) return;
+    try {
+        await fetch(SHEETS_WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(record)
+        });
+    } catch (e) {
+        console.warn("Sincronización remota con Google Sheets en pausa o fuera de línea:", e);
+    }
+}
+
+// Sincronizar remotamente al iniciar si hay URL
+async function syncWithGoogleSheetRemote() {
+    if (!SHEETS_WEBAPP_URL) return;
+    try {
+        const res = await fetch(SHEETS_WEBAPP_URL + '?action=getFallas&t=' + new Date().getTime());
+        const remoteData = await res.json();
+        if (remoteData && Array.isArray(remoteData) && remoteData.length > 0) {
+            fallasData = remoteData;
+            saveToStorage();
+            renderAll();
+        }
+    } catch (e) {
+        console.log("Servicio remoto de Google Sheets inicializado en modo híbrido local/remoto.");
+    }
+}
+
 // Manejar envío del formulario (Creación o Edición)
 function handleFormSubmit(e) {
     e.preventDefault();
@@ -221,8 +257,9 @@ function handleFormSubmit(e) {
     if (editingId) {
         // MODO EDICIÓN: Actualizar registro existente
         const targetIndex = fallasData.findIndex(item => item.id === editingId);
+        let updatedRecord = null;
         if (targetIndex !== -1) {
-            fallasData[targetIndex] = {
+            updatedRecord = {
                 ...fallasData[targetIndex],
                 incidencia: incidenciaFinal,
                 colegio: selectColegio.value,
@@ -230,10 +267,12 @@ function handleFormSubmit(e) {
                 estado: selectEstadoSolucion.value,
                 solucion: inputSolucion.value.trim()
             };
+            fallasData[targetIndex] = updatedRecord;
         }
         editingId = null;
         resetFormUI();
         saveToStorage();
+        if (updatedRecord) sendToGoogleSheet(updatedRecord);
         renderAll();
 
         showFormNotification('¡Registro Actualizado Exitosamente!', '#2563eb');
@@ -253,6 +292,7 @@ function handleFormSubmit(e) {
         fallasData.unshift(nuevoRegistro);
         resetFormUI();
         saveToStorage();
+        sendToGoogleSheet(nuevoRegistro);
         renderAll();
 
         showFormNotification('¡Falla Registrada Exitosamente!', '#10b981');
@@ -274,7 +314,6 @@ function editRegistro(id) {
     const selectEstadoSolucion = document.getElementById('selectEstadoSolucion');
     const inputSolucion = document.getElementById('inputSolucion');
 
-    // Verificar si la incidencia está en la lista estándar
     if (fallasOpciones.includes(item.incidencia)) {
         selectIncidencia.value = item.incidencia;
         groupCustom.style.display = 'none';
@@ -290,12 +329,10 @@ function editRegistro(id) {
     selectEstadoSolucion.value = item.estado;
     inputSolucion.value = item.solucion;
 
-    // Cambiar apariencia del botón
     const btnSubmit = document.querySelector('.btn-submit');
     btnSubmit.style.backgroundColor = '#1d4ed8';
     btnSubmit.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar Registro de Falla';
 
-    // Mostrar botón Cancelar si no existe
     let btnCancel = document.getElementById('btnCancelEdit');
     if (!btnCancel) {
         btnCancel = document.createElement('button');
@@ -309,7 +346,6 @@ function editRegistro(id) {
         btnSubmit.parentNode.appendChild(btnCancel);
     }
 
-    // Scroll suave hacia el formulario
     document.querySelector('.card-box').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -378,7 +414,6 @@ function renderKPIs() {
         }
     });
 
-    // Encontrar causa principal de mayor volumen de PCs
     let causaPrincipal = "Ninguna";
     let maxCount = -1;
     for (let [causa, cant] of incidenciasMap.entries()) {
@@ -478,7 +513,6 @@ function renderChart() {
     const ctx = document.getElementById('chartFallasCanvas').getContext('2d');
     if (chartFallasInstance) chartFallasInstance.destroy();
 
-    // Agrupar PCs por Incidencia
     const map = new Map();
     fallasData.forEach(item => {
         map.set(item.incidencia, (map.get(item.incidencia) || 0) + item.cantidad);
