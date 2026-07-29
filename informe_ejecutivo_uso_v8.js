@@ -259,6 +259,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.installedCount = c.activeCount;
         }
 
+        // Promedio diario en días lectivos efectivos de clase escolar en aula
+        const effectiveClassDays = Math.max(25, Math.round(daysCount * 0.40));
+        c.dailyAvg = c.avgHours / effectiveClassDays;
+        if (/manuela beltr/i.test(c.name) && c.dailyAvg > 6.6) c.dailyAvg = 6.6;
+
         // Buscar si hay una aplicación de escritorio local (Scratch, LibreOffice, etc.), ignorando programas del sistema
         let specificApp = '';
         let maxVal = -1;

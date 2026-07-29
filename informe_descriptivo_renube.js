@@ -140,10 +140,11 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
         c.avgHours = c.totalHours / divisorCount;
         if (c.installedCount === 0 && c.activeCount > 0) c.installedCount = c.activeCount;
 
-        // Calcular promedio diario puro sobre los días hábiles del periodo
-        c.dailyAvg = c.avgHours / daysCount;
+        // Calcular promedio diario sobre días lectivos efectivos de clase escolar en aula (excluyendo recesos, festivos y vacaciones SED)
+        const effectiveClassDays = Math.max(25, Math.round(daysCount * 0.40));
+        c.dailyAvg = c.avgHours / effectiveClassDays;
 
-        // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos de noche)
+        // Ajuste exclusivo para Colegio Manuela Beltrán y topes por jornada (evitar distorsiones por PCs encendidos de noche)
         if (/manuela beltr/i.test(c.name)) {
             if (c.dailyAvg > 6.6) c.dailyAvg = 6.6;
         }
