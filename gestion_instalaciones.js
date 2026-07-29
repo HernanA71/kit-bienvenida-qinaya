@@ -184,7 +184,7 @@ function renderFase2Table(data) {
 }
 
 function updateMeta() {
-    const totalAcumulado = totalEquiposFase1 + totalEquiposFase2Completados;
+    const totalAcumulado = totalEquiposFase1;
     const porcentaje = Math.min(100, Math.round((totalAcumulado / META_GLOBAL) * 100));
 
     const pendientes = Math.max(0, META_GLOBAL - totalAcumulado);
