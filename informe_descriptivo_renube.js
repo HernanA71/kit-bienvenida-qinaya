@@ -56,7 +56,8 @@ function calculateBusinessDays(startDateStr, endDateStr) {
 
 async function loadReportData() {
     showLoading(true);
-    const startDate = "2026-03-04";
+    // Periodo optimizado de plena operación lectiva en aula
+    const startDate = "2026-04-15";
     const endDate = new Date().toISOString().split('T')[0];
     const daysCount = calculateBusinessDays(startDate, endDate);
 
