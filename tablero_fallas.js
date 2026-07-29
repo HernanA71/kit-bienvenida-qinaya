@@ -1,9 +1,9 @@
 /**
  * QINAYA ANALYTICS - Tablero de Fallas de Instalación
- * Registro interactivo de incidencias, propuesta de solución y conteo dinámico en campo.
+ * Registro interactivo de incidencias, propuesta de solución, edición completa y conteo dinámico.
  */
 
-const STORAGE_KEY = "qinaya_fallas_instalacion_v1";
+const STORAGE_KEY = "qinaya_fallas_instalacion_v2";
 
 // Lista de Colegios Oficiales del Convenio SED Bogotá
 const LISTA_COLEGIOS = [
@@ -50,51 +50,58 @@ let fallasOpciones = [
     "Laboratorio sin fluido eléctrico o sin tomacorrientes",
     "Sin conectividad a Internet en el colegio",
     "Equipos obsoletos sin requerimientos mínimos de RAM",
-    "Laboratorio cerrado / Sin acceso por directivos"
+    "Laboratorio cerrado / Sin acceso por directivos",
+    "Problemas de booteo o clave en BIOS (Soporte OTIC)",
+    "Saturación o inestabilidad en red corporativa OIT"
 ];
 
-// Datos iniciales de prueba si no existen en localStorage
+// Datos iniciales de prueba y reales del reporte
 const DATOS_INICIALES = [
     {
-        id: 1,
-        incidencia: "Puertos USB dañados o deshabilitados por BIOS",
-        colegio: "Colegio Policarpa Salavarrieta IED",
+        id: 101,
+        incidencia: "Problemas de booteo o clave en BIOS (Soporte OTIC)",
+        colegio: "Colegio Manuel Cepeda Vargas (IED)",
         cantidad: 15,
-        estado: "Con Solución",
-        solucion: "Se requiere usar lector de tarjetas SD interno o booteo por red local PXE.",
-        fecha: "2026-07-28"
+        estado: "En Revisión",
+        solucion: "Computadores con problemas de boot y clave en BIOS. Soporte escalado a la OTIC.",
+        fecha: "2026-07-28",
+        esEjemplo: false
     },
     {
-        id: 2,
+        id: 102,
+        incidencia: "Saturación o inestabilidad en red corporativa OIT",
+        colegio: "Colegio Los Comuneros - Oswaldo Guayasamin (IED)",
+        cantidad: 18,
+        estado: "En Revisión",
+        solucion: "Conexión a internet con alta saturación. Respuesta e intervención técnica pendiente de la OIT.",
+        fecha: "2026-07-27",
+        esEjemplo: false
+    },
+    {
+        id: 103,
+        incidencia: "Puertos USB dañados o deshabilitados por BIOS",
+        colegio: "Colegio Policarpa Salavarrieta IED",
+        cantidad: 12,
+        estado: "Con Solución",
+        solucion: "Se requiere usar lector de tarjetas SD interno o booteo por red local PXE.",
+        fecha: "2026-07-26",
+        esEjemplo: true
+    },
+    {
+        id: 104,
         incidencia: "Computadores nuevos con restricción de garantía",
         colegio: "Colegio Liceo Nacional Agustín Nieto Caballero -SEDE PRINCIPAL",
         cantidad: 20,
         estado: "Sin Solución",
-        solucion: "No aplica / Sin solución desde Qinaya debido a sellos de garantía del proveedor.",
-        fecha: "2026-07-27"
-    },
-    {
-        id: 3,
-        incidencia: "Red corporativa con claves / credenciales restringidas",
-        colegio: "Colegio Rural Pasquilla -SEDE-PASQUILLA",
-        cantidad: 18,
-        estado: "Con Solución",
-        solucion: "Solicitar credencial WPA2 Enterprise a la oficina de TI de la SED o instalar router Qinaya.",
-        fecha: "2026-07-26"
-    },
-    {
-        id: 4,
-        incidencia: "Laboratorio sin fluido eléctrico o sin tomacorrientes",
-        colegio: "Colegio Pablo Neruda IED",
-        cantidad: 12,
-        estado: "En Revisión",
-        solucion: "Reportar a infraestructura de la SED para reparación del breaker principal del aula.",
-        fecha: "2026-07-25"
+        solucion: "No aplica / Sin solución desde Qinaya debido a sellos de garantía de fábrica del proveedor.",
+        fecha: "2026-07-25",
+        esEjemplo: true
     }
 ];
 
 let fallasData = [];
 let chartFallasInstance = null;
+let editingId = null; // ID del registro que se está editando (null si es creación)
 
 document.addEventListener('DOMContentLoaded', () => {
     initColegiosSelect();
@@ -187,7 +194,7 @@ function saveToStorage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(fallasData));
 }
 
-// Manejar envío del formulario
+// Manejar envío del formulario (Creación o Edición)
 function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -205,36 +212,132 @@ function handleFormSubmit(e) {
             alert('Por favor escriba el nombre de la nueva falla.');
             return;
         }
-        // Agregar a la lista de opciones para futuros usos
         if (!fallasOpciones.includes(incidenciaFinal)) {
             fallasOpciones.push(incidenciaFinal);
             rebuildIncidenciasSelect();
         }
     }
 
-    const nuevoRegistro = {
-        id: Date.now(),
-        incidencia: incidenciaFinal,
-        colegio: selectColegio.value,
-        cantidad: parseInt(inputCantidad.value) || 0,
-        estado: selectEstadoSolucion.value,
-        solucion: inputSolucion.value.trim(),
-        fecha: new Date().toISOString().split('T')[0]
-    };
+    if (editingId) {
+        // MODO EDICIÓN: Actualizar registro existente
+        const targetIndex = fallasData.findIndex(item => item.id === editingId);
+        if (targetIndex !== -1) {
+            fallasData[targetIndex] = {
+                ...fallasData[targetIndex],
+                incidencia: incidenciaFinal,
+                colegio: selectColegio.value,
+                cantidad: parseInt(inputCantidad.value) || 0,
+                estado: selectEstadoSolucion.value,
+                solucion: inputSolucion.value.trim()
+            };
+        }
+        editingId = null;
+        resetFormUI();
+        saveToStorage();
+        renderAll();
 
-    fallasData.unshift(nuevoRegistro);
-    saveToStorage();
-    renderAll();
+        showFormNotification('¡Registro Actualizado Exitosamente!', '#2563eb');
+    } else {
+        // MODO CREACIÓN: Agregar nuevo registro
+        const nuevoRegistro = {
+            id: Date.now(),
+            incidencia: incidenciaFinal,
+            colegio: selectColegio.value,
+            cantidad: parseInt(inputCantidad.value) || 0,
+            estado: selectEstadoSolucion.value,
+            solucion: inputSolucion.value.trim(),
+            fecha: new Date().toISOString().split('T')[0],
+            esEjemplo: false
+        };
 
-    // Limpiar Formulario
+        fallasData.unshift(nuevoRegistro);
+        resetFormUI();
+        saveToStorage();
+        renderAll();
+
+        showFormNotification('¡Falla Registrada Exitosamente!', '#10b981');
+    }
+}
+
+// Cargar un registro en el formulario para Editar
+function editRegistro(id) {
+    const item = fallasData.find(x => x.id === id);
+    if (!item) return;
+
+    editingId = id;
+
+    const selectIncidencia = document.getElementById('selectIncidencia');
+    const inputCustom = document.getElementById('inputCustomIncidencia');
+    const groupCustom = document.getElementById('groupCustomIncidencia');
+    const selectColegio = document.getElementById('selectColegio');
+    const inputCantidad = document.getElementById('inputCantidad');
+    const selectEstadoSolucion = document.getElementById('selectEstadoSolucion');
+    const inputSolucion = document.getElementById('inputSolucion');
+
+    // Verificar si la incidencia está en la lista estándar
+    if (fallasOpciones.includes(item.incidencia)) {
+        selectIncidencia.value = item.incidencia;
+        groupCustom.style.display = 'none';
+        inputCustom.value = '';
+    } else {
+        selectIncidencia.value = '__NUEVA__';
+        groupCustom.style.display = 'block';
+        inputCustom.value = item.incidencia;
+    }
+
+    selectColegio.value = item.colegio;
+    inputCantidad.value = item.cantidad;
+    selectEstadoSolucion.value = item.estado;
+    inputSolucion.value = item.solucion;
+
+    // Cambiar apariencia del botón
+    const btnSubmit = document.querySelector('.btn-submit');
+    btnSubmit.style.backgroundColor = '#1d4ed8';
+    btnSubmit.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar Registro de Falla';
+
+    // Mostrar botón Cancelar si no existe
+    let btnCancel = document.getElementById('btnCancelEdit');
+    if (!btnCancel) {
+        btnCancel = document.createElement('button');
+        btnCancel.id = 'btnCancelEdit';
+        btnCancel.type = 'button';
+        btnCancel.className = 'btn-submit';
+        btnCancel.style.backgroundColor = '#64748b';
+        btnCancel.style.marginTop = '8px';
+        btnCancel.innerHTML = '<i class="fas fa-times"></i> Cancelar Edición';
+        btnCancel.onclick = cancelEdit;
+        btnSubmit.parentNode.appendChild(btnCancel);
+    }
+
+    // Scroll suave hacia el formulario
+    document.querySelector('.card-box').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Cancelar edición
+function cancelEdit() {
+    editingId = null;
+    resetFormUI();
+}
+
+// Restaurar UI del formulario al estado por defecto
+function resetFormUI() {
     document.getElementById('formFalla').reset();
     document.getElementById('groupCustomIncidencia').style.display = 'none';
     
-    // Notificación visual de éxito
+    const btnSubmit = document.querySelector('.btn-submit');
+    btnSubmit.style.backgroundColor = '';
+    btnSubmit.innerHTML = '<i class="fas fa-save"></i> Guardar Registro de Falla';
+
+    const btnCancel = document.getElementById('btnCancelEdit');
+    if (btnCancel) btnCancel.remove();
+}
+
+// Notificación temporal en el botón
+function showFormNotification(msg, bgColor) {
     const btn = document.querySelector('.btn-submit');
     const originalText = btn.innerHTML;
-    btn.style.backgroundColor = '#10b981';
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> ¡Falla Registrada Exitosamente!';
+    btn.style.backgroundColor = bgColor;
+    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
     setTimeout(() => {
         btn.style.backgroundColor = '';
         btn.innerHTML = originalText;
@@ -244,6 +347,7 @@ function handleFormSubmit(e) {
 // Eliminar un registro
 function deleteRegistro(id) {
     if (confirm('¿Está seguro de eliminar este registro de falla?')) {
+        if (editingId === id) cancelEdit();
         fallasData = fallasData.filter(item => item.id !== id);
         saveToStorage();
         renderAll();
@@ -320,10 +424,12 @@ function renderTable(dataList) {
             estadoIcon = '<i class="fas fa-times-circle"></i>';
         }
 
+        const tagEjemplo = item.esEjemplo ? ' <span style="font-size:0.7rem; color:#64748b; font-weight:normal;">(Ejemplo)</span>' : '';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>
-                <strong style="color:var(--text-primary);">${item.incidencia}</strong><br>
+                <strong style="color:var(--text-primary);">${item.incidencia}</strong>${tagEjemplo}<br>
                 <small style="color:var(--text-muted);"><i class="far fa-calendar-alt"></i> ${item.fecha}</small>
             </td>
             <td><strong>${item.colegio}</strong></td>
@@ -334,7 +440,10 @@ function renderTable(dataList) {
             <td style="text-align: center;">
                 <span class="badge ${badgeEstadoClass}">${estadoIcon} ${item.estado}</span>
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; white-space: nowrap;">
+                <button class="btn-edit" onclick="editRegistro(${item.id})" title="Editar registro">
+                    <i class="fas fa-edit"></i>
+                </button>
                 <button class="btn-delete" onclick="deleteRegistro(${item.id})" title="Eliminar registro">
                     <i class="fas fa-trash-alt"></i>
                 </button>
