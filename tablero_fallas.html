@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qinaya | Tablero de Fallas de Instalación</title>
+    <meta name="description" content="Tablero interactivo para el registro y análisis de incidencias y fallas de instalación en campo - Proyecto Qinaya Renube SED Bogotá">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --blue-qinaya: #2563eb;
+            --blue-qinaya-dark: #1d4ed8;
+            --blue-qinaya-light: #eff6ff;
+            --teal-qinaya: #0d9488;
+            --red-alert: #ef4444;
+            --red-light: #fef2f2;
+            --amber-warn: #f59e0b;
+            --amber-light: #fffbeb;
+            --green-success: #10b981;
+            --green-light: #ecfdf5;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --shadow-doc: 0 10px 25px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.04);
+            --radius: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding: 30px 20px;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Header flotante de navegación */
+        .top-nav {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background-color: #475569;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn-nav:hover { background-color: #334155; transform: translateY(-1px); }
+        .btn-nav-primary { background-color: var(--blue-qinaya); }
+        .btn-nav-primary:hover { background-color: var(--blue-qinaya-dark); }
+
+        /* Contenedor Hoja Corporativa */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-doc);
+            border-top: 8px solid var(--red-alert);
+            border-radius: 8px;
+            padding: 40px 50px;
+        }
+
+        /* Banner Encabezado con Ilustración */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .header-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .header-brand img.logo {
+            height: 48px;
+            width: auto;
+            align-self: flex-start;
+        }
+
+        .header-brand h1 {
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand h1 i {
+            color: var(--red-alert);
+        }
+
+        .header-brand p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .header-illustration {
+            width: 180px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--red-light);
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid #fecaca;
+        }
+
+        .header-illustration img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+        }
+
+        /* Tarjetas de Métricas KPI */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+        }
+
+        .kpi-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .icon-red { background: var(--red-light); color: var(--red-alert); }
+        .icon-blue { background: var(--blue-qinaya-light); color: var(--blue-qinaya); }
+        .icon-amber { background: var(--amber-light); color: var(--amber-warn); }
+        .icon-teal { background: var(--green-light); color: var(--teal-qinaya); }
+
+        .kpi-content h4 {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .kpi-content .number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .kpi-content .label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* Sección Formulario + Gráfico */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; }
+        }
+
+        .card-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 25px;
+        }
+
+        .card-box h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--blue-qinaya-dark);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--blue-qinaya);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 75px;
+        }
+
+        .btn-submit {
+            background-color: var(--blue-qinaya);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: var(--blue-qinaya-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Tabla de Registros */
+        .table-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .table-header-flex h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            color: var(--blue-qinaya-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            padding-left: 35px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            background: white;
+        }
+
+        table.data-table th {
+            background: #f8fafc;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 12px 14px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: left;
+        }
+
+        table.data-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+
+        table.data-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        table.data-table tfoot td {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding: 14px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        /* Badges de Estado */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-red { background: var(--red-light); color: var(--red-alert); border: 1px solid #fecaca; }
+        .badge-amber { background: var(--amber-light); color: #d97706; border: 1px solid #fde68a; }
+        .badge-green { background: var(--green-light); color: #059669; border: 1px solid #a7f3d0; }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .btn-delete:hover { color: var(--red-alert); background: var(--red-light); }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.85); z-index: 2000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loading-overlay.hidden { display: none; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #e2e8f0; border-top-color: var(--blue-qinaya); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+
+<body>
+    <!-- Overlay de Carga -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p style="margin-top:15px; color:var(--text-secondary); font-weight:600;">Procesando información de fallas...</p>
+    </div>
+
+    <!-- Navegación Flotante -->
+    <div class="top-nav">
+        <a href="gestion_instalaciones.html" class="btn-nav">
+            <i class="fas fa-arrow-left"></i> Volver a Gestión de Instalaciones
+        </a>
+        <a href="informe_ejecutivo_uso.html" class="btn-nav btn-nav-primary">
+            <i class="fas fa-chart-line"></i> Dashboard de Uso
+        </a>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Banner Encabezado -->
+        <div class="doc-header">
+            <div class="header-brand">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo" onerror="this.src='https://qinaya.co/wp-content/uploads/2021/04/Logo-Qinaya.png'">
+                <h1><i class="fas fa-exclamation-triangle"></i> Tablero de Fallas de Instalación</h1>
+                <p><strong>Proyecto Renube — Secretaría de Educación de Bogotá</strong> | Registro técnico e identificación de causas de no instalación en campo.</p>
+            </div>
+            <div class="header-illustration">
+                <img src="tecnico_instalacion_fallo.png" alt="Técnico de Instalación" onerror="this.parentElement.style.display='none'">
+            </div>
+        </div>
+
+        <!-- Tarjetas Resumen KPI -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon icon-red"><i class="fas fa-laptop-code"></i></div>
+                <div class="kpi-content">
+                    <h4>No Instalados</h4>
+                    <div class="number" id="kpi-total-no-instalados">0</div>
+                    <div class="label">Computadores con impedimento</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-blue"><i class="fas fa-school"></i></div>
+                <div class="kpi-content">
+                    <h4>Colegios Afectados</h4>
+                    <div class="number" id="kpi-colegios-afectados">0</div>
+                    <div class="label">Sedes con registros</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-amber"><i class="fas fa-bug"></i></div>
+                <div class="kpi-content">
+                    <h4>Causa Principal</h4>
+                    <div class="number" id="kpi-causa-principal" style="font-size:1.1rem; line-height:1.2;">--</div>
+                    <div class="label">Falla de mayor impacto</div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon icon-teal"><i class="fas fa-lightbulb"></i></div>
+                <div class="kpi-content">
+                    <h4>Con Propuesta</h4>
+                    <div class="number" id="kpi-con-solucion">0</div>
+                    <div class="label">Incidencias con acción sugerida</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Grid: Formulario e Integración Gráfica -->
+        <div class="content-grid">
+            
+            <!-- Columna Formulario -->
+            <div class="card-box">
+                <h3><i class="fas fa-plus-circle" style="color:var(--blue-qinaya);"></i> Registrar Nueva Falla de Instalación</h3>
+                
+                <form id="formFalla" onsubmit="handleFormSubmit(event)">
+                    
+                    <!-- Campo 1: Incidencia / Tipo de Falla -->
+                    <div class="form-group">
+                        <label for="selectIncidencia"><i class="fas fa-tag"></i> Incidencia / Tipo de Falla:</label>
+                        <select id="selectIncidencia" class="form-control" onchange="toggleCustomIncidenciaInput()" required>
+                            <option value="">-- Seleccionar falla o escribir nueva --</option>
+                            <option value="Puertos USB dañados o deshabilitados por BIOS">Puertos USB dañados o deshabilitados por BIOS</option>
+                            <option value="Computadores nuevos con restricción de garantía">Computadores nuevos con restricción de garantía</option>
+                            <option value="Red corporativa con claves / credenciales restringidas">Red corporativa con claves / credenciales restringidas</option>
+                            <option value="Laboratorio sin fluido eléctrico o sin tomacorrientes">Laboratorio sin fluido eléctrico o sin tomacorrientes</option>
+                            <option value="Sin conectividad a Internet en el colegio">Sin conectividad a Internet en el colegio</option>
+                            <option value="Equipos obsoletos sin requerimientos mínimos de RAM">Equipos obsoletos sin requerimientos mínimos de RAM</option>
+                            <option value="Laboratorio cerrado / Sin acceso por directivos">Laboratorio cerrado / Sin acceso por directivos</option>
+                            <option value="__NUEVA__">+ Escribir nueva causa personalizada...</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo Adicional para Falla Personalizada -->
+                    <div class="form-group" id="groupCustomIncidencia" style="display: none;">
+                        <label for="inputCustomIncidencia" style="color:var(--blue-qinaya);"><i class="fas fa-pen"></i> Escriba el nombre de la nueva falla:</label>
+                        <input type="text" id="inputCustomIncidencia" class="form-control" placeholder="Ej: Disco duro mecánico fallando...">
+                    </div>
+
+                    <!-- Campo 2: Colegio / Sede -->
+                    <div class="form-group">
+                        <label for="selectColegio"><i class="fas fa-building"></i> Colegio / Sede Educativa:</label>
+                        <select id="selectColegio" class="form-control" required>
+                            <option value="">-- Seleccionar Colegio --</option>
+                            <!-- Inyectados dinámicamente -->
+                        </select>
+                    </div>
+
+                    <!-- Campo 3: Cantidad de Computadores No Instalados -->
+                    <div class="form-group">
+                        <label for="inputCantidad"><i class="fas fa-calculator"></i> Número de Computadores No Instalados:</label>
+                        <input type="number" id="inputCantidad" class="form-control" min="1" max="50" placeholder="Ej: 15" required>
+                    </div>
+
+                    <!-- Campo 4: Estado de Solución -->
+                    <div class="form-group">
+                        <label for="selectEstadoSolucion"><i class="fas fa-tasks"></i> Estado de la Solución:</label>
+                        <select id="selectEstadoSolucion" class="form-control" required>
+                            <option value="Con Solución">Con Solución (Gestión Técnica Sugerida)</option>
+                            <option value="En Revisión">En Revisión por Equipo Qinaya</option>
+                            <option value="Sin Solución">No Aplica / Sin Solución desde Qinaya</option>
+                        </select>
+                    </div>
+
+                    <!-- Campo 5: Propuesta o Solución Sugerida -->
+                    <div class="form-group">
+                        <label for="inputSolucion"><i class="fas fa-tools"></i> Propuesta / Solución Sugerida por el Técnico:</label>
+                        <textarea id="inputSolucion" class="form-control" placeholder="Describa la propuesta de solución o justifique si no aplica..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-save"></i> Guardar Registro de Falla
+                    </button>
+                </form>
+            </div>
+
+            <!-- Columna Gráfica de Análisis -->
+            <div class="card-box" style="display:flex; flex-direction:column;">
+                <h3><i class="fas fa-chart-pie" style="color:var(--teal-qinaya);"></i> Análisis de Computadores No Instalados por Causa</h3>
+                <div style="flex:1; min-height:280px; position:relative; display:flex; align-items:center; justify-content:center;">
+                    <canvas id="chartFallasCanvas"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sección Tabla Detallada -->
+        <div class="table-header-flex">
+            <h3><i class="fas fa-list-alt" style="color:var(--blue-qinaya);"></i> Registros de Fallas de Instalación en Campo</h3>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchFallaInput" class="form-control" placeholder="Buscar colegio o falla..." onkeyup="filterFallasTable()">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table" id="tableFallas">
+                <thead>
+                    <tr>
+                        <th>Tipo de Falla / Incidencia</th>
+                        <th>Colegio / Sede</th>
+                        <th style="text-align: center;">Cant. PCs No Instalados</th>
+                        <th>Propuesta / Solución Sugerida</th>
+                        <th style="text-align: center;">Estado Solución</th>
+                        <th style="text-align: center;">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyFallas">
+                    <!-- Filas inyectadas por JS -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>TOTAL COMPUTADORES NO INSTALADOS REGISTRADOS:</strong></td>
+                        <td style="text-align: center; font-size:1.1rem; color:var(--red-alert);" id="tfootTotalPCs">0 PCs</td>
+                        <td colspan="3" style="color:var(--text-muted); font-weight:normal; font-size:0.8rem;">Conteo automático acumulado de la columna.</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Tablero de Fallas de Instalación — Qinaya Analytics</strong></p>
+            <p>Secretaría de Educación del Distrito (SED Bogotá) &copy; 2026</p>
+        </div>
+
+    </div>
+
+    <!-- Script JS -->
+    <script src="tablero_fallas.js"></script>
+</body>
+
+</html>

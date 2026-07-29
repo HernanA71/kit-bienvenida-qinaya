@@ -190,10 +190,15 @@
 </head>
 
 <body>
-    <!-- Botón Flotante para PDF -->
-    <button class="btn-print" onclick="window.print()">
-        <i class="fas fa-print"></i> Imprimir a PDF
-    </button>
+    <!-- Botones Flotantes Acciones -->
+    <div style="position: fixed; top: 40px; left: 40px; display: flex; gap: 12px; z-index: 100;">
+        <button class="btn-print" style="position: relative; top: 0; left: 0;" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimir a PDF
+        </button>
+        <a href="tablero_fallas.html" class="btn-print" style="position: relative; top: 0; left: 0; background-color: #ef4444; text-decoration: none;">
+            <i class="fas fa-exclamation-triangle"></i> Tablero de Fallas de Instalación
+        </a>
+    </div>
 
     <div class="document-container">
         

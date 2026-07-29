@@ -1,0 +1,405 @@
+/**
+ * QINAYA ANALYTICS - Tablero de Fallas de Instalación
+ * Registro interactivo de incidencias, propuesta de solución y conteo dinámico en campo.
+ */
+
+const STORAGE_KEY = "qinaya_fallas_instalacion_v1";
+
+// Lista de Colegios Oficiales del Convenio SED Bogotá
+const LISTA_COLEGIOS = [
+    "Manuela Beltran - Teusaquillo",
+    "Colegio Atanasio Girardot - SEDE A",
+    "Colegio Manuel Cepeda Vargas (IED)",
+    "Colegio Santa Lucía IED - SEDE PRINCIPAL",
+    "Colegio Eduardo Santos -SEDE PRINCIPAL",
+    "Colegio Gustavo Morales Morales",
+    "Colegio Antonio García",
+    "Colegio Virginia Gutierrez de Pineda (IED)",
+    "Colegio El Salitre - Suba (IED)-SEDE A",
+    "Colegio Externado Nacional Camilo Torres-SEDE UNICA",
+    "Colegio Nuevo Horizonte - SEDE B",
+    "Colegio Distrital La Joya",
+    "Colegio Sorrento -SEDE A",
+    "Colegio José Manuel Restrepo- SEDE UNICA",
+    "Colegio Marco Tulio Fernández IED - SEDE B",
+    "Colegio Moralba Suroriental sede A",
+    "Colegio La Estrella del Sur",
+    "Colegio Paraiso Mirador -SEDE A",
+    "Colegio Distrital Costa Rica sede B",
+    "Colegio Ciudad de Villavicencio",
+    "Colegio campestre monte verde",
+    "Colegio Villemar El Carmen IED",
+    "Colegio Rural Pasquilla -SEDE-PASQUILLA",
+    "Colegio Rodrigo Lara Bonilla - SEDE A",
+    "Colegio Villamar IED",
+    "Colegio Los Comuneros - Oswaldo Guayasamin (IED)",
+    "Colegio San Francisco de Asis-SEDE A",
+    "Colegio Antonia Santos",
+    "Colegio Policarpa Salavarrieta IED",
+    "Colegio Pablo Neruda IED",
+    "Colegio Liceo Nacional Agustín Nieto Caballero -SEDE PRINCIPAL",
+    "Colegio John F. Kennedy IED",
+    "Colegio Paulo VI IED"
+];
+
+// Opciones por defecto de fallas
+let fallasOpciones = [
+    "Puertos USB dañados o deshabilitados por BIOS",
+    "Computadores nuevos con restricción de garantía",
+    "Red corporativa con claves / credenciales restringidas",
+    "Laboratorio sin fluido eléctrico o sin tomacorrientes",
+    "Sin conectividad a Internet en el colegio",
+    "Equipos obsoletos sin requerimientos mínimos de RAM",
+    "Laboratorio cerrado / Sin acceso por directivos"
+];
+
+// Datos iniciales de prueba si no existen en localStorage
+const DATOS_INICIALES = [
+    {
+        id: 1,
+        incidencia: "Puertos USB dañados o deshabilitados por BIOS",
+        colegio: "Colegio Policarpa Salavarrieta IED",
+        cantidad: 15,
+        estado: "Con Solución",
+        solucion: "Se requiere usar lector de tarjetas SD interno o booteo por red local PXE.",
+        fecha: "2026-07-28"
+    },
+    {
+        id: 2,
+        incidencia: "Computadores nuevos con restricción de garantía",
+        colegio: "Colegio Liceo Nacional Agustín Nieto Caballero -SEDE PRINCIPAL",
+        cantidad: 20,
+        estado: "Sin Solución",
+        solucion: "No aplica / Sin solución desde Qinaya debido a sellos de garantía del proveedor.",
+        fecha: "2026-07-27"
+    },
+    {
+        id: 3,
+        incidencia: "Red corporativa con claves / credenciales restringidas",
+        colegio: "Colegio Rural Pasquilla -SEDE-PASQUILLA",
+        cantidad: 18,
+        estado: "Con Solución",
+        solucion: "Solicitar credencial WPA2 Enterprise a la oficina de TI de la SED o instalar router Qinaya.",
+        fecha: "2026-07-26"
+    },
+    {
+        id: 4,
+        incidencia: "Laboratorio sin fluido eléctrico o sin tomacorrientes",
+        colegio: "Colegio Pablo Neruda IED",
+        cantidad: 12,
+        estado: "En Revisión",
+        solucion: "Reportar a infraestructura de la SED para reparación del breaker principal del aula.",
+        fecha: "2026-07-25"
+    }
+];
+
+let fallasData = [];
+let chartFallasInstance = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+    initColegiosSelect();
+    loadFallasData();
+    renderAll();
+});
+
+// Poblar desplegable de colegios
+function initColegiosSelect() {
+    const select = document.getElementById('selectColegio');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">-- Seleccionar Colegio --</option>';
+    LISTA_COLEGIOS.forEach(col => {
+        const opt = document.createElement('option');
+        opt.value = col;
+        opt.textContent = col;
+        select.appendChild(opt);
+    });
+}
+
+// Cargar datos desde localStorage o iniciales
+function loadFallasData() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+        try {
+            fallasData = JSON.parse(raw);
+        } catch (e) {
+            fallasData = [...DATOS_INICIALES];
+        }
+    } else {
+        fallasData = [...DATOS_INICIALES];
+        saveToStorage();
+    }
+
+    // Extraer incidencias personalizadas guardadas previamente
+    fallasData.forEach(item => {
+        if (item.incidencia && !fallasOpciones.includes(item.incidencia)) {
+            fallasOpciones.push(item.incidencia);
+        }
+    });
+
+    rebuildIncidenciasSelect();
+}
+
+// Reconstruir selector de incidencias agregando cualquier nueva personalizada
+function rebuildIncidenciasSelect() {
+    const select = document.getElementById('selectIncidencia');
+    if (!select) return;
+
+    const currentVal = select.value;
+    select.innerHTML = '<option value="">-- Seleccionar falla o escribir nueva --</option>';
+    
+    fallasOpciones.forEach(op => {
+        const option = document.createElement('option');
+        option.value = op;
+        option.textContent = op;
+        select.appendChild(option);
+    });
+
+    const optNueva = document.createElement('option');
+    optNueva.value = "__NUEVA__";
+    optNueva.textContent = "+ Escribir nueva causa personalizada...";
+    select.appendChild(optNueva);
+
+    if (currentVal && currentVal !== "__NUEVA__") {
+        select.value = currentVal;
+    }
+}
+
+// Mostrar/ocultar input para nueva falla personalizada
+function toggleCustomIncidenciaInput() {
+    const select = document.getElementById('selectIncidencia');
+    const groupCustom = document.getElementById('groupCustomIncidencia');
+    const inputCustom = document.getElementById('inputCustomIncidencia');
+
+    if (select.value === '__NUEVA__') {
+        groupCustom.style.display = 'block';
+        inputCustom.required = true;
+        inputCustom.focus();
+    } else {
+        groupCustom.style.display = 'none';
+        inputCustom.required = false;
+        inputCustom.value = '';
+    }
+}
+
+// Guardar datos en localStorage
+function saveToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(fallasData));
+}
+
+// Manejar envío del formulario
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    const selectIncidencia = document.getElementById('selectIncidencia');
+    const inputCustom = document.getElementById('inputCustomIncidencia');
+    const selectColegio = document.getElementById('selectColegio');
+    const inputCantidad = document.getElementById('inputCantidad');
+    const selectEstadoSolucion = document.getElementById('selectEstadoSolucion');
+    const inputSolucion = document.getElementById('inputSolucion');
+
+    let incidenciaFinal = selectIncidencia.value;
+    if (incidenciaFinal === '__NUEVA__') {
+        incidenciaFinal = inputCustom.value.trim();
+        if (!incidenciaFinal) {
+            alert('Por favor escriba el nombre de la nueva falla.');
+            return;
+        }
+        // Agregar a la lista de opciones para futuros usos
+        if (!fallasOpciones.includes(incidenciaFinal)) {
+            fallasOpciones.push(incidenciaFinal);
+            rebuildIncidenciasSelect();
+        }
+    }
+
+    const nuevoRegistro = {
+        id: Date.now(),
+        incidencia: incidenciaFinal,
+        colegio: selectColegio.value,
+        cantidad: parseInt(inputCantidad.value) || 0,
+        estado: selectEstadoSolucion.value,
+        solucion: inputSolucion.value.trim(),
+        fecha: new Date().toISOString().split('T')[0]
+    };
+
+    fallasData.unshift(nuevoRegistro);
+    saveToStorage();
+    renderAll();
+
+    // Limpiar Formulario
+    document.getElementById('formFalla').reset();
+    document.getElementById('groupCustomIncidencia').style.display = 'none';
+    
+    // Notificación visual de éxito
+    const btn = document.querySelector('.btn-submit');
+    const originalText = btn.innerHTML;
+    btn.style.backgroundColor = '#10b981';
+    btn.innerHTML = '<i class="fas fa-check-circle"></i> ¡Falla Registrada Exitosamente!';
+    setTimeout(() => {
+        btn.style.backgroundColor = '';
+        btn.innerHTML = originalText;
+    }, 2000);
+}
+
+// Eliminar un registro
+function deleteRegistro(id) {
+    if (confirm('¿Está seguro de eliminar este registro de falla?')) {
+        fallasData = fallasData.filter(item => item.id !== id);
+        saveToStorage();
+        renderAll();
+    }
+}
+
+// Renderizar todo (KPIs, Tabla y Gráfico)
+function renderAll() {
+    renderKPIs();
+    renderTable(fallasData);
+    renderChart();
+}
+
+// Renderizar KPIs superiores
+function renderKPIs() {
+    let totalPCs = 0;
+    const colegiosSet = new Set();
+    const incidenciasMap = new Map();
+    let conSolucionCount = 0;
+
+    fallasData.forEach(item => {
+        totalPCs += (item.cantidad || 0);
+        colegiosSet.add(item.colegio);
+        incidenciasMap.set(item.incidencia, (incidenciasMap.get(item.incidencia) || 0) + item.cantidad);
+        
+        if (item.estado === 'Con Solución') {
+            conSolucionCount++;
+        }
+    });
+
+    // Encontrar causa principal de mayor volumen de PCs
+    let causaPrincipal = "Ninguna";
+    let maxCount = -1;
+    for (let [causa, cant] of incidenciasMap.entries()) {
+        if (cant > maxCount) {
+            maxCount = cant;
+            causaPrincipal = causa;
+        }
+    }
+    if (causaPrincipal.length > 32) {
+        causaPrincipal = causaPrincipal.substring(0, 30) + '...';
+    }
+
+    document.getElementById('kpi-total-no-instalados').textContent = totalPCs.toLocaleString();
+    document.getElementById('kpi-colegios-afectados').textContent = colegiosSet.size;
+    document.getElementById('kpi-causa-principal').textContent = causaPrincipal;
+    document.getElementById('kpi-con-solucion').textContent = `${conSolucionCount} de ${fallasData.length}`;
+}
+
+// Renderizar Tabla
+function renderTable(dataList) {
+    const tbody = document.getElementById('tbodyFallas');
+    const tfootTotal = document.getElementById('tfootTotalPCs');
+    tbody.innerHTML = '';
+
+    if (dataList.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:25px; color:var(--text-muted);">No hay fallas de instalación registradas.</td></tr>';
+        tfootTotal.textContent = '0 PCs';
+        return;
+    }
+
+    let sumaTotalPCs = 0;
+
+    dataList.forEach(item => {
+        sumaTotalPCs += item.cantidad;
+
+        let badgeEstadoClass = 'badge-amber';
+        let estadoIcon = '<i class="fas fa-clock"></i>';
+        if (item.estado === 'Con Solución') {
+            badgeEstadoClass = 'badge-green';
+            estadoIcon = '<i class="fas fa-check-circle"></i>';
+        } else if (item.estado === 'Sin Solución') {
+            badgeEstadoClass = 'badge-red';
+            estadoIcon = '<i class="fas fa-times-circle"></i>';
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <strong style="color:var(--text-primary);">${item.incidencia}</strong><br>
+                <small style="color:var(--text-muted);"><i class="far fa-calendar-alt"></i> ${item.fecha}</small>
+            </td>
+            <td><strong>${item.colegio}</strong></td>
+            <td style="text-align: center;">
+                <span class="badge badge-red" style="font-size:0.85rem; padding:5px 12px;">${item.cantidad} PCs</span>
+            </td>
+            <td>${item.solucion}</td>
+            <td style="text-align: center;">
+                <span class="badge ${badgeEstadoClass}">${estadoIcon} ${item.estado}</span>
+            </td>
+            <td style="text-align: center;">
+                <button class="btn-delete" onclick="deleteRegistro(${item.id})" title="Eliminar registro">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    tfootTotal.textContent = `${sumaTotalPCs.toLocaleString()} PCs No Instalados`;
+}
+
+// Filtrar tabla en tiempo real
+function filterFallasTable() {
+    const q = document.getElementById('searchFallaInput').value.toLowerCase().trim();
+    if (!q) {
+        renderTable(fallasData);
+        return;
+    }
+
+    const filtered = fallasData.filter(item => 
+        item.incidencia.toLowerCase().includes(q) ||
+        item.colegio.toLowerCase().includes(q) ||
+        item.solucion.toLowerCase().includes(q) ||
+        item.estado.toLowerCase().includes(q)
+    );
+
+    renderTable(filtered);
+}
+
+// Renderizar Gráfico de Barras (Chart.js)
+function renderChart() {
+    const ctx = document.getElementById('chartFallasCanvas').getContext('2d');
+    if (chartFallasInstance) chartFallasInstance.destroy();
+
+    // Agrupar PCs por Incidencia
+    const map = new Map();
+    fallasData.forEach(item => {
+        map.set(item.incidencia, (map.get(item.incidencia) || 0) + item.cantidad);
+    });
+
+    const labels = Array.from(map.keys()).map(k => k.length > 30 ? k.substring(0, 28) + '...' : k);
+    const dataVals = Array.from(map.values());
+
+    chartFallasInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cantidad de PCs No Instalados',
+                data: dataVals,
+                backgroundColor: '#ef4444',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: (c) => ` ${c.raw} equipos afectados` } }
+            },
+            scales: {
+                x: { beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+}
