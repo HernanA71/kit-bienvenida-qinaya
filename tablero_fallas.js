@@ -5,8 +5,8 @@
 
 const STORAGE_KEY = "qinaya_fallas_instalacion_v2";
 
-// URL opcional del WebApp de Google Apps Script desplegado (se puede configurar dinámicamente)
-let SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxLgKxH9YCY_flwx7kjfdSbe37dlT9k3tKMv1lXIZPT6FcyDeeKV8xM2ta9_HMeWF0Yhg/exec";
+// URL del WebApp de Google Apps Script vinculado a la Hoja de Google Sheets "Fallas"
+let SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzvYba-iyXqNzeJiFz4pBdWsYVRiI3Zkktm0rthR-EhtxdBTxwNia7FpImA1y3iaRE-rw/exec";
 
 // Lista de Colegios Oficiales del Convenio SED Bogotá
 const LISTA_COLEGIOS = [
