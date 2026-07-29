@@ -450,8 +450,8 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
         const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
-        // Calcular promedio diario puro sobre los días hábiles del periodo
-        let dailyAvg = item.avgHours / daysCount;
+        // Utilizar el promedio diario calculado sobre días lectivos efectivos de clase escolar en aula
+        let dailyAvg = item.dailyAvg || (item.avgHours / Math.max(25, Math.round(daysCount * 0.40)));
 
         // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos 24/7)
         if (/manuela beltr/i.test(item.name)) {

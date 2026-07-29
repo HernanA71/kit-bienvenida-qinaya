@@ -477,7 +477,7 @@ function renderAllColegiosNarrative(colegios, daysCount = 1) {
     colegios.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
 
-        let dailyAvg = item.avgHours / daysCount;
+        let dailyAvg = item.dailyAvg || (item.avgHours / Math.max(25, Math.round(daysCount * 0.40)));
         if (/manuela beltr/i.test(item.name)) {
             if (dailyAvg > 6.6) dailyAvg = 6.6;
         }
