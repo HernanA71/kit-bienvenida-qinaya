@@ -592,7 +592,10 @@
                 size: A4 portrait;
                 margin: 0.8cm 1cm;
             }
-            body {
+            html, body, main, .container {
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
                 background-color: #ffffff !important;
                 color: #0f172a !important;
                 font-size: 9.5pt !important;
@@ -606,24 +609,24 @@
                 position: static !important;
                 box-shadow: none !important;
                 border-bottom: 2px solid #0284c7 !important;
-                padding: 10px 0 !important;
-                margin-bottom: 15px !important;
+                padding: 8px 0 !important;
+                margin-bottom: 12px !important;
             }
             .btn-print-pdf {
                 display: none !important;
             }
             .brand-logo-group img {
-                height: 34px !important;
+                height: 32px !important;
             }
             .brand-title {
-                font-size: 1rem !important;
+                font-size: 0.95rem !important;
             }
             .brand-subtitle {
-                font-size: 0.75rem !important;
+                font-size: 0.72rem !important;
             }
             .header-date {
-                font-size: 0.82rem !important;
-                padding: 4px 12px !important;
+                font-size: 0.8rem !important;
+                padding: 4px 10px !important;
                 white-space: nowrap !important;
                 border: 1px solid #cbd5e1 !important;
                 background: #f8fafc !important;
@@ -631,134 +634,139 @@
             }
             .hero-section {
                 padding: 0 !important;
-                margin-bottom: 16px !important;
+                margin-bottom: 14px !important;
                 background: none !important;
             }
             .hero-card {
-                padding: 20px 24px !important;
-                box-shadow: none !important;
-                border: 1px solid #cbd5e1 !important;
-                border-radius: 8px !important;
-                page-break-inside: avoid;
-            }
-            .hero-tag {
-                font-size: 0.72rem !important;
-                padding: 3px 10px !important;
-                margin-bottom: 8px !important;
-            }
-            .hero-title {
-                font-size: 1.35rem !important;
-                line-height: 1.25 !important;
-                margin-bottom: 10px !important;
-            }
-            .hero-lead {
-                font-size: 0.92rem !important;
-                line-height: 1.45 !important;
-                margin-bottom: 16px !important;
-            }
-            .metrics-grid {
-                grid-template-columns: repeat(4, 1fr) !important;
-                gap: 10px !important;
-                margin-top: 12px !important;
-            }
-            .metric-card {
-                padding: 10px 8px !important;
-                border-radius: 6px !important;
-            }
-            .metric-icon {
-                font-size: 1.2rem !important;
-                margin-bottom: 4px !important;
-            }
-            .metric-value {
-                font-size: 1.35rem !important;
-            }
-            .metric-label {
-                font-size: 0.72rem !important;
-                margin-top: 2px !important;
-            }
-            .section-block {
-                margin: 16px 0 !important;
-                page-break-inside: auto !important;
-                break-inside: auto !important;
-            }
-            .section-header {
-                margin-bottom: 10px !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-            }
-            .section-title {
-                font-size: 1.15rem !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-            }
-            .section-subtitle {
-                font-size: 0.82rem !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-            }
-            .content-card {
                 padding: 16px 20px !important;
                 box-shadow: none !important;
                 border: 1px solid #cbd5e1 !important;
                 border-radius: 8px !important;
-                margin-bottom: 14px !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+            }
+            .hero-tag {
+                font-size: 0.7rem !important;
+                padding: 3px 8px !important;
+                margin-bottom: 6px !important;
+            }
+            .hero-title {
+                font-size: 1.3rem !important;
+                line-height: 1.25 !important;
+                margin-bottom: 8px !important;
+            }
+            .hero-lead {
+                font-size: 0.9rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 12px !important;
+            }
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 8px !important;
+                margin-top: 10px !important;
+            }
+            .metric-card {
+                padding: 8px 6px !important;
+                border-radius: 6px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .metric-icon {
+                font-size: 1.1rem !important;
+                margin-bottom: 2px !important;
+            }
+            .metric-value {
+                font-size: 1.25rem !important;
+            }
+            .metric-label {
+                font-size: 0.7rem !important;
+                margin-top: 2px !important;
+            }
+            .section-block {
+                margin: 14px 0 !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
+                page-break-before: auto !important;
+                break-before: auto !important;
+            }
+            .section-header {
+                margin-bottom: 8px !important;
+            }
+            .section-title {
+                font-size: 1.1rem !important;
+            }
+            .section-subtitle {
+                font-size: 0.8rem !important;
+            }
+            .content-card {
+                padding: 14px 18px !important;
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                border-radius: 8px !important;
+                margin-bottom: 12px !important;
                 page-break-inside: auto !important;
                 break-inside: auto !important;
             }
             .prose-text {
-                font-size: 9.3pt !important;
-                line-height: 1.5 !important;
-                margin-bottom: 10px !important;
+                font-size: 9pt !important;
+                line-height: 1.45 !important;
+                margin-bottom: 8px !important;
             }
             .highlight-grid {
-                gap: 12px !important;
-                margin-top: 12px !important;
+                gap: 10px !important;
+                margin-top: 10px !important;
             }
             .highlight-item {
-                padding: 12px 14px !important;
+                padding: 10px 12px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .highlight-title {
-                font-size: 0.9rem !important;
+                font-size: 0.88rem !important;
                 margin-bottom: 4px !important;
             }
             .pedagogy-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
-                margin-top: 14px !important;
+                gap: 8px !important;
+                margin-top: 10px !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
             .pedagogy-card {
-                padding: 12px 14px !important;
+                padding: 10px 12px !important;
                 border-radius: 6px !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
             .pedagogy-icon {
-                width: 32px !important;
-                height: 32px !important;
-                font-size: 1rem !important;
-                margin-bottom: 8px !important;
-                border-radius: 6px !important;
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 0.9rem !important;
+                margin-bottom: 6px !important;
+                border-radius: 4px !important;
             }
             .pedagogy-title {
-                font-size: 0.95rem !important;
-                margin-bottom: 4px !important;
+                font-size: 0.9rem !important;
+                margin-bottom: 3px !important;
             }
             .pedagogy-desc {
-                font-size: 0.82rem !important;
-                line-height: 1.4 !important;
+                font-size: 0.8rem !important;
+                line-height: 1.35 !important;
             }
             .pedagogy-tags {
-                margin-top: 8px !important;
+                margin-top: 6px !important;
                 gap: 4px !important;
             }
             .tag {
-                font-size: 0.7rem !important;
-                padding: 2px 6px !important;
+                font-size: 0.68rem !important;
+                padding: 2px 5px !important;
             }
             .media-gallery {
                 grid-template-columns: repeat(3, 1fr) !important;
-                gap: 10px !important;
-                margin-top: 14px !important;
+                gap: 8px !important;
+                margin-top: 10px !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
             .media-card {
                 border-radius: 6px !important;
@@ -766,85 +774,78 @@
                 break-inside: avoid !important;
             }
             .media-card img {
-                height: 110px !important;
+                height: 95px !important;
             }
             .media-caption {
-                padding: 8px !important;
-                font-size: 0.78rem !important;
+                padding: 6px !important;
+                font-size: 0.75rem !important;
             }
             table.data-table tr {
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
             table.data-table th, table.data-table td {
-                padding: 8px 12px !important;
-                font-size: 0.82rem !important;
+                padding: 6px 10px !important;
+                font-size: 0.8rem !important;
             }
             .section-casos-exito {
                 page-break-before: auto !important;
                 break-before: auto !important;
-                margin-top: 16px !important;
+                margin-top: 12px !important;
             }
             .testimonial-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
-                gap: 12px !important;
-                margin-top: 12px !important;
+                gap: 10px !important;
+                margin-top: 10px !important;
                 page-break-inside: auto !important;
                 break-inside: auto !important;
             }
             .testimonial-card {
-                padding: 14px 16px !important;
+                padding: 12px 14px !important;
                 border-radius: 8px !important;
                 page-break-inside: auto !important;
                 break-inside: auto !important;
             }
             .testimonial-header {
-                margin-bottom: 10px !important;
-                padding-bottom: 8px !important;
+                margin-bottom: 8px !important;
+                padding-bottom: 6px !important;
             }
             .school-avatar {
-                width: 36px !important;
-                height: 36px !important;
-                font-size: 0.95rem !important;
+                width: 32px !important;
+                height: 32px !important;
+                font-size: 0.88rem !important;
             }
             .school-info h4 {
-                font-size: 0.92rem !important;
+                font-size: 0.88rem !important;
             }
             .quote-block-item {
-                padding: 8px 10px !important;
-                margin-bottom: 8px !important;
+                padding: 6px 8px !important;
+                margin-bottom: 6px !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
             .quote-block-tag {
-                font-size: 0.7rem !important;
-                margin-bottom: 3px !important;
+                font-size: 0.68rem !important;
+                margin-bottom: 2px !important;
             }
             .quote-text {
-                font-size: 0.82rem !important;
-                line-height: 1.4 !important;
+                font-size: 0.8rem !important;
+                line-height: 1.35 !important;
             }
             audio, .audio-player-group {
                 display: none !important;
             }
-            .audio-player-title {
-                font-size: 0.75rem !important;
-                margin-bottom: 4px !important;
-            }
-            .audio-item span {
-                font-size: 0.72rem !important;
-            }
             footer.site-footer {
-                padding: 20px 0 !important;
-                margin-top: 30px !important;
+                padding: 14px 0 !important;
+                margin-top: 20px !important;
                 background: #0f172a !important;
             }
             .footer-logo {
-                height: 32px !important;
-                margin-bottom: 8px !important;
+                height: 28px !important;
+                margin-bottom: 6px !important;
             }
             .footer-text {
-                font-size: 0.78rem !important;
+                font-size: 0.75rem !important;
             }
         }
     </style>
