@@ -14,8 +14,18 @@ const CONFIG_CASOS = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    updateReportDate();
     loadCasosExitoData();
 });
+
+function updateReportDate() {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const todayFormatted = new Date().toLocaleDateString('es-ES', options);
+    const dateHeader = document.getElementById('reportDateHeader');
+    const dateHero = document.getElementById('reportDateHero');
+    if (dateHeader) dateHeader.textContent = todayFormatted;
+    if (dateHero) dateHero.textContent = todayFormatted;
+}
 
 async function loadCasosExitoData() {
     const startDate = "2026-04-15";
