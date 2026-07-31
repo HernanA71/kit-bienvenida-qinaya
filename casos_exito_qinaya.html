@@ -673,25 +673,33 @@
                 margin-top: 2px !important;
             }
             .section-block {
-                margin: 20px 0 !important;
-                page-break-inside: avoid;
+                margin: 16px 0 !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
             .section-header {
-                margin-bottom: 12px !important;
+                margin-bottom: 10px !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
             .section-title {
                 font-size: 1.15rem !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
             .section-subtitle {
                 font-size: 0.82rem !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
             .content-card {
-                padding: 20px 24px !important;
+                padding: 16px 20px !important;
                 box-shadow: none !important;
                 border: 1px solid #cbd5e1 !important;
                 border-radius: 8px !important;
-                margin-bottom: 16px !important;
-                page-break-inside: avoid;
+                margin-bottom: 14px !important;
+                page-break-inside: auto !important;
+                break-inside: auto !important;
             }
             .prose-text {
                 font-size: 9.3pt !important;
@@ -717,6 +725,8 @@
             .pedagogy-card {
                 padding: 12px 14px !important;
                 border-radius: 6px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .pedagogy-icon {
                 width: 32px !important;
@@ -748,6 +758,8 @@
             }
             .media-card {
                 border-radius: 6px !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .media-card img {
                 height: 110px !important;
@@ -755,6 +767,10 @@
             .media-caption {
                 padding: 8px !important;
                 font-size: 0.78rem !important;
+            }
+            table.data-table tr {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             table.data-table th, table.data-table td {
                 padding: 8px 12px !important;
@@ -768,7 +784,8 @@
             .testimonial-card {
                 padding: 18px !important;
                 border-radius: 8px !important;
-                page-break-inside: avoid;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             .testimonial-header {
                 margin-bottom: 12px !important;
