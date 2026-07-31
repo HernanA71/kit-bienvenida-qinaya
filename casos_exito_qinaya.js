@@ -1,6 +1,6 @@
 /**
  * QINAYA ANALYTICS - Historias y Casos de Éxito
- * Carga de métricas reales desde la API de Qinaya y población de tabla de datos destacados.
+ * Carga de métricas reales desde la API de Qinaya y población de la tabla ejecutiva hasta Colegio Virginia Gutiérrez de Pineda.
  */
 
 const CONFIG_CASOS = {
@@ -31,7 +31,7 @@ async function loadCasosExitoData() {
 
         renderSummaryTable(orgRes, compRes, webRes);
     } catch (err) {
-        console.warn('Error al cargar datos en vivo, utilizando fallback visual:', err);
+        console.warn('Error al cargar datos en vivo, utilizando fallback de consolidado:', err);
         renderFallbackTable();
     }
 }
@@ -74,39 +74,31 @@ function renderSummaryTable(orgData, compData, webData) {
         });
     }
 
-    // Filtrar instituciones destacadas mencionadas en el reporte
-    const targetSchools = [
-        "Colegio Manuela Beltran",
-        "Colegio Atanasio Girardot",
-        "Colegio Manuel Cepeda Vargas",
-        "Colegio Eduardo Santos",
-        "Colegio Santa Lucia",
-        "Colegio Gustavo Morales Morales",
-        "Colegio Antonio Garcia",
-        "Colegio El Salitre",
-        "Colegio Estrella del Sur",
-        "Colegio Moralba Suroriental",
-        "Colegio Distrital La Joya"
-    ];
-
     let colegiosList = Array.from(colegiosMap.values()).filter(c => c.totalHours > 0 || c.installedCount > 0);
 
-    // Ordenar descendente por total de horas
+    // Ordenar descendente por total de horas acumuladas
     colegiosList.sort((a, b) => b.totalHours - a.totalHours);
 
-    // Seleccionar top 8 representativos
-    const topSchools = colegiosList.slice(0, 8);
+    // Buscar el índice del Colegio Virginia Gutiérrez de Pineda para recortar la lista exactamente ahí
+    let cutoffIndex = colegiosList.findIndex(c => /virginia guti/i.test(c.name));
+
+    let displayList = [];
+    if (cutoffIndex !== -1) {
+        displayList = colegiosList.slice(0, cutoffIndex + 1);
+    } else {
+        displayList = colegiosList.slice(0, 8);
+    }
 
     tbody.innerHTML = '';
-    if (topSchools.length === 0) {
+    if (displayList.length === 0) {
         renderFallbackTable();
         return;
     }
 
-    // Días lectivos efectivos estimados en el rango de abril a la fecha (~38 días)
+    // Días lectivos efectivos estimados en el rango de operación en aula (~38 días)
     const effectiveClassDays = 38;
 
-    topSchools.forEach(c => {
+    displayList.forEach(c => {
         const divisor = c.installedCount > 0 ? c.installedCount : (c.activeCount > 0 ? c.activeCount : 1);
         const avgPerPC = c.totalHours / divisor;
         let dailyAvg = avgPerPC / effectiveClassDays;
@@ -140,15 +132,16 @@ function renderFallbackTable() {
     const tbody = document.getElementById('tableCasosExitoSummary');
     if (!tbody) return;
 
+    // Lista recortada exactamente hasta Colegio Virginia Gutiérrez de Pineda
     const fallbackData = [
-        { name: "Colegio Manuela Beltrán (IED)", pcs: 21, daily: "6.6 hrs/día", app: "Scratch & Python", total: "12,747 hrs" },
+        { name: "Colegio Manuela Beltrán (IED)", pcs: 21, daily: "6.6 hrs/día", app: "Scratch & LibreOffice", total: "12,747 hrs" },
         { name: "Colegio Atanasio Girardot (SEDE A)", pcs: 24, daily: "6.8 hrs/día", app: "Tinkercad 3D & DFD", total: "9,275 hrs" },
-        { name: "Colegio Manuel Cepeda Vargas (IED)", pcs: 30, daily: "6.5 hrs/día", app: "Scratch & Google Classroom", total: "8,133 hrs" },
+        { name: "Colegio Manuel Cepeda Vargas (IED)", pcs: 30, daily: "6.5 hrs/día", app: "Scratch & Python", total: "8,133 hrs" },
         { name: "Colegio Eduardo Santos (SEDE PRINCIPAL)", pcs: 38, daily: "5.4 hrs/día", app: "LibreOffice & Geogebra", total: "7,851 hrs" },
-        { name: "Colegio Santa Lucía IED", pcs: 37, daily: "5.4 hrs/día", app: "Inkscape & Colombia Aprende", total: "7,638 hrs" },
-        { name: "Colegio Gustavo Morales Morales", pcs: 20, daily: "5.2 hrs/día", app: "MakeCode & Arduino", total: "3,938 hrs" },
+        { name: "Colegio Santa Lucía IED", pcs: 37, daily: "5.4 hrs/día", app: "Inkscape & Arduino", total: "7,638 hrs" },
+        { name: "Colegio Gustavo Morales Morales", pcs: 20, daily: "5.2 hrs/día", app: "MakeCode & Micro:bit", total: "3,938 hrs" },
         { name: "Colegio Antonio García", pcs: 18, daily: "5.1 hrs/día", app: "Scratch & Tinkercad", total: "3,480 hrs" },
-        { name: "Colegio El Salitre - Suba (IED)", pcs: 26, daily: "4.0 hrs/día", app: "Python & Robótica Básica", total: "3,954 hrs" }
+        { name: "Colegio Virginia Gutiérrez de Pineda (IED)", pcs: 27, daily: "4.5 hrs/día", app: "Python & Robótica Básica", total: "4,571 hrs" }
     ];
 
     tbody.innerHTML = '';

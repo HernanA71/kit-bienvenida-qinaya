@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historias y Casos de Éxito | Proyecto Renube Qinaya - SED Bogotá</title>
+    <title>Informe del Proyecto Renube Qinaya SED | Historias y Casos de Éxito</title>
     
     <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -80,7 +77,7 @@
         }
 
         .brand-logo-group img {
-            height: 42px;
+            height: 44px;
             width: auto;
             object-fit: contain;
         }
@@ -115,7 +112,7 @@
 
         /* Hero Section */
         .hero-section {
-            padding: 56px 0 36px;
+            padding: 48px 0 32px;
             background: radial-gradient(circle at top right, rgba(13, 148, 136, 0.08), transparent 40%),
                         radial-gradient(circle at bottom left, rgba(2, 132, 199, 0.08), transparent 40%);
         }
@@ -154,16 +151,16 @@
         }
 
         .hero-title {
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             line-height: 1.25;
             margin-bottom: 16px;
             color: var(--text-dark);
         }
 
         .hero-lead {
-            font-size: 1.12rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
-            max-width: 900px;
+            max-width: 920px;
             margin-bottom: 32px;
         }
 
@@ -213,15 +210,15 @@
 
         /* Section Layout */
         .section-block {
-            margin: 44px 0;
+            margin: 40px 0;
         }
 
         .section-header {
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
 
         .section-title {
-            font-size: 1.75rem;
+            font-size: 1.7rem;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -232,7 +229,7 @@
         }
 
         .section-subtitle {
-            font-size: 1rem;
+            font-size: 0.98rem;
             color: var(--text-muted);
             margin-top: 4px;
         }
@@ -248,7 +245,7 @@
         }
 
         .prose-text {
-            font-size: 1.05rem;
+            font-size: 1.04rem;
             color: #334155;
             line-height: 1.8;
             margin-bottom: 16px;
@@ -329,7 +326,7 @@
             text-align: center;
         }
 
-        /* Pedagogical Use Grid (Apps, 3D, Robotica, IA) */
+        /* Pedagogical Use Grid */
         .pedagogy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -437,7 +434,7 @@
         /* Testimonial Quote Cards */
         .testimonial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
             gap: 28px;
             margin-top: 28px;
         }
@@ -470,8 +467,8 @@
         }
 
         .school-avatar {
-            width: 54px;
-            height: 54px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -489,30 +486,46 @@
         }
 
         .school-info p {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .teacher-name {
+            font-size: 0.82rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
-        .quote-box {
-            position: relative;
-            margin-bottom: 20px;
+        .quote-block-item {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
-        .quote-icon {
-            font-size: 2rem;
-            color: rgba(2, 132, 199, 0.2);
-            margin-bottom: 8px;
+        .quote-block-tag {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .quote-text {
             font-style: italic;
-            font-size: 1.02rem;
+            font-size: 0.98rem;
             color: #334155;
-            line-height: 1.7;
+            line-height: 1.65;
         }
 
         .audio-player-group {
-            background: #f8fafc;
+            background: #f1f5f9;
             border-radius: var(--radius-md);
             padding: 16px;
             border: 1px solid var(--border-color);
@@ -522,7 +535,7 @@
         .audio-player-title {
             font-size: 0.85rem;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--primary-dark);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -573,11 +586,13 @@
             color: #94a3b8;
         }
 
-        /* Print styles */
+        /* Print styles for PDF export */
         @media print {
-            header.site-header { position: static; }
-            .content-card, .hero-card { box-shadow: none; border: 1px solid #ccc; }
-            audio { display: none; }
+            header.site-header { position: static; box-shadow: none; border-bottom: 2px solid #000; }
+            .content-card, .hero-card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+            audio { display: none !important; }
+            .audio-player-group { background: #fff; border: 1px dashed #999; }
+            .audio-player-group::after { content: " (Evidencia de audio auditable disponible en version digital)"; font-size: 0.8rem; font-style: italic; color: #555; }
         }
     </style>
 </head>
@@ -589,7 +604,7 @@
             <div class="brand-logo-group">
                 <img src="logo Qinaya.png" alt="Logo Qinaya">
                 <div>
-                    <div class="brand-title">Proyecto Renube Qinaya</div>
+                    <div class="brand-title">Informe del Proyecto Renube Qinaya SED</div>
                     <div class="brand-subtitle">Secretaría de Educación del Distrito (SED Bogotá)</div>
                 </div>
             </div>
@@ -606,9 +621,9 @@
         <section class="section-block hero-section">
             <div class="hero-card">
                 <span class="hero-tag"><i class="fas fa-rocket"></i> Impacto en 4 Meses de Operación Escolar</span>
-                <h1 class="hero-title">Transformación Digital de Laboratorios Escolares: Resiliencia, Autonomía y Apropiación Pedagógica en Bogotá</h1>
+                <h1 class="hero-title">Transformación digital de laboratorios escolares: de la obsolescencia a la productividad, autonomía y apropiación pedagógica en Bogotá</h1>
                 <p class="hero-lead">
-                    En tan solo cuatro meses de despliegue continuo, el <strong>Proyecto Renube Qinaya</strong> ha revitalizado las salas de informática de la Secretaría de Educación del Distrito, superando la obsolescencia tecnológica extrema para convertir computadores antiguos e inoperativos en entornos de alto rendimiento para el aprendizaje del siglo XXI.
+                    En tan solo cuatro meses de despliegue continuo, el <strong>Proyecto Renube Qinaya</strong> ha revitalizado las salas de informática de la Secretaría de Educación del Distrito, superando la obsolescencia tecnológica extrema para convertir computadores antiguos e inoperativos en laboratorios escolares productivos y eficientes para el aprendizaje.
                 </p>
 
                 <!-- Metrics Grid -->
@@ -646,30 +661,30 @@
 
             <div class="content-card">
                 <p class="prose-text">
-                    La realidad educativa de muchos colegios oficiales de Bogotá presentaba un desafío apremiante: salas de sistemas equipadas con computadores con más de 8 o 10 años de antigüedad, ralentizados por sistemas operativos pesados, incompatibilidad de software y la incapacidad física de ejecutar programas modernos. Para los docentes, dictar una clase de tecnología significaba perder más de la mitad del tiempo esperando a que los equipos encendieran o ejecutaran una sola instrucción.
+                    La realidad educativa de muchos colegios oficiales de Bogotá presentaba un desafío apremiante: salas de sistemas equipadas con computadores antiguos ralentizados e incapacitados para ejecutar programas modernos. Para los docentes, dictar una clase de tecnología significaba perder más de la mitad del tiempo esperando a que los equipos encendieran o ejecutaran una sola instrucción.
                 </p>
                 <p class="prose-text">
-                    La llegada del <strong>Proyecto Renube Qinaya</strong> transformó radicalmente este panorama. Mediante un sistema liviano optimizado y la potencia de procesamiento virtual en la nube, se logró recuperar la utilidad práctica de <strong>799 computadores</strong> distribuidos en <strong>33 instituciones educativas de la ciudad</strong>. Los salones de informática no solo volvieron a abrir sus puertas, sino que se convirtieron en espacios dinámicos donde estudiantes de primaria y bachillerato hoy programan, diseñan en 3D, exploran la robótica e investigan con herramientas de Inteligencia Artificial en tiempo real.
+                    La llegada del <strong>Proyecto Renube Qinaya</strong> transformó radicalmente este panorama. A través de la solución Qinaya, se logró recuperar la utilidad práctica de <strong>799 computadores</strong> distribuidos en <strong>33 instituciones educativas de la ciudad</strong>. Los salones de informática no solo volvieron a abrir sus puertas, sino que se convirtieron en laboratorios escolares altamente productivos donde estudiantes de primaria y bachillerato hoy programan, crean diagramas, diseñan en 3D, exploran la robótica e investigan con herramientas de Inteligencia Artificial en tiempo real.
                 </p>
 
                 <div class="highlight-grid">
                     <div class="highlight-item success">
                         <div class="highlight-title" style="color: #15803d;"><i class="fas fa-shield-alt"></i> Cero Desinstalaciones en 4 Meses</div>
                         <p style="font-size: 0.92rem; color: #166534;">
-                            A lo largo de 4 meses ininterrumpidos de operación escolar, los 33 colegios intervenidos han mantenido la solución instalada al 100%, sin registrar una sola desinstalación. Esto evidencia la aceptación técnica y la alta valoración pedagógica por parte de los rectores y cuerpos docentes.
+                            A lo largo de 4 meses ininterrumpidos de operación escolar, los 33 colegios intervenidos han mantenido la solución instalada al 100%, sin registrar una sola desinstalación. Esto evidencia la alta valoración pedagógica por parte de los rectores y cuerpos docentes.
                         </p>
                     </div>
                     <div class="highlight-item">
                         <div class="highlight-title" style="color: var(--primary-dark);"><i class="fas fa-bolt"></i> Agilidad y Velocidad de Clase</div>
                         <p style="font-size: 0.92rem; color: #1e293b;">
-                            El tiempo de inicio de los equipos se redujo drásticamente, permitiendo que las clases de 45 a 60 minutos se aprovechen en un 95% en actividades académicas efectivas, erradicando los tiempos muertos y la frustración estudiantil.
+                            El tiempo de respuesta de los equipos cambió drásticamente, permitiendo que las clases de 45 a 60 minutos se aprovechen al máximo en actividades académicas efectivas, erradicando la frustración estudiantil.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección 2: Desafíos de Campo y Resiliencia -->
+        <!-- Sección 2: Desafíos de Campo y Resiliencia Operativa -->
         <section class="section-block">
             <div class="section-header">
                 <h2 class="section-title"><i class="fas fa-tools"></i> Desafíos en Terreno y Resiliencia Operativa</h2>
@@ -685,13 +700,13 @@
                     <div class="highlight-item warning">
                         <div class="highlight-title" style="color: #b45309;"><i class="fas fa-network-wired"></i> Infraestructura de Red e Inestabilidad</div>
                         <p style="font-size: 0.92rem; color: #78350f;">
-                            Se identificaron redes corporativas con bloqueos de puertos, claves dinámicas e inestabilidad de señal Ethernet/Wi-Fi. El equipo técnico adaptó la solución permitiendo un modo híbrido local-nube que garantiza que la clase continúe incluso si la conectividad escolar tambalea.
+                            El equipo técnico de Qinaya logró reuniones con OTIC para la estabilización de estas redes de acceso a internet en los colegios, donde en los colegios que se instaló se logró en algunos casos una estabilidad mínima que se requería para la solución, pero seguimos teniendo algunas dificultades en algunos colegios con la estabilidad de la red.
                         </p>
                     </div>
                     <div class="highlight-item warning">
                         <div class="highlight-title" style="color: #b45309;"><i class="fas fa-exclamation-triangle"></i> Obsolescencia Extrema e Imposibilidad Física</div>
                         <p style="font-size: 0.92rem; color: #78350f;">
-                            En varias instituciones se diagnosticaron equipos cuyo daño en tarjetas madre o fuentes de poder era irreversible, llevando al colegio a tramitar su baja definitiva. Ante esto, los instaladores agotaron todas las vías técnicas para recuperar cada componente salvable.
+                            Ante esto, los instaladores agotaron todas las opciones viables de recuperación de software en algunos equipos y en los que no fue posible, el colegio tramitó su baja definitiva.
                         </p>
                     </div>
                     <div class="highlight-item">
@@ -704,7 +719,7 @@
 
                 <div style="background: #e0f2fe; border-left: 4px solid var(--primary); padding: 18px; border-radius: 8px; margin-top: 24px;">
                     <p style="font-size: 0.95rem; color: #0369a1; font-weight: 600;">
-                        <i class="fas fa-lightbulb"></i> Compromiso con la Meta: Para acelerar el cumplimiento de la meta de los 1,000 equipos repotenciados, reiteramos nuestro compromiso de asistir a cada colegio agendado desde <strong>Ágatha</strong>, invitando a fortalecer la focalización de datos actualizados para llegar a los salones que más lo necesitan.
+                        <i class="fas fa-lightbulb"></i> Compromiso con la Meta: Para acelerar el cumplimiento de la meta de los 1,000 equipos repotenciados, reiteramos nuestro compromiso de asistir a cada colegio agendado desde <strong>Ágatha</strong>, e invitamos a fortalecer la focalización con data de colegios actualizada ya que necesitamos de más colegios para poder llegar a la meta lo antes posible.
                     </p>
                 </div>
             </div>
@@ -786,34 +801,49 @@
         <section class="section-block">
             <div class="section-header">
                 <h2 class="section-title"><i class="fas fa-laptop-code"></i> Uso del Computador y Formación Académica</h2>
-                <p class="section-subtitle">Fomento de habilidades STEM, pensamiento computacional y competencias digitales</p>
+                <p class="section-subtitle">Fomento de habilidades STEM, pensamiento computacional, ofimática e inteligencia artificial</p>
             </div>
 
             <div class="content-card">
                 <p class="prose-text">
-                    La solución Qinaya va más allá de encender un equipo; transforma el computador en un verdadero laboratorio de aprendizaje práctico. A través del escritorio optimizado y los accesos en la nube, los estudiantes desarrollan competencias avanzadas en múltiples disciplinas:
+                    La solución Qinaya va más allá de encender un equipo; transforma el computador en un verdadero laboratorio de aprendizaje práctico. A través de la solución instalada, los estudiantes desarrollan competencias avanzadas en múltiples áreas académicas:
                 </p>
 
                 <div class="pedagogy-grid">
                     <div class="pedagogy-card">
                         <div class="pedagogy-icon"><i class="fas fa-code"></i></div>
                         <h3 class="pedagogy-title">Programación y Lógica</h3>
-                        <p class="pedagogy-desc">Formación básica y avanzada en pensamiento computacional con <strong>Scratch, MakeCode y Python</strong> para estudiantes de primaria y secundaria.</p>
+                        <p class="pedagogy-desc">Formación en programación y pensamiento computacional para estudiantes de primaria y bachillerato mediante <strong>Scratch, MakeCode y Python</strong>.</p>
                     </div>
+
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3 class="pedagogy-title">Ofimática y Producción de Textos</h3>
+                        <p class="pedagogy-desc">Manejo de herramientas de <strong>LibreOffice (Writer, Calc, Impress)</strong> para la elaboración de documentos, hojas de cálculo y presentaciones académicas con excelente apropiación.</p>
+                    </div>
+
                     <div class="pedagogy-card">
                         <div class="pedagogy-icon"><i class="fas fa-project-diagram"></i></div>
                         <h3 class="pedagogy-title">Diagramas de Flujo y Procesos</h3>
-                        <p class="pedagogy-desc">Uso de herramientas como DFD e Inkscape para estructuración de algoritmos, diseño conceptual y esquemas de solución de problemas.</p>
+                        <p class="pedagogy-desc">Creación de diagramas de flujo con <strong>DFD e Inkscape</strong> para estructuración de algoritmos y diseño de esquemas de resolución de problemas.</p>
                     </div>
+
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-microchip"></i></div>
+                        <h3 class="pedagogy-title">Tarjetas Electrónicas y Videojuegos</h3>
+                        <p class="pedagogy-desc">Integración de tarjetas electrónicas con <strong>Arduino y Micro:bit</strong> para la enseñanza de robótica, sensores y programación de videojuegos interactivos.</p>
+                    </div>
+
                     <div class="pedagogy-card">
                         <div class="pedagogy-icon"><i class="fas fa-cube"></i></div>
-                        <h3 class="pedagogy-title">Diseño 2D / 3D y Robótica</h3>
-                        <p class="pedagogy-desc">Modelado tridimensional en <strong>Tinkercad 3D</strong> y simulación de circuitos electrónicos con <strong>Arduino</strong> para proyectar prototipos físicos.</p>
+                        <h3 class="pedagogy-title">Diseño 2D / 3D</h3>
+                        <p class="pedagogy-desc">Modelado tridimensional en <strong>Tinkercad 3D</strong> para proyectar figuras geométricas y prototipos de ingeniería escolar.</p>
                     </div>
+
                     <div class="pedagogy-card">
                         <div class="pedagogy-icon"><i class="fas fa-brain"></i></div>
                         <h3 class="pedagogy-title">Investigación e IA Educativa</h3>
-                        <p class="pedagogy-desc">Consulta investigativa en <strong>Wikipedia, Colombia Aprende</strong>, trabajo colaborativo en <strong>Google Classroom</strong> e introducción a la Inteligencia Artificial con <strong>ChatGPT</strong>.</p>
+                        <p class="pedagogy-desc">Consulta investigativa en <strong>Wikipedia y Colombia Aprende</strong>, gestión escolar en <strong>Google Classroom y correos institucionales</strong>, e innovación con <strong>ChatGPT</strong>.</p>
                     </div>
                 </div>
 
@@ -832,7 +862,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tableCasosExitoSummary">
-                                <!-- Cargado dinámicamente desde JS -->
+                                <!-- Cargado dinámicamente desde JS hasta Colegio Virginia Gutiérrez de Pineda -->
                             </tbody>
                         </table>
                     </div>
@@ -840,22 +870,22 @@
             </div>
         </section>
 
-        <!-- Sección 5: Casos de Éxito Emblemáticos & Evidencia en Audio -->
+        <!-- Sección 5: Casos de Éxito Emblemáticos -->
         <section class="section-block">
             <div class="section-header">
                 <h2 class="section-title"><i class="fas fa-star"></i> Casos de Éxito Emblemáticos</h2>
-                <p class="section-subtitle">Docentes en primera persona relatan la transformación de sus salas de sistemas</p>
+                <p class="section-subtitle">Evidencia directa y declaraciones de los docentes en las salas de computo</p>
             </div>
 
             <div class="content-card">
                 <p class="prose-text">
-                    Instituciones como el <strong>Colegio Estrella del Sur, Colegio Moralba Suroriental, Colegio La Joya, Colegio Manuela Beltrán y Colegio Atanasio Girardot</strong> representan modelos ejemplares de apropiación. En estos planteles, los profesores encontraron en Qinaya la solución definitiva a las limitaciones de velocidad y latencia que frenaban el aprendizaje.
+                    Instituciones como el <strong>Colegio Estrella del Sur, Colegio Moralba Suroriental, Colegio La Joya, Colegio Manuela Beltrán y Colegio Atanasio Girardot</strong> representan modelos ejemplares de apropiación. En estos planteles, los profesores encontraron en la solución Qinaya la respuesta definitiva a los problemas de obsolescencia que ralentizaban el aprendizaje.
                 </p>
 
                 <!-- Grid de Testimonios con Citas y Audios -->
                 <div class="testimonial-grid">
                     
-                    <!-- CASO 1: Colegio Manuela Beltrán -->
+                    <!-- CASO 1: Colegio Manuela Beltrán (IED) -->
                     <div class="testimonial-card">
                         <div>
                             <div class="testimonial-header">
@@ -863,19 +893,35 @@
                                 <div class="school-info">
                                     <h4>Colegio Manuela Beltrán (IED)</h4>
                                     <p>Teusaquillo • 21 PCs Repotenciados</p>
+                                    <div class="teacher-name"><i class="fas fa-user-tie"></i> Docente: <strong>Iván Flores</strong></div>
                                 </div>
                             </div>
-                            <div class="quote-box">
-                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+
+                            <div class="quote-block-item">
+                                <div class="quote-block-tag"><i class="fas fa-quote-left"></i> Apropiación y Dinámica en el Aula</div>
                                 <p class="quote-text">
-                                    "Antes la clase se nos iba intentando encender los computadores o esperando a que cargara una página. Con Qinaya los computadores responden de inmediato. Los estudiantes entran directamente a Scratch y a sus guías sin perder tiempo. Nos cambió totalmente la dinámica en la sala de sistemas."
+                                    "Antes la clase se nos iba intentando encender los computadores o esperando a que cargara una aplicación. El docente Iván Flores manifiesta que con la solución Qinaya la velocidad cambió totalmente: los estudiantes ingresan de inmediato a Scratch, Python y sus guías de trabajo sin perder tiempo de clase."
+                                </p>
+                            </div>
+
+                            <div class="quote-block-item">
+                                <div class="quote-block-tag"><i class="fas fa-quote-left"></i> Programas y Producción Académica</div>
+                                <p class="quote-text">
+                                    "El docente destaca que los computadores que antes estaban archivados por obsolescencia ahora permiten trabajar programas de programación y guías de ofimática durante toda la jornada sin interrupciones."
+                                </p>
+                            </div>
+
+                            <div class="quote-block-item">
+                                <div class="quote-block-tag"><i class="fas fa-quote-left"></i> Soporte Técnico Asertivo</div>
+                                <p class="quote-text">
+                                    "El profesor manifiesta una alta valoración al acompañamiento constante por parte del equipo de ingenieros y la efectividad en la atención de requerimientos a través del grupo de WhatsApp."
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Reproductores de Audio -->
+                        <!-- Reproductores de Audio Escuchables para versión Web -->
                         <div class="audio-player-group">
-                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Evidencia Directa del Docente (Audios de Campo)</div>
+                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Registros de Audio del Docente Iván Flores (Audios de Campo)</div>
                             <div class="audio-track-list">
                                 <div class="audio-item">
                                     <span><i class="fas fa-play-circle"></i> Testimonio 1: Velocidad y Cambio de Dinámica en Clase</span>
@@ -902,7 +948,7 @@
                         </div>
                     </div>
 
-                    <!-- CASO 2: Colegio Atanasio Girardot -->
+                    <!-- CASO 2: Colegio Atanasio Girardot (SEDE A) -->
                     <div class="testimonial-card">
                         <div>
                             <div class="testimonial-header">
@@ -910,36 +956,38 @@
                                 <div class="school-info">
                                     <h4>Colegio Atanasio Girardot (SEDE A)</h4>
                                     <p>Santa Fe • 24 PCs Repotenciados</p>
+                                    <div class="teacher-name"><i class="fas fa-user-tie"></i> Docente: <strong>Gladys González</strong></div>
                                 </div>
                             </div>
-                            <div class="quote-box">
-                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+
+                            <div class="quote-block-item">
+                                <div class="quote-block-tag"><i class="fas fa-quote-left"></i> Recuperación del Laboratorio y Diseño 3D</div>
                                 <p class="quote-text">
-                                    "Teníamos equipos que dábamos prácticamente por perdidos. Al instalar la solución de Qinaya vimos cómo los niños podían trabajar diseño 3D en Tinkercad y programación sin que se trabaran los programas. La motivación de los estudiantes volvió al ver que sus equipos responden perfectamente."
+                                    "Teníamos equipos que dábamos prácticamente por perdidos. La docente Gladys González manifiesta que tras la instalación de la solución Qinaya, la sala de sistemas se recuperó por completo y los niños trabajan activamente en diseño 3D con Tinkercad y programación sin bloqueo de equipos."
+                                </p>
+                            </div>
+
+                            <div class="quote-block-item">
+                                <div class="quote-block-tag"><i class="fas fa-quote-left"></i> Impacto y Motivación Estudiantil</div>
+                                <p class="quote-text">
+                                    "La docente expresa que la motivación de los estudiantes se renovó al ver que los programas responden con fluidez, permitiéndoles desarrollar sus guías pedagógicas y proyectos de robótica con total entusiasmo."
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Reproductores de Audio -->
+                        <!-- Reproductores de Audio Escuchables para versión Web (Filtro: Testimonios 2 y 3) -->
                         <div class="audio-player-group">
-                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Evidencia Directa del Docente (Audios de Campo)</div>
+                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Registros de Audio de la Docente Gladys González (Audios de Campo)</div>
                             <div class="audio-track-list">
                                 <div class="audio-item">
-                                    <span><i class="fas fa-play-circle"></i> Testimonio 1: Recuperación del Laboratorio de Sistemas</span>
-                                    <audio controls preload="metadata">
-                                        <source src="audiocasoexitoatanasio1.mp4" type="audio/mp4">
-                                        Tu navegador no soporta el reproductor de audio.
-                                    </audio>
-                                </div>
-                                <div class="audio-item">
-                                    <span><i class="fas fa-play-circle"></i> Testimonio 2: Uso de Tinkercad y Proyectos Estudiantiles</span>
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 1: Uso de Tinkercad y Proyectos Estudiantiles</span>
                                     <audio controls preload="metadata">
                                         <source src="audiocasoexitoatanasio2.mp4" type="audio/mp4">
                                         Tu navegador no soporta el reproductor de audio.
                                     </audio>
                                 </div>
                                 <div class="audio-item">
-                                    <span><i class="fas fa-play-circle"></i> Testimonio 3: Impacto en los Estudiantes y Futuro del Aula</span>
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 2: Impacto en los Estudiantes y Futuro del Aula</span>
                                     <audio controls preload="metadata">
                                         <source src="audiocasoexitoatanasio3.mp4" type="audio/mp4">
                                         Tu navegador no soporta el reproductor de audio.
@@ -959,7 +1007,7 @@
     <footer class="site-footer">
         <div class="container">
             <img src="logo Qinaya.png" alt="Logo Qinaya" class="footer-logo">
-            <p class="footer-text">Proyecto Renube Qinaya • Secretaría de Educación del Distrito (SED Bogotá)</p>
+            <p class="footer-text">Informe del Proyecto Renube Qinaya SED • Secretaría de Educación del Distrito (SED Bogotá)</p>
             <p style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">Informe de Historias y Casos de Éxito © 2026 Qinaya Inc. Todos los derechos reservados.</p>
         </div>
     </footer>
