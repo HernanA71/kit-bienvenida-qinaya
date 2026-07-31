@@ -589,6 +589,7 @@
         /* Print styles for PDF export */
         @media print {
             header.site-header { position: static; box-shadow: none; border-bottom: 2px solid #000; }
+            .btn-print-pdf { display: none !important; }
             .content-card, .hero-card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
             audio { display: none !important; }
             .audio-player-group { background: #fff; border: 1px dashed #999; }
@@ -602,14 +603,19 @@
     <header class="site-header">
         <div class="container header-content">
             <div class="brand-logo-group">
-                <img src="logo Qinaya.png" alt="Logo Qinaya">
+                <img src="logo%20Qinaya.png" alt="Logo Qinaya">
                 <div>
                     <div class="brand-title">Informe del Proyecto Renube Qinaya SED</div>
                     <div class="brand-subtitle">Secretaría de Educación del Distrito (SED Bogotá)</div>
                 </div>
             </div>
-            <div class="header-badge">
-                <i class="fas fa-award"></i> Historias y Casos de Éxito
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <button onclick="window.print()" class="btn-print-pdf" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white; border: none; padding: 10px 18px; border-radius: 24px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(2,132,199,0.3); transition: all 0.2s ease;">
+                    <i class="fas fa-file-pdf"></i> Imprimir / Guardar PDF
+                </button>
+                <div class="header-badge">
+                    <i class="fas fa-award"></i> Historias y Casos de Éxito
+                </div>
             </div>
         </div>
     </header>
@@ -1006,7 +1012,7 @@
     <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
-            <img src="logo Qinaya.png" alt="Logo Qinaya" class="footer-logo">
+            <img src="logo%20Qinaya.png" alt="Logo Qinaya" class="footer-logo">
             <p class="footer-text">Informe del Proyecto Renube Qinaya SED • Secretaría de Educación del Distrito (SED Bogotá)</p>
             <p style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">Informe de Historias y Casos de Éxito © 2026 Qinaya Inc. Todos los derechos reservados.</p>
         </div>
