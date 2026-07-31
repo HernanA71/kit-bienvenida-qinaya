@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historias y Casos de Éxito | Proyecto Renube Qinaya - SED Bogotá</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #0d9488;
+            --accent: #f59e0b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --shadow-hover: 0 20px 30px -10px rgba(2, 132, 199, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Top Navigation Header */
+        header.site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-logo-group img {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 0.82rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-badge {
+            background: linear-gradient(135deg, #0284c7, #0d9488);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 56px 0 36px;
+            background: radial-gradient(circle at top right, rgba(13, 148, 136, 0.08), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(2, 132, 199, 0.08), transparent 40%);
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .hero-title {
+            font-size: 2.3rem;
+            line-height: 1.25;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .hero-lead {
+            font-size: 1.12rem;
+            color: var(--text-muted);
+            max-width: 900px;
+            margin-bottom: 32px;
+        }
+
+        /* Metrics Bar */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .metric-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .metric-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.1;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .metric-label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* Section Layout */
+        .section-block {
+            margin: 44px 0;
+        }
+
+        .section-header {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* General Content Card */
+        .content-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .prose-text {
+            font-size: 1.05rem;
+            color: #334155;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .prose-text strong {
+            color: var(--text-dark);
+        }
+
+        /* Highlight Grid */
+        .highlight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .highlight-item {
+            background: #f1f5f9;
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 20px;
+        }
+
+        .highlight-item.warning {
+            border-left-color: var(--accent);
+            background: #fffbeb;
+        }
+
+        .highlight-item.success {
+            border-left-color: var(--secondary);
+            background: #f0fdf4;
+        }
+
+        .highlight-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Media Gallery Grid */
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .media-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .media-caption {
+            padding: 16px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        /* Pedagogical Use Grid (Apps, 3D, Robotica, IA) */
+        .pedagogy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .pedagogy-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .pedagogy-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .pedagogy-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(2, 132, 199, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .pedagogy-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .pedagogy-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .pedagogy-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .tag {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        /* Table Design */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            text-align: left;
+            font-size: 0.94rem;
+        }
+
+        table.data-table th {
+            background: #f1f5f9;
+            color: var(--text-dark);
+            padding: 14px 18px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        table.data-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table.data-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .badge-installed {
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        /* Testimonial Quote Cards */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 28px;
+            margin-top: 28px;
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .school-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .school-info h4 {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+        }
+
+        .school-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .quote-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            color: rgba(2, 132, 199, 0.2);
+            margin-bottom: 8px;
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.02rem;
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        .audio-player-group {
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            margin-top: 16px;
+        }
+
+        .audio-player-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-track-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .audio-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .audio-item span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        audio {
+            width: 100%;
+            height: 38px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer.site-footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 16px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Print styles */
+        @media print {
+            header.site-header { position: static; }
+            .content-card, .hero-card { box-shadow: none; border: 1px solid #ccc; }
+            audio { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="brand-logo-group">
+                <img src="logo Qinaya.png" alt="Logo Qinaya">
+                <div>
+                    <div class="brand-title">Proyecto Renube Qinaya</div>
+                    <div class="brand-subtitle">Secretaría de Educación del Distrito (SED Bogotá)</div>
+                </div>
+            </div>
+            <div class="header-badge">
+                <i class="fas fa-award"></i> Historias y Casos de Éxito
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section class="section-block hero-section">
+            <div class="hero-card">
+                <span class="hero-tag"><i class="fas fa-rocket"></i> Impacto en 4 Meses de Operación Escolar</span>
+                <h1 class="hero-title">Transformación Digital de Laboratorios Escolares: Resiliencia, Autonomía y Apropiación Pedagógica en Bogotá</h1>
+                <p class="hero-lead">
+                    En tan solo cuatro meses de despliegue continuo, el <strong>Proyecto Renube Qinaya</strong> ha revitalizado las salas de informática de la Secretaría de Educación del Distrito, superando la obsolescencia tecnológica extrema para convertir computadores antiguos e inoperativos en entornos de alto rendimiento para el aprendizaje del siglo XXI.
+                </p>
+
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-school"></i></div>
+                        <div class="metric-value">33</div>
+                        <div class="metric-label">Colegios Beneficiados (100% Retención)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-desktop"></i></div>
+                        <div class="metric-value">799</div>
+                        <div class="metric-label">Equipos Repotenciados Activos</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-clock"></i></div>
+                        <div class="metric-value">92,200+</div>
+                        <div class="metric-label">Horas de Uso en Aula Acumuladas</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="metric-value">86+</div>
+                        <div class="metric-label">Docentes Capacitados en Aula</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 1: Historia de Transformación -->
+        <section class="section-block">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-book-open"></i> La Historia de Transformación: De la Obsolescencia al Trabajo Activo</h2>
+                <p class="section-subtitle">Cuatro meses reactivando salas de computo y empoderando a estudiantes y docentes</p>
+            </div>
+
+            <div class="content-card">
+                <p class="prose-text">
+                    La realidad educativa de muchos colegios oficiales de Bogotá presentaba un desafío apremiante: salas de sistemas equipadas con computadores con más de 8 o 10 años de antigüedad, ralentizados por sistemas operativos pesados, incompatibilidad de software y la incapacidad física de ejecutar programas modernos. Para los docentes, dictar una clase de tecnología significaba perder más de la mitad del tiempo esperando a que los equipos encendieran o ejecutaran una sola instrucción.
+                </p>
+                <p class="prose-text">
+                    La llegada del <strong>Proyecto Renube Qinaya</strong> transformó radicalmente este panorama. Mediante un sistema liviano optimizado y la potencia de procesamiento virtual en la nube, se logró recuperar la utilidad práctica de <strong>799 computadores</strong> distribuidos en <strong>33 instituciones educativas de la ciudad</strong>. Los salones de informática no solo volvieron a abrir sus puertas, sino que se convirtieron en espacios dinámicos donde estudiantes de primaria y bachillerato hoy programan, diseñan en 3D, exploran la robótica e investigan con herramientas de Inteligencia Artificial en tiempo real.
+                </p>
+
+                <div class="highlight-grid">
+                    <div class="highlight-item success">
+                        <div class="highlight-title" style="color: #15803d;"><i class="fas fa-shield-alt"></i> Cero Desinstalaciones en 4 Meses</div>
+                        <p style="font-size: 0.92rem; color: #166534;">
+                            A lo largo de 4 meses ininterrumpidos de operación escolar, los 33 colegios intervenidos han mantenido la solución instalada al 100%, sin registrar una sola desinstalación. Esto evidencia la aceptación técnica y la alta valoración pedagógica por parte de los rectores y cuerpos docentes.
+                        </p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-title" style="color: var(--primary-dark);"><i class="fas fa-bolt"></i> Agilidad y Velocidad de Clase</div>
+                        <p style="font-size: 0.92rem; color: #1e293b;">
+                            El tiempo de inicio de los equipos se redujo drásticamente, permitiendo que las clases de 45 a 60 minutos se aprovechen en un 95% en actividades académicas efectivas, erradicando los tiempos muertos y la frustración estudiantil.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Desafíos de Campo y Resiliencia -->
+        <section class="section-block">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-tools"></i> Desafíos en Terreno y Resiliencia Operativa</h2>
+                <p class="section-subtitle">Compromiso técnico en campo ante la realidad física de los colegios de Bogotá</p>
+            </div>
+
+            <div class="content-card">
+                <p class="prose-text">
+                    El despliegue de tecnología en el sector público requiere un compromiso humano y técnico excepcional. Los equipos de instalación de Qinaya han recorrido las localidades de Bogotá enfrentando y superando diversas barreras estructurales en cada visita técnica:
+                </p>
+
+                <div class="highlight-grid">
+                    <div class="highlight-item warning">
+                        <div class="highlight-title" style="color: #b45309;"><i class="fas fa-network-wired"></i> Infraestructura de Red e Inestabilidad</div>
+                        <p style="font-size: 0.92rem; color: #78350f;">
+                            Se identificaron redes corporativas con bloqueos de puertos, claves dinámicas e inestabilidad de señal Ethernet/Wi-Fi. El equipo técnico adaptó la solución permitiendo un modo híbrido local-nube que garantiza que la clase continúe incluso si la conectividad escolar tambalea.
+                        </p>
+                    </div>
+                    <div class="highlight-item warning">
+                        <div class="highlight-title" style="color: #b45309;"><i class="fas fa-exclamation-triangle"></i> Obsolescencia Extrema e Imposibilidad Física</div>
+                        <p style="font-size: 0.92rem; color: #78350f;">
+                            En varias instituciones se diagnosticaron equipos cuyo daño en tarjetas madre o fuentes de poder era irreversible, llevando al colegio a tramitar su baja definitiva. Ante esto, los instaladores agotaron todas las vías técnicas para recuperar cada componente salvable.
+                        </p>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-title" style="color: var(--primary-dark);"><i class="fas fa-database"></i> Diagnóstico de Datos no Actualizados en Bases de Datos</div>
+                        <p style="font-size: 0.92rem; color: #1e293b;">
+                            En algunas visitas se encontró que la obsolescencia ya había sido resuelta internamente por el colegio con computadores nuevos. Los técnicos reportaron con transparencia para evitar duplicidad de recursos y reorientar el esfuerzo hacia sedes necesitadas.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: #e0f2fe; border-left: 4px solid var(--primary); padding: 18px; border-radius: 8px; margin-top: 24px;">
+                    <p style="font-size: 0.95rem; color: #0369a1; font-weight: 600;">
+                        <i class="fas fa-lightbulb"></i> Compromiso con la Meta: Para acelerar el cumplimiento de la meta de los 1,000 equipos repotenciados, reiteramos nuestro compromiso de asistir a cada colegio agendado desde <strong>Ágatha</strong>, invitando a fortalecer la focalización de datos actualizados para llegar a los salones que más lo necesitan.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Nuestro Soporte Técnico Asertivo -->
+        <section class="section-block">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-headset"></i> Nuestro Soporte Técnico Asertivo</h2>
+                <p class="section-subtitle">Acompañamiento continuo, capacitación oportuna y resolución en tiempo real</p>
+            </div>
+
+            <div class="content-card">
+                <p class="prose-text">
+                    Uno de los pilares del éxito del proyecto radica en que la instalación del software es solo el comienzo. Qinaya ha consolidado un modelo de <strong>Soporte Técnico Asertivo</strong> que acompaña de manera activa y permanente a los docentes durante ambas jornadas escolares (mañana y tarde).
+                </p>
+
+                <div class="pedagogy-grid">
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fab fa-whatsapp"></i></div>
+                        <h3 class="pedagogy-title">33 Mesas de Ayuda Directas</h3>
+                        <p class="pedagogy-desc">Cada uno de los 33 colegios cuenta con un grupo exclusivo de WhatsApp coordinado por ingenieros de Qinaya. Las inquietudes técnicas de los docentes reciben respuesta y solución inmediata durante la misma hora de clase.</p>
+                        <div class="pedagogy-tags">
+                            <span class="tag">Respuesta Inmediata</span>
+                            <span class="tag">Doble Jornada</span>
+                        </div>
+                    </div>
+
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-robot"></i></div>
+                        <h3 class="pedagogy-title">Bot con IA para Visitas Técnicas</h3>
+                        <p class="pedagogy-desc">Implementamos un asistente virtual con Inteligencia Artificial que procesa solicitudes complejas de soporte y agenda automáticamente visitas presenciales de ingenieros en campo cuando se requiere mantenimiento físico.</p>
+                        <div class="pedagogy-tags">
+                            <span class="tag">Inteligencia Artificial</span>
+                            <span class="tag">Agendamiento Automático</span>
+                        </div>
+                    </div>
+
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <h3 class="pedagogy-title">86+ Docentes Capacitados</h3>
+                        <p class="pedagogy-desc">Inmediatamente después de cada instalación, se realizan capacitaciones presenciales y virtuales donde los profesores aprenden a dominar la plataforma, solicitar aplicaciones y guiar sus clases con total confianza.</p>
+                        <div class="pedagogy-tags">
+                            <span class="tag">Capacitación In Situ</span>
+                            <span class="tag">Empoderamiento Docente</span>
+                        </div>
+                    </div>
+
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-box-open"></i></div>
+                        <h3 class="pedagogy-title">Kit de Bienvenida Pedagógico</h3>
+                        <p class="pedagogy-desc">Entregamos a los docentes manuales de uso, guías de herramientas para el aula (Tinkercad, Scratch, IA en la educación) y video tutoriales que orientan el trabajo con los estudiantes paso a paso.</p>
+                        <div class="pedagogy-tags">
+                            <span class="tag">Guías Didácticas</span>
+                            <span class="tag">Video Tutoriales</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Evidence Gallery -->
+                <div class="media-gallery">
+                    <div class="media-card">
+                        <img src="fotokitdebienvenida.png" alt="Kit de Bienvenida Qinaya">
+                        <div class="media-caption"><i class="fas fa-book"></i> Kit de Bienvenida y Guías de Aula</div>
+                    </div>
+                    <div class="media-card">
+                        <img src="grupowhatsaap.png" alt="Mesa de Ayuda WhatsApp">
+                        <div class="media-caption"><i class="fab fa-whatsapp"></i> Mesas de Ayuda 24/7 por Colegio</div>
+                    </div>
+                    <div class="media-card">
+                        <img src="fotobotvisitatecnica.png" alt="Bot de Soporte IA">
+                        <div class="media-caption"><i class="fas fa-robot"></i> Bot IA de Agendamiento Técnico</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Uso del Computador y Formación Académica -->
+        <section class="section-block">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-laptop-code"></i> Uso del Computador y Formación Académica</h2>
+                <p class="section-subtitle">Fomento de habilidades STEM, pensamiento computacional y competencias digitales</p>
+            </div>
+
+            <div class="content-card">
+                <p class="prose-text">
+                    La solución Qinaya va más allá de encender un equipo; transforma el computador en un verdadero laboratorio de aprendizaje práctico. A través del escritorio optimizado y los accesos en la nube, los estudiantes desarrollan competencias avanzadas en múltiples disciplinas:
+                </p>
+
+                <div class="pedagogy-grid">
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-code"></i></div>
+                        <h3 class="pedagogy-title">Programación y Lógica</h3>
+                        <p class="pedagogy-desc">Formación básica y avanzada en pensamiento computacional con <strong>Scratch, MakeCode y Python</strong> para estudiantes de primaria y secundaria.</p>
+                    </div>
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-project-diagram"></i></div>
+                        <h3 class="pedagogy-title">Diagramas de Flujo y Procesos</h3>
+                        <p class="pedagogy-desc">Uso de herramientas como DFD e Inkscape para estructuración de algoritmos, diseño conceptual y esquemas de solución de problemas.</p>
+                    </div>
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-cube"></i></div>
+                        <h3 class="pedagogy-title">Diseño 2D / 3D y Robótica</h3>
+                        <p class="pedagogy-desc">Modelado tridimensional en <strong>Tinkercad 3D</strong> y simulación de circuitos electrónicos con <strong>Arduino</strong> para proyectar prototipos físicos.</p>
+                    </div>
+                    <div class="pedagogy-card">
+                        <div class="pedagogy-icon"><i class="fas fa-brain"></i></div>
+                        <h3 class="pedagogy-title">Investigación e IA Educativa</h3>
+                        <p class="pedagogy-desc">Consulta investigativa en <strong>Wikipedia, Colombia Aprende</strong>, trabajo colaborativo en <strong>Google Classroom</strong> e introducción a la Inteligencia Artificial con <strong>ChatGPT</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Tabla de Datos Relevantes de Uso -->
+                <div style="margin-top: 36px;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 12px; color: var(--text-dark);"><i class="fas fa-table"></i> Consolidado Ejecutivo de Uso por Colegio Destacado</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Institución Educativa (IED)</th>
+                                    <th style="text-align: center;">PCs Instalados</th>
+                                    <th>Promedio Horas / Día</th>
+                                    <th>Programa Principal de Aula</th>
+                                    <th>Total Horas Acumuladas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableCasosExitoSummary">
+                                <!-- Cargado dinámicamente desde JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Casos de Éxito Emblemáticos & Evidencia en Audio -->
+        <section class="section-block">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-star"></i> Casos de Éxito Emblemáticos</h2>
+                <p class="section-subtitle">Docentes en primera persona relatan la transformación de sus salas de sistemas</p>
+            </div>
+
+            <div class="content-card">
+                <p class="prose-text">
+                    Instituciones como el <strong>Colegio Estrella del Sur, Colegio Moralba Suroriental, Colegio La Joya, Colegio Manuela Beltrán y Colegio Atanasio Girardot</strong> representan modelos ejemplares de apropiación. En estos planteles, los profesores encontraron en Qinaya la solución definitiva a las limitaciones de velocidad y latencia que frenaban el aprendizaje.
+                </p>
+
+                <!-- Grid de Testimonios con Citas y Audios -->
+                <div class="testimonial-grid">
+                    
+                    <!-- CASO 1: Colegio Manuela Beltrán -->
+                    <div class="testimonial-card">
+                        <div>
+                            <div class="testimonial-header">
+                                <div class="school-avatar">MB</div>
+                                <div class="school-info">
+                                    <h4>Colegio Manuela Beltrán (IED)</h4>
+                                    <p>Teusaquillo • 21 PCs Repotenciados</p>
+                                </div>
+                            </div>
+                            <div class="quote-box">
+                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                                <p class="quote-text">
+                                    "Antes la clase se nos iba intentando encender los computadores o esperando a que cargara una página. Con Qinaya los computadores responden de inmediato. Los estudiantes entran directamente a Scratch y a sus guías sin perder tiempo. Nos cambió totalmente la dinámica en la sala de sistemas."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Reproductores de Audio -->
+                        <div class="audio-player-group">
+                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Evidencia Directa del Docente (Audios de Campo)</div>
+                            <div class="audio-track-list">
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 1: Velocidad y Cambio de Dinámica en Clase</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitomanuelab1.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 2: Manejo de Programas Académicos</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitomanuelab2.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 3: Valoración del Soporte Técnico Continuo</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitomanuelab3.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASO 2: Colegio Atanasio Girardot -->
+                    <div class="testimonial-card">
+                        <div>
+                            <div class="testimonial-header">
+                                <div class="school-avatar" style="background: linear-gradient(135deg, #0d9488, #059669);">AG</div>
+                                <div class="school-info">
+                                    <h4>Colegio Atanasio Girardot (SEDE A)</h4>
+                                    <p>Santa Fe • 24 PCs Repotenciados</p>
+                                </div>
+                            </div>
+                            <div class="quote-box">
+                                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                                <p class="quote-text">
+                                    "Teníamos equipos que dábamos prácticamente por perdidos. Al instalar la solución de Qinaya vimos cómo los niños podían trabajar diseño 3D en Tinkercad y programación sin que se trabaran los programas. La motivación de los estudiantes volvió al ver que sus equipos responden perfectamente."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Reproductores de Audio -->
+                        <div class="audio-player-group">
+                            <div class="audio-player-title"><i class="fas fa-volume-up"></i> Escuchar Evidencia Directa del Docente (Audios de Campo)</div>
+                            <div class="audio-track-list">
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 1: Recuperación del Laboratorio de Sistemas</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitoatanasio1.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 2: Uso de Tinkercad y Proyectos Estudiantiles</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitoatanasio2.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                                <div class="audio-item">
+                                    <span><i class="fas fa-play-circle"></i> Testimonio 3: Impacto en los Estudiantes y Futuro del Aula</span>
+                                    <audio controls preload="metadata">
+                                        <source src="audiocasoexitoatanasio3.mp4" type="audio/mp4">
+                                        Tu navegador no soporta el reproductor de audio.
+                                    </audio>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <img src="logo Qinaya.png" alt="Logo Qinaya" class="footer-logo">
+            <p class="footer-text">Proyecto Renube Qinaya • Secretaría de Educación del Distrito (SED Bogotá)</p>
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">Informe de Historias y Casos de Éxito © 2026 Qinaya Inc. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script de Integración de Datos -->
+    <script src="casos_exito_qinaya.js"></script>
+</body>
+</html>
