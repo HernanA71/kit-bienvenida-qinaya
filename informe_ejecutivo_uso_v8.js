@@ -409,7 +409,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
 
     // 6. Diagnóstico de Calidad de Red (Network Quality)
     try {
-        processNetworkSummary(networkData);
+        processNetworkSummary(networkData, daysCount);
     } catch (eNet) {
         console.error("Error procesando calidad de red:", eNet);
     }
