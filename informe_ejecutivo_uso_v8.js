@@ -449,10 +449,18 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     renderWebsTable(websArray.slice(0, 10), daysCount, totalColegiosInstalados, porcentajeVM);
 
     // 5. Resumen Uso Académico Escolar
-    processAcademicSummary(appsArray, websArray, daysCount, totalColegiosInstalados, porcentajeVM);
+    try {
+        processAcademicSummary(appsArray, websArray, daysCount, totalColegiosInstalados, porcentajeVM);
+    } catch (eAcad) {
+        console.error("Error procesando resumen académico:", eAcad);
+    }
 
-    // 6. Diagnóstico y Diagnóstico de Calidad de Red (Network Quality)
-    processNetworkSummary(networkData);
+    // 6. Diagnóstico de Calidad de Red (Network Quality)
+    try {
+        processNetworkSummary(networkData);
+    } catch (eNet) {
+        console.error("Error procesando calidad de red:", eNet);
+    }
 }
 
 function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
@@ -502,7 +510,7 @@ function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, glo
     const tbody = document.getElementById('tableAcademicSummary');
     if (tbody) {
         tbody.innerHTML = '';
-        const numColegios = totalColegiosInstalados > 0 ? totalColegiosInstalados : 32;
+        const numColegios = totalActiveCount > 0 ? totalActiveCount : 36;
         buckets.forEach(b => {
             const dailyAvgPerSchool = (b.totalHours / numColegios) / daysCount;
             const displayDailyAvg = dailyAvgPerSchool.toFixed(1);
