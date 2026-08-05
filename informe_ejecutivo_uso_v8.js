@@ -326,6 +326,10 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         }
         if (hasNumInstalled && sumNumInstalled > 0) {
             promedioDiarioInstalados = sumTotalUsage / sumNumInstalled;
+        } else if (totalEquiposInstalados > 0 && usageData.totalUsage.length > 0) {
+            // Fallback preciso mientras Pepe despliega el campo numInstalled en el servidor produccion de usage.asp
+            const totalComputerDays = totalEquiposInstalados * usageData.totalUsage.length;
+            promedioDiarioInstalados = sumTotalUsage / totalComputerDays;
         }
     }
 
