@@ -381,6 +381,65 @@
             </table>
         </div>
 
+        <!-- Sección Calidad de Red (Network Quality) -->
+        <div style="margin-top: 35px; margin-bottom: 40px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 20px;">
+            <h2 class="doc-section-title" style="margin-bottom: 15px;">
+                <i class="fas fa-network-wired" style="color: #0284c7;"></i> Diagnóstico de Calidad de Red y Conectividad Escolar
+            </h2>
+
+            <!-- Bar de KPIs de Red -->
+            <div class="summary-bar" style="background: #f0f9ff; border-color: #bae6fd; margin-bottom: 20px;">
+                <div class="summary-item">
+                    <h3>Velocidad Descarga p50</h3>
+                    <div class="value" id="net-kpi-p50-down" style="color: #0284c7;">0 Mbps</div>
+                    <div class="sub">Mediana de velocidad observada</div>
+                </div>
+                <div class="summary-item">
+                    <h3>% Conexión Crítica</h3>
+                    <div class="value" id="net-kpi-under-1m" style="color: #ea580c;">0%</div>
+                    <div class="sub">Minutos con velocidad &lt; 1 Mbps</div>
+                </div>
+                <div class="summary-item">
+                    <h3>Latencia p50 (Mediana)</h3>
+                    <div class="value" id="net-kpi-p50-lat" style="color: #7c3aed;">0 ms</div>
+                    <div class="sub">Tiempo de respuesta medio</div>
+                </div>
+                <div class="summary-item">
+                    <h3>% Latencia Alta</h3>
+                    <div class="value" id="net-kpi-over-200ms" style="color: #dc2626;">0%</div>
+                    <div class="sub">Minutos con latencia &gt; 200 ms</div>
+                </div>
+                <div class="summary-item">
+                    <h3>Total Minutos Medidos</h3>
+                    <div class="value" id="net-kpi-minutes" style="color: #059669;">0</div>
+                    <div class="sub">Computer-minutos monitoreados</div>
+                </div>
+            </div>
+
+            <!-- Tabla de Calidad de Red por Colegio -->
+            <table style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Colegio</th>
+                        <th style="text-align: center;">PCs Monitoreados</th>
+                        <th style="text-align: center;">Minutos Medidos</th>
+                        <th>Descarga p50 (Mediana)</th>
+                        <th>% &lt; 1 Mbps (Crítica)</th>
+                        <th>Latencia p50 (Mediana)</th>
+                        <th>% &gt; 200 ms (Alta)</th>
+                        <th style="text-align: center;">Estado Conectividad</th>
+                    </tr>
+                </thead>
+                <tbody id="tableNetworkSchools">
+                    <!-- JS -->
+                </tbody>
+            </table>
+
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 12px; line-height: 1.4; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                <i class="fas fa-info-circle"></i> <strong>Nota Metodológica sobre Red:</strong> La velocidad de descarga representa la tasa observada durante la sesión de trabajo del estudiante (no representa un speedtest del enlace contratado por el colegio). Los <em>computer-minutes</em> reflejan la densidad de monitoreo por máquina. Umbrales de calidad: Crítica &lt;1 Mbps | Regulada &lt;5 Mbps | Adecuada &ge;10 Mbps. Latencia degradada &gt;200 ms.
+            </div>
+        </div>
+
         <!-- Detalle General por Colegio -->
         <div style="margin-top: 30px; margin-bottom: 40px;">
             <h2 class="doc-section-title"><i class="fas fa-list"></i> Detalle General por Institución</h2>
@@ -414,6 +473,6 @@
         <p style="margin-top: 15px; font-weight: 500; color: var(--text-secondary);">Consultando datos en tiempo real...</p>
     </div>
 
-    <script src="informe_ejecutivo_uso_v8.js?v=2.2"></script>
+    <script src="informe_ejecutivo_uso_v8.js?v=2.3"></script>
 </body>
 </html>

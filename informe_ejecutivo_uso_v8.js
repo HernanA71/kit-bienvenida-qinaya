@@ -10,6 +10,7 @@ const CONFIG = {
         computers:     '/computers.asp',
         websites:      '/websites.asp',
         apps:          '/apps.asp',
+        network:       '/network.asp',
     },
     HEADERS: { 'Accept': 'application/json' },
     DEFAULT_ORG_ID: '28', // Secretaría de Educación de Bogotá
@@ -71,6 +72,10 @@ class QinayaAPI {
     async getApps(orgId, since, until) {
         return this.request(CONFIG.ENDPOINTS.apps, { org: orgId, since, until });
     }
+
+    async getNetwork(orgId, since, until, extra = {}) {
+        return this.request(CONFIG.ENDPOINTS.network, { org: orgId, since, until, ...extra });
+    }
 }
 
 // ============================================
@@ -117,16 +122,17 @@ async function loadData() {
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
 
-    let orgDataList, pcData, websiteData, usageData, appsData;
+    let orgDataList, pcData, websiteData, usageData, appsData, networkData;
 
     try {
         // Ejecución concurrente ya que no dependemos de proxies frágiles
-        [orgDataList, pcData, websiteData, usageData, appsData] = await Promise.all([
+        [orgDataList, pcData, websiteData, usageData, appsData, networkData] = await Promise.all([
             api.getOrganizations().catch(e => { console.warn(e); return []; }),
             api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until }).catch(e => { console.warn(e); return null; }),
-            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; })
+            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
+            api.getNetwork(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; })
         ]);
         
         if (!Array.isArray(pcData)) pcData = [];
@@ -180,7 +186,7 @@ async function loadData() {
     let daysCount = getBusinessDays(since, until);
 
     try {
-        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount);
+        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount, networkData);
     } catch (err) {
         console.error("Error procesando reporte:", err);
     } finally {
@@ -188,7 +194,7 @@ async function loadData() {
     }
 }
 
-function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1) {
+function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null) {
     
     // Extraer inventario instalado de la organización
     let totalEquiposInstalados = 0;
@@ -396,6 +402,9 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
 
     // 5. Resumen Uso Académico Escolar
     processAcademicSummary(appsArray, websArray, daysCount, totalColegiosInstalados, porcentajeVM);
+
+    // 6. Diagnóstico y Diagnóstico de Calidad de Red (Network Quality)
+    processNetworkSummary(networkData);
 }
 
 function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, globalVmiPct = 18.5) {
@@ -630,4 +639,98 @@ function renderComputeTypeChart(totalLocal, totalVM) {
             }
         }
     });
+}
+
+// ============================================
+// DIAGNÓSTICO DE CALIDAD DE RED (NETWORK)
+// ============================================
+
+function processNetworkSummary(networkData) {
+    const elP50Down = document.getElementById('net-kpi-p50-down');
+    const elUnder1M = document.getElementById('net-kpi-under-1m');
+    const elP50Lat  = document.getElementById('net-kpi-p50-lat');
+    const elOver200 = document.getElementById('net-kpi-over-200ms');
+    const elMinutes = document.getElementById('net-kpi-minutes');
+    const tbody     = document.getElementById('tableNetworkSchools');
+
+    if (!networkData || !networkData.summary) {
+        if (elP50Down) elP50Down.textContent = '—';
+        if (elUnder1M) elUnder1M.textContent = '—';
+        if (elP50Lat)  elP50Lat.textContent = '—';
+        if (elOver200) elOver200.textContent = '—';
+        if (elMinutes) elMinutes.textContent = '—';
+
+        if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No hay datos de calidad de red disponibles para este periodo</td></tr>';
+        return;
+    }
+
+    const s = networkData.summary;
+    const p50DownVal = s.p50DownloadMbps !== undefined && s.p50DownloadMbps !== null ? s.p50DownloadMbps : 0;
+    const pctUnder1  = s.pctUnder1Mbps !== undefined && s.pctUnder1Mbps !== null ? s.pctUnder1Mbps : 0;
+    const p50LatVal  = s.p50LatencyMs !== undefined && s.p50LatencyMs !== null ? s.p50LatencyMs : 0;
+    const pctOver200 = s.pctLatencyOver200Ms !== undefined && s.pctLatencyOver200Ms !== null ? s.pctLatencyOver200Ms : 0;
+    const totalMins  = s.computerMinutes !== undefined && s.computerMinutes !== null ? s.computerMinutes : 0;
+
+    if (elP50Down) elP50Down.textContent = `${p50DownVal.toFixed(2)} Mbps`;
+    if (elUnder1M) elUnder1M.textContent = `${pctUnder1.toFixed(1)}%`;
+    if (elP50Lat)  elP50Lat.textContent  = `${Math.round(p50LatVal).toLocaleString()} ms`;
+    if (elOver200) elOver200.textContent = `${pctOver200.toFixed(1)}%`;
+    if (elMinutes) elMinutes.textContent = `${Math.round(totalMins).toLocaleString()}`;
+
+    // Renderizar tabla por colegio (ordenado por mayor % bajo 1 Mbps = conectividad crítica primero)
+    if (tbody) {
+        tbody.innerHTML = '';
+        const schoolsList = Array.isArray(networkData.schools) ? networkData.schools.slice() : [];
+
+        if (schoolsList.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Sin registros de red en las instituciones para el periodo</td></tr>';
+            return;
+        }
+
+        // Ordenar por peor conectividad (% < 1 Mbps descendente)
+        schoolsList.sort((a, b) => {
+            const pA = a.download ? (a.download.pctUnder1Mbps || 0) : 0;
+            const pB = b.download ? (b.download.pctUnder1Mbps || 0) : 0;
+            return pB - pA;
+        });
+
+        schoolsList.forEach(sc => {
+            const name = sc.teaName || 'Sin Nombre';
+            const shortName = name.length > 35 ? name.substring(0, 32) + '...' : name;
+            const pcs = sc.computers || 0;
+            const mins = Math.round(sc.computerMinutes || 0).toLocaleString();
+
+            const p50D = sc.download && sc.download.p50Mbps !== undefined ? sc.download.p50Mbps.toFixed(2) + ' Mbps' : '—';
+            const pctUnder1M = sc.download && sc.download.pctUnder1Mbps !== undefined ? sc.download.pctUnder1Mbps.toFixed(1) + '%' : '—';
+
+            const p50L = sc.latency && sc.latency.p50Ms !== undefined ? Math.round(sc.latency.p50Ms).toLocaleString() + ' ms' : '—';
+            const pctOver200M = sc.latency && sc.latency.pctOver200Ms !== undefined ? sc.latency.pctOver200Ms.toFixed(1) + '%' : '—';
+
+            // Determinar Estado Conectividad
+            const rawUnder1  = sc.download ? (sc.download.pctUnder1Mbps || 0) : 0;
+            const rawOver200 = sc.latency ? (sc.latency.pctOver200Ms || 0) : 0;
+
+            let badgeHTML = '';
+            if (rawUnder1 > 80 || rawOver200 > 90) {
+                badgeHTML = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">Crítica</span>';
+            } else if (rawUnder1 > 50 || rawOver200 > 60) {
+                badgeHTML = '<span class="badge" style="background:#ffedd5; color:#c2410c; border:1px solid #fed7aa;">Regulada</span>';
+            } else {
+                badgeHTML = '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">Adecuada</span>';
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${shortName}</strong></td>
+                <td style="text-align: center;">${pcs}</td>
+                <td style="text-align: center;">${mins}</td>
+                <td><strong>${p50D}</strong></td>
+                <td><span style="color: ${rawUnder1 > 70 ? '#dc2626' : '#475569'}; font-weight:600;">${pctUnder1M}</span></td>
+                <td><strong>${p50L}</strong></td>
+                <td><span style="color: ${rawOver200 > 80 ? '#dc2626' : '#475569'}; font-weight:600;">${pctOver200M}</span></td>
+                <td style="text-align: center;">${badgeHTML}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 }
