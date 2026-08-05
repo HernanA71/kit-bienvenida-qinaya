@@ -18,7 +18,7 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;font-weight:700;color:var(--text)
 .cover::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.04)}
 .cover-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
 .cover-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.5px}
-.cover-logo{height:42px;filter:brightness(0) invert(1)}
+.cover-logo{height:44px;background:rgba(255,255,255,0.95);padding:5px 14px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.15)}
 .cover-tag{font-size:.82rem;font-weight:600;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
 .cover h1{font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:16px}
 .cover h1 span{color:#5eead4}
@@ -165,3 +165,5 @@ h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;font-weight:700;color:var(--text)
 .doc-footer p{font-size:.8rem;color:#64748b}
 @media print{.toolbar{display:none!important}body{background:#fff!important}.doc{box-shadow:none!important;border-radius:0!important;margin:0!important}.cover{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;padding:40px 50px 36px!important}.doc-body{padding:40px 50px!important}.section{page-break-inside:avoid}.testimonial-card{page-break-inside:avoid}audio,.audio-section .audio-item{display:none!important}.audio-pdf-link{display:inline-flex!important}.toc{display:none!important}}
 @media(max-width:800px){.toolbar{padding:12px 20px}.cover{padding:40px 24px 36px}.doc-body{padding:36px 24px}.kpi-grid{grid-template-columns:repeat(2,1fr)}.pilot-grid,.challenge-grid,.chart-2col,.conclusion-grid{grid-template-columns:1fr}.cover-kpis{grid-template-columns:repeat(2,1fr)}.toc-grid{grid-template-columns:1fr}.cover h1{font-size:2rem}.process-flow{flex-direction:column;padding-left:0}.process-step::after{display:none}.evidence-grid{grid-template-columns:1fr 1fr}.doc-footer{flex-direction:column;gap:12px;text-align:center;padding:24px}}
+.kpi-grid.kpi-5col{grid-template-columns:repeat(5,1fr)}
+@media(max-width:900px){.kpi-grid.kpi-5col{grid-template-columns:repeat(2,1fr)}}
