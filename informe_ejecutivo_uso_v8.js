@@ -678,20 +678,19 @@ function processNetworkSummary(networkData, daysCount = 1) {
     const p50LatVal  = s.p50LatencyMs !== undefined && s.p50LatencyMs !== null ? s.p50LatencyMs : 0;
     const pctOver200 = s.pctLatencyOver200Ms !== undefined && s.pctLatencyOver200Ms !== null ? s.pctLatencyOver200Ms : 0;
     const totalMins  = s.computerMinutes !== undefined && s.computerMinutes !== null ? s.computerMinutes : 0;
+    const totalPcs   = s.computers !== undefined && s.computers !== null ? s.computers : 0;
 
-    const dailyMins = daysCount > 0 ? Math.round(totalMins / daysCount) : Math.round(totalMins);
+    const dailyMinsPerPc = (totalPcs > 0 && daysCount > 0) ? (totalMins / totalPcs / daysCount) : 0;
 
     if (elP50Down) elP50Down.textContent = `${p50DownVal.toFixed(2)} Mbps`;
     if (elUnder1M) elUnder1M.textContent = `${pctUnder1.toFixed(1)}%`;
     if (elP50Lat)  elP50Lat.textContent  = `${Math.round(p50LatVal).toLocaleString()} ms`;
     if (elOver200) elOver200.textContent = `${pctOver200.toFixed(1)}%`;
     if (elMinutes) {
-        elMinutes.textContent = `${Math.round(totalMins).toLocaleString()}`;
-        const subEl = elMinutes.nextElementSibling;
-        if (subEl && daysCount > 1) {
-            subEl.textContent = `Prom. ${dailyMins.toLocaleString()} min/día (${daysCount} días)`;
-        } else if (subEl) {
-            subEl.textContent = `Computer-minutos monitoreados`;
+        elMinutes.textContent = `${dailyMinsPerPc.toFixed(1)} min/equipo`;
+        const subEl = document.getElementById('net-kpi-minutes-sub') || elMinutes.nextElementSibling;
+        if (subEl) {
+            subEl.textContent = `Prom. diario (${Math.round(totalMins).toLocaleString()} min totales en ${totalPcs} PCs)`;
         }
     }
 
@@ -717,13 +716,9 @@ function processNetworkSummary(networkData, daysCount = 1) {
             const shortName = name.length > 35 ? name.substring(0, 32) + '...' : name;
             const pcs = sc.computers || 0;
             const totalScMins = sc.computerMinutes || 0;
-            const minsFormatted = Math.round(totalScMins).toLocaleString();
-
-            let minsCellHTML = minsFormatted;
-            if (daysCount > 1) {
-                const dailyScMins = Math.round(totalScMins / daysCount).toLocaleString();
-                minsCellHTML = `${minsFormatted}<br><span style="font-size:0.72rem; color:#64748b; font-weight:normal;">(${dailyScMins} min/día)</span>`;
-            }
+            
+            const scDailyMinsPerPc = (pcs > 0 && daysCount > 0) ? (totalScMins / pcs / daysCount) : 0;
+            const minsCellHTML = `<strong>${scDailyMinsPerPc.toFixed(1)} min/equipo</strong><br><span style="font-size:0.72rem; color:#64748b; font-weight:normal;">(${Math.round(totalScMins).toLocaleString()} min totales)</span>`;
 
             const p50D = sc.download && sc.download.p50Mbps !== undefined ? sc.download.p50Mbps.toFixed(2) + ' Mbps' : '—';
             const pctUnder1M = sc.download && sc.download.pctUnder1Mbps !== undefined ? sc.download.pctUnder1Mbps.toFixed(1) + '%' : '—';
