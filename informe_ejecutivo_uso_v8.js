@@ -74,15 +74,26 @@ class QinayaAPI {
     }
 
     async getNetwork(orgId, since, until, extra = {}) {
-        return this.request(CONFIG.ENDPOINTS.network, { 
-            org: orgId, 
-            orgId: orgId, 
-            since: since, 
-            from: since, 
-            until: until, 
-            to: until, 
-            ...extra 
-        });
+        const paramsPrimary = { org: orgId, orgId: orgId, since: since, from: since, until: until, to: until, ...extra };
+        try {
+            return await this.request(CONFIG.ENDPOINTS.network, paramsPrimary);
+        } catch (errPrimary) {
+            console.warn('[QinayaAPI] network.asp falló con la fecha actual, reintentando con fecha tope de ayer:', errPrimary.message);
+            try {
+                const todayStr = formatDate(new Date());
+                let safeUntil = until;
+                if (until >= todayStr) {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    safeUntil = formatDate(yesterday);
+                }
+                const paramsFallback = { org: orgId, orgId: orgId, since: since, from: since, until: safeUntil, to: safeUntil, ...extra };
+                return await this.request(CONFIG.ENDPOINTS.network, paramsFallback);
+            } catch (errFallback) {
+                console.error('[QinayaAPI] Error definitivo en network.asp:', errFallback.message);
+                return null;
+            }
+        }
     }
 }
 
