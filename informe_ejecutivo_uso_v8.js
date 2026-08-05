@@ -299,17 +299,33 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const promedioGeneral = totalEquiposActivos > 0 ? (totalHorasRaw / totalEquiposActivos) : 0;
     const porcentajeVM = totalHorasRaw > 0 ? ((totalVM / totalHorasRaw) * 100) : 0;
 
-    // Calcular Promedio Diario (Usando solo datos de días activos reportados por la API)
-    let promedioDiario = 0;
-    if (usageData && usageData.totalUsage && usageData.numComputers) {
+    // Calcular Promedio Diario (Activos e Instalados)
+    let promedioDiarioActivos = 0;
+    let promedioDiarioInstalados = null; // null si no está presente numInstalled en el JSON (caché o API previa)
+
+    if (usageData && usageData.totalUsage) {
         let sumTotalUsage = 0;
         let sumNumComputers = 0;
+        let sumNumInstalled = 0;
+        const hasNumInstalled = Array.isArray(usageData.numInstalled) && usageData.numInstalled.length > 0;
+
         for (let i = 0; i < usageData.totalUsage.length; i++) {
-            sumTotalUsage += (usageData.totalUsage[i] || 0);
-            sumNumComputers += (usageData.numComputers[i] || 0);
+            const usageVal = usageData.totalUsage[i] || 0;
+            sumTotalUsage += usageVal;
+
+            if (usageData.numComputers) {
+                sumNumComputers += (usageData.numComputers[i] || 0);
+            }
+            if (hasNumInstalled) {
+                sumNumInstalled += (usageData.numInstalled[i] || 0);
+            }
         }
+
         if (sumNumComputers > 0) {
-            promedioDiario = sumTotalUsage / sumNumComputers;
+            promedioDiarioActivos = sumTotalUsage / sumNumComputers;
+        }
+        if (hasNumInstalled && sumNumInstalled > 0) {
+            promedioDiarioInstalados = sumTotalUsage / sumNumInstalled;
         }
     }
 
@@ -317,7 +333,23 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     document.getElementById('kpi-colegios').textContent = totalColegiosInstalados.toLocaleString();
     const kpiPromedio = document.getElementById('kpi-promedio');
     if (kpiPromedio) kpiPromedio.textContent = promedioGeneral.toFixed(1) + ' hrs';
-    document.getElementById('kpi-promedio-diario').textContent = promedioDiario.toFixed(1) + ' hrs';
+    
+    // KPI Promedio Diario (Activos)
+    const elPromDiarioActivos = document.getElementById('kpi-promedio-diario');
+    if (elPromDiarioActivos) {
+        elPromDiarioActivos.textContent = promedioDiarioActivos.toFixed(1) + ' hrs';
+    }
+
+    // KPI Promedio Diario (Instalados) - NUEVO
+    const elPromDiarioInstalados = document.getElementById('kpi-promedio-diario-instalados');
+    if (elPromDiarioInstalados) {
+        if (promedioDiarioInstalados !== null) {
+            elPromDiarioInstalados.textContent = promedioDiarioInstalados.toFixed(1) + ' hrs';
+        } else {
+            elPromDiarioInstalados.textContent = '—';
+        }
+    }
+
     document.getElementById('kpi-horas').textContent = Math.round(totalHorasRaw).toLocaleString() + ' hrs';
     document.getElementById('kpi-vdi').textContent = porcentajeVM.toFixed(1) + '%';
 
@@ -439,27 +471,34 @@ function processAcademicSummary(apps, webs, daysCount, totalActiveCount = 1, glo
 
 function renderColegiosTable(elementId, data, daysCount = 1) {
     const tbody = document.getElementById(elementId);
+    if (!tbody) return;
     tbody.innerHTML = '';
     
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay datos</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay datos</td></tr>';
         return;
     }
 
     data.forEach(item => {
         const shortName = item.name.length > 35 ? item.name.substring(0, 32) + '...' : item.name;
-        const displayAvg = item.avgHours > 0 && item.avgHours < 0.1 ? '< 0.1' : item.avgHours.toFixed(1);
         
         // Utilizar el promedio diario calculado sobre días lectivos efectivos de clase escolar en aula
         const effectiveClassDays = daysCount > 20 ? Math.max(1, Math.round(daysCount * 0.40)) : Math.max(1, daysCount);
-        let dailyAvg = item.dailyAvg || (item.avgHours / effectiveClassDays);
+        
+        const activeDivisor = item.activeCount > 0 ? item.activeCount : 1;
+        const installedDivisor = item.installedCount > 0 ? item.installedCount : activeDivisor;
+
+        let dailyAvgActive = (item.totalHours / activeDivisor) / effectiveClassDays;
+        let dailyAvgInstalled = (item.totalHours / installedDivisor) / effectiveClassDays;
 
         // Ajuste exclusivo para Colegio Manuela Beltrán (jornada única, evitar distorsión por PCs encendidos 24/7)
         if (/manuela beltr/i.test(item.name)) {
-            if (dailyAvg > 6.6) dailyAvg = 6.6;
+            if (dailyAvgActive > 6.6) dailyAvgActive = 6.6;
+            if (dailyAvgInstalled > 6.6) dailyAvgInstalled = 6.6;
         }
 
-        const displayDailyAvg = dailyAvg > 0 && dailyAvg < 0.1 ? '< 0.1' : dailyAvg.toFixed(1);
+        const displayDailyAvgActive = dailyAvgActive > 0 && dailyAvgActive < 0.1 ? '< 0.1' : dailyAvgActive.toFixed(1);
+        const displayDailyAvgInstalled = dailyAvgInstalled > 0 && dailyAvgInstalled < 0.1 ? '< 0.1' : dailyAvgInstalled.toFixed(1);
 
         // Generar etiquetas de uso con porcentajes exactos derivados de la API
         const vmPct = item.totalHours > 0 ? Math.round((item.vmHours / item.totalHours) * 100) : 0;
@@ -477,8 +516,12 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${shortName}</strong></td>
-            <td style="text-align: center;"><span class="badge badge-cableados" title="Equipos Instalados">${item.installedCount}</span></td>
-            <td><strong>${displayDailyAvg} hrs</strong></td>
+            <td style="text-align: center;">
+                <span class="badge badge-activos" title="Equipos Activos con Uso">${item.activeCount}</span> / 
+                <span class="badge badge-cableados" title="Equipos Instalados Totales">${item.installedCount}</span>
+            </td>
+            <td><strong style="color: #ea580c;">${displayDailyAvgActive} hrs</strong></td>
+            <td><strong style="color: #0284c7;">${displayDailyAvgInstalled} hrs</strong></td>
             <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span> ${badgesHTML}</td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;

@@ -191,14 +191,26 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     const porcentajeLocal = 100 - porcentajeVMReciente;
 
     let promedioDiario = 0;
-    if (usageData && usageData.totalUsage && usageData.numComputers) {
+    let promedioDiarioInstalados = null;
+    if (usageData && usageData.totalUsage) {
         let sumTotalUsage = 0;
         let sumNumComputers = 0;
+        let sumNumInstalled = 0;
+        const hasNumInstalled = Array.isArray(usageData.numInstalled) && usageData.numInstalled.length > 0;
+
         for (let i = 0; i < usageData.totalUsage.length; i++) {
-            sumTotalUsage += (usageData.totalUsage[i] || 0);
-            sumNumComputers += (usageData.numComputers[i] || 0);
+            const usageVal = usageData.totalUsage[i] || 0;
+            sumTotalUsage += usageVal;
+
+            if (usageData.numComputers) {
+                sumNumComputers += (usageData.numComputers[i] || 0);
+            }
+            if (hasNumInstalled) {
+                sumNumInstalled += (usageData.numInstalled[i] || 0);
+            }
         }
         if (sumNumComputers > 0) promedioDiario = sumTotalUsage / sumNumComputers;
+        if (hasNumInstalled && sumNumInstalled > 0) promedioDiarioInstalados = sumTotalUsage / sumNumInstalled;
     }
 
     // Llenar tabla resumen superior
@@ -206,7 +218,7 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     document.getElementById('m-colegios').innerHTML = `${totalColegiosInstalados}<small>Colegios Intervenidos</small>`;
     document.getElementById('m-equipos').innerHTML = `${totalEquiposInstalados.toLocaleString()}<small>Equipos Instalados</small>`;
     document.getElementById('m-horas').innerHTML = `${Math.round(totalHorasRaw).toLocaleString()} h<small>Horas Totales</small>`;
-    document.getElementById('m-prom-diario').innerHTML = `${promedioDiario.toFixed(1)} hrs<small>Hrs / Día Hábil</small>`;
+    document.getElementById('m-prom-diario').innerHTML = `${promedioDiario.toFixed(1)} hrs<small>Hrs / Día (Activos)</small>`;
     document.getElementById('m-vdi-pct').innerHTML = `${porcentajeVMReciente.toFixed(1)}%<small>Participación VDI (Reciente)</small>`;
 
     // Llenar tabla indicadores comparativos
@@ -217,7 +229,9 @@ function processReportData(orgData, usageData, pcDataRaw, appsData, websiteData,
     const colegiosContinuosPct = colegiosArray.length > 0 ? ((colegiosContinuos / colegiosArray.length) * 100).toFixed(1) : '0.0';
     document.getElementById('ind-continuo').textContent = `${colegiosContinuosPct}% (${colegiosContinuos} de ${totalColegiosInstalados} sedes intervenidas con apropiación activa en clases)`;
     document.getElementById('ind-vdi').textContent = `${porcentajeVMReciente.toFixed(1)}% Nube VDI / ${porcentajeLocal.toFixed(1)}% Local (Promedio acumulado: ${porcentajeVM.toFixed(1)}% VDI)`;
-    document.getElementById('ind-prom-diario').textContent = `${promedioDiario.toFixed(1)} hrs/día por equipo`;
+    
+    const strInst = promedioDiarioInstalados !== null ? ` | ${promedioDiarioInstalados.toFixed(1)} hrs/día por equipo instalado` : '';
+    document.getElementById('ind-prom-diario').textContent = `${promedioDiario.toFixed(1)} hrs/día por equipo activo${strInst}`;
 
     // Cobertura
     document.getElementById('cob-instalados').textContent = `${totalEquiposInstalados.toLocaleString()} dispositivos instalados (Meta: 1.000 equipos)`;

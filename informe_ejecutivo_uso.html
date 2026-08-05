@@ -256,9 +256,14 @@
                 <div class="sub">Instituciones intervenidas</div>
             </div>
             <div class="summary-item">
-                <h3>Promedio Diario</h3>
+                <h3>Promedio (Activos)</h3>
                 <div class="value" id="kpi-promedio-diario" style="color: #ea580c;">0 hrs</div>
-                <div class="sub">Por equipo al día</div>
+                <div class="sub">Por equipo con uso al día</div>
+            </div>
+            <div class="summary-item">
+                <h3>Promedio (Instalados)</h3>
+                <div class="value" id="kpi-promedio-diario-instalados" style="color: #0284c7;">0 hrs</div>
+                <div class="sub">Por equipo disponible al día</div>
             </div>
             <div class="summary-item">
                 <h3>Horas Acumuladas</h3>
@@ -293,8 +298,9 @@
                     <thead>
                         <tr>
                             <th>Colegio</th>
-                            <th style="text-align: center;">Equipos</th>
-                            <th>Promedio Diario</th>
+                            <th style="text-align: center;">Equipos (Act / Inst)</th>
+                            <th>Prom. (Activos)</th>
+                            <th>Prom. (Instalados)</th>
                             <th>Programa más usado</th>
                             <th>Total Horas</th>
                         </tr>
@@ -310,8 +316,9 @@
                     <thead>
                         <tr>
                             <th>Colegio</th>
-                            <th style="text-align: center;">Equipos</th>
-                            <th>Promedio Diario</th>
+                            <th style="text-align: center;">Equipos (Act / Inst)</th>
+                            <th>Prom. (Activos)</th>
+                            <th>Prom. (Instalados)</th>
                             <th>Programa más usado</th>
                             <th>Total Horas</th>
                         </tr>
@@ -381,8 +388,9 @@
                 <thead>
                     <tr>
                         <th>Colegio</th>
-                        <th style="text-align: center;">Equipos</th>
-                        <th>Promedio Diario</th>
+                        <th style="text-align: center;">Equipos (Act / Inst)</th>
+                        <th>Prom. (Activos)</th>
+                        <th>Prom. (Instalados)</th>
                         <th>Programa más usado</th>
                         <th>Total Horas</th>
                     </tr>
@@ -406,6 +414,6 @@
         <p style="margin-top: 15px; font-weight: 500; color: var(--text-secondary);">Consultando datos en tiempo real...</p>
     </div>
 
-    <script src="informe_ejecutivo_uso_v8.js?v=2.0"></script>
+    <script src="informe_ejecutivo_uso_v8.js?v=2.1"></script>
 </body>
 </html>
