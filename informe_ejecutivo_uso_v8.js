@@ -102,8 +102,26 @@ class QinayaAPI {
         try {
             return await this.request(CONFIG.ENDPOINTS.network, params);
         } catch (err) {
-            console.error('[QinayaAPI] Error consultando network.asp:', err.message);
-            return null;
+            console.warn('[QinayaAPI] network.asp falló con fecha específica, reintentando desde inicio del mes:', err.message);
+            let monthStartSince = safeSince;
+            if (safeSince && safeSince.length === 10) {
+                monthStartSince = safeSince.substring(0, 8) + '01';
+            }
+            const fallbackParams = { 
+                org: orgId, 
+                orgId: orgId, 
+                since: monthStartSince, 
+                from: monthStartSince, 
+                until: safeUntil, 
+                to: safeUntil, 
+                ...extra 
+            };
+            try {
+                return await this.request(CONFIG.ENDPOINTS.network, fallbackParams);
+            } catch (err2) {
+                console.error('[QinayaAPI] Error definitivo en network.asp:', err2.message);
+                return null;
+            }
         }
     }
 }
