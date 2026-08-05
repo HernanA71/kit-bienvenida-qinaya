@@ -74,7 +74,15 @@ class QinayaAPI {
     }
 
     async getNetwork(orgId, since, until, extra = {}) {
-        return this.request(CONFIG.ENDPOINTS.network, { org: orgId, since, until, ...extra });
+        return this.request(CONFIG.ENDPOINTS.network, { 
+            org: orgId, 
+            orgId: orgId, 
+            since: since, 
+            from: since, 
+            until: until, 
+            to: until, 
+            ...extra 
+        });
     }
 }
 
