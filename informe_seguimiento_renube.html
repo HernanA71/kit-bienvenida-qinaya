@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qinaya | Informe de Seguimiento Proyecto Renube — SED Bogotá</title>
+    <meta name="description" content="Informe de Seguimiento Proyecto Renube Qinaya — Secretaría de Educación del Distrito de Bogotá">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="informe_seguimiento_renube.css?v=20260806_v1">
+</head>
+<body>
+    <div class="toolbar">
+        <div class="toolbar-brand">
+            <img src="logo Qinaya.png" alt="Qinaya">
+            <div>
+                <div class="toolbar-title">Informe de Seguimiento Proyecto Renube</div>
+                <div class="toolbar-sub">Secretaría de Educación del Distrito · Bogotá</div>
+            </div>
+        </div>
+        <div class="toolbar-actions">
+            <button onclick="window.print()" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Guardar en PDF</button>
+        </div>
+    </div>
+
+    <div class="doc">
+        <div class="cover">
+            <div class="cover-top">
+                <img src="logo Qinaya.png" alt="Qinaya" class="cover-logo">
+                <div class="cover-badge"><i class="fas fa-shield-alt"></i> Documento Oficial · SED Bogotá</div>
+            </div>
+            <div class="cover-tag"><i class="fas fa-book-open"></i> &nbsp;Informe de Seguimiento</div>
+            <h1>Proyecto Renube<br><span>Transformación Digital</span><br>en los Colegios de Bogotá</h1>
+            <p class="cover-sub">De la obsolescencia tecnológica a laboratorios escolares activos: la historia, escalamiento e impacto pedagógico del Proyecto Renube Qinaya en la Secretaría de Educación del Distrito.</p>
+            
+            <div class="cover-kpis">
+                <div class="cover-kpi">
+                    <div class="cover-kpi-val">36</div>
+                    <div class="cover-kpi-label">Colegios Activos</div>
+                </div>
+                <div class="cover-kpi">
+                    <div class="cover-kpi-val">814</div>
+                    <div class="cover-kpi-label">PCs Repotenciados</div>
+                </div>
+                <div class="cover-kpi">
+                    <div class="cover-kpi-val" id="covHoras">97.2K</div>
+                    <div class="cover-kpi-label">Horas de Uso Activo</div>
+                </div>
+                <div class="cover-kpi">
+                    <div class="cover-kpi-val">100%</div>
+                    <div class="cover-kpi-label">Retención en Colegios</div>
+                </div>
+            </div>
+            <div class="cover-date">Fecha de emisión: <strong id="coverDate">Cargando...</strong> — Periodo: Abril 2026 - Presente</div>
+        </div>
+
+        <div class="toc">
+            <h3><i class="fas fa-list"></i> &nbsp;Contenido del Informe</h3>
+            <div class="toc-grid">
+                <div class="toc-item"><div class="toc-num">1</div>El Origen: Una Alianza Estratégica para Bogotá</div>
+                <div class="toc-item"><div class="toc-num">2</div>La Expansión: 36 Colegios en Operación</div>
+                <div class="toc-item"><div class="toc-num">3</div>Aprovechamiento Pedagógico e Intensidad de Uso</div>
+                <div class="toc-item"><div class="toc-num">4</div>Anotaciones de Acompañamiento Operativo</div>
+                <div class="toc-item"><div class="toc-num">5</div>Apropiación Pedagógica y Formación Docente</div>
+                <div class="toc-item"><div class="toc-num">6</div>Voces del Aula: Casos de Éxito</div>
+                <div class="toc-item"><div class="toc-num">7</div>Conclusiones y Visión de Futuro</div>
+            </div>
+        </div>
+
+        <div class="doc-body" id="docBody">
+            <!-- JS renders all 7 chapters here -->
+        </div>
+
+        <div class="doc-footer">
+            <img src="logo Qinaya.png" alt="Qinaya">
+            <p>Informe de Seguimiento Proyecto Renube Qinaya — Secretaría de Educación de Bogotá 2026</p>
+            <p id="footerDate"></p>
+        </div>
+    </div>
+
+    <script src="informe_seguimiento_renube.js?v=20260806_v1"></script>
+</body>
+</html>
