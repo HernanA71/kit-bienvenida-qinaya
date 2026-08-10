@@ -21,6 +21,7 @@ function getChapter1() {
             <p class="prose">Los resultados del piloto demostraron un desempeño satisfactorio en términos de estabilidad, calidad del servicio y número de horas efectivas de uso en el aula, confirmando la viabilidad de la solución para extender la vida útil de equipos existentes y ampliar el acceso a tecnologías digitales en entornos educativos.</p>
             <p class="prose" style="margin-bottom:0;">Los resultados de ese primer piloto sirvieron como fundamento para diseñar una fase de ampliación orientada a <strong>recuperar 3.000 computadores obsoletos en Bogotá</strong> mediante licencias de virtualización y acceso a la nube. La ejecución se distribuyó entre varios proveedores, correspondiéndole a <strong>Qinaya la implementación de 1.000 de esas licencias</strong>.</p>
         </div>
+        <div class="page-break"></div>
         <h3 style="margin:28px 0 16px;font-size:1.25rem;">Nuestro Piloto: La Transformación de los Primeros Laboratorios</h3>
         <p class="prose">Con el respaldo de la experiencia previa, Qinaya dio inicio al <strong>piloto</strong> en dos instituciones representativas de Bogotá: el Colegio Manuela Beltrán (Teusaquillo) y el Colegio Costa Rica Sede B (Fontibón). Estas intervenciones demostraron la capacidad de transformar salas rezagadas en espacios digitales modernos en tiempo récord.</p>
         <div class="pilot-narrative">
@@ -159,31 +160,60 @@ function getChapter4() {
     return `<div class="page-break"></div><div class="section">
         <div class="section-header">
             <div class="section-num">Capítulo 4</div>
-            <h2 class="section-title">Anotaciones de Acompañamiento y Resiliencia Operativa</h2>
-            <p class="section-lead">Ajustes estratégicos que garantizan el éxito en campo</p>
-            <div class="section-divider amber"></div>
+            <h2 class="section-title">Capacitaciones y Apropiación Docente</h2>
+            <p class="section-lead">Formación integral, desarrollo de competencias STEM y acompañamiento permanente en el aula</p>
+            <div class="section-divider green"></div>
         </div>
-        <p class="prose">El despliegue de tecnología en el sector público requiere una alta capacidad de respuesta. El equipo Qinaya ha demostrado flexibilidad y resiliencia para resolver cualquier particularidad en campo con un enfoque proactivo y orientado a soluciones.</p>
-        <div class="note-grid">
-            <div class="note-card">
-                <div class="note-title"><i class="fas fa-network-wired" style="color:#2563eb;"></i> Articulación Directa con la OTIC</div>
-                <p class="prose" style="font-size:0.88rem;margin-bottom:0;">Se realizan coordinaciones continuas con los profesionales de la OTIC en cada IED para optimizar la estabilidad de la red escolar y garantizar que las salas repotenciadas operen en condiciones óptimas de transmisión.</p>
+
+        <p class="prose">Uno de los pilares fundamentales del Proyecto Renube radica en que <strong>la instalación tecnológica es solo el comienzo</strong>. Para asegurar un impacto pedagógico real y duradero, Qinaya despliega una estrategia continua de formación y apropiación docente que transforma el potencial del hardware repotenciado en competencias digitales activas para los estudiantes de Bogotá.</p>
+
+        <div class="kpi-grid">
+            <div class="kpi-card blue-k"><div class="kpi-card-icon">👨‍🏫</div><div class="kpi-val">86+</div><div class="kpi-label">Docentes Capacitados</div></div>
+            <div class="kpi-card teal-k"><div class="kpi-card-icon">🏫</div><div class="kpi-val">36</div><div class="kpi-label">Colegios en Operación</div></div>
+            <div class="kpi-card amber-k"><div class="kpi-card-icon">📚</div><div class="kpi-val">2.4</div><div class="kpi-label">Prom. Docentes / Colegio</div></div>
+            <div class="kpi-card green-k"><div class="kpi-card-icon">💻</div><div class="kpi-val">100%</div><div class="kpi-label">Cobertura Virtual y Presencial</div></div>
+        </div>
+
+        <h3 style="margin:28px 0 14px;font-size:1.18rem;"><i class="fas fa-calendar-check" style="color:#2563eb;margin-right:8px;"></i>Proceso de Contacto y Agendamiento Institucional</h3>
+        <p class="prose">Posterior a la instalación técnica de la solución Qinaya en cada laboratorio, el equipo de Apropiación contacta a las <strong>Rectorías y Coordinaciones Académicas</strong> de las Instituciones Educativas Distritales. A través de estos canales directos se articulan los horarios para agendar las jornadas de capacitación con los docentes encargados del área de tecnología y los educadores que imparten clases en las salas intervenidas.</p>
+
+        <div class="chart-grid-2col">
+            <div class="chart-box chart-box-sm">
+                <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones Virtuales de Alta Cobertura</h4>
+                <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Las sesiones se desarrollan mediante encuentros virtuales interactivos, permitiendo a los docentes participar de manera ágil, asertiva y sin interrumpir sus jornadas académicas. En estos talleres se brinda asesoría sobre herramientas pedagógicas, entornos virtuales y software educativo.</p>
+                <div style="text-align:center;margin-top:10px;">
+                    <img src="Captura de pantalla 2026-06-17 114059.png" alt="Capacitación Virtual Qinaya" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                </div>
             </div>
-            <div class="note-card">
-                <div class="note-title"><i class="fas fa-sync" style="color:#0d9488;"></i> Actualización de Inventario Físico</div>
-                <p class="prose" style="font-size:0.88rem;margin-bottom:0;">Cuando un equipo presenta un grado de deterioro físico irreparable, Qinaya facilita la tramitación formal de bajas en coordinación con la IED, asegurando que los recursos repotenciados se enfoquen en computadores útiles.</p>
-            </div>
-            <div class="note-card">
-                <div class="note-title"><i class="fas fa-exchange-alt" style="color:#d97706;"></i> Reorientación Ágil de Sedes</div>
-                <p class="prose" style="font-size:0.88rem;margin-bottom:0;">En visitas donde una sede ya contaba con dotación reciente, el equipo actuó con total transparencia junto a Ágata y la SED, reorientando el servicio de inmediato a colegios con alta necesidad tecnológica.</p>
-            </div>
-            <div class="note-card">
-                <div class="note-title"><i class="fas fa-user-friends" style="color:#16a34a;"></i> Acompañamiento Adaptado</div>
-                <p class="prose" style="font-size:0.88rem;margin-bottom:0;">La estrategia de seguimiento y capacitación docente se adapta al tamaño y realidad de cada sala de sistemas, garantizando que tanto sedes con 2 equipos como con 40 reciban acompañamiento personalizado.</p>
+            <div class="chart-box chart-box-sm">
+                <h4><i class="fab fa-whatsapp" style="color:#25d366;margin-right:6px;"></i>Acompañamiento Activo en Grupos de WhatsApp</h4>
+                <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Cada colegio cuenta con un canal directo de WhatsApp. Además de resolver inquietudes técnicas, el equipo indaga sobre el desarrollo de las clases y comparte periódicamente <strong>enlaces educativos, guías interactivas y recursos didácticos para niños</strong>.</p>
+                <div style="text-align:center;margin-top:10px;">
+                    <img src="Captura de pantalla 2026-06-17 112827.png" alt="Acompañamiento en Redes y Recursos" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                </div>
             </div>
         </div>
-        <div class="hbox blue">
-            <p><i class="fas fa-bullhorn" style="margin-right:8px;"></i><strong>Compromiso con la Meta de 1.000 Equipos:</strong> Qinaya reitera su disposición y capacidad técnica para avanzar ágilmente en el agendamiento de nuevas sedes junto a Ágata, asegurando el cumplimiento de la meta del convenio en el menor tiempo posible.</p>
+
+        <h3 style="margin:28px 0 14px;font-size:1.18rem;"><i class="fas fa-chalkboard-teacher" style="color:#0d9488;margin-right:8px;"></i>Acompañamiento Presencial en Aula y Clases Co-guiadas</h3>
+        <p class="prose">Como complemento fundamental a la formación virtual, profesionales del equipo Qinaya realizan <strong>visitas presenciales de acompañamiento en los laboratorios escolares</strong>. Durante estas jornadas, los profesionales asisten directamente a las clases junto a los profesores, orientando a los estudiantes en el uso de herramientas STEM, Scratch y Tinkercad en tiempo real.</p>
+
+        <div class="chart-grid-2col">
+            <div class="chart-box chart-box-sm" style="display:flex;flex-direction:column;justify-content:center;">
+                <h4 style="color:#0f766e;"><i class="fas fa-users" style="margin-right:6px;"></i>Impacto del Acompañamiento Presencial</h4>
+                <ul style="font-size:0.84rem;color:#334155;line-height:1.55;padding-left:18px;">
+                    <li><strong>Validación de la dinámica en clase:</strong> Apoyo en tiempo real al encender y ejecutar los proyectos con estudiantes.</li>
+                    <li><strong>Asistencia pedagógica directa:</strong> Resolución de dudas en el manejo de guías digitales y software educativo.</li>
+                    <li><strong>Retroalimentación docente:</strong> Ajustes continuos basados en las necesidades específicas de cada grupo y sede.</li>
+                </ul>
+            </div>
+            <div class="chart-box chart-box-sm" style="text-align:center;">
+                <h4><i class="fas fa-camera" style="color:#0d9488;margin-right:6px;"></i>Evidencia de Acompañamiento en el Aula</h4>
+                <img src="Captura de pantalla 2026-08-10 153417.png" alt="Visita y Acompañamiento Presencial" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
+            </div>
+        </div>
+
+        <div class="hbox teal" style="margin-top:16px;">
+            <p><i class="fas fa-user-friends" style="margin-right:8px;"></i><strong>Acompañamiento Adaptado:</strong> La estrategia de seguimiento y capacitación docente se adapta al tamaño y realidad de cada sala de sistemas, garantizando que tanto sedes con 2 equipos repotenciados como instituciones con 40 reciban una atención personalizada y equitativa.</p>
         </div>
     </div>`;
 }
