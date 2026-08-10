@@ -171,10 +171,14 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 /* ==========================================
    OPTIMIZED PRINT & PDF STYLES
    ========================================== */
+
+/* ==========================================
+   ULTRA-OPTIMIZED PDF & PRINT FLOW (ZERO BLANK VOIDS)
+   ========================================== */
 @media print {
     @page {
         size: A4 portrait;
-        margin: 12mm 12mm 12mm 12mm;
+        margin: 8mm 10mm 8mm 10mm;
     }
     
     * {
@@ -185,8 +189,8 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     body {
         background: #ffffff !important;
         color: #0f172a !important;
-        font-size: 10.5px !important;
-        line-height: 1.4 !important;
+        font-size: 10px !important;
+        line-height: 1.35 !important;
     }
     
     .toolbar {
@@ -202,49 +206,49 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         padding: 0 !important;
     }
     
+    .doc-body {
+        padding: 8px 18px !important;
+    }
+    
     .cover {
-        padding: 24px 30px 20px !important;
+        padding: 18px 24px 14px !important;
         border-radius: 0 !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
     }
     
     .cover h1 {
-        font-size: 1.85rem !important;
-        margin-bottom: 8px !important;
+        font-size: 1.7rem !important;
+        margin-bottom: 6px !important;
     }
     
     .cover-sub {
-        font-size: 0.85rem !important;
-        margin-bottom: 16px !important;
+        font-size: 0.8rem !important;
+        margin-bottom: 12px !important;
     }
     
     .cover-top {
-        margin-bottom: 16px !important;
+        margin-bottom: 12px !important;
     }
     
     .cover-kpis {
-        gap: 10px !important;
+        gap: 8px !important;
     }
     
     .cover-kpi {
-        padding: 8px 10px !important;
+        padding: 6px 8px !important;
     }
     
     .cover-kpi-val {
-        font-size: 1.35rem !important;
+        font-size: 1.25rem !important;
     }
     
     .toc {
         display: block !important;
-        padding: 14px 28px !important;
+        padding: 10px 24px !important;
         background: #eff6ff !important;
         page-break-after: always !important;
         break-after: page !important;
-    }
-    
-    .doc-body {
-        padding: 16px 28px !important;
     }
     
     .page-break {
@@ -257,7 +261,13 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     }
     
     .section {
-        margin-bottom: 18px !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .prose {
+        margin-bottom: 6px !important;
+        font-size: 0.82rem !important;
+        line-height: 1.35 !important;
     }
     
     /* Prevent title orphan / orphan heading cuts */
@@ -265,9 +275,11 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     .pilot-card-header, .pilot-card-nav-header, .quote-tag, .story-title, .t-intro {
         page-break-after: avoid !important;
         break-after: avoid !important;
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
     }
     
-    /* Prevent page break INSIDE all cards, grids, boxes and tables */
+    /* Prevent page break INSIDE cards, but make them compact so they fit on current page */
     .pilot-card, .pilot-card-nav, .pilot-narrative, .story-box,
     .challenge-card, .testimonial-card, .quote-block, .formula-box,
     .kpi-card, .kpi-grid, .conclusion-card, .cta-box, .hbox,
@@ -278,30 +290,73 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         break-inside: avoid !important;
     }
     
-    .pilot-narrative, .chart-grid-2col, .note-grid, .kpi-grid {
-        gap: 12px !important;
-        margin: 12px 0 !important;
-    }
-    
-    .pilot-card-nav {
-        padding: 14px 16px !important;
-        border-radius: 8px !important;
-    }
-    
+    /* Compact chart dimensions in PDF to eliminate giant blank gaps */
     .chart-box {
-        padding: 10px 14px !important;
-        margin: 10px 0 !important;
+        padding: 8px 12px !important;
+        margin: 8px 0 !important;
+    }
+    
+    #chartColegios {
+        max-height: 290px !important;
+        height: 290px !important;
     }
     
     .chart-box canvas {
-        max-height: 170px !important;
-        width: 100% !important;
+        max-height: 145px !important;
+    }
+    
+    .chart-grid-2col .chart-box canvas {
+        max-height: 140px !important;
     }
     
     .chart-doughnut-container {
-        max-width: 200px !important;
-        max-height: 160px !important;
+        max-width: 170px !important;
+        max-height: 130px !important;
         margin: 0 auto !important;
+    }
+    
+    #chartFranjas, #chartConsolidacion {
+        max-height: 130px !important;
+    }
+    
+    .testimonial-card {
+        padding: 10px 14px !important;
+        margin: 8px 0 !important;
+    }
+
+    .testimonial-header {
+        padding: 8px 12px !important;
+    }
+
+    .testimonial-body {
+        padding: 10px 12px !important;
+    }
+    
+    .kpi-grid, .chart-grid-2col, .evidence-grid, .note-grid {
+        gap: 8px !important;
+        margin: 8px 0 !important;
+    }
+    
+    .kpi-card {
+        padding: 5px 8px !important;
+    }
+    
+    .kpi-val {
+        font-size: 1.15rem !important;
+    }
+    
+    .hbox, .formula-box, .story-box {
+        padding: 8px 12px !important;
+        margin: 8px 0 !important;
+    }
+    
+    .data-table, .sla-table {
+        margin: 8px 0 !important;
+        font-size: 0.76rem !important;
+    }
+    
+    .data-table th, .data-table td, .sla-table th, .sla-table td {
+        padding: 3px 6px !important;
     }
     
     audio {
@@ -310,11 +365,11 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     
     .audio-pdf-link {
         display: inline-flex !important;
-        font-size: 0.76rem !important;
+        font-size: 0.75rem !important;
         color: #2563eb !important;
         font-weight: bold !important;
         text-decoration: underline !important;
-        margin-top: 3px !important;
+        margin-top: 2px !important;
     }
     
     .doc-footer {
@@ -322,166 +377,10 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         break-inside: avoid !important;
         background: #0f172a !important;
         color: #ffffff !important;
-        padding: 12px 28px !important;
+        padding: 10px 24px !important;
     }
     
     .doc-footer p {
         color: #94a3b8 !important;
-    }
-}
-
-
-/* Forced Horizontal Process Flow in Screen and Print */
-.process-flow {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: flex-start !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    margin: 20px 0 !important;
-    overflow-x: auto !important;
-    width: 100% !important;
-}
-
-.process-step {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    flex: 1 !important;
-    min-width: 80px !important;
-    position: relative !important;
-}
-
-.process-icon {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 50% !important;
-    background: #2563eb;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 1rem !important;
-    margin-bottom: 6px !important;
-}
-
-.process-label {
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    color: var(--text) !important;
-    line-height: 1.2 !important;
-}
-
-@media print {
-    .process-flow {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        align-items: flex-start !important;
-        justify-content: space-between !important;
-        gap: 4px !important;
-        margin: 12px 0 !important;
-        overflow: visible !important;
-        width: 100% !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-    }
-    
-    .process-step {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        text-align: center !important;
-        flex: 1 !important;
-        min-width: 0 !important;
-    }
-    
-    .process-icon {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 0.8rem !important;
-        margin-bottom: 4px !important;
-    }
-    
-    .process-label {
-        font-size: 0.66rem !important;
-        font-weight: 600 !important;
-        line-height: 1.15 !important;
-    }
-}
-
-
-
-
-/* PERFECT CHART SIZES & CONTAINER CAPS */
-.chart-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px !important;
-    margin: 16px 0 !important;
-}
-
-/* Default cap for 2-col bar charts */
-.chart-box canvas {
-    max-height: 220px !important;
-    max-width: 100% !important;
-    width: 100% !important;
-}
-
-/* Specific height for 36-colegios bar chart (needs space for 36 bars) */
-#chartColegios {
-    max-height: 480px !important;
-    height: 480px !important;
-}
-
-.chart-grid-2col {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 16px !important;
-    margin: 16px 0 !important;
-    align-items: stretch !important;
-}
-
-.chart-grid-2col .chart-box {
-    margin: 0 !important;
-    padding: 14px 16px !important;
-}
-
-.chart-grid-2col .chart-box canvas {
-    max-height: 200px !important;
-}
-
-/* Doughnut containers need height for legend without clipping */
-.chart-doughnut-container {
-    max-width: 270px !important;
-    min-height: 210px !important;
-    max-height: 250px !important;
-    margin: 0 auto !important;
-}
-
-#chartFranjas, #chartConsolidacion {
-    max-height: 230px !important;
-}
-
-@media (max-width: 768px) {
-    .chart-grid-2col {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-@media print {
-    #chartColegios {
-        max-height: 380px !important;
-        height: 380px !important;
-    }
-    .chart-box canvas {
-        max-height: 180px !important;
-    }
-    .chart-doughnut-container {
-        max-width: 220px !important;
-        max-height: 190px !important;
     }
 }
