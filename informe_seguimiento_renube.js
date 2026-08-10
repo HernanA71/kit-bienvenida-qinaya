@@ -179,36 +179,36 @@ function getChapter4() {
 
         <div class="chart-grid-2col">
             <div class="chart-box chart-box-sm">
-                <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones Virtuales de Alta Cobertura</h4>
-                <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Las sesiones se desarrollan mediante encuentros virtuales interactivos, permitiendo a los docentes participar de manera ágil, asertiva y sin interrumpir sus jornadas académicas. En estos talleres se brinda asesoría sobre herramientas pedagógicas, entornos virtuales y software educativo.</p>
+                <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones virtuales del Sistema Operativo y solución Qinaya</h4>
+                <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">En estas capacitaciones se brinda toda la explicación, contexto y visualización gráfica del sistema QL, de sus herramientas, sus apps en local y su acceso al computador virtual. Se explica a detalle todo el manejo del sistema y la integración de las diferentes herramientas propias del aula.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="evidencia_capacitacion1.png" alt="Capacitación Virtual Qinaya" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="evidencia_capacitacion1.png" alt="Capacitaciones virtuales del Sistema Operativo y solución Qinaya" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
             <div class="chart-box chart-box-sm">
                 <h4><i class="fab fa-whatsapp" style="color:#25d366;margin-right:6px;"></i>Acompañamiento Activo en Grupos de WhatsApp</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Cada colegio cuenta con un canal directo de WhatsApp. Además de resolver inquietudes técnicas, el equipo indaga sobre el desarrollo de las clases y comparte periódicamente <strong>enlaces educativos, guías interactivas y recursos didácticos para niños</strong>.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="evidencia_capacitacion2.png" alt="Acompañamiento en Redes y Recursos" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="evidencia_capacitacion2.png" alt="Acompañamiento Activo en Grupos de WhatsApp" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
         </div>
 
-        <h3 style="margin:28px 0 14px;font-size:1.18rem;"><i class="fas fa-chalkboard-teacher" style="color:#0d9488;margin-right:8px;"></i>Acompañamiento Presencial en Aula y Clases Co-guiadas</h3>
+        <h3 style="margin:28px 0 14px;font-size:1.18rem;"><i class="fas fa-chalkboard-teacher" style="color:#0d9488;margin-right:8px;"></i>Acompañamiento al Docente</h3>
         <p class="prose">Como complemento fundamental a la formación virtual, profesionales del equipo Qinaya realizan <strong>visitas presenciales de acompañamiento en los laboratorios escolares</strong>. Durante estas jornadas, los profesionales asisten directamente a las clases junto a los profesores, orientando a los estudiantes en el uso de herramientas STEM, Scratch y Tinkercad en tiempo real.</p>
 
         <div class="chart-grid-2col">
             <div class="chart-box chart-box-sm" style="display:flex;flex-direction:column;justify-content:center;">
-                <h4 style="color:#0f766e;"><i class="fas fa-users" style="margin-right:6px;"></i>Impacto del Acompañamiento Presencial</h4>
+                <h4 style="color:#0f766e;"><i class="fas fa-users" style="margin-right:6px;"></i>Impacto del Acompañamiento al Docente</h4>
                 <ul style="font-size:0.84rem;color:#334155;line-height:1.55;padding-left:18px;">
-                    <li><strong>Validación de la dinámica en clase:</strong> Apoyo en tiempo real al encender y ejecutar los proyectos con estudiantes.</li>
-                    <li><strong>Asistencia pedagógica directa:</strong> Resolución de dudas en el manejo de guías digitales y software educativo.</li>
-                    <li><strong>Retroalimentación docente:</strong> Ajustes continuos basados en las necesidades específicas de cada grupo y sede.</li>
+                    <li><strong>Validación de la solución en sitio:</strong> Revisión de la estabilidad del sistema y de las aplicaciones en clase con los docentes.</li>
+                    <li><strong>Asistencia pedagógica directa:</strong> Resolución de dudas no solamente en cuanto a manejo del sistema, experticia en el manejo de Nube o de cualquier herramienta pedagógica tecnológica en el aula.</li>
+                    <li><strong>Retroalimentación docente:</strong> Ajustes y mejoras continuas a la solicitud de nuevos programas instalados.</li>
                 </ul>
             </div>
             <div class="chart-box chart-box-sm" style="text-align:center;">
                 <h4><i class="fas fa-camera" style="color:#0d9488;margin-right:6px;"></i>Evidencia de Acompañamiento en el Aula</h4>
-                <img src="evidencia_capacitacion3.png" alt="Visita y Acompañamiento Presencial" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
+                <img src="evidencia_capacitacion3.png" alt="Acompañamiento al Docente en Aula" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
             </div>
         </div>
 
