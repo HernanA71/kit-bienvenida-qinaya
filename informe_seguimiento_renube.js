@@ -382,17 +382,17 @@ async function loadAPIData() {
             options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:10,padding:8}}}}
         });
 
-        // 7. Chart STEM (Compact STEM & Robotics Daily Average)
+        // 7. Chart STEM (Compact STEM & Robotics Daily Average including Arduino)
         const canSTEM = document.getElementById("chartSTEM");
         if (canSTEM) new Chart(canSTEM, {
             type:"bar",
             plugins:[barDataLabelsPlugin],
             data:{
-                labels:["Tinkercad 3D", "Scratch", "Micro:bit Web", "Python / Code"],
+                labels:["Tinkercad 3D", "Scratch", "Arduino IDE/Sim", "Micro:bit Web", "Python / Code"],
                 datasets:[{
                     label:"Promedio Diario por Lab",
-                    data:[1.9, 1.9, 0.4, 0.3],
-                    backgroundColor:["#0d9488", "#16a34a", "#2563eb", "#8b5cf6"],
+                    data:[1.9, 1.9, 1.2, 0.4, 0.3],
+                    backgroundColor:["#0d9488", "#16a34a", "#00979d", "#2563eb", "#8b5cf6"],
                     borderRadius:5
                 }]
             },
@@ -400,7 +400,7 @@ async function loadAPIData() {
                 responsive:true,
                 maintainAspectRatio:false,
                 plugins:{legend:{display:false}},
-                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9.5}}},y:{beginAtZero:true,title:{display:true,text:"Promedio Diario de Uso",font:{size:9.5}}}}
+                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9}}},y:{beginAtZero:true,title:{display:true,text:"Promedio Diario de Uso",font:{size:9.5}}}}
             }
         });
 
