@@ -281,7 +281,7 @@ async function loadAPIData() {
         if (canFranjas) new Chart(canFranjas, {
             type:"doughnut",
             data:{labels:["Uso Alto (>=4h/día)","Uso Medio (2-4h)","Uso Bajo (1-2h)","Uso Mínimo (<1h)"],datasets:[{data:[21,10,3,2],backgroundColor:["#16a34a","#2563eb","#d97706","#dc2626"],borderWidth:2,borderColor:"#fff"}]},
-            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.3,plugins:{legend:{position:"bottom",labels:{font:{size:11},boxWidth:12}}}}
+            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.4,plugins:{legend:{position:"bottom",labels:{font:{size:10.5},boxWidth:10}}}}
         });
 
         // 2. Chart Colegios (Compact Bar Chart)
@@ -291,7 +291,7 @@ async function loadAPIData() {
             type:"bar",
             plugins:[barDataLabelsPlugin],
             data:{labels:sorted.map(c=>c.name.substring(0,25)),datasets:[{label:"PCs Repotenciados",data:sorted.map(c=>c.pcs),backgroundColor:sorted.map(c=>c.pcs>=35?"#2563eb":c.pcs>=20?"#0d9488":c.pcs>=10?"#d97706":"#dc2626"),borderRadius:4}]},
-            options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10.5}}},y:{ticks:{font:{size:9.5}}}}}
+            options:{indexAxis:"y",responsive:true,maintainAspectRatio:true,aspectRatio:2.2,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10}}},y:{ticks:{font:{size:9.5}}}}}
         });
 
         // 3. Chart Meta
@@ -299,7 +299,7 @@ async function loadAPIData() {
         if (canMeta) new Chart(canMeta, {
             type:"bar",
             data:{labels:["Instalados","Pendientes (Meta 1.000)"],datasets:[{data:[814,186],backgroundColor:["#2563eb","#e2e8f0"],borderRadius:6}]},
-            options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} PCs`}}},scales:{x:{max:1000,grid:{color:"#f1f5f9"}}}}
+            options:{indexAxis:"y",responsive:true,maintainAspectRatio:true,aspectRatio:4,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} PCs`}}},scales:{x:{max:1000,grid:{color:"#f1f5f9"}}}}
         });
 
         // 4. Chart Apps (Compact Top Apps - Daily Average in Hrs/Day)
@@ -332,8 +332,10 @@ async function loadAPIData() {
             options:{
                 indexAxis:"y",
                 responsive:true,
+                maintainAspectRatio:true,
+                aspectRatio:2.0,
                 plugins:{legend:{display:false}},
-                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Uso (hrs/día)",font:{size:10.5}}},y:{ticks:{font:{size:10.5,weight:"bold"}}}}
+                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Uso (hrs/día)",font:{size:10}}},y:{ticks:{font:{size:10,weight:"bold"}}}}
             }
         });
 
@@ -359,8 +361,10 @@ async function loadAPIData() {
             options:{
                 indexAxis:"y",
                 responsive:true,
+                maintainAspectRatio:true,
+                aspectRatio:2.0,
                 plugins:{legend:{display:false}},
-                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Visitas (visitas/día)",font:{size:10.5}}},y:{ticks:{font:{size:10.5,weight:"bold"}}}}
+                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Visitas (visitas/día)",font:{size:10}}},y:{ticks:{font:{size:10,weight:"bold"}}}}
             }
         });
 
@@ -377,7 +381,7 @@ async function loadAPIData() {
                     borderColor:"#fff"
                 }]
             },
-            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.3,plugins:{legend:{position:"bottom",labels:{font:{size:10.5},boxWidth:10}}}}
+            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.3,plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:10}}}}
         });
 
         // 7. Chart STEM (Compact STEM & Robotics Daily Average)
@@ -396,8 +400,10 @@ async function loadAPIData() {
             },
             options:{
                 responsive:true,
+                maintainAspectRatio:true,
+                aspectRatio:2.0,
                 plugins:{legend:{display:false}},
-                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:"Promedio Diario de Uso",font:{size:10}}}}
+                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9.5}}},y:{beginAtZero:true,title:{display:true,text:"Promedio Diario de Uso",font:{size:9.5}}}}
             }
         });
 
@@ -417,8 +423,10 @@ async function loadAPIData() {
             },
             options:{
                 responsive:true,
+                maintainAspectRatio:true,
+                aspectRatio:2.0,
                 plugins:{legend:{display:false}},
-                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10}}},y:{beginAtZero:true,title:{display:true,text:"Visitas Promedio por Día",font:{size:10}}}}
+                scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9.5}}},y:{beginAtZero:true,title:{display:true,text:"Visitas Promedio por Día",font:{size:9.5}}}}
             }
         });
 
