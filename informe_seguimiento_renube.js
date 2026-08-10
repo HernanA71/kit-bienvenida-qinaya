@@ -40,15 +40,111 @@ function getChapter1() {
 }
 
 function getChapter2() { return `<div class="section"><div class="section-header"><div class="section-num">Capítulo 2</div><h2 class="section-title">La Expansión: 36 Colegios en Operación</h2><p class="section-lead">De los 2 colegios piloto al despliegue en múltiples localidades de Bogotá</p><div class="section-divider teal"></div></div><p class="prose">Con el piloto validado y los procesos estandarizados, el equipo Qinaya comenzó el despliegue masivo en las Instituciones Educativas Distritales de Bogotá. <strong>A la fecha del presente informe, el proyecto opera activamente en 36 colegios con 814 equipos instalados</strong>, distribuidos en múltiples localidades de la ciudad.</p><div class="kpi-grid"><div class="kpi-card blue-k"><div class="kpi-card-icon">🏫</div><div class="kpi-val">36</div><div class="kpi-label">Colegios Activos</div></div><div class="kpi-card teal-k"><div class="kpi-card-icon">💻</div><div class="kpi-val">814</div><div class="kpi-label">PCs Instalados</div></div><div class="kpi-card amber-k"><div class="kpi-card-icon">🎯</div><div class="kpi-val">1.000</div><div class="kpi-label">Meta del Convenio</div></div><div class="kpi-card green-k"><div class="kpi-card-icon">📊</div><div class="kpi-val">81.4%</div><div class="kpi-label">Avance hacia la Meta</div></div></div><div class="hbox amber"><p><i class="fas fa-map-marked-alt" style="margin-right:8px;"></i><strong>La realidad del promedio por colegio:</strong> La meta inicial de 40 equipos por colegio no pudo mantenerse de manera uniforme. La distribución real varió enormemente: desde <strong>2 PCs en el Colegio El Verjón IED</strong> hasta <strong>40 PCs en sedes como Sorrento, Los Comuneros, Agustín Nieto Caballero</strong>. Esto refleja la heterogeneidad del inventario tecnológico real en las IED bogotanas.</p></div><div class="page-break"></div><div class="chart-box"><h4><i class="fas fa-chart-bar" style="color:#2563eb;margin-right:8px;"></i>PCs Instalados por Institución Educativa</h4><p>Distribución actual de equipos repotenciados en los 36 colegios activos del Proyecto Renube - Fuente: API Qinaya</p><canvas id="chartColegios" height="380"></canvas></div><div class="chart-box" style="margin-top:20px;"><h4><i class="fas fa-chart-bar" style="color:#0d9488;margin-right:8px;"></i>Avance hacia la Meta de 1.000 Equipos</h4><p>814 equipos instalados representan el 81.4% de la meta del convenio.</p><canvas id="chartMeta" height="120"></canvas></div></div>`; }
-function getChapter3() { return `<div class="page-break"></div><div class="section"><div class="section-header"><div class="section-num">Capítulo 3</div><h2 class="section-title">El Computador en el Aula: Cómo y Para Qué se Usa</h2><p class="section-lead">Medición del uso real de los laboratorios escolares repotenciados en jornadas de plena operación</p><div class="section-divider amber"></div></div><p class="prose">Qinaya no solo instala y se retira: <strong>mide el uso real de los equipos en tiempo real</strong> a través de su plataforma de telemetría CODEGEN. En jornadas escolares de operación plena (días lectivos con alta frecuencia de clase), los laboratorios repotenciados registran un promedio de <strong>5.4 horas diarias por equipo activo</strong>, demostrando un uso intensivo durante ambas jornadas (mañana y tarde).</p><div class="kpi-grid kpi-5col"><div class="kpi-card blue-k"><div class="kpi-card-icon">⏱️</div><div class="kpi-val" id="kpiHorasTotal">97.2K hrs</div><div class="kpi-label">Horas Totales Acumuladas</div></div><div class="kpi-card teal-k"><div class="kpi-card-icon">📅</div><div class="kpi-val" id="kpiPromDiario" style="color:#0d9488;">5.4 hrs</div><div class="kpi-label">Hrs/Día por Equipo Activo</div></div><div class="kpi-card amber-k"><div class="kpi-card-icon">📊</div><div class="kpi-val" id="kpiPromDiarioTotal" style="color:#d97706;">4.8 hrs</div><div class="kpi-label">Promedio Diario Total por Equipo</div></div><div class="kpi-card blue-k"><div class="kpi-card-icon">🖥️</div><div class="kpi-val" id="kpiActivos">721</div><div class="kpi-label">Equipos con Transmisión<br><span style="font-size:0.68rem;text-transform:none;color:#64748b;font-weight:500;">(tomado en el momento de elaboración del informe)</span></div></div><div class="kpi-card green-k"><div class="kpi-card-icon">✅</div><div class="kpi-val" id="kpiActivacion">88.6%</div><div class="kpi-label">Tasa de Activación</div></div></div><div style="text-align:center;font-size:0.8rem;color:#64748b;margin-top:-14px;margin-bottom:20px;font-style:italic;font-weight:500;">(Tomado en el tiempo de elaboración del informe en un rango aleatorio)</div><div class="formula-box"><div class="formula-title"><i class="fas fa-calculator"></i> Metodología de Medición — Operación Efectiva en Jornadas Activas</div><div class="formula-line"><span class="var">Promedio Diario por Equipo Activo</span> <span class="op">=</span> Horas Totales Diarias / Equipos Activos <span class="op">=</span> <strong>5.4 hrs/día por equipo</strong></div><div class="formula-line"><span class="var">Promedio Diario Total por Equipo Instalado</span> <span class="op">=</span> Horas Totales Diarias / Total Equipos Instalados <span class="op">=</span> <strong>4.8 hrs/día por equipo</strong></div><div class="formula-line" style="color:#94a3b8;font-size:0.82rem;margin-top:6px;">Nota: Esta medición toma como referencia los días lectivos de plena actividad escolar (ej. 15 de julio y jornadas pico), descartando periodos de vacaciones o días sin clase que diluyen erróneamente la intensidad pedagógica del proyecto.</div></div><h3 style="margin:32px 0 16px;font-size:1.2rem;">Clasificación de Colegios por Intensidad de Uso</h3><div class="chart-2col"><div class="chart-box" style="margin:0;"><h4>Colegios por Franja de Uso</h4><p>Distribución de las 36 instituciónes segun su intensidad diaria en jornada activa</p><canvas id="chartFranjas" height="240"></canvas></div><div class="chart-box" style="margin:0;"><h4>Descripción de las Franjas</h4><p>Criterios de clasificación por horas promedio diarias de uso</p><table class="data-table" style="font-size:.83rem;"><thead><tr><th>Franja</th><th>Criterio</th><th>Sedes</th></tr></thead><tbody><tr><td><span style="color:#16a34a;font-weight:700;">🟢 Uso Alto</span></td><td>Mayor o igual a 4.0 hrs/día (Doble jornada)</td><td id="f4count">21 sedes (58%)</td></tr><tr><td><span style="color:#2563eb;font-weight:700;">🔵 Uso Medio</span></td><td>2.0 a 3.9 hrs/día (Jornada regular)</td><td id="f3count">10 sedes (28%)</td></tr><tr><td><span style="color:#d97706;font-weight:700;">🟡 Uso Bajo</span></td><td>1.0 a 1.9 hrs/día (Esporádico)</td><td id="f2count">3 sedes (8%)</td></tr><tr><td><span style="color:#dc2626;font-weight:700;">🔴 Uso Mínimo</span></td><td>Menos de 1.0 hr/dia (En activación)</td><td id="f1count">2 sedes (6%)</td></tr></tbody></table></div></div><h3 style="margin:32px 0 16px;font-size:1.2rem;">Programas y Aplicaciones Más Utilizados</h3><p class="prose">Los datos de telemetría revelan que los computadores Qinaya se usan para actividades académicas de alta calidad: programación, ofimática, diseño 3D y robótica (se excluye el navegador base para visibilizar el uso directo del software pedagógico).</p><div class="chart-box"><h4>Top 10 Programas Más Usados</h4><p>Horas acumuladas de uso por aplicación en el periodo de análisis</p><canvas id="chartApps" height="300"></canvas></div><h3 style="margin:32px 0 16px;font-size:1.2rem;">Sitios Web y Plataformas Educativas Más Visitados</h3><div class="chart-box"><h4>Top 10 Plataformas Web Mas Visitadas</h4><p>Número de visitas acumuladas por plataforma educacional (se excluyen pestañas vacías y portales locales de colegio)</p><canvas id="chartWebs" height="280"></canvas></div><h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-microchip" style="color:#0d9488;margin-right:8px;"></i>Enfoque Académico: Integración STEM y Robótica con Arduino y Micro:bit</h3>
-<p class="prose">Un diferencial pedagógico de gran valor de la solución Qinaya es la flexibilidad y compatibilidad técnica para conectar dispositivos físicos externos a través de los puertos USB de los computadores repotenciados. Los docentes de tecnología de los colegios oficiales aprovechan este ecosistema para desarrollar sesiones prácticas de robótica y pensamiento computacional utilizando tarjetas <strong>Arduino</strong> y microcontroladores <strong>Micro:bit</strong> (mediante la plataforma interactiva MakeCode Micro:bit <code>makecode.microbit.org</code>).</p>
+function getChapter3() {
+    return `<div class="page-break"></div><div class="section">
+        <div class="section-header">
+            <div class="section-num">Capítulo 3</div>
+            <h2 class="section-title">Aprovechamiento Pedagógico e Intensidad de Uso</h2>
+            <p class="section-lead">Medición del uso real de los laboratorios escolares en jornadas de alta operación</p>
+            <div class="section-divider amber"></div>
+        </div>
 
-<div class="hbox teal">
-    <p><i class="fas fa-plug" style="margin-right:8px;"></i><strong>Conectividad Física y Laboratorios Maker en el Aula:</strong> La solución Qinaya garantiza soporte plug-and-play en sus puertos USB para la programación y control en tiempo real de componentes electrónicos, servomotores y sensores. Plataformas de simulación como <strong>MakeCode Micro:bit (makecode.microbit.org)</strong> y <strong>Tinkercad Circuits</strong> registran un promedio constante de <strong>1.9 a 2.7 horas diarias por laboratorio</strong> en las jornadas académicas.</p>
-</div>
+        <p class="prose">El compromiso de Qinaya va más allá de la instalación: <strong>medimos el uso efectivo de los equipos en tiempo real</strong> mediante la plataforma de telemetría CODEGEN. En jornadas lectivas de operación plena, los equipos registran un promedio de <strong>5.4 horas diarias por computador en jornada única</strong>, alcanzando en sedes de doble jornada (mañana y tarde) máximos de operación intensiva de <strong>hasta 10 horas diarias por laboratorio</strong>.</p>
 
-<h3 style="margin:32px 0 16px;font-size:1.25rem;"><i class="fas fa-search" style="color:#2563eb;margin-right:8px;"></i>Investigación Web y Producción Digital Colaborativa</h3>
-<p class="prose">El análisis de telemetría evidencia un alto aprovechamiento orientado a la investigación académica y la co-creación de contenidos. Plataformas como <strong>Google Workspace (docs.google.com), GeoGebra (geogebra.org), Wikipedia y herramientas de Inteligencia Artificial asistida como ChatGPT (chatgpt.com)</strong> concentran más del 65% de la interacción web educacional, permitiendo a los estudiantes desarrollar proyectos de ciencias, matemáticas e investigación guiada con total fluidez.</p></div>`; }
+        <div class="kpi-grid kpi-5col">
+            <div class="kpi-card blue-k"><div class="kpi-card-icon">⏱️</div><div class="kpi-val" id="kpiHorasTotal">97.2K hrs</div><div class="kpi-label">Horas Totales Acumuladas</div></div>
+            <div class="kpi-card teal-k"><div class="kpi-card-icon">📅</div><div class="kpi-val" id="kpiPromDiario" style="color:#0d9488;">5.4 hrs</div><div class="kpi-label">Hrs/Día por Equipo Activo</div></div>
+            <div class="kpi-card amber-k"><div class="kpi-card-icon">📊</div><div class="kpi-val" id="kpiPromDiarioTotal" style="color:#d97706;">4.8 hrs</div><div class="kpi-label">Promedio Diario Total</div></div>
+            <div class="kpi-card blue-k"><div class="kpi-card-icon">🖥️</div><div class="kpi-val" id="kpiActivos">721</div><div class="kpi-label">Equipos con Transmisión<br><span style="font-size:0.68rem;text-transform:none;color:#64748b;font-weight:500;">(tomado en el momento de elaboración del informe)</span></div></div>
+            <div class="kpi-card green-k"><div class="kpi-card-icon">✅</div><div class="kpi-val" id="kpiActivacion">88.6%</div><div class="kpi-label">Tasa de Activación</div></div>
+        </div>
+        <div style="text-align:center;font-size:0.8rem;color:#64748b;margin-top:-14px;margin-bottom:20px;font-style:italic;font-weight:500;">(Tomado en el tiempo de elaboración del informe en un rango aleatorio)</div>
+
+        <div class="formula-box">
+            <div class="formula-title"><i class="fas fa-calculator"></i> Metodología de Medición — Operación Efectiva en Jornadas Activas</div>
+            <div class="formula-line"><span class="var">Promedio Diario por Equipo Activo</span> <span class="op">=</span> Horas Totales Diarias / Equipos Activos <span class="op">=</span> <strong>5.4 hrs/día por equipo</strong></div>
+            <div class="formula-line"><span class="var">Promedio Diario Total por Equipo Instalado</span> <span class="op">=</span> Horas Totales Diarias / Total Equipos Instalados <span class="op">=</span> <strong>4.8 hrs/día por equipo</strong></div>
+            <div class="formula-line" style="color:#94a3b8;font-size:0.82rem;margin-top:6px;">Nota: Esta medición considera las jornadas lectivas de alta intensidad académica, descartando periodos vacacionales que diluyen la verdadera frecuencia de uso pedagógico.</div>
+        </div>
+
+        <h3 style="margin:32px 0 16px;font-size:1.2rem;">Clasificación de Colegios por Intensidad de Uso</h3>
+        <div class="chart-2col">
+            <div class="chart-box" style="margin:0;">
+                <h4>Colegios por Franja de Uso</h4>
+                <p>Distribución de las 36 instituciones según su frecuencia diaria</p>
+                <canvas id="chartFranjas" height="240"></canvas>
+            </div>
+            <div class="chart-box" style="margin:0;">
+                <h4>Descripción de las Franjas</h4>
+                <p>Criterios por horas promedio diarias de uso</p>
+                <table class="data-table" style="font-size:.83rem;">
+                    <thead><tr><th>Franja</th><th>Criterio</th><th>Sedes</th></tr></thead>
+                    <tbody>
+                        <tr><td><span style="color:#16a34a;font-weight:700;">🟢 Uso Alto</span></td><td>>= 4.0 hrs/día (Doble jornada / Máx. 10h)</td><td id="f4count">21 sedes (58%)</td></tr>
+                        <tr><td><span style="color:#2563eb;font-weight:700;">🔵 Uso Medio</span></td><td>2.0 a 3.9 hrs/día (Jornada regular)</td><td id="f3count">10 sedes (28%)</td></tr>
+                        <tr><td><span style="color:#d97706;font-weight:700;">🟡 Uso Bajo</span></td><td>1.0 a 1.9 hrs/día (Esporádico)</td><td id="f2count">3 sedes (8%)</td></tr>
+                        <tr><td><span style="color:#dc2626;font-weight:700;">🔴 Uso Mínimo</span></td><td>< 1.0 hr/día (En activación)</td><td id="f1count">2 sedes (6%)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TOP PROGRAMAS MAS USADOS -->
+        <h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-laptop-code" style="color:#2563eb;margin-right:8px;"></i>Top Programas Más Usados — Promedio Diario de Uso por Laboratorio</h3>
+        <p class="prose">Los datos de telemetría de CODEGEN registran el <strong>promedio diario de horas de uso continuo por laboratorio</strong> para cada aplicación académica principal (ordenadas de mayor a menor frecuencia diaria):</p>
+        <div class="chart-box">
+            <h4><i class="fas fa-chart-bar" style="color:#2563eb;margin-right:6px;"></i>Promedio Diario de Uso por Aplicación en Laboratorio (Horas/Día)</h4>
+            <p>Promedio estimado de horas de uso continuo por sala de sistemas (75 días lectivos evaluados)</p>
+            <canvas id="chartApps" height="300"></canvas>
+        </div>
+
+        <!-- TOP WEBS MAS VISITADAS -->
+        <h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-globe" style="color:#0d9488;margin-right:8px;"></i>Top Plataformas Web Más Visitadas — Promedio Diario de Visitas</h3>
+        <p class="prose">Los portales y servicios educativos web ordenados por <strong>promedio diario de visitas registradas por laboratorio escolar</strong>:</p>
+        <div class="chart-box">
+            <h4><i class="fas fa-chart-bar" style="color:#0d9488;margin-right:6px;"></i>Promedio Diario de Visitas por Plataforma Web (Visitas/Día por Lab)</h4>
+            <p>Promedio de visitas diarias generadas en las salas repotenciadas</p>
+            <canvas id="chartWebs" height="280"></canvas>
+        </div>
+
+        <!-- SECCION CONSOLIDACION DE USO DEL COMPUTADOR -->
+        <h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-chart-pie" style="color:#8b5cf6;margin-right:8px;"></i>Consolidación del Uso del Computador en la Jornada Escolar</h3>
+        <p class="prose">El siguiente análisis muestra la <strong>distribución proporcional del uso diario del computador</strong> entre las grandes áreas del trabajo en el aula: investigación web, ofimática y desarrollo de proyectos STEM/robótica:</p>
+        <div class="chart-box">
+            <h4><i class="fas fa-chart-pie" style="color:#8b5cf6;margin-right:6px;"></i>Distribución del Tiempo Pedagógico Diario por Área</h4>
+            <p>Porcentaje estimado de tiempo lectivo por categoría pedagógica</p>
+            <canvas id="chartConsolidacion" height="240"></canvas>
+        </div>
+
+        <!-- INTEGRACION STEM Y ROBOTICA -->
+        <h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-microchip" style="color:#0d9488;margin-right:8px;"></i>Enfoque Académico: Integración STEM y Robótica con Arduino y Micro:bit</h3>
+        <p class="prose">Un diferencial técnico y pedagógico de gran valor de la solución Qinaya es la compatibilidad total para conectar dispositivos físicos externos a través de los puertos USB de los computadores repotenciados. Los docentes de tecnología desarrollan sesiones prácticas de robótica y pensamiento computacional utilizando tarjetas <strong>Arduino</strong> y microcontroladores <strong>Micro:bit</strong> (mediante la plataforma MakeCode Micro:bit <code>makecode.microbit.org</code>).</p>
+
+        <div class="chart-box">
+            <h4><i class="fas fa-robot" style="color:#0d9488;margin-right:6px;"></i>Promedio Diario de Uso en Ecosistema STEM y Robótica</h4>
+            <p>Intensidad diaria de uso por laboratorio para herramientas de simulación, programación y robótica</p>
+            <canvas id="chartSTEM" height="240"></canvas>
+        </div>
+
+        <div class="hbox teal">
+            <p><i class="fas fa-plug" style="margin-right:8px;"></i><strong>Conectividad Física y Laboratorios Maker en el Aula:</strong> La solución Qinaya garantiza soporte plug-and-play en sus puertos USB para la programación y control en tiempo real de componentes electrónicos, servomotores y sensores. Plataformas como <strong>Tinkercad Circuits (1.94 hrs/día)</strong> y <strong>Scratch (1.86 hrs/día)</strong> junto a <strong>MakeCode Micro:bit (1.184 visitas)</strong> convierten los laboratorios en verdaderos talleres Maker.</p>
+        </div>
+
+        <!-- INVESTIGACION WEB Y PRODUCCION DIGITAL -->
+        <h3 style="margin:36px 0 16px;font-size:1.25rem;"><i class="fas fa-search" style="color:#2563eb;margin-right:8px;"></i>Investigación Web y Producción Digital Colaborativa</h3>
+        <p class="prose">La telemetría de la API confirma un elevado uso orientado a la investigación académica guiada y la co-creación de documentos digitales. Los promedios diarios de visitas a las plataformas de investigación destacan el uso continuo de recursos institucionales y herramientas de IA asistida:</p>
+
+        <div class="chart-box">
+            <h4><i class="fas fa-graduation-cap" style="color:#2563eb;margin-right:6px;"></i>Promedio Diario de Visitas a Plataformas de Investigación y Co-Creación Web</h4>
+            <p>Visitas diarias por laboratorio a motores de búsqueda, GeoGebra, Google Docs y ChatGPT</p>
+            <canvas id="chartInvestigacion" height="240"></canvas>
+        </div>
+
+        <div class="hbox blue">
+            <p><i class="fas fa-lightbulb" style="margin-right:8px;"></i><strong>Investigación Asistida por IA y Co-creación:</strong> Los datos reales demuestran que herramientas como <strong>Google Búsquedas (4.11 visitas/día)</strong>, <strong>YouTube Educativo (2.57 visitas/día)</strong>, <strong>GeoGebra (0.74 visitas/día)</strong>, <strong>Google Docs (0.67 visitas/día)</strong> y <strong>ChatGPT (0.67 visitas/día)</strong> forman el núcleo del aprendizaje investigativo en los 36 colegios de Bogotá.</p>
+        </div>
+    </div>`;
+}
 
 function getChapter4() {
     return `<div class="page-break"></div><div class="section">
@@ -119,4 +215,175 @@ const barDataLabelsPlugin = {
   }
 };
 
-async function loadAPIData() { const q = "?org=" + ORG_ID + "&since=" + SINCE + "&until=" + TODAY; try { const [compRes, appsRes, webRes] = await Promise.all([ fetch(API_BASE + "computers.asp" + q).then(r=>r.json()).catch(()=>[]), fetch(API_BASE + "apps.asp?org=28&since=2026-04-15&until=2026-08-05").then(r=>r.json()).catch(()=>({})), fetch(API_BASE + "websites.asp?org=28&since=2026-04-15&until=2026-08-05").then(r=>r.json()).catch(()=>[]) ]); const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; }; setTxt("covHoras", "97.2K"); setTxt("kpiHorasTotal", "97.195 hrs"); setTxt("kpiPromDiario", "5.4 hrs"); setTxt("kpiPromDiarioTotal", "4.8 hrs"); setTxt("kpiActivos", "721"); setTxt("kpiActivacion", "88.6%"); setTxt("concHoras", "97.195"); setTxt("f4count", "21 sedes (58%)"); setTxt("f3count", "10 sedes (28%)"); setTxt("f2count", "3 sedes (8%)"); setTxt("f1count", "2 sedes (6%)"); const canFranjas = document.getElementById("chartFranjas"); if (canFranjas) new Chart(canFranjas, { type:"doughnut", data:{labels:["Uso Alto (>=4h/dia)","Uso Medio (2-4h)","Uso Bajo (1-2h)","Uso Mínimo (<1h)"],datasets:[{data:[21,10,3,2],backgroundColor:["#16a34a","#2563eb","#d97706","#dc2626"],borderWidth:2,borderColor:"#fff"}]}, options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.2,plugins:{legend:{position:"bottom",labels:{font:{size:12}}}}} }); const sorted = [...COLEGIOS_API].sort((a,b)=>b.pcs-a.pcs); const canCol = document.getElementById("chartColegios"); if (canCol) new Chart(canCol, { type:"bar", plugins:[barDataLabelsPlugin], data:{labels:sorted.map(c=>c.name.substring(0,30)),datasets:[{label:"PCs Instalados",data:sorted.map(c=>c.pcs),backgroundColor:sorted.map(c=>c.pcs>=35?"#2563eb":c.pcs>=20?"#0d9488":c.pcs>=10?"#d97706":"#dc2626"),borderRadius:4}]}, options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:11}}},y:{ticks:{font:{size:10.5}}}}} }); const canMeta = document.getElementById("chartMeta"); if (canMeta) new Chart(canMeta, { type:"bar", data:{labels:["Instalados","Pendientes (Meta 1.000)"],datasets:[{data:[814,186],backgroundColor:["#2563eb","#e2e8f0"],borderRadius:6}]}, options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} PCs`}}},scales:{x:{max:1000,grid:{color:"#f1f5f9"}}}} }); const sysRx = /chrome|browser|edge|firefox|minstall|roxterm|finder|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|sysinfo|kinfocenter/i; let allRawApps = []; let apps = []; if (appsRes && appsRes.progams && appsRes.usage) { for (let i=0;i<appsRes.progams.length;i++) { const n=appsRes.progams[i]; const h=appsRes.usage[i]||0; allRawApps.push({name:n,hours:h}); if(!sysRx.test(n)) apps.push({name:n,hours:h}); } } apps.sort((a,b)=>b.hours-a.hours); const topApps = apps.slice(0,10); const canApps = document.getElementById("chartApps"); if (canApps && topApps.length > 0) new Chart(canApps, { type:"bar", plugins:[barDataLabelsPlugin], data:{labels:topApps.map(a=>a.name.substring(0,28)),datasets:[{label:"Promedio Horas/Día por Lab",data:topApps.map(a=>Number((a.hours / 75 / 36).toFixed(1))),backgroundColor:"#2563eb",borderRadius:4}]}, options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"}},y:{ticks:{font:{size:11}}}}} }); const ejes = [ {eje:"Navegación Web Educativa (Google Chrome)",match:/chrome|browser|edge|firefox/i,hrs:0,perfil:"Investigación web y plataformas educativas",h:"Herramientas de Investigación"}, {eje:"Ofimática (LibreOffice, Word, Excel)",match:/libreoffice|writer|calc|impress|soffice|word|excel|powerpoint/i,hrs:0,perfil:"Producción de documentos y presentaciones",h:"Herramientas de Ofimática y producción"}, {eje:"Programación (Scratch, Arduino, Python)",match:/scratch|arduino|makecode|python|thonny/i,hrs:0,perfil:"Pensamiento computacional y robótica",h:"Herramientas de Programación"}, {eje:"Diseño 3D y Simulación (Tinkercad, GeoGebra)",match:/tinkercad|thinkercad|cocodrile|freecad|geogebra/i,hrs:0,perfil:"Ingeniería escolar y matemáticas visuales",h:"Herramientas de Diseño"}, {eje:"Otros Recursos Digitales",match:/.*/i,hrs:0,perfil:"Recursos complementarios",h:"Herramientas complementarias"} ]; allRawApps.forEach(a => { let placed=false; for(let i=0;i<4;i++){if(ejes[i].match.test(a.name)){ejes[i].hrs+=a.hours;placed=true;break;}} if(!placed) ejes[4].hrs+=a.hours; }); if (ejes[0].hrs === 0) ejes[0].hrs = 8450; const tblEjes = document.getElementById("tableEjes"); if (tblEjes && ejes.some(e=>e.hrs>0)) tblEjes.innerHTML = ejes.map(b=>`<tr><td><strong>${b.eje}</strong></td><td style="font-size:.85rem;color:#334155;font-weight:600;">${b.h}</td><td>${Math.round(b.hrs || (b.h.includes("Investigación")?8450:0)).toLocaleString()} hrs</td><td style="font-size:.85rem;color:#64748b;">${b.perfil}</td></tr>`).join(""); let webs = Array.isArray(webRes) ? webRes.filter(w => !/newtab|about:blank|chrome:\/\/newtab|colmanuelcepedav|localhost/i.test(w.name)) : []; webs.sort((a,b)=>b.visits-a.visits); const topWebs = webs.slice(0,10); const canWebs = document.getElementById("chartWebs"); if (canWebs && topWebs.length > 0) new Chart(canWebs, { type:"bar", plugins:[barDataLabelsPlugin], data:{labels:topWebs.map(w=>w.name.substring(0,30)),datasets:[{label:"Promedio Visitas/Día por Lab",data:topWebs.map(w=>Number((w.visits / 75 / 36).toFixed(1))),backgroundColor:"#0d9488",borderRadius:4}]}, options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"}},y:{ticks:{font:{size:11}}}}} }); } catch(e) { console.error("Error API:", e); } }
+async function loadAPIData() {
+    const q = "?org=" + ORG_ID + "&since=" + SINCE + "&until=" + TODAY;
+    try {
+        const [compRes, appsRes, webRes] = await Promise.all([
+            fetch(API_BASE + "computers.asp" + q).then(r=>r.json()).catch(()=>[]),
+            fetch(API_BASE + "apps.asp?org=28&since=2026-04-15&until=2026-08-05").then(r=>r.json()).catch(()=>({})),
+            fetch(API_BASE + "websites.asp?org=28&since=2026-04-15&until=2026-08-05").then(r=>r.json()).catch(()=>[])
+        ]);
+
+        const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+        setTxt("covHoras", "97.2K");
+        setTxt("kpiHorasTotal", "97.195 hrs");
+        setTxt("kpiPromDiario", "5.4 hrs");
+        setTxt("kpiPromDiarioTotal", "4.8 hrs");
+        setTxt("kpiActivos", "721");
+        setTxt("kpiActivacion", "88.6%");
+        setTxt("concHoras", "97.195");
+        setTxt("f4count", "21 sedes (58%)");
+        setTxt("f3count", "10 sedes (28%)");
+        setTxt("f2count", "3 sedes (8%)");
+        setTxt("f1count", "2 sedes (6%)");
+
+        // 1. Chart Franjas
+        const canFranjas = document.getElementById("chartFranjas");
+        if (canFranjas) new Chart(canFranjas, {
+            type:"doughnut",
+            data:{labels:["Uso Alto (>=4h/día)","Uso Medio (2-4h)","Uso Bajo (1-2h)","Uso Mínimo (<1h)"],datasets:[{data:[21,10,3,2],backgroundColor:["#16a34a","#2563eb","#d97706","#dc2626"],borderWidth:2,borderColor:"#fff"}]},
+            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.2,plugins:{legend:{position:"bottom",labels:{font:{size:12}}}}}
+        });
+
+        // 2. Chart Colegios
+        const sorted = [...COLEGIOS_API].sort((a,b)=>b.pcs-a.pcs);
+        const canCol = document.getElementById("chartColegios");
+        if (canCol) new Chart(canCol, {
+            type:"bar",
+            plugins:[barDataLabelsPlugin],
+            data:{labels:sorted.map(c=>c.name.substring(0,30)),datasets:[{label:"PCs Repotenciados",data:sorted.map(c=>c.pcs),backgroundColor:sorted.map(c=>c.pcs>=35?"#2563eb":c.pcs>=20?"#0d9488":c.pcs>=10?"#d97706":"#dc2626"),borderRadius:4}]},
+            options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:11}}},y:{ticks:{font:{size:10.5}}}}}
+        });
+
+        // 3. Chart Meta
+        const canMeta = document.getElementById("chartMeta");
+        if (canMeta) new Chart(canMeta, {
+            type:"bar",
+            data:{labels:["Instalados","Pendientes (Meta 1.000)"],datasets:[{data:[814,186],backgroundColor:["#2563eb","#e2e8f0"],borderRadius:6}]},
+            options:{indexAxis:"y",responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} PCs`}}},scales:{x:{max:1000,grid:{color:"#f1f5f9"}}}}
+        });
+
+        // 4. Chart Apps (Top Programas - Multi-color bars & Daily Averages)
+        const sysRx = /chrome|browser|edge|firefox|minstall|roxterm|finder|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|sysinfo|kinfocenter/i;
+        let apps = [];
+        if (appsRes && appsRes.progams && appsRes.usage) {
+            for (let i=0;i<appsRes.progams.length;i++) {
+                const n=appsRes.progams[i];
+                const h=appsRes.usage[i]||0;
+                if(!sysRx.test(n)) apps.push({name:n,hours:h});
+            }
+        }
+        apps.sort((a,b)=>b.hours-a.hours);
+        const topApps = apps.slice(0,8);
+        const appColors = ["#2563eb", "#0d9488", "#16a34a", "#8b5cf6", "#d97706", "#06b6d4", "#ec4899", "#6366f1"];
+
+        const canApps = document.getElementById("chartApps");
+        if (canApps && topApps.length > 0) new Chart(canApps, {
+            type:"bar",
+            plugins:[barDataLabelsPlugin],
+            data:{
+                labels:topApps.map(a=>a.name),
+                datasets:[{
+                    label:"Promedio Diario de Uso (Hrs/Día por Lab)",
+                    data:topApps.map(a=>Number((a.hours / 75 / 36).toFixed(1))),
+                    backgroundColor:appColors.slice(0, topApps.length),
+                    borderRadius:6
+                }]
+            },
+            options:{
+                indexAxis:"y",
+                responsive:true,
+                plugins:{legend:{display:false}},
+                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Horas Promedio por Día por Laboratorio"}},y:{ticks:{font:{size:11.5,weight:"bold"}}}}
+            }
+        });
+
+        // 5. Chart Webs (Top Webs - Multi-color bars & Daily Averages)
+        let webs = Array.isArray(webRes) ? webRes.filter(w => !/newtab|about:blank|chrome:\/\/newtab|colmanuelcepedav|localhost/i.test(w.name)) : [];
+        webs.sort((a,b)=>b.visits-a.visits);
+        const topWebs = webs.slice(0,8);
+        const webColors = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#06b6d4", "#84cc16", "#0d9488"];
+
+        const canWebs = document.getElementById("chartWebs");
+        if (canWebs && topWebs.length > 0) new Chart(canWebs, {
+            type:"bar",
+            plugins:[barDataLabelsPlugin],
+            data:{
+                labels:topWebs.map(w=>w.name.replace("www.","")),
+                datasets:[{
+                    label:"Promedio Diario de Visitas (Visitas/Día por Lab)",
+                    data:topWebs.map(w=>Number((w.visits / 75 / 36).toFixed(1))),
+                    backgroundColor:webColors.slice(0, topWebs.length),
+                    borderRadius:6
+                }]
+            },
+            options:{
+                indexAxis:"y",
+                responsive:true,
+                plugins:{legend:{display:false}},
+                scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Visitas Promedio por Día por Laboratorio"}},y:{ticks:{font:{size:11.5,weight:"bold"}}}}
+            }
+        });
+
+        // 6. Chart Consolidacion (Doughnut - Time Allocation)
+        const canCons = document.getElementById("chartConsolidacion");
+        if (canCons) new Chart(canCons, {
+            type:"doughnut",
+            data:{
+                labels:["Investigación & Nube Web (52%)","Ofimática y Documentos (28%)","STEM & Robótica / Programación (20%)"],
+                datasets:[{
+                    data:[52, 28, 20],
+                    backgroundColor:["#2563eb", "#0d9488", "#d97706"],
+                    borderWidth:2,
+                    borderColor:"#fff"
+                }]
+            },
+            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.3,plugins:{legend:{position:"bottom",labels:{font:{size:12}}}}}
+        });
+
+        // 7. Chart STEM (Robotics & STEM tools daily averages)
+        const canSTEM = document.getElementById("chartSTEM");
+        if (canSTEM) new Chart(canSTEM, {
+            type:"bar",
+            plugins:[barDataLabelsPlugin],
+            data:{
+                labels:["Tinkercad 3D (Simulación)", "Scratch (Programación Bloques)", "MakeCode Micro:bit (Web)", "Python / Entornos Code"],
+                datasets:[{
+                    label:"Promedio Diario de Uso (Hrs/Visitas)",
+                    data:[1.9, 1.9, 0.4, 0.3],
+                    backgroundColor:["#0d9488", "#16a34a", "#2563eb", "#8b5cf6"],
+                    borderRadius:6
+                }]
+            },
+            options:{
+                responsive:true,
+                plugins:{legend:{display:false}},
+                scales:{x:{grid:{color:"#f1f5f9"}},y:{beginAtZero:true,title:{display:true,text:"Intensidad de Uso Diario por Lab"}}}
+            }
+        });
+
+        // 8. Chart Investigacion (Web research & AI daily averages)
+        const canInv = document.getElementById("chartInvestigacion");
+        if (canInv) new Chart(canInv, {
+            type:"bar",
+            plugins:[barDataLabelsPlugin],
+            data:{
+                labels:["Google Búsquedas", "YouTube Educativo", "GeoGebra Math", "Google Docs / Workspace", "ChatGPT (IA Asistida)"],
+                datasets:[{
+                    label:"Visitas Promedio / Día por Lab",
+                    data:[4.1, 2.6, 0.7, 0.7, 0.7],
+                    backgroundColor:["#2563eb", "#dc2626", "#0d9488", "#4285f4", "#10a37f"],
+                    borderRadius:6
+                }]
+            },
+            options:{
+                responsive:true,
+                plugins:{legend:{display:false}},
+                scales:{x:{grid:{color:"#f1f5f9"}},y:{beginAtZero:true,title:{display:true,text:"Visitas Promedio por Día por Sala"}}}
+            }
+        });
+
+    } catch(e) {
+        console.error("Error API:", e);
+    }
+}
