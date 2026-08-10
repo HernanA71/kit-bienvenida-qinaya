@@ -329,3 +329,85 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         color: #94a3b8 !important;
     }
 }
+
+
+/* Forced Horizontal Process Flow in Screen and Print */
+.process-flow {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin: 20px 0 !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+}
+
+.process-step {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    flex: 1 !important;
+    min-width: 80px !important;
+    position: relative !important;
+}
+
+.process-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: #2563eb;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1rem !important;
+    margin-bottom: 6px !important;
+}
+
+.process-label {
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    color: var(--text) !important;
+    line-height: 1.2 !important;
+}
+
+@media print {
+    .process-flow {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: flex-start !important;
+        justify-content: space-between !important;
+        gap: 4px !important;
+        margin: 12px 0 !important;
+        overflow: visible !important;
+        width: 100% !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+    
+    .process-step {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+    }
+    
+    .process-icon {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 0.8rem !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .process-label {
+        font-size: 0.66rem !important;
+        font-weight: 600 !important;
+        line-height: 1.15 !important;
+    }
+}
