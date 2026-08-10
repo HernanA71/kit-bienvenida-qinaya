@@ -182,14 +182,14 @@ function getChapter4() {
                 <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones virtuales del Sistema Operativo y solución Qinaya</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">En estas capacitaciones se brinda toda la explicación, contexto y visualización gráfica del sistema QL, de sus herramientas, sus apps en local y su acceso al computador virtual. Se explica a detalle todo el manejo del sistema y la integración de las diferentes herramientas propias del aula.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="img_meet_call_v48.png?v=20260810_v48" alt="Capacitaciones virtuales del Sistema Operativo y solución Qinaya" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="capacitacionesvirtuales.png?v=20260810_v49" alt="Capacitaciones virtuales del Sistema Operativo y solución Qinaya" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
             <div class="chart-box chart-box-sm">
                 <h4><i class="fab fa-whatsapp" style="color:#25d366;margin-right:6px;"></i>Acompañamiento Activo en Grupos de WhatsApp</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Cada colegio cuenta con un canal directo de WhatsApp. Además de resolver inquietudes técnicas, el equipo indaga sobre el desarrollo de las clases y comparte periódicamente <strong>enlaces educativos, guías interactivas y recursos didácticos para niños</strong>.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="img_whatsapp_chat_v48.png?v=20260810_v48" alt="Acompañamiento Activo en Grupos de WhatsApp" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="acompactivowhatsaap.png?v=20260810_v49" alt="Acompañamiento Activo en Grupos de WhatsApp" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
         </div>
@@ -208,7 +208,7 @@ function getChapter4() {
             </div>
             <div class="chart-box chart-box-sm" style="text-align:center;">
                 <h4><i class="fas fa-camera" style="color:#0d9488;margin-right:6px;"></i>Evidencia de Acompañamiento en el Aula</h4>
-                <img src="img_scratch_screen_v48.png?v=20260810_v48" alt="Evidencia de Acompañamiento en el Aula" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
+                <img src="Evidecacompaula.png?v=20260810_v49" alt="Evidencia de Acompañamiento en el Aula" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
             </div>
         </div>
 
