@@ -182,7 +182,7 @@ function getChapter4() {
                 <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones virtuales del Sistema Operativo y solución Qinaya</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">En estas capacitaciones se brinda toda la explicación, contexto y visualización gráfica del sistema QL, de sus herramientas, sus apps en local y su acceso al computador virtual. Se explica a detalle todo el manejo del sistema y la integración de las diferentes herramientas propias del aula.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="evidencia_capacitacion1.png" alt="Capacitaciones virtuales del Sistema Operativo y solución Qinaya" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="evidencia_capacitacion3.png" alt="Capacitaciones virtuales del Sistema Operativo y solución Qinaya" style="max-width:100%;max-height:165px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
             <div class="chart-box chart-box-sm">
@@ -195,7 +195,7 @@ function getChapter4() {
         </div>
 
         <h3 style="margin:28px 0 14px;font-size:1.18rem;"><i class="fas fa-chalkboard-teacher" style="color:#0d9488;margin-right:8px;"></i>Acompañamiento al Docente</h3>
-        <p class="prose">Como complemento fundamental a la formación virtual, profesionales del equipo Qinaya realizan <strong>visitas presenciales de acompañamiento en los laboratorios escolares</strong>. Durante estas jornadas, los profesionales asisten directamente a las clases junto a los profesores, orientando a los estudiantes en el uso de herramientas STEM, Scratch y Tinkercad en tiempo real.</p>
+        <p class="prose">Como complemento fundamental a la formación virtual, profesionales del equipo Qinaya realizan <strong>visitas presenciales de acompañamiento en los laboratorios escolares</strong>. Durante estas jornadas, los profesionales evidencian el buen manejo de la solución Qinaya en clase y aporta al docente estrategias que puedan contribuir al mejoramiento metodológico o de trabajo con las herramientas educativas.</p>
 
         <div class="chart-grid-2col">
             <div class="chart-box chart-box-sm" style="display:flex;flex-direction:column;justify-content:center;">
@@ -208,7 +208,7 @@ function getChapter4() {
             </div>
             <div class="chart-box chart-box-sm" style="text-align:center;">
                 <h4><i class="fas fa-camera" style="color:#0d9488;margin-right:6px;"></i>Evidencia de Acompañamiento en el Aula</h4>
-                <img src="evidencia_capacitacion3.png" alt="Acompañamiento al Docente en Aula" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
+                <img src="evidencia_capacitacion1.png" alt="Evidencia de Acompañamiento en el Aula" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
             </div>
         </div>
 
