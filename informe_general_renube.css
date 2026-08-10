@@ -413,43 +413,57 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 }
 
 
-/* STRICT COMPACT CHART SIZE CAPS (PANTALLA Y PDF) */
+
+
+/* PERFECT CHART SIZES & CONTAINER CAPS */
 .chart-box {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 14px 18px !important;
-    margin: 14px 0 !important;
+    padding: 16px 20px !important;
+    margin: 16px 0 !important;
 }
 
+/* Default cap for 2-col bar charts */
 .chart-box canvas {
-    max-height: 200px !important;
+    max-height: 220px !important;
     max-width: 100% !important;
     width: 100% !important;
-    height: auto !important;
+}
+
+/* Specific height for 36-colegios bar chart (needs space for 36 bars) */
+#chartColegios {
+    max-height: 480px !important;
+    height: 480px !important;
 }
 
 .chart-grid-2col {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 14px !important;
-    margin: 14px 0 !important;
+    gap: 16px !important;
+    margin: 16px 0 !important;
     align-items: stretch !important;
 }
 
 .chart-grid-2col .chart-box {
     margin: 0 !important;
-    padding: 12px 14px !important;
+    padding: 14px 16px !important;
 }
 
 .chart-grid-2col .chart-box canvas {
-    max-height: 175px !important;
+    max-height: 200px !important;
 }
 
+/* Doughnut containers need height for legend without clipping */
 .chart-doughnut-container {
-    max-width: 210px !important;
-    max-height: 160px !important;
+    max-width: 270px !important;
+    min-height: 210px !important;
+    max-height: 250px !important;
     margin: 0 auto !important;
+}
+
+#chartFranjas, #chartConsolidacion {
+    max-height: 230px !important;
 }
 
 @media (max-width: 768px) {
@@ -459,14 +473,15 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 }
 
 @media print {
-    .chart-box canvas {
-        max-height: 160px !important;
+    #chartColegios {
+        max-height: 380px !important;
+        height: 380px !important;
     }
-    .chart-grid-2col .chart-box canvas {
-        max-height: 150px !important;
+    .chart-box canvas {
+        max-height: 180px !important;
     }
     .chart-doughnut-container {
-        max-width: 180px !important;
-        max-height: 140px !important;
+        max-width: 220px !important;
+        max-height: 190px !important;
     }
 }

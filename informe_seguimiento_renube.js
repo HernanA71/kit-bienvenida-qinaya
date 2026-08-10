@@ -182,14 +182,14 @@ function getChapter4() {
                 <h4><i class="fas fa-video" style="color:#2563eb;margin-right:6px;"></i>Capacitaciones Virtuales de Alta Cobertura</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Las sesiones se desarrollan mediante encuentros virtuales interactivos, permitiendo a los docentes participar de manera ágil, asertiva y sin interrumpir sus jornadas académicas. En estos talleres se brinda asesoría sobre herramientas pedagógicas, entornos virtuales y software educativo.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="Captura de pantalla 2026-06-17 114059.png" alt="Capacitación Virtual Qinaya" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="evidencia_capacitacion1.png" alt="Capacitación Virtual Qinaya" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
             <div class="chart-box chart-box-sm">
                 <h4><i class="fab fa-whatsapp" style="color:#25d366;margin-right:6px;"></i>Acompañamiento Activo en Grupos de WhatsApp</h4>
                 <p class="prose" style="font-size:0.84rem;margin-bottom:8px;">Cada colegio cuenta con un canal directo de WhatsApp. Además de resolver inquietudes técnicas, el equipo indaga sobre el desarrollo de las clases y comparte periódicamente <strong>enlaces educativos, guías interactivas y recursos didácticos para niños</strong>.</p>
                 <div style="text-align:center;margin-top:10px;">
-                    <img src="Captura de pantalla 2026-06-17 112827.png" alt="Acompañamiento en Redes y Recursos" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
+                    <img src="evidencia_capacitacion2.png" alt="Acompañamiento en Redes y Recursos" style="max-width:100%;max-height:160px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;">
                 </div>
             </div>
         </div>
@@ -208,7 +208,7 @@ function getChapter4() {
             </div>
             <div class="chart-box chart-box-sm" style="text-align:center;">
                 <h4><i class="fas fa-camera" style="color:#0d9488;margin-right:6px;"></i>Evidencia de Acompañamiento en el Aula</h4>
-                <img src="Captura de pantalla 2026-08-10 153417.png" alt="Visita y Acompañamiento Presencial" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
+                <img src="evidencia_capacitacion3.png" alt="Visita y Acompañamiento Presencial" style="max-width:100%;max-height:170px;border-radius:6px;border:1px solid #e2e8f0;object-fit:cover;margin-top:6px;">
             </div>
         </div>
 
@@ -276,22 +276,22 @@ async function loadAPIData() {
         setTxt("f2count", "3 sedes (8%)");
         setTxt("f1count", "2 sedes (6%)");
 
-        // 1. Chart Franjas (Compact Doughnut)
+        // 1. Chart Franjas (Compact Doughnut with padding for legend)
         const canFranjas = document.getElementById("chartFranjas");
         if (canFranjas) new Chart(canFranjas, {
             type:"doughnut",
             data:{labels:["Uso Alto (>=4h/día)","Uso Medio (2-4h)","Uso Bajo (1-2h)","Uso Mínimo (<1h)"],datasets:[{data:[21,10,3,2],backgroundColor:["#16a34a","#2563eb","#d97706","#dc2626"],borderWidth:2,borderColor:"#fff"}]},
-            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.4,plugins:{legend:{position:"bottom",labels:{font:{size:10.5},boxWidth:10}}}}
+            options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{font:{size:10.5},boxWidth:10,padding:8}}}}
         });
 
-        // 2. Chart Colegios (Compact Bar Chart)
+        // 2. Chart Colegios (36 colegios - needs height so 36 bars are readable)
         const sorted = [...COLEGIOS_API].sort((a,b)=>b.pcs-a.pcs);
         const canCol = document.getElementById("chartColegios");
         if (canCol) new Chart(canCol, {
             type:"bar",
             plugins:[barDataLabelsPlugin],
-            data:{labels:sorted.map(c=>c.name.substring(0,25)),datasets:[{label:"PCs Repotenciados",data:sorted.map(c=>c.pcs),backgroundColor:sorted.map(c=>c.pcs>=35?"#2563eb":c.pcs>=20?"#0d9488":c.pcs>=10?"#d97706":"#dc2626"),borderRadius:4}]},
-            options:{indexAxis:"y",responsive:true,maintainAspectRatio:true,aspectRatio:2.2,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10}}},y:{ticks:{font:{size:9.5}}}}}
+            data:{labels:sorted.map(c=>c.name.substring(0,30)),datasets:[{label:"PCs Repotenciados",data:sorted.map(c=>c.pcs),backgroundColor:sorted.map(c=>c.pcs>=35?"#2563eb":c.pcs>=20?"#0d9488":c.pcs>=10?"#d97706":"#dc2626"),borderRadius:4}]},
+            options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:10.5}}},y:{ticks:{font:{size:10}}}}}
         });
 
         // 3. Chart Meta
@@ -332,8 +332,7 @@ async function loadAPIData() {
             options:{
                 indexAxis:"y",
                 responsive:true,
-                maintainAspectRatio:true,
-                aspectRatio:2.0,
+                maintainAspectRatio:false,
                 plugins:{legend:{display:false}},
                 scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Uso (hrs/día)",font:{size:10}}},y:{ticks:{font:{size:10,weight:"bold"}}}}
             }
@@ -361,8 +360,7 @@ async function loadAPIData() {
             options:{
                 indexAxis:"y",
                 responsive:true,
-                maintainAspectRatio:true,
-                aspectRatio:2.0,
+                maintainAspectRatio:false,
                 plugins:{legend:{display:false}},
                 scales:{x:{grid:{color:"#f1f5f9"},title:{display:true,text:"Promedio Diario de Visitas (visitas/día)",font:{size:10}}},y:{ticks:{font:{size:10,weight:"bold"}}}}
             }
@@ -381,7 +379,7 @@ async function loadAPIData() {
                     borderColor:"#fff"
                 }]
             },
-            options:{responsive:true,maintainAspectRatio:true,aspectRatio:1.3,plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:10}}}}
+            options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{font:{size:10},boxWidth:10,padding:8}}}}
         });
 
         // 7. Chart STEM (Compact STEM & Robotics Daily Average)
@@ -400,8 +398,7 @@ async function loadAPIData() {
             },
             options:{
                 responsive:true,
-                maintainAspectRatio:true,
-                aspectRatio:2.0,
+                maintainAspectRatio:false,
                 plugins:{legend:{display:false}},
                 scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9.5}}},y:{beginAtZero:true,title:{display:true,text:"Promedio Diario de Uso",font:{size:9.5}}}}
             }
@@ -423,8 +420,7 @@ async function loadAPIData() {
             },
             options:{
                 responsive:true,
-                maintainAspectRatio:true,
-                aspectRatio:2.0,
+                maintainAspectRatio:false,
                 plugins:{legend:{display:false}},
                 scales:{x:{grid:{color:"#f1f5f9"},ticks:{font:{size:9.5}}},y:{beginAtZero:true,title:{display:true,text:"Visitas Promedio por Día",font:{size:9.5}}}}
             }
