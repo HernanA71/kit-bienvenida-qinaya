@@ -296,10 +296,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         margin: 8px 0 !important;
     }
     
-    #chartColegios {
-        max-height: 290px !important;
-        height: 290px !important;
-    }
+    #chartColegios { max-height: 720px !important; height: 720px !important; }
     
     .chart-box canvas {
         max-height: 145px !important;
@@ -402,10 +399,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     height: auto !important;
 }
 
-#chartColegios {
-    max-height: 480px !important;
-    height: 480px !important;
-}
+#chartColegios { max-height: 720px !important; height: 720px !important; }
 
 .chart-grid-2col {
     display: grid !important;
@@ -443,7 +437,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 
 @media print {
     @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
-    #chartColegios { max-height: 310px !important; height: 310px !important; }
+    #chartColegios { max-height: 720px !important; height: 720px !important; }
     .chart-box canvas { max-height: 150px !important; }
     .chart-doughnut-container { max-width: 170px !important; max-height: 130px !important; }
 }
