@@ -241,7 +241,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 @media print {
     @page {
         size: A4 portrait;
-        margin: 10mm 12mm 10mm 12mm;
+        margin: 12mm 14mm 12mm 14mm;
     }
     
     * {
@@ -270,7 +270,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     }
     
     .doc-body {
-        padding: 10px 16px !important;
+        padding: 10px 14px !important;
     }
     
     /* Cover Page */
@@ -343,6 +343,49 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         page-break-after: avoid !important;
         break-after: avoid !important;
     }
+
+    /* Process Flow 100% Horizontal & Unbroken in PDF */
+    .process-flow-container {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        margin: 16px 0 !important;
+    }
+
+    .process-flow {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        margin: 12px 0 !important;
+        overflow: visible !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .process-step {
+        flex: 1 1 0px !important;
+        min-width: 0 !important;
+        max-width: 16.5% !important;
+        text-align: center !important;
+        padding: 0 2px !important;
+        position: relative !important;
+    }
+
+    .process-icon {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 0.95rem !important;
+        margin: 0 auto 6px !important;
+        border-radius: 50% !important;
+    }
+
+    .process-label {
+        font-size: 0.68rem !important;
+        line-height: 1.25 !important;
+        word-wrap: break-word !important;
+    }
     
     /* Headings stay attached to their following content */
     h1, h2, h3, h4, h5, .tl-title, .formula-title,
@@ -378,8 +421,8 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     
     /* Compact chart dimensions in PDF */
     #chartColegios {
-        max-height: 320px !important;
-        height: 320px !important;
+        max-height: 340px !important;
+        height: 340px !important;
     }
     
     .chart-box canvas {
