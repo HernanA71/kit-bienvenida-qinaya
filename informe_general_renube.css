@@ -179,6 +179,65 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 /* ==========================================
    ULTRA-SMOOTH GAPLESS PRINT & PDF FLOW
    ========================================== */
+
+
+/* ==========================================
+   STRICT COMPACT SCREEN & PRINT CHART STYLES
+   ========================================== */
+.chart-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px !important;
+    margin: 20px 0 !important;
+}
+
+.chart-box canvas {
+    max-height: 220px !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+#chartColegios {
+    max-height: 720px !important;
+    height: 720px !important;
+}
+
+.chart-grid-2col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 18px !important;
+    margin: 20px 0 !important;
+    align-items: start !important;
+}
+
+.chart-grid-2col .chart-box {
+    margin: 0 !important;
+    padding: 14px 16px !important;
+}
+
+.chart-grid-2col .chart-box canvas {
+    max-height: 200px !important;
+}
+
+.chart-doughnut-container {
+    max-width: 260px !important;
+    min-height: 200px !important;
+    max-height: 240px !important;
+    margin: 0 auto !important;
+}
+
+#chartFranjas, #chartConsolidacion {
+    max-height: 230px !important;
+}
+
+@media (max-width: 768px) {
+    .chart-grid-2col {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
 @media print {
     @page {
         size: A4 portrait;
