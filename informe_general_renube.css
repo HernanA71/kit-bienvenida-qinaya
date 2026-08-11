@@ -175,10 +175,14 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
 /* ==========================================
    ULTRA-OPTIMIZED PDF & PRINT FLOW (ZERO BLANK VOIDS)
    ========================================== */
+
+/* ==========================================
+   ULTRA-SMOOTH GAPLESS PRINT & PDF FLOW
+   ========================================== */
 @media print {
     @page {
         size: A4 portrait;
-        margin: 8mm 10mm 8mm 10mm;
+        margin: 10mm 12mm 10mm 12mm;
     }
     
     * {
@@ -190,7 +194,7 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         background: #ffffff !important;
         color: #0f172a !important;
         font-size: 10px !important;
-        line-height: 1.35 !important;
+        line-height: 1.4 !important;
     }
     
     .toolbar {
@@ -207,28 +211,25 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
     }
     
     .doc-body {
-        padding: 8px 18px !important;
+        padding: 10px 16px !important;
     }
     
+    /* Cover Page */
     .cover {
-        padding: 18px 24px 14px !important;
+        padding: 20px 24px 16px !important;
         border-radius: 0 !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
     }
     
     .cover h1 {
-        font-size: 1.7rem !important;
-        margin-bottom: 6px !important;
+        font-size: 1.75rem !important;
+        margin-bottom: 8px !important;
     }
     
     .cover-sub {
-        font-size: 0.8rem !important;
-        margin-bottom: 12px !important;
-    }
-    
-    .cover-top {
-        margin-bottom: 12px !important;
+        font-size: 0.82rem !important;
+        margin-bottom: 14px !important;
     }
     
     .cover-kpis {
@@ -243,90 +244,97 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         font-size: 1.25rem !important;
     }
     
+    /* Table of Contents */
     .toc {
         display: block !important;
-        padding: 10px 24px !important;
+        padding: 12px 24px !important;
         background: #eff6ff !important;
         page-break-after: always !important;
         break-after: page !important;
     }
     
+    /* Smooth Continuous Section Flow */
     .page-break {
-        display: block !important;
-        page-break-before: always !important;
-        break-before: page !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        display: none !important;
     }
     
     .section {
-        margin-bottom: 12px !important;
+        margin-bottom: 16px !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+    }
+    
+    .section-header {
+        page-break-before: auto !important;
+        page-break-after: avoid !important;
+        break-before: auto !important;
+        break-after: avoid !important;
+        margin-top: 14px !important;
+        margin-bottom: 8px !important;
     }
     
     .prose {
-        margin-bottom: 6px !important;
-        font-size: 0.82rem !important;
-        line-height: 1.35 !important;
+        margin-bottom: 8px !important;
+        font-size: 0.84rem !important;
+        line-height: 1.4 !important;
     }
-    
-    /* Prevent title orphan / orphan heading cuts */
-    h1, h2, h3, h4, h5, .section-header, .tl-title, .formula-title,
-    .pilot-card-header, .pilot-card-nav-header, .quote-tag, .story-title, .t-intro {
+
+    .t-intro {
+        margin-bottom: 10px !important;
         page-break-after: avoid !important;
         break-after: avoid !important;
-        margin-top: 8px !important;
-        margin-bottom: 4px !important;
     }
     
-    /* Prevent page break INSIDE cards, but make them compact so they fit on current page */
-    .pilot-card, .pilot-card-nav, .pilot-narrative, .story-box,
-    .challenge-card, .testimonial-card, .quote-block, .formula-box,
-    .kpi-card, .kpi-grid, .conclusion-card, .cta-box, .hbox,
-    .data-table, .sla-table, .process-flow, .evidence-card, .tl-item,
-    .note-card, .note-grid, .chart-box, .chart-grid-2col, .audio-section,
-    .testimonial-header, .testimonial-body {
+    /* Headings stay attached to their following content */
+    h1, h2, h3, h4, h5, .tl-title, .formula-title,
+    .pilot-card-header, .pilot-card-nav-header, .quote-tag, .story-title {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        margin-top: 10px !important;
+        margin-bottom: 6px !important;
+    }
+    
+    /* Allow large cards to break naturally inside so they don't leave 80% blank spaces */
+    .testimonial-card, .pilot-card, .pilot-card-nav, .pilot-narrative, .story-box,
+    .challenge-card, .evidence-card, .chart-box, .data-table, .sla-table {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+        margin: 10px 0 !important;
+        padding: 10px 14px !important;
+    }
+
+    .testimonial-card img, .evidence-card img {
+        max-height: 150px !important;
+        width: auto !important;
+        margin: 6px auto !important;
+    }
+    
+    /* Keep smaller atomic blocks intact */
+    .quote-block, .formula-box, .kpi-card, .hbox, .note-card, .testimonial-header {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-    }
-    
-    /* Compact chart dimensions in PDF to eliminate giant blank gaps */
-    .chart-box {
         padding: 8px 12px !important;
         margin: 8px 0 !important;
     }
     
-    #chartColegios { max-height: 720px !important; height: 720px !important; }
+    /* Compact chart dimensions in PDF */
+    #chartColegios {
+        max-height: 320px !important;
+        height: 320px !important;
+    }
     
     .chart-box canvas {
-        max-height: 145px !important;
+        max-height: 160px !important;
     }
     
     .chart-grid-2col .chart-box canvas {
-        max-height: 140px !important;
+        max-height: 150px !important;
     }
     
     .chart-doughnut-container {
-        max-width: 170px !important;
-        max-height: 130px !important;
+        max-width: 180px !important;
+        max-height: 140px !important;
         margin: 0 auto !important;
-    }
-    
-    #chartFranjas, #chartConsolidacion {
-        max-height: 130px !important;
-    }
-    
-    .testimonial-card {
-        padding: 10px 14px !important;
-        margin: 8px 0 !important;
-    }
-
-    .testimonial-header {
-        padding: 8px 12px !important;
-    }
-
-    .testimonial-body {
-        padding: 10px 12px !important;
     }
     
     .kpi-grid, .chart-grid-2col, .evidence-grid, .note-grid {
@@ -334,26 +342,13 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         margin: 8px 0 !important;
     }
     
-    .kpi-card {
-        padding: 5px 8px !important;
-    }
-    
-    .kpi-val {
-        font-size: 1.15rem !important;
-    }
-    
-    .hbox, .formula-box, .story-box {
-        padding: 8px 12px !important;
-        margin: 8px 0 !important;
-    }
-    
     .data-table, .sla-table {
         margin: 8px 0 !important;
-        font-size: 0.76rem !important;
+        font-size: 0.78rem !important;
     }
     
     .data-table th, .data-table td, .sla-table th, .sla-table td {
-        padding: 3px 6px !important;
+        padding: 4px 6px !important;
     }
     
     audio {
@@ -376,68 +371,4 @@ h1,h2,h3,h4,h5 { font-family:"Outfit",sans-serif; font-weight:700; color:var(--t
         color: #ffffff !important;
         padding: 10px 24px !important;
     }
-    
-    .doc-footer p {
-        color: #94a3b8 !important;
-    }
-}
-
-
-/* STRICT COMPACT CHART SIZES (PANTALLA Y PDF) */
-.chart-box {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 18px !important;
-    margin: 14px 0 !important;
-}
-
-.chart-box canvas {
-    max-height: 200px !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    height: auto !important;
-}
-
-#chartColegios { max-height: 720px !important; height: 720px !important; }
-
-.chart-grid-2col {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 14px !important;
-    margin: 14px 0 !important;
-    align-items: stretch !important;
-}
-
-.chart-grid-2col .chart-box {
-    margin: 0 !important;
-    padding: 12px 14px !important;
-}
-
-.chart-grid-2col .chart-box canvas {
-    max-height: 180px !important;
-}
-
-.chart-doughnut-container {
-    max-width: 250px !important;
-    min-height: 200px !important;
-    max-height: 240px !important;
-    margin: 0 auto !important;
-}
-
-#chartFranjas, #chartConsolidacion {
-    max-height: 220px !important;
-}
-
-@media (max-width: 768px) {
-    .chart-grid-2col {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-@media print {
-    @page { size: A4 portrait; margin: 8mm 10mm 8mm 10mm; }
-    #chartColegios { max-height: 720px !important; height: 720px !important; }
-    .chart-box canvas { max-height: 150px !important; }
-    .chart-doughnut-container { max-width: 170px !important; max-height: 130px !important; }
 }
