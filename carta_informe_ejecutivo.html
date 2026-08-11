@@ -10,43 +10,107 @@
     <meta name="description" content="Informe Ejecutivo Resumen — Proyecto Renube Qinaya · Secretaría de Educación de Bogotá">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="informe_general_renube.css">
     <style>
         .carta-body {
-            font-size: 0.95rem;
-            line-height: 1.65;
+            font-size: 0.92rem;
+            line-height: 1.6;
             color: #334155;
         }
         .carta-body p {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             text-align: justify;
+        }
+        .carta-icon-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .carta-icon-box i {
+            font-size: 1.25rem;
+            margin-top: 3px;
+            flex-shrink: 0;
         }
         .carta-highlight {
             background: linear-gradient(135deg, #eff6ff, #f0fdf4);
             border-left: 4px solid #2563eb;
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 16px 0;
             font-weight: 500;
         }
         .carta-quote {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #0f172a;
             text-align: center;
-            padding: 18px 24px;
+            padding: 16px 20px;
             background: #f8fafc;
             border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            margin: 24px 0;
+            border-radius: 10px;
+            margin: 18px 0 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
+        .pro-chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 16px 0;
+        }
+        .pro-chart-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .pro-chart-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pro-chart-container {
+            max-width: 220px;
+            max-height: 155px;
+            margin: 0 auto;
+        }
+
+        /* PERFECCION EN PDF (EXACTAMENTE 2 PAGINAS LLENAS EQUILIBRADAS) */
         @media print {
-            @page { size: A4 portrait; margin: 10mm; }
-            .carta-body { font-size: 10.5px !important; line-height: 1.45 !important; }
-            .carta-body p { margin-bottom: 10px !important; }
-            .carta-highlight { padding: 10px 14px !important; margin: 12px 0 !important; }
-            .carta-quote { font-size: 0.95rem !important; padding: 10px 14px !important; margin: 14px 0 !important; }
+            @page {
+                size: A4 portrait;
+                margin: 8mm 10mm 8mm 10mm;
+            }
+            body {
+                font-size: 9.5px !important;
+                line-height: 1.35 !important;
+            }
+            .toolbar { display: none !important; }
+            .doc { max-width: 100% !important; margin: 0 !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+            .cover { padding: 14px 22px 10px !important; }
+            .cover h1 { font-size: 1.55rem !important; margin-bottom: 4px !important; }
+            .cover-sub { font-size: 0.76rem !important; margin-bottom: 10px !important; }
+            .cover-kpis { gap: 6px !important; }
+            .cover-kpi { padding: 4px 6px !important; }
+            .cover-kpi-val { font-size: 1.15rem !important; }
+            .doc-body { padding: 10px 22px !important; }
+            .carta-body { font-size: 9.5px !important; line-height: 1.38 !important; }
+            .carta-body p { margin-bottom: 8px !important; }
+            .carta-highlight { padding: 8px 12px !important; margin: 10px 0 !important; }
+            .carta-quote { font-size: 0.88rem !important; padding: 10px 14px !important; margin: 10px 0 4px !important; }
+            .pro-chart-grid { gap: 8px !important; margin: 10px 0 !important; page-break-inside: avoid !important; break-inside: avoid !important; }
+            .pro-chart-card { padding: 8px 10px !important; }
+            .pro-chart-container { max-width: 160px !important; max-height: 120px !important; }
+            .pro-chart-card canvas { max-height: 120px !important; }
+            .hbox { padding: 8px 12px !important; margin: 10px 0 !important; }
+            .doc-footer { padding: 8px 22px !important; page-break-inside: avoid !important; }
         }
     </style>
 </head>
@@ -71,14 +135,14 @@
 
     <div class="doc">
         <!-- PORTADA CARTA EJECUTIVA -->
-        <div class="cover" style="padding:28px 36px 24px;">
+        <div class="cover" style="padding:22px 32px 18px;">
             <div class="cover-top">
                 <img src="logo Qinaya.png" alt="Qinaya" class="cover-logo">
-                <div class="cover-badge"><i class="fas fa-shield-alt"></i> Documento Oficial — SED Bogotá</div>
+                <div class="cover-badge"><i class="fas fa-shield-check" style="color:#0d9488;"></i> Documento Oficial — SED Bogotá</div>
             </div>
-            <div class="cover-tag"><i class="fas fa-chart-line"></i> &nbsp;Resumen Ejecutivo de Impacto</div>
-            <h1 style="font-size:2.2rem;margin-bottom:10px;">INFORME EJECUTIVO<br><span>PROYECTO RENUBE – SED BOGOTÁ</span></h1>
-            <p class="cover-sub" style="font-size:0.95rem;margin-bottom:20px;">Transformación tecnológica efectiva, aprovechamiento de infraestructura y apropiación pedagógica en los colegios de Bogotá.</p>
+            <div class="cover-tag"><i class="fas fa-file-alt"></i> &nbsp;Resumen Ejecutivo</div>
+            <h1 style="font-size:2rem;margin-bottom:8px;">INFORME EJECUTIVO<br><span>PROYECTO RENUBE – SED BOGOTÁ</span></h1>
+            <p class="cover-sub" style="font-size:0.9rem;margin-bottom:16px;">Transformación tecnológica efectiva, aprovechamiento de infraestructura y apropiación pedagógica en los colegios de Bogotá.</p>
             
             <div class="cover-kpis">
                 <div class="cover-kpi"><div class="cover-kpi-val">37</div><div class="cover-kpi-label">COLEGIOS ACTIVOS</div></div>
@@ -87,36 +151,71 @@
                 <div class="cover-kpi"><div class="cover-kpi-val">100%</div><div class="cover-kpi-label">RETENCIÓN EN COLEGIOS</div></div>
             </div>
             
-            <div class="cover-date" style="margin-top:16px;">Fecha de emisión: <strong>11 de agosto de 2026</strong> — Período: Abril 2026 - Presente</div>
+            <div class="cover-date" style="margin-top:12px;">Fecha de emisión: <strong>11 de agosto de 2026</strong> — Período: Abril 2026 - Presente</div>
         </div>
 
         <!-- CUERPO DE LA CARTA EJECUTIVA -->
-        <div class="doc-body carta-body" style="padding:28px 40px;">
+        <div class="doc-body carta-body" style="padding:22px 32px;">
             
-            <p><strong>Renube está demostrando que la transformación digital de la educación pública no necesariamente requiere reemplazar equipos.</strong> Puede consistir en recuperar capacidad tecnológica que ya existe, ponerla nuevamente al servicio de los estudiantes y acompañar su uso hasta convertirla en una herramienta efectiva de aprendizaje.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-lightbulb" style="color:#f59e0b;"></i>
+                <p><strong>Renube está demostrando que la transformación digital de la educación pública no necesariamente requiere reemplazar equipos.</strong> Puede consistir en recuperar capacidad tecnológica que ya existe, ponerla nuevamente al servicio de los estudiantes y acompañar su uso hasta convertirla en una herramienta efectiva de aprendizaje.</p>
+            </div>
 
-            <p>El proyecto nació de un piloto desarrollado por <strong>Qinaya junto con la Secretaría de Educación de Bogotá y la Fundación Bolívar Davivienda</strong>. Ese piloto permitió comprobar que equipos que habían quedado rezagados por obsolescencia podían recuperar un desempeño adecuado y utilizarse nuevamente en el aula. Los resultados fueron suficientemente sólidos para llevar el modelo a una escala mucho mayor.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-seedling" style="color:#10b981;"></i>
+                <p>El proyecto nació de un piloto desarrollado por <strong>Qinaya junto con la Secretaría de Educación de Bogotá y la Fundación Bolívar Davivienda</strong>. Ese piloto permitió comprobar que equipos que habían quedado rezagados por obsolescencia podían recuperar un desempeño adecuado y utilizarse nuevamente en el aula. Los resultados fueron suficientemente sólidos para llevar el modelo a una escala mucho mayor.</p>
+            </div>
 
             <div class="carta-highlight">
                 <i class="fas fa-bullseye" style="color:#2563eb;margin-right:8px;"></i>
-                <strong>Avance de Metas:</strong> Hoy el nuevo proyecto Renube operado por Ágata para la Secretaría de Educación tiene la meta de llegar a 3.000 computadores. El componente que le corresponde a Qinaya son 1.000 y a la fecha opera en <strong>37 colegios de Bogotá y ha instalado 841 computadores</strong>, equivalentes al <strong>84,1 % de la meta de 1.000 equipos</strong> del convenio. Pero el dato más importante no es cuántos computadores se instalaron, sino qué está ocurriendo con ellos.
+                <strong>Avance de Metas Contractuales:</strong> Hoy el nuevo proyecto Renube operado por Ágata para la Secretaría de Educación tiene la meta de llegar a 3.000 computadores. El componente que le corresponde a Qinaya son 1.000 y a la fecha opera en <strong>37 colegios de Bogotá y ha instalado 841 computadores</strong>, equivalentes al <strong>84,1 % de la meta de 1.000 equipos</strong> del convenio. Pero el dato más importante no es cuántos computadores se instalaron, sino qué está ocurriendo con ellos.
             </div>
 
-            <p><strong>Los equipos están siendo utilizados de manera intensiva.</strong> La telemetría registra <strong>97.195 horas acumuladas de uso en el aula</strong>. En jornadas de operación plena, cada equipo activo registra en promedio <strong>5,4 horas diarias de uso</strong>, y el promedio sobre el total de equipos instalados es de <strong>4,8 horas diarias</strong>. Estas horas de uso son especialmente alentadoras teniendo en cuenta que el total posible en colegios de una jornada son 6 y de doble jornada hasta diez horas diarias de operación.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-clock" style="color:#2563eb;"></i>
+                <p><strong>Los equipos están siendo utilizados de manera intensiva.</strong> La telemetría registra <strong>97.195 horas acumuladas de uso en el aula</strong>. En jornadas de operación plena, cada equipo activo registra en promedio <strong>5,4 horas diarias de uso</strong>, y el promedio sobre el total de equipos instalados es de <strong>4,8 horas diarias</strong>. Estas horas de uso son especialmente alentadoras teniendo en cuenta que el total posible en colegios de una jornada son 6 y de doble jornada hasta diez horas diarias de operación.</p>
+            </div>
 
             <p>Esto cambia sustancialmente la manera de medir el éxito de un proyecto de tecnología educativa. Renube no está entregando computadores para que permanezcan disponibles: <strong>está convirtiendo equipos que estaban en obsolescencia funcional en horas reales de trabajo y aprendizaje</strong> para estudiantes y docentes.</p>
 
-            <div class="hbox teal" style="margin:20px 0;">
+            <!-- PANEL GRAFICO EJECUTIVO PRO -->
+            <div class="pro-chart-grid">
+                <div class="pro-chart-card">
+                    <h4><i class="fas fa-chart-pie" style="color:#8b5cf6;"></i> Consolidación de Tiempo por Área</h4>
+                    <div class="pro-chart-container">
+                        <canvas id="chartCartaConsolidacion"></canvas>
+                    </div>
+                </div>
+                <div class="pro-chart-card">
+                    <h4><i class="fas fa-chart-bar" style="color:#0d9488;"></i> Uso Diario por Herramienta (Hrs/Visitas)</h4>
+                    <canvas id="chartCartaSTEM" height="155"></canvas>
+                </div>
+            </div>
+
+            <div class="hbox teal" style="margin:16px 0;">
                 <p><i class="fas fa-laptop-code" style="margin-right:8px;"></i><strong>Contenido Pedagógico en el Aula:</strong> Los laboratorios están siendo utilizados para programación con <strong>Scratch y Python</strong>, diseño y prototipado con <strong>Tinkercad, Arduino y Micro:bit</strong>, matemáticas con <strong>GeoGebra</strong>, investigación en internet, producción colaborativa en <strong>Google Docs</strong> y herramientas de inteligencia artificial. Tinkercad Circuits registra <strong>1,94 horas diarias</strong> de uso promedio por laboratorio y Scratch <strong>1,86 horas</strong>. Google concentra <strong>4,11 visitas diarias</strong> por laboratorio, YouTube educativo <strong>2,57</strong> y GeoGebra <strong>0,74</strong>. Incluso herramientas de IA asistida como <strong>ChatGPT</strong> ya hacen parte del ecosistema de aprendizaje.</p>
             </div>
 
-            <p>El resultado es especialmente relevante porque el modelo no se limita a instalar tecnología. <strong>La apropiación docente hace parte integral de la intervención.</strong> Más de 86 docentes han sido capacitados y los 37 colegios cuentan con acompañamiento virtual y presencial. Cada institución dispone además de un canal directo de soporte, con <strong>tiempos reales de respuesta de uno a dos minutos</strong>.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-graduation-cap" style="color:#0d9488;"></i>
+                <p>El resultado es especialmente relevante porque el modelo no se limita a instalar tecnología. <strong>La apropiación docente hace parte integral de la intervención.</strong> Más de 86 docentes han sido capacitados y los 37 colegios cuentan con acompañamiento virtual y presencial. Cada institución dispone además de un canal directo de soporte, con <strong>tiempos reales de respuesta de uno a dos minutos</strong>.</p>
+            </div>
 
-            <p>Esta combinación de tecnología, acompañamiento y soporte ayuda a explicar uno de los resultados más contundentes del proyecto: <strong>ninguno de los 37 colegios intervenidos ha retirado la solución. La retención es del 100 %</strong>. Los testimonios recogidos en colegios como Manuela Beltrán y Atanasio Girardot muestran que equipos que anteriormente estaban archivados o hacían perder tiempo de clase hoy permiten trabajar programación, diseño 3D, robótica y herramientas digitales de manera fluida.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-user-check" style="color:#16a34a;"></i>
+                <p>Esta combinación de tecnología, acompañamiento y soporte ayuda a explicar uno de los resultados más contundentes del proyecto: <strong>ninguno de los 37 colegios intervenidos ha retirado la solución. La retención es del 100 %</strong>. Los testimonios recogidos en colegios como Manuela Beltrán y Atanasio Girardot muestran que equipos que anteriormente estaban archivados o hacían perder tiempo de clase hoy permiten trabajar programación, diseño 3D, robótica y herramientas digitales de manera fluida.</p>
+            </div>
 
-            <p>El componente Qinaya de Renube está, por tanto, pasando de ser un proyecto de recuperación de computadores a convertirse en un <strong>modelo de aprovechamiento de infraestructura tecnológica existente</strong>. La evidencia disponible muestra que el valor no está únicamente en prolongar la vida útil de un equipo, sino en convertir esa recuperación en capacidad efectiva de aprendizaje, medible en horas de uso, diversidad de aplicaciones, apropiación docente y permanencia en las instituciones.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-layer-group" style="color:#8b5cf6;"></i>
+                <p>El componente Qinaya de Renube está, por tanto, pasando de ser un proyecto de recuperación de computadores a convertirse en un <strong>modelo de aprovechamiento de infraestructura tecnológica existente</strong>. La evidencia disponible muestra que el valor no está únicamente en prolongar la vida útil de un equipo, sino en convertir esa recuperación en capacidad efectiva de aprendizaje, medible en horas de uso, diversidad de aplicaciones, apropiación docente y permanencia en las instituciones.</p>
+            </div>
 
-            <p>Con <strong>841 equipos ya operativos, 97.195 horas de uso acumuladas y una presencia activa en 37 colegios</strong>, el proyecto se encuentra en una posición sólida para alcanzar la meta de 1.000 equipos y continuar su expansión. Más importante aún, ya existe evidencia suficiente para afirmar que el modelo funciona a escala: recupera infraestructura, genera uso real, acompaña a los docentes y sostiene la operación en el tiempo.</p>
+            <div class="carta-icon-box">
+                <i class="fas fa-rocket" style="color:#2563eb;"></i>
+                <p>Con <strong>841 equipos ya operativos, 97.195 horas de uso acumuladas y una presencia activa en 37 colegios</strong>, el proyecto se encuentra en una posición sólida para alcanzar la meta de 1.000 equipos y continuar su expansión. Más importante aún, ya existe evidencia suficiente para afirmar que el modelo funciona a escala: recupera infraestructura, genera uso real, acompaña a los docentes y sostiene la operación en el tiempo.</p>
+            </div>
 
             <div class="carta-quote">
                 <i class="fas fa-quote-left" style="color:#0d9488;margin-right:8px;"></i>
@@ -132,5 +231,67 @@
             <p>Documento Oficial de Seguimiento</p>
         </div>
     </div>
+
+    <!-- SCRIPT CHARTS EJECUTIVOS PRO -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart 1: Consolidacion (Doughnut)
+            const ctx1 = document.getElementById('chartCartaConsolidacion');
+            if (ctx1) {
+                new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Investigación Web (52%)', 'Ofimática (28%)', 'STEM & Robótica (20%)'],
+                        datasets: [{
+                            data: [52, 28, 20],
+                            backgroundColor: ['#2563eb', '#0d9488', '#d97706'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { font: { size: 9.5, family: 'Inter' }, boxWidth: 8, padding: 4 }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 2: STEM & Apps Uso Diario (Bar Chart)
+            const ctx2 = document.getElementById('chartCartaSTEM');
+            if (ctx2) {
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Tinkercad 3D', 'Scratch', 'Arduino Sim', 'Google', 'YouTube Edu'],
+                        datasets: [{
+                            label: 'Intensidad / Día por Lab',
+                            data: [1.94, 1.86, 1.20, 4.11, 2.57],
+                            backgroundColor: ['#0d9488', '#16a34a', '#00979d', '#2563eb', '#dc2626'],
+                            borderRadius: 4,
+                            barThickness: 12
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { callbacks: { label: ctx => ` ${ctx.raw} ` + (ctx.dataIndex < 3 ? 'hrs/día' : 'vis/día') } }
+                        },
+                        scales: {
+                            x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 8.5, family: 'Inter' } } },
+                            y: { beginAtZero: true, title: { display: true, text: 'Promedio Diario por Lab', font: { size: 8.5 } }, ticks: { font: { size: 8.5 } } }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
