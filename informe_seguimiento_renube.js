@@ -298,7 +298,7 @@ async function loadAPIData() {
         const canMeta = document.getElementById("chartMeta");
         if (canMeta) new Chart(canMeta, {
             type:"bar",
-            data:{labels:["Instalados","Pendientes (Meta 1.000)"],datasets:[{data:[814,186],backgroundColor:["#2563eb","#e2e8f0"],borderRadius:6}]},
+            data:{labels:["Instalados","Pendientes (Meta 1.000)"],datasets:[{data:[841,159],backgroundColor:["#2563eb","#e2e8f0"],borderRadius:6}]},
             options:{indexAxis:"y",responsive:true,maintainAspectRatio:true,aspectRatio:4,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} PCs`}}},scales:{x:{max:1000,grid:{color:"#f1f5f9"}}}}
         });
 
