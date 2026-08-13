@@ -661,96 +661,148 @@ function processNetworkSummary(networkData, daysCount = 1) {
     const elMinutes = document.getElementById('net-kpi-minutes');
     const tbody     = document.getElementById('tableNetworkSchools');
 
-    if (!networkData || !networkData.summary) {
-        if (elP50Down) elP50Down.textContent = '—';
-        if (elUnder1M) elUnder1M.textContent = '—';
-        if (elP50Lat)  elP50Lat.textContent = '—';
-        if (elOver200) elOver200.textContent = '—';
-        if (elMinutes) elMinutes.textContent = '—';
+    const hasGlobalData = networkData &&
+                          networkData.summary &&
+                          networkData.summary.hasData !== false &&
+                          networkData.summary.status !== 'sin datos';
 
-        if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No hay datos de calidad de red disponibles para este periodo</td></tr>';
-        return;
-    }
+    if (!hasGlobalData) {
+        if (elP50Down) elP50Down.textContent = 'Sin datos';
+        if (elUnder1M) elUnder1M.textContent = 'Sin datos';
+        if (elP50Lat)  elP50Lat.textContent = 'Sin datos';
+        if (elOver200) elOver200.textContent = 'Sin datos';
+        if (elMinutes) {
+            elMinutes.textContent = 'Sin datos';
+            const subEl = document.getElementById('net-kpi-minutes-sub') || elMinutes.nextElementSibling;
+            if (subEl) subEl.textContent = 'Sin mediciones útiles en el periodo';
+        }
+    } else {
+        const s = networkData.summary;
+        const p50DownVal = s.p50DownloadMbps;
+        const pctUnder1  = s.pctUnder1Mbps;
+        const p50LatVal  = s.p50LatencyMs;
+        const pctOver200 = s.pctLatencyOver200Ms;
+        const totalMins  = s.computerMinutes || 0;
+        const totalPcs   = s.computers || 0;
 
-    const s = networkData.summary;
-    const p50DownVal = s.p50DownloadMbps !== undefined && s.p50DownloadMbps !== null ? s.p50DownloadMbps : 0;
-    const pctUnder1  = s.pctUnder1Mbps !== undefined && s.pctUnder1Mbps !== null ? s.pctUnder1Mbps : 0;
-    const p50LatVal  = s.p50LatencyMs !== undefined && s.p50LatencyMs !== null ? s.p50LatencyMs : 0;
-    const pctOver200 = s.pctLatencyOver200Ms !== undefined && s.pctLatencyOver200Ms !== null ? s.pctLatencyOver200Ms : 0;
-    const totalMins  = s.computerMinutes !== undefined && s.computerMinutes !== null ? s.computerMinutes : 0;
-    const totalPcs   = s.computers !== undefined && s.computers !== null ? s.computers : 0;
+        const dailyMinsPerPc = (totalPcs > 0 && daysCount > 0) ? (totalMins / totalPcs / daysCount) : 0;
 
-    const dailyMinsPerPc = (totalPcs > 0 && daysCount > 0) ? (totalMins / totalPcs / daysCount) : 0;
-
-    if (elP50Down) elP50Down.textContent = `${p50DownVal.toFixed(2)} Mbps`;
-    if (elUnder1M) elUnder1M.textContent = `${pctUnder1.toFixed(1)}%`;
-    if (elP50Lat)  elP50Lat.textContent  = `${Math.round(p50LatVal).toLocaleString()} ms`;
-    if (elOver200) elOver200.textContent = `${pctOver200.toFixed(1)}%`;
-    if (elMinutes) {
-        elMinutes.textContent = `${dailyMinsPerPc.toFixed(1)} min/equipo`;
-        const subEl = document.getElementById('net-kpi-minutes-sub') || elMinutes.nextElementSibling;
-        if (subEl) {
-            subEl.textContent = `Prom. diario (${Math.round(totalMins).toLocaleString()} min totales en ${totalPcs} PCs)`;
+        if (elP50Down) elP50Down.textContent = (p50DownVal !== null && p50DownVal !== undefined) ? `${p50DownVal.toFixed(2)} Mbps` : 'Sin datos';
+        if (elUnder1M) elUnder1M.textContent = (pctUnder1 !== null && pctUnder1 !== undefined) ? `${pctUnder1.toFixed(1)}%` : 'Sin datos';
+        if (elP50Lat)  elP50Lat.textContent  = (p50LatVal !== null && p50LatVal !== undefined) ? `${Math.round(p50LatVal).toLocaleString()} ms` : 'Sin datos';
+        if (elOver200) elOver200.textContent = (pctOver200 !== null && pctOver200 !== undefined) ? `${pctOver200.toFixed(1)}%` : 'Sin datos';
+        if (elMinutes) {
+            elMinutes.textContent = `${dailyMinsPerPc.toFixed(1)} min/equipo`;
+            const subEl = document.getElementById('net-kpi-minutes-sub') || elMinutes.nextElementSibling;
+            if (subEl) {
+                subEl.textContent = `Prom. diario (${Math.round(totalMins).toLocaleString()} min totales en ${totalPcs} PCs)`;
+            }
         }
     }
 
-    // Renderizar tabla por colegio (ordenado por mayor % bajo 1 Mbps = conectividad crítica primero)
+    // Renderizar tabla por colegio
     if (tbody) {
         tbody.innerHTML = '';
-        const schoolsList = Array.isArray(networkData.schools) ? networkData.schools.slice() : [];
+        const schoolsList = (networkData && Array.isArray(networkData.schools)) ? networkData.schools.slice() : [];
 
         if (schoolsList.length === 0) {
             tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Sin registros de red en las instituciones para el periodo</td></tr>';
             return;
         }
 
-        // Ordenar por peor conectividad (% < 1 Mbps descendente)
+        // Ordenar: escuelas con datos primero (por peores redes: % <1 Mbps desc, luego latencia p50 desc), escuelas sin datos (hasData: false) al final (alfabético)
         schoolsList.sort((a, b) => {
+            const hasDataA = a.hasData !== false && a.status !== 'sin datos' && a.download != null;
+            const hasDataB = b.hasData !== false && b.status !== 'sin datos' && b.download != null;
+
+            if (hasDataA && !hasDataB) return -1;
+            if (!hasDataA && hasDataB) return 1;
+
+            if (!hasDataA && !hasDataB) {
+                return (a.teaName || '').localeCompare(b.teaName || '');
+            }
+
             const pA = a.download ? (a.download.pctUnder1Mbps || 0) : 0;
             const pB = b.download ? (b.download.pctUnder1Mbps || 0) : 0;
-            return pB - pA;
+            if (pB !== pA) return pB - pA;
+
+            const latA = a.latency ? (a.latency.p50Ms || 0) : 0;
+            const latB = b.latency ? (b.latency.p50Ms || 0) : 0;
+            return latB - latA;
         });
 
         schoolsList.forEach(sc => {
             const name = sc.teaName || 'Sin Nombre';
             const shortName = name.length > 35 ? name.substring(0, 32) + '...' : name;
-            const pcs = sc.computers || 0;
-            const totalScMins = sc.computerMinutes || 0;
-            
-            const scDailyMinsPerPc = (pcs > 0 && daysCount > 0) ? (totalScMins / pcs / daysCount) : 0;
-            const minsCellHTML = `<strong>${scDailyMinsPerPc.toFixed(1)} min/equipo</strong><br><span style="font-size:0.72rem; color:#64748b; font-weight:normal;">(${Math.round(totalScMins).toLocaleString()} min totales)</span>`;
 
-            const p50D = sc.download && sc.download.p50Mbps !== undefined ? sc.download.p50Mbps.toFixed(2) + ' Mbps' : '—';
-            const pctUnder1M = sc.download && sc.download.pctUnder1Mbps !== undefined ? sc.download.pctUnder1Mbps.toFixed(1) + '%' : '—';
+            const schoolHasData = sc.hasData !== false && sc.status !== 'sin datos' && sc.download != null && sc.latency != null;
 
-            const p50L = sc.latency && sc.latency.p50Ms !== undefined ? Math.round(sc.latency.p50Ms).toLocaleString() + ' ms' : '—';
-            const pctOver200M = sc.latency && sc.latency.pctOver200Ms !== undefined ? sc.latency.pctOver200Ms.toFixed(1) + '%' : '—';
-
-            // Determinar Estado Conectividad
-            const rawUnder1  = sc.download ? (sc.download.pctUnder1Mbps || 0) : 0;
-            const rawOver200 = sc.latency ? (sc.latency.pctOver200Ms || 0) : 0;
-
-            let badgeHTML = '';
-            if (rawUnder1 > 80 || rawOver200 > 90) {
-                badgeHTML = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">Crítica</span>';
-            } else if (rawUnder1 > 50 || rawOver200 > 60) {
-                badgeHTML = '<span class="badge" style="background:#ffedd5; color:#c2410c; border:1px solid #fed7aa;">Regulada</span>';
+            if (!schoolHasData) {
+                // Fila para colegio sin medición útil
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${shortName}</strong></td>
+                    <td style="text-align: center;"><span style="color: var(--text-muted);">—</span></td>
+                    <td style="text-align: center;"><span style="color: var(--text-muted); font-style: italic;">Sin datos</span></td>
+                    <td><span style="color: var(--text-muted); font-style: italic;">Sin datos</span></td>
+                    <td><span style="color: var(--text-muted); font-style: italic;">Sin datos</span></td>
+                    <td><span style="color: var(--text-muted); font-style: italic;">Sin datos</span></td>
+                    <td><span style="color: var(--text-muted); font-style: italic;">Sin datos</span></td>
+                    <td style="text-align: center;">
+                        <span class="badge" style="background:#f1f5f9; color:#64748b; border:1px solid #cbd5e1;">Sin datos</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
             } else {
-                badgeHTML = '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">Adecuada</span>';
-            }
+                // Fila para colegio con medición útil
+                const pcs = sc.computers !== null && sc.computers !== undefined ? sc.computers : '—';
+                const totalScMins = sc.computerMinutes || 0;
 
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong>${shortName}</strong></td>
-                <td style="text-align: center;">${pcs}</td>
-                <td style="text-align: center;">${minsCellHTML}</td>
-                <td><strong>${p50D}</strong></td>
-                <td><span style="color: ${rawUnder1 > 70 ? '#dc2626' : '#475569'}; font-weight:600;">${pctUnder1M}</span></td>
-                <td><strong>${p50L}</strong></td>
-                <td><span style="color: ${rawOver200 > 80 ? '#dc2626' : '#475569'}; font-weight:600;">${pctOver200M}</span></td>
-                <td style="text-align: center;">${badgeHTML}</td>
-            `;
-            tbody.appendChild(tr);
+                const scDailyMinsPerPc = (typeof pcs === 'number' && pcs > 0 && daysCount > 0) ? (totalScMins / pcs / daysCount) : 0;
+                const minsCellHTML = `<strong>${scDailyMinsPerPc.toFixed(1)} min/equipo</strong><br><span style="font-size:0.72rem; color:#64748b; font-weight:normal;">(${Math.round(totalScMins).toLocaleString()} min totales)</span>`;
+
+                const p50D = (sc.download && sc.download.p50Mbps !== undefined && sc.download.p50Mbps !== null)
+                    ? sc.download.p50Mbps.toFixed(2) + ' Mbps'
+                    : 'Sin datos';
+
+                const pctUnder1M = (sc.download && sc.download.pctUnder1Mbps !== undefined && sc.download.pctUnder1Mbps !== null)
+                    ? sc.download.pctUnder1Mbps.toFixed(1) + '%'
+                    : 'Sin datos';
+
+                const p50L = (sc.latency && sc.latency.p50Ms !== undefined && sc.latency.p50Ms !== null)
+                    ? Math.round(sc.latency.p50Ms).toLocaleString() + ' ms'
+                    : 'Sin datos';
+
+                const pctOver200M = (sc.latency && sc.latency.pctOver200Ms !== undefined && sc.latency.pctOver200Ms !== null)
+                    ? sc.latency.pctOver200Ms.toFixed(1) + '%'
+                    : 'Sin datos';
+
+                // Determinar Estado Conectividad
+                const rawUnder1  = sc.download ? (sc.download.pctUnder1Mbps || 0) : 0;
+                const rawOver200 = sc.latency ? (sc.latency.pctOver200Ms || 0) : 0;
+
+                let badgeHTML = '';
+                if (rawUnder1 > 80 || rawOver200 > 90) {
+                    badgeHTML = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">Crítica</span>';
+                } else if (rawUnder1 > 50 || rawOver200 > 60) {
+                    badgeHTML = '<span class="badge" style="background:#ffedd5; color:#c2410c; border:1px solid #fed7aa;">Regulada</span>';
+                } else {
+                    badgeHTML = '<span class="badge" style="background:#dcfce7; color:#15803d; border:1px solid #86efac;">Adecuada</span>';
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${shortName}</strong></td>
+                    <td style="text-align: center;">${pcs}</td>
+                    <td style="text-align: center;">${minsCellHTML}</td>
+                    <td><strong>${p50D}</strong></td>
+                    <td><span style="color: ${rawUnder1 > 70 ? '#dc2626' : '#475569'}; font-weight:600;">${pctUnder1M}</span></td>
+                    <td><strong>${p50L}</strong></td>
+                    <td><span style="color: ${rawOver200 > 80 ? '#dc2626' : '#475569'}; font-weight:600;">${pctOver200M}</span></td>
+                    <td style="text-align: center;">${badgeHTML}</td>
+                `;
+                tbody.appendChild(tr);
+            }
         });
     }
 }
