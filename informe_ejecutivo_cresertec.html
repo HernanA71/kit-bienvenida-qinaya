@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qinaya | Informe Ejecutivo CreSER Tec (STB)</title>
+    <meta name="description" content="Informe ejecutivo de uso y apropiación de terminales STB en el Programa CreSER Tec">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-doc: #ffffff;
+            --blue-qinaya: #2563eb;
+            --blue-qinaya-dark: #1d4ed8;
+            --blue-qinaya-light: #eff6ff;
+            --creser-orange: #f97316;
+            --creser-green: #16a34a;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-doc: 0 10px 30px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.03);
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding: 40px 20px 80px 20px;
+            min-height: 100vh;
+        }
+
+        /* Botón Flotante Imprimir */
+        .floating-bar {
+            position: fixed;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .btn-action {
+            pointer-events: auto;
+            background-color: var(--blue-qinaya);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-action:hover { background-color: var(--blue-qinaya-dark); transform: translateY(-2px); }
+
+        /* Contenedor Principal */
+        .document-container {
+            max-width: 1220px;
+            margin: 45px auto 0 auto;
+            background: var(--bg-doc);
+            box-shadow: var(--shadow-doc);
+            border-top: 6px solid var(--blue-qinaya);
+            border-radius: 6px;
+            padding: 40px 45px;
+            position: relative;
+        }
+
+        /* Encabezado */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 22px;
+            margin-bottom: 25px;
+            gap: 20px;
+        }
+
+        .header-left .logo { height: 48px; object-fit: contain; }
+        
+        .header-center { flex: 2; text-align: center; }
+        .header-center h1 {
+            color: var(--blue-qinaya);
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+        .header-center .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        .header-center .allies-badge {
+            display: inline-block;
+            margin-top: 6px;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+
+        .header-right { text-align: right; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.45; }
+        .header-right strong { color: var(--text-primary); }
+
+        /* Filtros y Presets */
+        .filters-section {
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filters-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .presets-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .presets-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .preset-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .preset-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .preset-btn.active {
+            background: var(--blue-qinaya);
+            color: white;
+            border-color: var(--blue-qinaya);
+        }
+
+        .inputs-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+        .filter-group input {
+            padding: 6px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            outline: none;
+            background: white;
+        }
+        .btn-consultar {
+            background: var(--blue-qinaya);
+            color: white;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-consultar:hover { background: var(--blue-qinaya-dark); }
+
+        /* KPI Bar */
+        .summary-bar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            background: var(--blue-qinaya-light);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            margin-bottom: 25px;
+        }
+        .summary-item {
+            text-align: center;
+            border-right: 1px solid #bfdbfe;
+            padding: 0 8px;
+        }
+        .summary-item:last-child { border-right: none; }
+        .summary-item h3 {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        .summary-item .value {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: var(--blue-qinaya);
+            line-height: 1.15;
+        }
+        .summary-item .sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Sección de Adopción (Gráfico + Franjas) */
+        .adoption-panel {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 22px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+        .chart-box {
+            height: 240px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .chart-box h4 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Estructura Grids */
+        .grid-2-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .doc-section-title {
+            font-size: 1.12rem;
+            color: var(--blue-qinaya-dark);
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.84rem;
+        }
+        thead th {
+            padding: 9px 8px;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 2px solid #cbd5e1;
+            font-size: 0.73rem;
+            letter-spacing: 0.4px;
+        }
+        tbody td {
+            padding: 9px 8px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        tbody tr:hover { background-color: #f8fafc; }
+
+        /* Badges */
+        .badge {
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Barra de búsqueda para tabla completa */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .search-input {
+            padding: 7px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            width: 260px;
+            font-size: 0.84rem;
+            outline: none;
+        }
+
+        /* Red Card */
+        .network-section {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 35px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(2px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .loading-overlay.hidden { display: none; }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid #e2e8f0;
+            border-top-color: var(--blue-qinaya);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Print */
+        @media print {
+            body { background: white; padding: 0; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .floating-bar, .filters-section, .search-container { display: none !important; }
+            .document-container { box-shadow: none; border-top: 6px solid var(--blue-qinaya); padding: 0; max-width: 100%; margin: 0; }
+            @page { margin: 12mm; size: A4 portrait; }
+            .grid-2-cols { gap: 15px; }
+            .adoption-panel { gap: 15px; padding: 10px; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+            thead { display: table-header-group; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Botones Flotantes -->
+    <div class="floating-bar">
+        <button class="btn-action" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimir a PDF
+        </button>
+        <div style="display: flex; gap: 10px;">
+            <a href="informe_ejecutivo_uso.html" class="btn-action" style="background-color: #475569;">
+                <i class="fas fa-exchange-alt"></i> Ver Informe SED Bogotá
+            </a>
+            <a href="https://panel.qinaya.co" target="_blank" class="btn-action" style="background-color: #0d9488;">
+                <i class="fas fa-external-link-alt"></i> Panel Qinaya
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; color: #1e293b; font-size: 0.95rem;">Conectando a la API de Qinaya y procesando telemetría de STBs...</p>
+    </div>
+
+    <div class="document-container">
+        
+        <!-- Header Documento -->
+        <div class="doc-header">
+            <div class="header-left">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo" onerror="this.src='https://qinaya.co/wp-content/uploads/2021/04/Logo-Qinaya.png'">
+            </div>
+            <div class="header-center">
+                <h1>Informe Ejecutivo de Uso de Terminales STB</h1>
+                <div class="subtitle">Programa CreSER Tec — Microempresarios y Emprendedores</div>
+                <div class="allies-badge">
+                    <i class="fas fa-handshake"></i> Aliados: Buma &amp; Cámara de Comercio de Cali (CCC)
+                </div>
+            </div>
+            <div class="header-right">
+                <p><strong>Fecha Emisión:</strong> <span id="fecha-hoy">Cargando...</span></p>
+                <p><strong>Cliente:</strong> CreSER Tec</p>
+                <p><strong>Tecnología:</strong> STB Qinaya (Linux OS)</p>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filters-row">
+                <div class="presets-wrapper">
+                    <span class="presets-label"><i class="fas fa-history"></i> Periodos:</span>
+                    <button type="button" class="preset-btn active" data-range="history">Histórico Completo</button>
+                    <button type="button" class="preset-btn" data-range="first-phase">Fase 1 (Mar - Jul)</button>
+                    <button type="button" class="preset-btn" data-range="last-month">Último Mes</button>
+                    <button type="button" class="preset-btn" data-range="last-week">Semana Reciente</button>
+                </div>
+
+                <div class="inputs-wrapper">
+                    <div class="filter-group">
+                        <label for="dateFrom"><i class="fas fa-calendar-alt" style="color: #2563eb;"></i> Desde:</label>
+                        <input type="date" id="dateFrom">
+                    </div>
+                    <div class="filter-group">
+                        <label for="dateTo">Hasta:</label>
+                        <input type="date" id="dateTo">
+                    </div>
+                    <button class="btn-consultar" id="btnConsultar"><i class="fas fa-sync-alt"></i> Actualizar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de KPIs Principales -->
+        <div class="summary-bar">
+            <div class="summary-item">
+                <h3>Meta Programa</h3>
+                <div class="value" id="kpi-meta">1.000</div>
+                <div class="sub">Dispositivos meta</div>
+            </div>
+            <div class="summary-item">
+                <h3>STB Activos</h3>
+                <div class="value" id="kpi-activos" style="color: #0284c7;">0</div>
+                <div class="sub">Con uso en periodo</div>
+            </div>
+            <div class="summary-item">
+                <h3>Tasa de Activación</h3>
+                <div class="value" id="kpi-tasa-activacion" style="color: #16a34a;">0%</div>
+                <div class="sub">Activos sobre meta</div>
+            </div>
+            <div class="summary-item">
+                <h3>Horas Acumuladas</h3>
+                <div class="value" id="kpi-horas" style="color: #047857;">0</div>
+                <div class="sub">Consumo total</div>
+            </div>
+            <div class="summary-item">
+                <h3>Promedio (Activos)</h3>
+                <div class="value" id="kpi-promedio-activos" style="color: #ea580c;">0 hrs</div>
+                <div class="sub">Por STB con uso / día</div>
+            </div>
+            <div class="summary-item">
+                <h3>Promedio (Meta)</h3>
+                <div class="value" id="kpi-promedio-instalados" style="color: #6366f1;">0 hrs</div>
+                <div class="sub">Por STB del programa / día</div>
+            </div>
+        </div>
+
+        <!-- Segmentación por Franjas de Adopción -->
+        <div class="adoption-panel">
+            <div class="chart-box">
+                <h4><i class="fas fa-chart-pie" style="color: #2563eb;"></i> Distribución de Adopción</h4>
+                <div style="width: 100%; height: 200px;">
+                    <canvas id="adoptionChart"></canvas>
+                </div>
+            </div>
+            <div>
+                <h3 style="font-size: 1.05rem; color: #1e293b; margin-bottom: 10px; font-weight: 700;">
+                    <i class="fas fa-layer-group" style="color: #2563eb;"></i> Segmentación de Emprendedores por Franjas de Uso
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Franja de Uso</th>
+                            <th style="text-align: center;">Dispositivos</th>
+                            <th style="text-align: center;">% Total</th>
+                            <th>Criterio</th>
+                            <th>Diagnóstico y Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableFranjas">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tops de Terminales STB (Heavy Users vs Reactivación) -->
+        <div class="grid-2-cols">
+            <div>
+                <h2 class="doc-section-title"><i class="fas fa-arrow-up" style="color: #16a34a;"></i> Top 10: STBs con Mayor Uso (Heavy Users)</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Terminal STB</th>
+                            <th>Aliado</th>
+                            <th>Total Horas</th>
+                            <th>Prom. Diario</th>
+                            <th>App Principal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableTopSTBs">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h2 class="doc-section-title"><i class="fas fa-life-ring" style="color: #d97706;"></i> Top 10: Oportunidades de Reactivación</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Terminal STB</th>
+                            <th>Aliado</th>
+                            <th>Total Horas</th>
+                            <th>Prom. Diario</th>
+                            <th>App Principal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBottomSTBs">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Apps y Sitios Web -->
+        <div class="grid-2-cols">
+            <div>
+                <h2 class="doc-section-title"><i class="fas fa-desktop"></i> Programas y Aplicaciones Más Usadas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Programa</th>
+                            <th>Horas Totales</th>
+                            <th>Promedio Diario</th>
+                            <th>Entorno</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableApps">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h2 class="doc-section-title"><i class="fas fa-globe"></i> Portales y Sitios Web Más Visitados</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sitio Web</th>
+                            <th>Horas / Visitas</th>
+                            <th>Promedio Diario</th>
+                            <th>Enfoque</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableWebs">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Categorías de Valor del Ecosistema CreSER Tec -->
+        <div style="margin-bottom: 30px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 20px;">
+            <h2 class="doc-section-title"><i class="fas fa-briefcase"></i> Análisis de Valor Empresarial y Formativo</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoría de Actividad</th>
+                        <th>Horas Estimadas</th>
+                        <th>Prioridad Estratégica</th>
+                    </tr>
+                </thead>
+                <tbody id="tableCategories">
+                    <!-- JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Diagnóstico de Red -->
+        <div class="network-section">
+            <h2 class="doc-section-title">
+                <i class="fas fa-wifi" style="color: #0284c7;"></i> Diagnóstico de Conectividad y Telemetría de Red de los STB
+            </h2>
+            <div class="summary-bar" style="grid-template-columns: repeat(4, 1fr); background: #f0f9ff; border-color: #bae6fd; margin-bottom: 0;">
+                <div class="summary-item">
+                    <h3>Velocidad Descarga p50</h3>
+                    <div class="value" id="net-kpi-p50-down" style="color: #0284c7;">—</div>
+                    <div class="sub">Mediana de velocidad observada</div>
+                </div>
+                <div class="summary-item">
+                    <h3>% Conexión Crítica</h3>
+                    <div class="value" id="net-kpi-under-1m" style="color: #ea580c;">—</div>
+                    <div class="sub">Minutos con velocidad &lt; 1 Mbps</div>
+                </div>
+                <div class="summary-item">
+                    <h3>Latencia p50</h3>
+                    <div class="value" id="net-kpi-p50-lat" style="color: #475569;">—</div>
+                    <div class="sub">Mediana de retardo a la nube</div>
+                </div>
+                <div class="summary-item">
+                    <h3>% Latencia Crítica</h3>
+                    <div class="value" id="net-kpi-over-200ms" style="color: #dc2626;">—</div>
+                    <div class="sub">Minutos con latencia &gt; 200 ms</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventario Completo de STBs con Buscador -->
+        <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 20px;">
+            <div class="search-container">
+                <div>
+                    <h2 class="doc-section-title" style="margin-bottom: 4px; border-bottom: none; padding-bottom: 0;">
+                        <i class="fas fa-list"></i> Inventario de Terminales STB Registrados
+                    </h2>
+                    <span style="font-size: 0.8rem; color: #64748b;" id="countSTBList">Cargando...</span>
+                </div>
+                <div>
+                    <input type="text" id="searchSTB" class="search-input" placeholder="Buscar por ID (ej. CT0025) o App...">
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Terminal ID</th>
+                        <th>Aliado</th>
+                        <th>Nivel de Adopción</th>
+                        <th>Total Horas</th>
+                        <th>Promedio Diario</th>
+                        <th>Programa Más Usado</th>
+                    </tr>
+                </thead>
+                <tbody id="tableAllSTBs">
+                    <!-- JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Qinaya Cloud Solutions</strong> &bull; Sistema de Telemetría Codegen &bull; Informe Ejecutivo CreSER Tec</p>
+        </div>
+
+    </div>
+
+    <!-- Script de Control -->
+    <script src="informe_ejecutivo_cresertec.js"></script>
+</body>
+</html>

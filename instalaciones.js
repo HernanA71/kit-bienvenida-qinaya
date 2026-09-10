@@ -169,7 +169,7 @@ function updateKPIs() {
         }
     }
 
-// KPI: WiFi
+    // KPI: WiFi
     const totalWifi = instalacionesData.reduce((sum, d) => sum + d.wifi_instalados, 0);
     const totalLicWifi = instalacionesData.reduce((sum, d) => sum + (d.wifi_instalados > 0 ? d.licencias : 0), 0);
     const wifiEl = document.getElementById('kpi-wifi');
@@ -177,6 +177,21 @@ function updateKPIs() {
     const wifiTrend = document.getElementById('kpi-wifi-licencias');
     if (wifiTrend) {
         wifiTrend.textContent = `Licencias: ${totalLicWifi.toLocaleString('es-CO')}`;
+    }
+
+    // KPI: Avance Meta (Arreglado)
+    const metaEl = document.getElementById('kpi-meta');
+    if (metaEl) metaEl.textContent = `${pctMeta}%`;
+    const metaTrend = document.getElementById('kpi-trend-meta');
+    if (metaTrend) {
+        if (totalInstalados >= META_INSTALACIONES) {
+            metaTrend.innerHTML = `<i class="fas fa-check-circle" style="color: #059669;"></i> Meta de 1.000 cumplida (${totalInstalados.toLocaleString('es-CO')})`;
+            metaTrend.className = 'kpi-trend positive';
+        } else {
+            const faltante = META_INSTALACIONES - totalInstalados;
+            metaTrend.innerHTML = `<i class="fas fa-arrow-down"></i> Faltan ${faltante} para la meta`;
+            metaTrend.className = 'kpi-trend negative';
+        }
     }
     const progressBar = document.getElementById('meta-progress-bar');
     if (progressBar) progressBar.style.width = `${Math.min(pctMeta, 100)}%`;
