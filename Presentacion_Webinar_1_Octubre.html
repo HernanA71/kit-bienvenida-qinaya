@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinar 1: Gestión de Archivos en la Nube y Trabajo Colaborativo | Qinaya ReNube - SED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #081220;
+            --bg-card: rgba(15, 29, 53, 0.85);
+            --bg-card-border: rgba(255, 255, 255, 0.12);
+            --primary-blue: #2563eb;
+            --accent-cyan: #38bdf8;
+            --renube-orange: #f97316;
+            --renube-orange-dark: #ea580c;
+            --success-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            user-select: none;
+        }
+
+        /* Top Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-cyan), var(--renube-orange));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Top Navigation Header */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 35px;
+            background: rgba(8, 18, 32, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bg-card-border);
+            z-index: 900;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-logo-card {
+            background: #ffffff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            height: 42px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-logo-card img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-title-box {
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title-box span:first-child {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title-box span:last-child {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 5px 14px;
+            border-radius: 20px;
+        }
+
+        .ctrl-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--bg-card-border);
+            color: #ffffff;
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .ctrl-btn-orange {
+            background: var(--renube-orange);
+            border-color: var(--renube-orange);
+        }
+
+        .ctrl-btn-orange:hover {
+            background: var(--renube-orange-dark);
+            border-color: var(--renube-orange-dark);
+        }
+
+        /* Presentation Stage */
+        #presentation-stage {
+            width: 100vw;
+            height: calc(100vh - 68px);
+            margin-top: 68px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Slides container */
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 35px 70px 45px 70px;
+            display: none;
+            opacity: 0;
+            transform: scale(0.97) translateY(10px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Background glow decor */
+        .bg-glow-1 {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, rgba(37, 99, 235, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            bottom: -150px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Typography & Layout Components */
+        .slide-tag {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--renube-orange);
+            display: inline-block;
+        }
+
+        .slide-title {
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.25;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .slide-title span {
+            color: var(--accent-cyan);
+        }
+
+        .slide-title span.orange {
+            color: var(--renube-orange);
+        }
+
+        .slide-desc {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 950px;
+            line-height: 1.5;
+        }
+
+        /* Cards & Grid Containers */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-accent-blue {
+            border-top: 4px solid var(--primary-blue);
+        }
+
+        .card-accent-orange {
+            border-top: 4px solid var(--renube-orange);
+        }
+
+        .card-accent-green {
+            border-top: 4px solid var(--success-green);
+        }
+
+        .card-accent-cyan {
+            border-top: 4px solid var(--accent-cyan);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .icon-blue { background: rgba(37, 99, 235, 0.2); color: var(--accent-cyan); border: 1px solid rgba(37, 99, 235, 0.4); }
+        .icon-orange { background: rgba(249, 115, 22, 0.2); color: var(--renube-orange); border: 1px solid rgba(249, 115, 22, 0.4); }
+        .icon-green { background: rgba(16, 185, 129, 0.2); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.4); }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .card-body {
+            font-size: 14.5px;
+            color: #cbd5e1;
+            line-height: 1.55;
+        }
+
+        .card-body p {
+            margin-bottom: 10px;
+        }
+
+        .card-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-badge {
+            display: inline-block;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-top: 12px;
+            align-self: flex-start;
+        }
+
+        .badge-free { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .badge-alert { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .badge-info { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); }
+
+        /* Step workflow list */
+        .workflow-box {
+            display: flex;
+            gap: 14px;
+            margin-top: 15px;
+        }
+
+        .wf-step {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+        }
+
+        .wf-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--renube-orange);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .wf-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .wf-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* Comparison Box */
+        .versus-container {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 15px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .vs-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--bg-card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--accent-cyan);
+            margin: 0 auto;
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(249, 115, 22, 0.1) 100%);
+            border-left: 4px solid var(--renube-orange);
+            border-radius: 0 12px 12px 0;
+            padding: 18px 24px;
+            margin-top: 20px;
+            font-size: 15px;
+            color: #e2e8f0;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Bottom Floating Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(15, 29, 53, 0.9);
+            backdrop-filter: blur(16px);
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--bg-card-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            z-index: 950;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-cyan);
+        }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Cover Slide Specifics */
+        .cover-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cover-logos-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .cover-logo-card {
+            background: #ffffff;
+            padding: 8px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            height: 65px;
+        }
+
+        .cover-logo-card img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .cover-tag {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: var(--accent-cyan);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 13.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .cover-title {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            max-width: 980px;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .cover-subtitle {
+            font-size: 21px;
+            color: #93c5fd;
+            font-weight: 600;
+            max-width: 850px;
+            margin-bottom: 30px;
+        }
+
+        .cover-meta-box {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: rgba(15, 29, 53, 0.8);
+            border: 1px solid var(--bg-card-border);
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-size: 14.5px;
+        }
+
+        .cover-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+        }
+
+        .cover-meta-item strong {
+            color: #ffffff;
+        }
+
+        /* Keyboard Hints */
+        .kbd-hint {
+            position: fixed;
+            bottom: 25px;
+            right: 35px;
+            font-size: 12px;
+            color: var(--text-dim);
+            z-index: 900;
+        }
+
+        kbd {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-family: 'Fira Code', monospace;
+            color: #cbd5e1;
+        }
+
+        /* Print / PDF Media */
+        @media print {
+            body {
+                overflow: visible !important;
+                height: auto !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
+
+            #progress-bar, .top-navbar, .bottom-nav, .kbd-hint {
+                display: none !important;
+            }
+
+            #presentation-stage {
+                display: block !important;
+                margin-top: 0 !important;
+                height: auto !important;
+            }
+
+            .slide {
+                display: flex !important;
+                opacity: 1 !important;
+                position: relative !important;
+                page-break-after: always !important;
+                height: 100vh !important;
+                padding: 40px !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
+
+            .card {
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                color: #0f172a !important;
+            }
+
+            .card-title, .slide-title, .wf-title {
+                color: #0f172a !important;
+            }
+
+            .card-body, .slide-desc, .wf-desc {
+                color: #334155 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="top-navbar">
+        <div class="header-logos">
+            <!-- SED Bogotá Logo -->
+            <div class="header-logo-card">
+                <img src="logo_sed_bogota.png" alt="Secretaría de Educación de Bogotá">
+            </div>
+            <!-- Qinaya ReNube Logo -->
+            <div class="header-logo-card">
+                <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube">
+            </div>
+            <!-- Qinaya Logo -->
+            <div class="header-logo-card">
+                <img src="logo%20Qinaya.png" alt="Qinaya">
+            </div>
+
+            <div class="header-title-box">
+                <span>Ciclo de Capacitación Docente • Webinar 1</span>
+                <span>Gestión de Archivos en la Nube y Trabajo Colaborativo</span>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <span class="slide-counter" id="slide-number">Slide 1 / 13</span>
+            <button class="ctrl-btn" onclick="toggleFullscreen()" title="Pantalla Completa (F)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                Pantalla Completa
+            </button>
+            <button class="ctrl-btn ctrl-btn-orange" onclick="window.print()" title="Imprimir o Exportar PDF">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- Presentation Stage -->
+    <main id="presentation-stage">
+        <div class="bg-glow-1"></div>
+        <div class="bg-glow-2"></div>
+
+        <!-- ==============================================
+             SLIDE 1: PORTADA OFICIAL
+        =============================================== -->
+        <section class="slide active" id="slide-0">
+            <div class="cover-content">
+                <div class="cover-logos-row">
+                    <div class="cover-logo-card">
+                        <img src="logo_sed_bogota.png" alt="Secretaría de Educación de Bogotá">
+                    </div>
+                    <div class="cover-logo-card">
+                        <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube">
+                    </div>
+                    <div class="cover-logo-card">
+                        <img src="logo%20Qinaya.png" alt="Qinaya">
+                    </div>
+                </div>
+
+                <div class="cover-tag">Ciclo de Formación Docente • Webinar 1</div>
+                
+                <h1 class="cover-title">
+                    Gestión Eficiente de Archivos en la Nube y Trabajo Colaborativo en el Aula
+                </h1>
+                
+                <p class="cover-subtitle">
+                    Desmitificando el computador virtual: De lo local a la nube en la Solución Qinaya
+                </p>
+
+                <div class="cover-meta-box">
+                    <div class="cover-meta-item">
+                        <span>📅</span>
+                        <span><strong>Fecha:</strong> Jueves, 1 de Octubre de 2026</span>
+                    </div>
+                    <div class="cover-meta-item">
+                        <span>⏰</span>
+                        <span><strong>Horario:</strong> 4:00 p.m. a 5:30 p.m.</span>
+                    </div>
+                    <div class="cover-meta-item">
+                        <span>👨‍🏫</span>
+                        <span><strong>Facilitador:</strong> Hernán A. Rodríguez — Coord. de Apropiación Qinaya</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 2: EL ORIGEN DE ESTA SESIÓN
+        =============================================== -->
+        <section class="slide" id="slide-1">
+            <div class="slide-tag"><span class="tag-dot"></span> Respaldo Diagnóstico</div>
+            <h2 class="slide-title">¿Por qué estamos hoy aquí? <span>La Voz de los Colegios</span></h2>
+            <p class="slide-desc">
+                Este webinar no surge de un temario improvisado; responde a la consulta diagnóstica que aplicamos directamente a los docentes en las salas de cómputo del Proyecto Renube.
+            </p>
+
+            <div class="grid-3">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">📊</div>
+                        <div class="card-title">27,9% de Preferencia</div>
+                    </div>
+                    <div class="card-body">
+                        Fue la <strong>temática número 1 más solicitada</strong> por los maestros: cómo manejar archivos en la nube, cómo compartirlos con estudiantes y cómo interactuar entre el equipo local y el virtual.
+                    </div>
+                    <span class="card-badge badge-info">Demanda Mayoritaria</span>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🧩</div>
+                        <div class="card-title">Eliminar Barreras</div>
+                    </div>
+                    <div class="card-body">
+                        Detectamos dudas comunes: <em>"¿Por qué no puedo pegar de una USB al virtual?", "¿Por qué mis alumnos no ven lo que guardo en mi escritorio?"</em>. Hoy resolveremos cada una.
+                    </div>
+                    <span class="card-badge badge-free">Enfoque Práctico</span>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🎯</div>
+                        <div class="card-title">Objetivo del Taller</div>
+                    </div>
+                    <div class="card-body">
+                        Aprender a utilizar el <strong>computador virtual</strong> como herramienta de trabajo y enlazarlo con <strong>carpetas en la nube gratuitas</strong> para tareas, entregas y respaldo seguro.
+                    </div>
+                    <span class="card-badge badge-free">100% Aplicable</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                <strong>Premisa Clave:</strong> La tecnología en el colegio debe ahorrarte tiempo, no generarte sobrecargas ni frustraciones al momento de calificar o recibir actividades.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 3: ¿QUÉ ES UN COMPUTADOR VIRTUAL?
+        =============================================== -->
+        <section class="slide" id="slide-2">
+            <div class="slide-tag"><span class="tag-dot"></span> Conceptos Claros</div>
+            <h2 class="slide-title">Desmitificando la Nube: <span>¿Qué es un Computador Virtual?</span></h2>
+            <p class="slide-desc">
+                Para sacarle el máximo provecho a la Solución Qinaya, primero debemos entender qué hay detrás de la pantalla que vemos en el salón de clases.
+            </p>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🖥️</div>
+                        <div class="card-title">En el Colegio: El Equipo Físico</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• Es el computador o terminal física (STB / PC recuperado con Qinaya Linux).</p>
+                        <p>• Tiene conectados físicamente tu pantalla, teclado, mouse y puertos USB.</p>
+                        <p>• Funciona como una <strong>ventana de transmisión (streaming)</strong>: recibe imagen y envía los clics del usuario a través de internet.</p>
+                    </div>
+                    <span class="card-badge badge-info">Cliente Físico Local</span>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">☁️</div>
+                        <div class="card-title">En el Datacenter: El Computador Virtual</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• Es un <strong>computador completo, real e independiente</strong> ejecutándose en la nube de Qinaya.</p>
+                        <p>• Tiene su propio procesador potente, su memoria RAM y su disco duro virtual privado.</p>
+                        <p>• Es exactamente igual a tener una torre de computador encendida en otra sede a kilómetros de distancia.</p>
+                    </div>
+                    <span class="card-badge badge-free">Escritorio Virtual (VDI)</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                💡 <strong>La Analogía Sencilla:</strong> Es como ver una película en Netflix: la película se reproduce en los servidores centrales de la plataforma, pero tú la controlas y la disfrutas desde la pantalla de tu sala.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 4: EL GRAN MITO DEL AULA
+        =============================================== -->
+        <section class="slide" id="slide-3">
+            <div class="slide-tag"><span class="tag-dot"></span> Rompiendo Mitos</div>
+            <h2 class="slide-title">El Gran Mito: <span>Computador en la Nube ≠ Carpeta Compartida</span></h2>
+            <p class="slide-desc">
+                Aquí radica la confusión más frecuente entre los docentes de tecnología e informática:
+            </p>
+
+            <div class="versus-container">
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">❌</div>
+                        <div class="card-title">El Mito Habitual</div>
+                    </div>
+                    <div class="card-body">
+                        <p><em>"Como este computador está en la nube, todo lo que guardo en su Escritorio o Documentos ya está en internet y mis alumnos o el PC de al lado lo pueden ver."</em></p>
+                        <p>O pensar: <em>"Si meto una USB al computador físico, mágicamente debe aparecer dentro de la máquina virtual remota."</em></p>
+                    </div>
+                    <span class="card-badge badge-alert">Falso concepto</span>
+                </div>
+
+                <div class="vs-badge">VS</div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">✅</div>
+                        <div class="card-title">La Realidad Técnica</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>El computador virtual es 100% privado y aislado.</strong></p>
+                        <p>Guardar un archivo en el Escritorio del virtual es igual a guardarlo en un disco duro bajo llave. Nadie más tiene acceso a él.</p>
+                        <p>Para compartir archivos con estudiantes o pasarlos a una USB, <strong>siempre se necesita un servicio de almacenamiento compartido</strong>.</p>
+                    </div>
+                    <span class="card-badge badge-free">Realidad operativa</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                📌 <strong>Regla de Oro:</strong> <br>
+                • <strong>Computador Virtual (Qinaya):</strong> Te da la <em>potencia de cómputo</em> (memoria, velocidad, programas).<br>
+                • <strong>Almacenamiento en la Nube (Drive, Mega, Dropbox):</strong> Te da el <em>buzón de intercambio público</em>.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 5: EL PUENTE DE ALMACENAMIENTO
+        =============================================== -->
+        <section class="slide" id="slide-4">
+            <div class="slide-tag"><span class="tag-dot"></span> Arquitectura de Conexión</div>
+            <h2 class="slide-title">El "Puente": <span>Servicios de Almacenamiento en la Nube</span></h2>
+            <p class="slide-desc">
+                Si el computador virtual está aislado en un centro de datos, ¿cómo intercambiamos archivos con los estudiantes? A través de una <strong>caja de buzón común</strong>.
+            </p>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🌐</div>
+                        <div class="card-title">Ecosistema Google Drive (SED)</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>Espacio:</strong> 15 GB gratuitos en cuentas personales o almacenamiento institucional con correos SED (@educacionbogota.edu.co).</p>
+                        <p>• <strong>Uso en el aula:</strong> Creación de carpetas compartidas por grado (ej. <em>"Informática 801"</em>) con enlaces de sólo lectura o edición.</p>
+                        <p>• <strong>Integración:</strong> Funciona directo en el navegador web del computador virtual Qinaya.</p>
+                    </div>
+                    <span class="card-badge badge-info">Institucional SED</span>
+                </div>
+
+                <div class="card card-accent-cyan">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">📁</div>
+                        <div class="card-title">Ecosistema Microsoft OneDrive (SED)</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>Espacio:</strong> 5 GB en cuentas libres o almacenamiento ampliado con cuentas Microsoft 365 de la SED.</p>
+                        <p>• <strong>Uso en el aula:</strong> Integrado con Microsoft Teams institucional para recepción de tareas y proyectos de clase.</p>
+                        <p>• <strong>Acceso:</strong> Se abre directamente desde el navegador de Qinaya sin instalar agentes locales.</p>
+                    </div>
+                    <span class="card-badge badge-info">Institucional SED</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🔍 <strong>El Desafío en el Aula:</strong> Muchos estudiantes no recuerdan su clave institucional o no tienen cuenta de Google/Microsoft activa durante la clase. ¿Qué alternativas gratuitas y sin registro podemos usar?
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 6: HERRAMIENTAS GRATUITAS: MEGA
+        =============================================== -->
+        <section class="slide" id="slide-5">
+            <div class="slide-tag"><span class="tag-dot"></span> Herramientas Gratuitas de Alto Valor</div>
+            <h2 class="slide-title">Opción Destacada 1: <span>MEGA (20 GB Gratuitos)</span></h2>
+            <p class="slide-desc">
+                Una de las plataformas en la nube más generosas del mercado, ideal para docentes que manejan archivos pesados o múltiples cursos.
+            </p>
+
+            <div class="grid-3">
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">💾</div>
+                        <div class="card-title">20 GB sin Costo</div>
+                    </div>
+                    <div class="card-body">
+                        Ofrece 20 GB de almacenamiento permanente gratuito desde el primer día, superando a Google Drive (15 GB) y OneDrive (5 GB).
+                    </div>
+                    <span class="card-badge badge-free">Alta Capacidad</span>
+                </div>
+
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🔗</div>
+                        <div class="card-title">Descarga Directa</div>
+                    </div>
+                    <div class="card-body">
+                        El docente sube las guías o instaladores y comparte el link. <strong>Los estudiantes NO necesitan registrarse ni tener cuenta</strong> para descargar el material en clase.
+                    </div>
+                    <span class="card-badge badge-info">Sin Registro Requerido</span>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🛡️</div>
+                        <div class="card-title">Seguridad Total</div>
+                    </div>
+                    <div class="card-body">
+                        Cifrado de extremo a extremo. Los archivos subidos no se corrompen ni se llenan de accesos directos falsos como ocurre con las memorias USB.
+                    </div>
+                    <span class="card-badge badge-free">Cero Virus</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                💡 <strong>Consejo Práctico:</strong> Crea una carpeta en MEGA llamada <em>"Materiales_Docente_2026"</em>, genera un enlace público de sólo lectura y compártelo a tus estudiantes en la barra del navegador.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 7: HERRAMIENTAS GRATUITAS: DROPBOX
+        =============================================== -->
+        <section class="slide" id="slide-6">
+            <div class="slide-tag"><span class="tag-dot"></span> La Joya para Docentes</div>
+            <h2 class="slide-title">Opción Destacada 2: <span>Dropbox y su "Solicitud de Archivos"</span></h2>
+            <p class="slide-desc">
+                Aunque su plan gratuito ofrece 2 GB, tiene la herramienta pedagógica más potente: <strong>File Request (Buzón Ciego de Tareas)</strong>.
+            </p>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">📬</div>
+                        <div class="card-title">¿Cómo funciona el "Buzón de Tareas"?</div>
+                    </div>
+                    <div class="card-body">
+                        <p>1. El profesor crea una carpeta (ej: <em>"Taller 1 Scratch - Grado 702"</em>).</p>
+                        <p>2. Hace clic en <strong>"Solicitar archivos"</strong> y Dropbox le genera un enlace único.</p>
+                        <p>3. El docente entrega ese enlace a los estudiantes en clase.</p>
+                        <p>4. El alumno abre el link, arrastra su tarea, escribe su nombre y apellido, y le da clic a <em>Subir</em>.</p>
+                    </div>
+                    <span class="card-badge badge-free">Súper Rápido y Fácil</span>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🌟</div>
+                        <div class="card-title">Grandes Ventajas Pedagógicas</div>
+                    </div>
+                    <div class="card-body">
+                        <p>✅ <strong>Los estudiantes NO necesitan cuenta de Dropbox:</strong> Suben el archivo directamente desde cualquier navegador.</p>
+                        <p>✅ <strong>Privacidad Total (Cero Copias):</strong> Ningún estudiante puede ver, modificar ni descargar los trabajos de sus compañeros.</p>
+                        <p>✅ <strong>Orden Automático:</strong> Todos los archivos caen en la carpeta del profesor, etiquetados con el nombre del estudiante.</p>
+                    </div>
+                    <span class="card-badge badge-free">Ideal para Calificar</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🏆 <strong>Recomendación Qinaya:</strong> La solicitud de archivos de Dropbox es la solución definitiva para recibir tareas en salas de informática sin usar memorias USB.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 8: ALTERNATIVAS SIN REGISTRO
+        =============================================== -->
+        <section class="slide" id="slide-7">
+            <div class="slide-tag"><span class="tag-dot"></span> Transferencias Rápidas</div>
+            <h2 class="slide-title">Transferencias Temporales <span>Sin Crear Cuentas</span></h2>
+            <p class="slide-desc">
+                Para los días en que un estudiante necesita entregarte un proyecto pesado de última hora y no quieres que inicie sesión en ninguna plataforma:
+            </p>
+
+            <div class="grid-3">
+                <div class="card card-accent-cyan">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">⚡</div>
+                        <div class="card-title">WeTransfer</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>Hasta 2 GB gratis</strong> por envío sin necesidad de cuenta.</p>
+                        <p>• El alumno sube el archivo, selecciona <em>"Obtener enlace"</em> y le dicta o escribe el link al profesor.</p>
+                        <p>• El archivo dura disponible 7 días.</p>
+                    </div>
+                    <span class="card-badge badge-info">2 GB Directos</span>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🇨🇭</div>
+                        <div class="card-title">SwissTransfer</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>¡Hasta 50 GB gratuitos!</strong> Sin registro.</p>
+                        <p>• Servidores de alta seguridad en Suiza.</p>
+                        <p>• Permite hasta 30 días de vigencia y hasta 250 descargas por enlace.</p>
+                    </div>
+                    <span class="card-badge badge-free">Capacidad Masiva</span>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">📦</div>
+                        <div class="card-title">SendGB</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>Hasta 5 GB gratis</strong> sin registro.</p>
+                        <p>• Permite almacenar archivos hasta por 90 días de forma gratuita.</p>
+                        <p>• Muy ligero para salas con bajo ancho de banda.</p>
+                    </div>
+                    <span class="card-badge badge-info">5 GB Ágiles</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🎯 <strong>Criterio de Elección:</strong> Usa <strong>Dropbox / Mega</strong> para la estructura formal del periodo académico, y <strong>WeTransfer / SwissTransfer</strong> para entregas pesadas de un solo día.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 9: ARQUITECTURA DUAL QINAYA
+        =============================================== -->
+        <section class="slide" id="slide-8">
+            <div class="slide-tag"><span class="tag-dot"></span> La Solución Qinaya</div>
+            <h2 class="slide-title">El Ecosistema Dual de Qinaya: <span>Local vs. Virtual</span></h2>
+            <p class="slide-desc">
+                Las estaciones Qinaya en tu colegio cuentan con dos ambientes integrados en la misma pantalla. Conocerlos te da control total de la clase:
+            </p>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🐧</div>
+                        <div class="card-title">Ambiente 1: Qinaya Linux Local</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>¿Dónde corre?:</strong> En el hardware físico del equipo en tu sala.</p>
+                        <p>• <strong>Ventajas:</strong> Desempeño ultrarrápido, no consume internet para abrir aplicaciones locales (como <strong>Scratch Offline</strong> o navegadores).</p>
+                        <p>• <strong>Puertos físicos:</strong> Aquí es donde se conectan físicamente las <strong>memorias USB</strong> y proyectores.</p>
+                    </div>
+                    <span class="card-badge badge-info">Hardware Local de la Sala</span>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">☁️</div>
+                        <div class="card-title">Ambiente 2: Escritorio Virtual Qinaya</div>
+                    </div>
+                    <div class="card-body">
+                        <p>• <strong>¿Dónde corre?:</strong> En los servidores de alta potencia en la nube.</p>
+                        <p>• <strong>Ventajas:</strong> Permite utilizar software avanzado sin depender de la capacidad de la torre física.</p>
+                        <p>• <strong>Conexión:</strong> Es un entorno remoto aislado; <strong>no tiene enlace físico directo con la memoria USB que metes al monitor</strong>.</p>
+                    </div>
+                    <span class="card-badge badge-free">Potencia en la Nube</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🔑 <strong>La Solución al "Problema de la USB":</strong> Como el Virtual no tiene cables físicos a la USB, ¡usamos la nube como puente de transferencia en solo 4 clics!
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 10: EJERCICIO PRÁCTICO EN VIVO
+        =============================================== -->
+        <section class="slide" id="slide-9">
+            <div class="slide-tag"><span class="tag-dot"></span> Taller Práctico en Vivo</div>
+            <h2 class="slide-title">Paso a Paso: <span>Del Virtual a la USB Física</span></h2>
+            <p class="slide-desc">
+                Este es el flujo de trabajo exacto que debes enseñar a tus estudiantes para mover sus trabajos desde el computador virtual hasta su memoria USB física:
+            </p>
+
+            <div class="workflow-box">
+                <div class="wf-step">
+                    <div class="wf-num">1</div>
+                    <div class="wf-title">Crea en el Virtual</div>
+                    <div class="wf-desc">El estudiante trabaja en el computador virtual (ej: MakeCode o LibreOffice) y guarda su archivo localmente en el escritorio virtual.</div>
+                </div>
+
+                <div class="wf-step">
+                    <div class="wf-num">2</div>
+                    <div class="wf-title">Sube a la Nube</div>
+                    <div class="wf-desc">Dentro del navegador del virtual, abre su Drive, Mega o el buzón de Dropbox y <strong>sube el archivo</strong> en 5 segundos.</div>
+                </div>
+
+                <div class="wf-step">
+                    <div class="wf-num">3</div>
+                    <div class="wf-title">Pasa al Linux Local</div>
+                    <div class="wf-desc">Minimiza la ventana virtual y, en el sistema <strong>Linux local</strong> del colegio, abre el navegador web.</div>
+                </div>
+
+                <div class="wf-step">
+                    <div class="wf-num">4</div>
+                    <div class="wf-title">Descarga a la USB</div>
+                    <div class="wf-desc">Entra a su nube en el Linux local, le da <em>Descargar</em> y copia el archivo directamente a la memoria USB conectada al equipo.</div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                ✨ <strong>¡Y listo!</strong> En menos de 1 minuto el estudiante tiene su tarea en la USB física, sin errores de conexión y habiendo aprendido una habilidad real de sincronización en la nube.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 11: CIBERSEGURIDAD Y PROTECCIÓN
+        =============================================== -->
+        <section class="slide" id="slide-10">
+            <div class="slide-tag"><span class="tag-dot"></span> Seguridad Informática Escolar</div>
+            <h2 class="slide-title">La Gran Ventaja Oculta: <span>Salas de Cómputo Libres de Virus</span></h2>
+            <p class="slide-desc">
+                Lo que al principio parece un paso adicional es en realidad <strong>el mayor blindaje de ciberseguridad</strong> que tiene la Solución Qinaya para tu colegio:
+            </p>
+
+            <div class="grid-3">
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🛡️</div>
+                        <div class="card-title">Linux como Escudo</div>
+                    </div>
+                    <div class="card-body">
+                        El 99% de los virus de memorias USB en colegios están diseñados para Windows (.exe, troyanos, accesos directos falsos). <strong>En Qinaya Linux estos virus son totalmente inofensivos e incapaces de ejecutarse.</strong>
+                    </div>
+                    <span class="card-badge badge-free">Barrera Inmune</span>
+                </div>
+
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🔒</div>
+                        <div class="card-title">Virtual Aislado y Limpio</div>
+                    </div>
+                    <div class="card-body">
+                        Al no conectar la USB infectada directamente a la máquina virtual, evitamos que las sesiones en la nube se dañen, garantizando que el computador virtual siempre inicie rápido y limpio.
+                    </div>
+                    <span class="card-badge badge-info">Sesión Protegida</span>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🎓</div>
+                        <div class="card-title">Cultura Digital</div>
+                    </div>
+                    <div class="card-body">
+                        Enseñamos a los estudiantes a no depender de un dispositivo físico que se pierde, se quema o se infecta, adoptando las verdaderas competencias del siglo XXI: <strong>respaldo y trabajo en la nube</strong>.
+                    </div>
+                    <span class="card-badge badge-free">Formación Integral</span>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🛡️ <strong>Resultado en tu colegio:</strong> Salas de cómputo estables, cero equipos formateados por virus de USB y clases que nunca se detienen.
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 12: CONCLUSIONES Y CHECKLIST
+        =============================================== -->
+        <section class="slide" id="slide-11">
+            <div class="slide-tag"><span class="tag-dot"></span> Resumen Ejecutivo</div>
+            <h2 class="slide-title">Checklist Mental del Docente Qinaya: <span>4 Puntos Clave</span></h2>
+            <p class="slide-desc">
+                Lo que debemos recordar siempre al planear y orientar nuestras clases en las salas Qinaya:
+            </p>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">1</div>
+                        <div class="card-title">El Virtual es tu PC Privado</div>
+                    </div>
+                    <div class="card-body">
+                        Úsalo para procesar, programar y redactar con toda la potencia de la nube. Lo que guardas en su disco es solo tuyo y no está automáticamente compartido.
+                    </div>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">2</div>
+                        <div class="card-title">La Nube es tu Puente de Entrega</div>
+                    </div>
+                    <div class="card-body">
+                        Usa <strong>Google Drive / OneDrive</strong> para tu portafolio institucional, <strong>MEGA</strong> para compartir guías pesadas sin registro y <strong>Dropbox</strong> para recibir tareas en buzón ciego.
+                    </div>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">3</div>
+                        <div class="card-title">Virtual a USB = Vía Nube + Linux Local</div>
+                    </div>
+                    <div class="card-body">
+                        Si requieres descargar a una memoria física, súbelo a la nube desde el virtual, abre el navegador en el Linux local, descárgalo y pásalo a la USB de forma 100% segura.
+                    </div>
+                </div>
+
+                <div class="card card-accent-cyan">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">4</div>
+                        <div class="card-title">Aprovecha las Apps Locales</div>
+                    </div>
+                    <div class="card-body">
+                        Para clases de Scratch o navegación básica, recuerda que están instaladas y optimizadas en el <strong>Linux local</strong>, funcionando de forma instantánea sin consumir ancho de banda.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==============================================
+             SLIDE 13: ASISTENCIA Y CONTACTO
+        =============================================== -->
+        <section class="slide" id="slide-12">
+            <div class="cover-content">
+                <div class="slide-tag"><span class="tag-dot"></span> Cierre de la Sesión</div>
+                <h2 class="slide-title">¡Gracias por tu Participación y Compromiso Docente!</h2>
+                <p class="slide-desc">
+                    El proyecto Renube y la Solución Qinaya continúan acompañándote para transformar la experiencia pedagógica en tu colegio.
+                </p>
+
+                <div class="grid-2" style="max-width: 900px; margin-top: 10px; text-align: left;">
+                    <div class="card card-accent-orange">
+                        <div class="card-header">
+                            <div class="card-icon icon-orange">📝</div>
+                            <div class="card-title">Registro de Asistencia</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Por favor diligencia el formulario oficial de asistencia compartido en el chat de la sesión para certificar tu participación ante la <strong>Secretaría de Educación del Distrito (SED)</strong> y ÁGATA.</p>
+                            <span class="card-badge badge-free">Certificación en Línea</span>
+                        </div>
+                    </div>
+
+                    <div class="card card-accent-blue">
+                        <div class="card-header">
+                            <div class="card-icon icon-blue">💬</div>
+                            <div class="card-title">Acompañamiento y Soporte</div>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Hernán A. Rodríguez</strong><br>Coordinación Académica y de Apropiación Tecnológica<br>Proyecto Renube — Solución Qinaya<br>WhatsApp Soporte: (+57) 314 237 0214</p>
+                            <span class="card-badge badge-info">Grupo de WhatsApp de tu Colegio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover-logos-row" style="margin-top: 30px; margin-bottom: 0;">
+                    <div class="cover-logo-card" style="height: 52px;">
+                        <img src="logo_sed_bogota.png" alt="SED Bogotá" style="height: 38px;">
+                    </div>
+                    <div class="cover-logo-card" style="height: 52px;">
+                        <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube" style="height: 38px;">
+                    </div>
+                    <div class="cover-logo-card" style="height: 52px;">
+                        <img src="logo%20Qinaya.png" alt="Qinaya" style="height: 38px;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Floating Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-btn" onclick="prevSlide()" title="Anterior (Flecha Izquierda)">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <button class="nav-btn" onclick="togglePlay()" id="play-btn" title="Reproducción Automática">
+            <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="nav-btn" onclick="nextSlide()" title="Siguiente (Flecha Derecha / Espacio)">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+    </nav>
+
+    <!-- Keyboard navigation hint -->
+    <div class="kbd-hint">
+        Navega con <kbd>←</kbd> <kbd>→</kbd> o <kbd>Espacio</kbd> • Pantalla Completa: <kbd>F</kbd>
+    </div>
+
+    <!-- Interactive Navigation Scripts -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progress-bar');
+        const counter = document.getElementById('slide-number');
+        let autoPlayInterval = null;
+
+        function updateSlide() {
+            slides.forEach((s, idx) => {
+                s.classList.remove('active');
+                if (idx === currentSlide) {
+                    s.classList.add('active');
+                }
+            });
+
+            // Update counter and progress bar
+            counter.innerText = `Slide ${currentSlide + 1} / ${totalSlides}`;
+            const pct = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${pct}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                currentSlide = 0;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error al entrar en pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function togglePlay() {
+            const playIcon = document.getElementById('play-icon');
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            } else {
+                autoPlayInterval = setInterval(nextSlide, 7000);
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            } else if (e.key.toLowerCase() === 'f') {
+                toggleFullscreen();
+            } else if (e.key === 'Home') {
+                currentSlide = 0;
+                updateSlide();
+            } else if (e.key === 'End') {
+                currentSlide = totalSlides - 1;
+                updateSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
