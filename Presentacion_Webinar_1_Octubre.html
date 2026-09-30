@@ -594,11 +594,30 @@
 
         /* Print / PDF Media */
         @media print {
-            body {
-                overflow: visible !important;
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            html, body {
+                width: 100% !important;
                 height: auto !important;
-                background: #ffffff !important;
-                color: #0f172a !important;
+                min-height: 100% !important;
+                background-color: #081220 !important;
+                background: #081220 !important;
+                color: #f8fafc !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
             #progress-bar, .top-navbar, .bottom-nav, .kbd-hint {
@@ -607,34 +626,192 @@
 
             #presentation-stage {
                 display: block !important;
-                margin-top: 0 !important;
+                position: static !important;
+                margin: 0 !important;
+                padding: 0 !important;
                 height: auto !important;
+                width: 100% !important;
+                background: #081220 !important;
+                overflow: visible !important;
+            }
+
+            .bg-glow-1, .bg-glow-2 {
+                display: none !important;
             }
 
             .slide {
                 display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: stretch !important;
                 opacity: 1 !important;
                 position: relative !important;
-                page-break-after: always !important;
+                width: 100vw !important;
                 height: 100vh !important;
-                padding: 40px !important;
+                min-height: 100vh !important;
+                max-height: 100vh !important;
+                box-sizing: border-box !important;
+                padding: 35px 65px !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                break-inside: avoid !important;
+                background-color: #081220 !important;
+                background: #081220 !important;
+                color: #f8fafc !important;
+                transform: none !important;
+                overflow: hidden !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .slide:last-of-type {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            .cover-content {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+
+            .cover-logo-card, .header-logo-card {
                 background: #ffffff !important;
-                color: #0f172a !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .cover-tag, .slide-tag {
+                background: rgba(56, 189, 248, 0.15) !important;
+                border: 1px solid rgba(56, 189, 248, 0.4) !important;
+                color: #38bdf8 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .tag-dot {
+                background: #f97316 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .slide-title {
+                color: #ffffff !important;
+            }
+
+            .slide-title span {
+                color: #38bdf8 !important;
+            }
+
+            .slide-title span.orange {
+                color: #f97316 !important;
+            }
+
+            .slide-desc {
+                color: #94a3b8 !important;
             }
 
             .card {
-                background: #f8fafc !important;
-                border: 1px solid #cbd5e1 !important;
+                background: #0f1d35 !important;
+                background-color: #0f1d35 !important;
+                border: 1px solid rgba(255, 255, 255, 0.15) !important;
+                color: #f8fafc !important;
                 box-shadow: none !important;
-                color: #0f172a !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
 
-            .card-title, .slide-title, .wf-title {
-                color: #0f172a !important;
+            .card-accent-blue {
+                border-top: 4px solid #2563eb !important;
             }
 
-            .card-body, .slide-desc, .wf-desc {
-                color: #334155 !important;
+            .card-accent-orange {
+                border-top: 4px solid #f97316 !important;
+            }
+
+            .card-accent-green {
+                border-top: 4px solid #10b981 !important;
+            }
+
+            .card-accent-cyan {
+                border-top: 4px solid #38bdf8 !important;
+            }
+
+            .card-title {
+                color: #ffffff !important;
+            }
+
+            .card-body, .card-body p, .card-body li {
+                color: #cbd5e1 !important;
+            }
+
+            .card-body strong {
+                color: #ffffff !important;
+            }
+
+            .card-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .badge-info {
+                background: rgba(37, 99, 235, 0.25) !important;
+                color: #93c5fd !important;
+            }
+
+            .badge-free {
+                background: rgba(16, 185, 129, 0.25) !important;
+                color: #6ee7b7 !important;
+            }
+
+            .badge-warn {
+                background: rgba(249, 115, 22, 0.25) !important;
+                color: #fdba74 !important;
+            }
+
+            .workflow-box {
+                background: #0f1d35 !important;
+                border: 1px solid rgba(255, 255, 255, 0.15) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .wf-step {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .wf-num {
+                background: #f97316 !important;
+                color: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .wf-title {
+                color: #ffffff !important;
+            }
+
+            .wf-desc {
+                color: #cbd5e1 !important;
+            }
+
+            .callout-box {
+                background: rgba(37, 99, 235, 0.18) !important;
+                border-left: 4px solid #2563eb !important;
+                color: #e2e8f0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .callout-box strong {
+                color: #38bdf8 !important;
             }
         }
     </style>
@@ -1276,7 +1453,7 @@
                             <div class="card-title">Acompañamiento y Soporte</div>
                         </div>
                         <div class="card-body">
-                            <p><strong>Hernán A. Rodríguez</strong><br>Coordinación Académica y de Apropiación Tecnológica<br>Proyecto Renube — Solución Qinaya<br>WhatsApp Soporte: (+57) 314 237 0214</p>
+                            <p><strong>Hernán A. Rodríguez</strong><br>Coordinación Académica y de Apropiación Tecnológica<br>Proyecto Renube — Solución Qinaya<br>WhatsApp Soporte: (+57) 311 207 8846</p>
                             <span class="card-badge badge-info">Grupo de WhatsApp de tu Colegio</span>
                         </div>
                     </div>
