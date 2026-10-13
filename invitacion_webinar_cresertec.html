@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Webinar | Dominio del STB Qinaya y LibreOffice Calc — CreSertec</title>
+    <meta name="description" content="Invitación al webinar de capacitación para beneficiarios de CreSertec: Manejo del STB Qinaya y hojas de cálculo con LibreOffice Calc para tu negocio o emprendimiento.">
+
+    <!-- Open Graph para vista previa en WhatsApp y Redes Sociales -->
+    <meta property="og:title" content="Webinar CreSertec: Manejo del STB Qinaya y LibreOffice Calc">
+    <meta property="og:description" content="Viernes 16 de Octubre • 5:30 p.m. a 7:00 p.m. Hora y media para dominar tu equipo Qinaya y gestionar las finanzas de tu emprendimiento.">
+    <meta property="og:image" content="https://hernana71.github.io/kit-bienvenida-qinaya/capacitacion_stb_qinaya_cresertec.png">
+    <meta property="og:type" content="website">
+
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #004aad;
+            --primary-dark: #002d6b;
+            --creser-teal: #0284c7;
+            --creser-green: #10b981;
+            --accent-orange: #f97316;
+            --bg-page: #0b192c;
+            --bg-card: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border-light: #e2e8f0;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #071322 0%, #0c2340 50%, #081729 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 40px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Destellos de fondo sutiles */
+        .ambient-glow-1 {
+            position: absolute;
+            top: -120px;
+            left: 10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 74, 173, 0.3) 0%, rgba(0, 74, 173, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -150px;
+            right: 15%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Contenedor Tarjeta Principal */
+        .invitation-card {
+            background: var(--bg-card);
+            max-width: 860px;
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Barra decorativa superior con los colores del programa */
+        .brand-top-stripe {
+            height: 8px;
+            background: linear-gradient(90deg, #004aad 0%, #0284c7 45%, #10b981 100%);
+        }
+
+        /* Header de la Tarjeta */
+        .card-header {
+            padding: 28px 36px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            background: #ffffff;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-qinaya {
+            height: 44px;
+            object-fit: contain;
+        }
+
+        .logo-cresertec {
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .badge-program {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Cuerpo de la Tarjeta */
+        .card-body {
+            padding: 36px;
+        }
+
+        .event-tag {
+            display: inline-block;
+            background: #eff6ff;
+            color: var(--primary-blue);
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .event-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .event-title span {
+            color: var(--primary-blue);
+        }
+
+        .event-description {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* Grid de Detalles del Evento */
+        .event-details-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .detail-box:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+        }
+
+        .detail-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .detail-icon.blue { background: #eff6ff; color: #2563eb; }
+        .detail-icon.green { background: #ecfdf5; color: #059669; }
+        .detail-icon.orange { background: #fff7ed; color: #ea580c; }
+
+        .detail-content h4 {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .detail-content p {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .detail-content span {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Contador Regresivo */
+        .countdown-container {
+            background: linear-gradient(135deg, #0f2744 0%, #153966 100%);
+            border-radius: var(--radius-md);
+            padding: 18px 24px;
+            margin-bottom: 30px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(15, 39, 68, 0.2);
+        }
+
+        .countdown-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .countdown-title i {
+            color: #38bdf8;
+            font-size: 1.15rem;
+        }
+
+        .countdown-timer {
+            display: flex;
+            gap: 12px;
+        }
+
+        .time-segment {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 58px;
+        }
+
+        .time-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #93c5fd;
+            margin-top: 3px;
+        }
+
+        /* Qué aprenderás */
+        .learning-section {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .learning-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+        }
+
+        .learning-header i {
+            color: #0284c7;
+        }
+
+        .learning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .learning-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .learning-check {
+            width: 22px;
+            height: 22px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .learning-text h5 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .learning-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Botones de Acción */
+        .actions-group {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn-calendar {
+            flex: 1.4;
+            min-width: 260px;
+            background: linear-gradient(135deg, #004aad 0%, #0284c7 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 74, 173, 0.35);
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-calendar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 74, 173, 0.45);
+            background: linear-gradient(135deg, #003b8a 0%, #0369a1 100%);
+        }
+
+        .btn-whatsapp {
+            flex: 1;
+            min-width: 200px;
+            background: #10b981;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            background: #059669;
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid var(--border-light);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        /* Toast / Notificación Copiado */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer de la Tarjeta */
+        .card-footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--border-light);
+            padding: 18px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-footer strong {
+            color: var(--text-dark);
+        }
+
+        .footer-allies {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Estilos de Impresión / Guardar PDF */
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+                margin: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .ambient-glow-1, .ambient-glow-2, .actions-group, .countdown-container {
+                display: none !important;
+            }
+            .invitation-card {
+                box-shadow: none;
+                max-width: 100%;
+                border: 1px solid #cbd5e1;
+                border-radius: 0;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 15mm;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-body { padding: 24px 20px; }
+            .card-header { padding: 20px; }
+            .event-title { font-size: 1.5rem; }
+            .event-details-grid { grid-template-columns: 1fr; }
+            .learning-grid { grid-template-columns: 1fr; }
+            .countdown-container { flex-direction: column; text-align: center; }
+            .actions-group { flex-direction: column; }
+            .btn-calendar, .btn-whatsapp, .btn-secondary { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- TARJETA DE INVITACIÓN -->
+    <main class="invitation-card">
+        <!-- Banda superior de marca -->
+        <div class="brand-top-stripe"></div>
+
+        <!-- Encabezado con Logos de Qinaya y CreSertec -->
+        <header class="card-header">
+            <div class="logo-wrapper">
+                <img src="logo Qinaya.png" alt="Qinaya Logo" class="logo-qinaya" onerror="this.src='https://qinaya.co/wp-content/uploads/2021/04/Logo-Qinaya.png'">
+            </div>
+            
+            <div class="badge-program">
+                <i class="fas fa-handshake"></i> Alianza CreSER Tec &amp; Qinaya
+            </div>
+
+            <div class="logo-wrapper">
+                <img src="logo_cresertec_transparente.png" alt="CreSertec Logo" class="logo-cresertec" onerror="this.style.display='none';">
+            </div>
+        </header>
+
+        <!-- Contenido Central -->
+        <div class="card-body">
+            
+            <div class="event-tag">
+                <i class="fas fa-video"></i> Capacitación Virtual • 100% Práctica
+            </div>
+
+            <h1 class="event-title">
+                Dominio del STB Qinaya y <span>LibreOffice Calc</span> para tu Negocio
+            </h1>
+
+            <p class="event-description">
+                Te invitamos a una sesión práctica de <strong>hora y media</strong> donde aprenderás a dominar tu terminal STB Qinaya y a crear hojas de cálculo profesionales en <strong>LibreOffice Calc</strong> para organizar el inventario, los costos y las finanzas de tu emprendimiento.
+            </p>
+
+            <!-- Datos del Evento -->
+            <div class="event-details-grid">
+                <div class="detail-box">
+                    <div class="detail-icon blue">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h4>Fecha</h4>
+                        <p>Viernes, 16 de Octubre</p>
+                        <span>Año 2026</span>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-icon green">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h4>Horario</h4>
+                        <p>5:30 p.m. – 7:00 p.m.</p>
+                        <span>Hora Colombia (GMT-5)</span>
+                    </div>
+                </div>
+
+                <div class="detail-box">
+                    <div class="detail-icon orange">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <div class="detail-content">
+                        <h4>Duración</h4>
+                        <p>1 Hora y 30 Minutos</p>
+                        <span>Teoría rápida + Práctica</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contador Regresivo -->
+            <div class="countdown-container">
+                <div class="countdown-title">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>Iniciamos en:</span>
+                </div>
+                <div class="countdown-timer">
+                    <div class="time-segment">
+                        <div class="time-value" id="days">--</div>
+                        <div class="time-label">Días</div>
+                    </div>
+                    <div class="time-segment">
+                        <div class="time-value" id="hours">--</div>
+                        <div class="time-label">Horas</div>
+                    </div>
+                    <div class="time-segment">
+                        <div class="time-value" id="minutes">--</div>
+                        <div class="time-label">Min</div>
+                    </div>
+                    <div class="time-segment">
+                        <div class="time-value" id="seconds">--</div>
+                        <div class="time-label">Seg</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lo que aprenderás -->
+            <div class="learning-section">
+                <div class="learning-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>¿Qué aprenderás en esta capacitación?</span>
+                </div>
+                <div class="learning-grid">
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>Manejo Eficaz del STB Qinaya</h5>
+                            <p>Arranque, navegación fluida, conexión estable y uso de aplicaciones locales vs. nube.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>LibreOffice Calc desde Cero</h5>
+                            <p>Conoce la alternativa profesional y gratuita a Excel incluida en tu STB.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>Control de Ingresos y Egresos</h5>
+                            <p>Diseño de una plantilla sencilla para registrar las ventas y gastos de tu negocio.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>Cotizaciones y Márgenes de Ganancia</h5>
+                            <p>Fórmulas clave para calcular precios de venta, costos y descuentos con precisión.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>Respaldo y Exportación en PDF</h5>
+                            <p>Guarda tus archivos de manera segura y genera reportes para tus clientes.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-item">
+                        <div class="learning-check"><i class="fas fa-check"></i></div>
+                        <div class="learning-text">
+                            <h5>Sesión en Vivo de Preguntas</h5>
+                            <p>Resolución de dudas en tiempo real con el equipo técnico de Qinaya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción (Calendar, WhatsApp, Copiar, PDF) -->
+            <div class="actions-group">
+                <!-- Enlace Directo de Google Calendar -->
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Capacitaci%C3%B3n+CreSertec%3A+Manejo+del+STB+Qinaya+y+LibreOffice+Calc+para+tu+Emprendimiento&dates=20261016T223000Z%2F20261017T000000Z&details=Webinar+pr%C3%A1ctico+de+1+hora+y+30+minutos+para+beneficiarios+del+programa+CreSertec+%28Buma+%26+CCC%29.%0A%0AAprende+a+dominar+tu+terminal+STB+Qinaya+y+a+utilizar+LibreOffice+Calc+como+herramienta+eficaz+para+el+control+financiero%2C+inventario%2C+precios+y+cotizaciones+de+tu+negocio+o+emprendimiento.%0A%0AOrganizan%3A+CreSertec%2C+C%C3%A1mara+de+Comercio+de+Cali%2C+Buma+y+Qinaya.&location=Sesi%C3%B3n+Virtual+%28Enlace+de+Transmisi%C3%B3n+Qinaya+%2F+CreSertec%29&ctz=America%2FBogota" 
+                   target="_blank" 
+                   class="btn-calendar" 
+                   id="btnCalendar">
+                    <i class="fas fa-calendar-plus"></i> Agendar en Google Calendar
+                </a>
+
+                <!-- Compartir por WhatsApp -->
+                <a href="https://api.whatsapp.com/send?text=%F0%9F%93%A2%20%2AInvitaci%C3%B3n%20Especial%20CreSertec%2A%0A%0A%F0%9F%92%BB%20%2AWebinar%3A%20Manejo%20del%20STB%20Qinaya%20y%20LibreOffice%20Calc%20para%20tu%20Emprendimiento%2A%0A%0AAprende%20en%20hora%20y%20media%20a%20dominar%20tu%20equipo%20Qinaya%20y%20a%20manejar%20las%20finanzas%2C%20costos%20y%20cotizaciones%20de%20tu%20negocio%20con%20hojas%20de%20c%C3%A1lculo.%0A%0A%F0%9F%93%85%20%2AFecha%3A%2A%20Viernes%2C%2016%20de%20Octubre%20de%202026%0A%E2%8F%B0%20%2AHora%3A%2A%205%3A30%20p.m.%20a%207%3A00%20p.m.%0A%F0%9F%93%8D%20%2AEnlace%20del%20evento%20y%20agendamiento%3A%2A%20https%3A%2F%2Fhernana71.github.io%2Fkit-bienvenida-qinaya%2Finvitacion_webinar_cresertec.html" 
+                   target="_blank" 
+                   class="btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Compartir por WhatsApp
+                </a>
+
+                <!-- Copiar Enlace -->
+                <button type="button" class="btn-secondary" onclick="copyInviteLink()">
+                    <i class="fas fa-link"></i> Copiar Link
+                </button>
+
+                <!-- Guardar a PDF -->
+                <button type="button" class="btn-secondary" onclick="window.print()">
+                    <i class="fas fa-print"></i> Guardar Tarjeta
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Footer Oficial -->
+        <footer class="card-footer">
+            <div>
+                <strong>Programa CreSER Tec</strong> &bull; Fortaleciendo pequeños empresarios y emprendedores
+            </div>
+            <div class="footer-allies">
+                <span>Aliados: <strong>Buma</strong> &bull; <strong>Cámara de Comercio de Cali (CCC)</strong></span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Notificación Flotante de Copiado -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle" style="color: #10b981;"></i> ¡Enlace copiado al portapapeles!
+    </div>
+
+    <!-- Script de Interactividad -->
+    <script>
+        // Cuenta Regresiva al 16 de Octubre de 2026 a las 5:30 p.m. (Hora Colombia)
+        // 17:30 UTC-5 = 22:30 UTC
+        const targetDate = new Date('2026-10-16T17:30:00-05:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Función para copiar el enlace
+        function copyInviteLink() {
+            const currentUrl = window.location.href;
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                showToast();
+            }).catch(() => {
+                // Fallback
+                const dummy = document.createElement('input');
+                document.body.appendChild(dummy);
+                dummy.value = currentUrl;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
