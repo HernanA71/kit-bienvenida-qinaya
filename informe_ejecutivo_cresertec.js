@@ -245,8 +245,8 @@ async function loadData() {
 function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null) {
     // 1. Metas del Programa e Inventario
     const metaPrograma = 1000;
-    let totalEntregados = 1000; // Según API numInstalled o computers
-    if (currentOrg && currentOrg.computers && currentOrg.computers[0]) {
+    let totalEntregados = 923; // 923 entregados según actas de entrega
+    if (currentOrg && currentOrg.computers && currentOrg.computers[0] && Number(currentOrg.computers[0]) < 1100) {
         totalEntregados = Number(currentOrg.computers[0]);
     }
 
@@ -329,13 +329,19 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
 
     // 4. Actualizar KPIs Principales en UI
     document.getElementById('kpi-meta').textContent = metaPrograma.toLocaleString();
+    const elEntregados = document.getElementById('kpi-entregados');
+    if (elEntregados) elEntregados.textContent = totalEntregados.toLocaleString();
+    const elEntregadosSub = document.getElementById('kpi-entregados-sub');
+    if (elEntregadosSub) elEntregadosSub.textContent = `${((totalEntregados / metaPrograma) * 100).toFixed(1)}% de la meta`;
+
     document.getElementById('kpi-activos').textContent = totalActivos.toLocaleString();
-    document.getElementById('kpi-tasa-activacion').textContent = tasaActivacion.toFixed(1) + '%';
+    const elTasa = document.getElementById('kpi-tasa-activacion');
+    if (elTasa) elTasa.textContent = tasaActivacion.toFixed(1) + '%';
     document.getElementById('kpi-horas').textContent = Math.round(totalHoras).toLocaleString() + ' hrs';
     document.getElementById('kpi-promedio-activos').textContent = promedioDiarioActivos.toFixed(1) + ' hrs';
     const elPromActivosSub = document.getElementById('kpi-promedio-activos-sub');
     if (elPromActivosSub) {
-        elPromActivosSub.innerHTML = `Por STB con uso / día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalActivos.toLocaleString()} equipos activos &middot; ${sumComputersDays.toLocaleString()} equipo-días</span>`;
+        elPromActivosSub.innerHTML = `Por STB con uso / día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalActivos.toLocaleString()} equipos activos</span>`;
     }
     document.getElementById('kpi-promedio-instalados').textContent = promedioDiarioInstalados.toFixed(2) + ' hrs';
 
@@ -405,7 +411,7 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
     renderAppsTable(appsArray.slice(0, 8), totalActivos, daysCount);
 
     // 9. Sitios Web y Categorías CreSER Tec
-    let websArray = Array.isArray(websiteData) ? websiteData : [];
+    let websArray = (Array.isArray(websiteData) ? websiteData : []).filter(w => !/newtab/i.test(w.name));
     websArray.sort((a, b) => b.visits - a.visits);
     renderWebsTable(websArray.slice(0, 10), totalActivos, daysCount);
 

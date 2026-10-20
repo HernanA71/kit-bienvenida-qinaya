@@ -402,7 +402,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     renderAppsTable(appsArray.slice(0, 10), daysCount, totalColegiosInstalados, porcentajeVM);
 
     // 4. Procesar Webs
-    let websArray = Array.isArray(websiteData) ? websiteData : [];
+    let websArray = (Array.isArray(websiteData) ? websiteData : []).filter(w => !/newtab/i.test(w.name));
     websArray.sort((a, b) => b.visits - a.visits);
     renderWebsTable(websArray.slice(0, 10), daysCount, totalColegiosInstalados, porcentajeVM);
 
