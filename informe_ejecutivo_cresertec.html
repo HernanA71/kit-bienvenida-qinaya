@@ -496,7 +496,7 @@
             <div class="summary-item">
                 <h3>Promedio (Activos)</h3>
                 <div class="value" id="kpi-promedio-activos" style="color: #ea580c;">0 hrs</div>
-                <div class="sub">Por STB con uso / día</div>
+                <div class="sub" id="kpi-promedio-activos-sub">Por STB con uso / día</div>
             </div>
             <div class="summary-item">
                 <h3>Promedio (Meta)</h3>
@@ -582,6 +582,7 @@
                         <tr>
                             <th>Programa</th>
                             <th>Horas Totales</th>
+                            <th style="text-align: center;">Equipos</th>
                             <th>Promedio Diario</th>
                             <th>Entorno</th>
                         </tr>
@@ -599,6 +600,7 @@
                         <tr>
                             <th>Sitio Web</th>
                             <th>Horas / Visitas</th>
+                            <th style="text-align: center;">Equipos</th>
                             <th>Promedio Diario</th>
                             <th>Enfoque</th>
                         </tr>
@@ -628,7 +630,7 @@
         </div>
 
         <!-- Diagnóstico de Red -->
-        <div class="network-section">
+        <div class="network-section" id="networkSection">
             <h2 class="doc-section-title">
                 <i class="fas fa-wifi" style="color: #0284c7;"></i> Diagnóstico de Conectividad y Telemetría de Red de los STB
             </h2>
@@ -694,6 +696,6 @@
     </div>
 
     <!-- Script de Control -->
-    <script src="informe_ejecutivo_cresertec.js"></script>
+    <script src="informe_ejecutivo_cresertec.js?v=2.0"></script>
 </body>
 </html>

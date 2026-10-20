@@ -308,10 +308,10 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     // Calcular Promedio Diario (Activos e Instalados)
     let promedioDiarioActivos = 0;
     let promedioDiarioInstalados = null; // null si no está presente numInstalled en el JSON (caché o API previa)
+    let sumNumComputers = 0;
 
     if (usageData && usageData.totalUsage) {
         let sumTotalUsage = 0;
-        let sumNumComputers = 0;
         let sumNumInstalled = 0;
         const hasNumInstalled = Array.isArray(usageData.numInstalled) && usageData.numInstalled.length > 0;
 
@@ -348,6 +348,10 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     const elPromDiarioActivos = document.getElementById('kpi-promedio-diario');
     if (elPromDiarioActivos) {
         elPromDiarioActivos.textContent = promedioDiarioActivos.toFixed(1) + ' hrs';
+    }
+    const elPromDiarioActivosSub = document.getElementById('kpi-promedio-diario-sub');
+    if (elPromDiarioActivosSub) {
+        elPromDiarioActivosSub.innerHTML = `Por equipo con uso al día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalEquiposActivos.toLocaleString()} equipos activos &middot; ${sumNumComputers.toLocaleString()} equipo-días</span>`;
     }
 
     // KPI Promedio Diario (Instalados) - NUEVO
@@ -387,8 +391,10 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
         for (let i = 0; i < appsData.progams.length; i++) {
             let name = appsData.progams[i];
             let hours = appsData.usage[i] || 0;
+            let computers = (appsData.computers && appsData.computers[i]) ? appsData.computers[i] : 0;
+            let computerDays = (appsData.computerDays && appsData.computerDays[i]) ? appsData.computerDays[i] : 0;
             if (!systemAppsRegex.test(name)) {
-                appsArray.push({ name, hours });
+                appsArray.push({ name, hours, computers, computerDays });
             }
         }
     }
@@ -552,11 +558,20 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
 
 function renderAppsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4.0) {
     const tbody = document.getElementById('tableApps');
+    if (!tbody) return;
     tbody.innerHTML = '';
-    const numCol = numColegios > 0 ? numColegios : 32;
     data.forEach(item => {
-        const dailyAvgHours = (item.hours / numCol) / daysCount;
-        let displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+        let displayStr = '—';
+        let displayComputers = '—';
+
+        if (item.computerDays && item.computerDays > 0) {
+            const dailyAvgHours = item.hours / item.computerDays;
+            displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+        }
+
+        if (item.computers && item.computers > 0) {
+            displayComputers = item.computers.toLocaleString();
+        }
 
         const isWindowsVDI = /windows|powerpnt|winword|excel|photoshop|illustrator/i.test(item.name);
         const vmPct = isWindowsVDI ? 100 : Math.round(globalVdiPct);
@@ -575,6 +590,7 @@ function renderAppsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4
         tr.innerHTML = `
             <td><strong>${item.name}</strong> ${badgesHTML}</td>
             <td><span class="status-high">${Math.round(item.hours).toLocaleString()}</span> hrs</td>
+            <td style="text-align: center;"><strong style="color: #0284c7;">${displayComputers}</strong></td>
             <td><span class="status-high">${displayStr}</span></td>
         `;
         tbody.appendChild(tr);
@@ -583,14 +599,23 @@ function renderAppsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4
 
 function renderWebsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4.0) {
     const tbody = document.getElementById('tableWebs');
+    if (!tbody) return;
     tbody.innerHTML = '';
-    const numCol = numColegios > 0 ? numColegios : 32;
     const vmPct = Math.round(globalVdiPct);
     const localPct = Math.max(0, 100 - vmPct);
 
     data.forEach(item => {
-        const dailyAvgHours = (item.visits / numCol) / daysCount;
-        let displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+        let displayStr = '—';
+        let displayComputers = '—';
+
+        if (item.computerDays && item.computerDays > 0) {
+            const dailyAvgHours = item.visits / item.computerDays;
+            displayStr = dailyAvgHours >= 1.0 ? `${dailyAvgHours.toFixed(1)} hrs/día` : `${Math.round(dailyAvgHours * 60)} min/día`;
+        }
+
+        if (item.computers && item.computers > 0) {
+            displayComputers = item.computers.toLocaleString();
+        }
 
         let badgesHTML = '';
         if (vmPct > 0 && localPct > 0) {
@@ -605,6 +630,7 @@ function renderWebsTable(data, daysCount = 1, numColegios = 32, globalVdiPct = 4
         tr.innerHTML = `
             <td><strong>${item.name}</strong> ${badgesHTML}</td>
             <td><span class="status-high">${Math.round(item.visits).toLocaleString()}</span> hrs</td>
+            <td style="text-align: center;"><strong style="color: #0284c7;">${displayComputers}</strong></td>
             <td><span class="status-high">${displayStr}</span></td>
         `;
         tbody.appendChild(tr);
@@ -654,6 +680,7 @@ function renderComputeTypeChart(totalLocal, totalVM) {
 // ============================================
 
 function processNetworkSummary(networkData, daysCount = 1) {
+    const section   = document.getElementById('networkSection');
     const elP50Down = document.getElementById('net-kpi-p50-down');
     const elUnder1M = document.getElementById('net-kpi-under-1m');
     const elP50Lat  = document.getElementById('net-kpi-p50-lat');
@@ -664,19 +691,16 @@ function processNetworkSummary(networkData, daysCount = 1) {
     const hasGlobalData = networkData &&
                           networkData.summary &&
                           networkData.summary.hasData !== false &&
-                          networkData.summary.status !== 'sin datos';
+                          networkData.summary.status !== 'sin datos' &&
+                          networkData.summary.p50LatencyMs !== null &&
+                          networkData.summary.p50LatencyMs !== undefined;
 
     if (!hasGlobalData) {
-        if (elP50Down) elP50Down.textContent = 'Sin datos';
-        if (elUnder1M) elUnder1M.textContent = 'Sin datos';
-        if (elP50Lat)  elP50Lat.textContent = 'Sin datos';
-        if (elOver200) elOver200.textContent = 'Sin datos';
-        if (elMinutes) {
-            elMinutes.textContent = 'Sin datos';
-            const subEl = document.getElementById('net-kpi-minutes-sub') || elMinutes.nextElementSibling;
-            if (subEl) subEl.textContent = 'Sin mediciones útiles en el periodo';
-        }
-    } else {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    if (section) section.style.display = 'block';
         const s = networkData.summary;
         const p50DownVal = s.p50DownloadMbps;
         const pctUnder1  = s.pctUnder1Mbps;
@@ -698,7 +722,6 @@ function processNetworkSummary(networkData, daysCount = 1) {
                 subEl.textContent = `Prom. diario (${Math.round(totalMins).toLocaleString()} min totales en ${totalPcs} PCs)`;
             }
         }
-    }
 
     // Renderizar tabla por colegio
     if (tbody) {

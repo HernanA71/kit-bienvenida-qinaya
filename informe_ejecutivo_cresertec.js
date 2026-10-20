@@ -292,8 +292,8 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
     let maxDAU = 0;
     let sumTotalUsage = 0;
 
+    let sumComputersDays = 0;
     if (usageData && usageData.totalUsage && usageData.totalUsage.length > 0) {
-        let sumComputersDays = 0;
         let sumInstalledDays = 0;
 
         for (let i = 0; i < usageData.totalUsage.length; i++) {
@@ -333,6 +333,10 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
     document.getElementById('kpi-tasa-activacion').textContent = tasaActivacion.toFixed(1) + '%';
     document.getElementById('kpi-horas').textContent = Math.round(totalHoras).toLocaleString() + ' hrs';
     document.getElementById('kpi-promedio-activos').textContent = promedioDiarioActivos.toFixed(1) + ' hrs';
+    const elPromActivosSub = document.getElementById('kpi-promedio-activos-sub');
+    if (elPromActivosSub) {
+        elPromActivosSub.innerHTML = `Por STB con uso / día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalActivos.toLocaleString()} equipos activos &middot; ${sumComputersDays.toLocaleString()} equipo-días</span>`;
+    }
     document.getElementById('kpi-promedio-instalados').textContent = promedioDiarioInstalados.toFixed(2) + ' hrs';
 
     // 5. Segmentación por Franjas de Uso
@@ -390,8 +394,10 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
         for (let i = 0; i < appsData.progams.length; i++) {
             let name = appsData.progams[i];
             let hours = appsData.usage[i] || 0;
+            let computers = (appsData.computers && appsData.computers[i]) ? appsData.computers[i] : 0;
+            let computerDays = (appsData.computerDays && appsData.computerDays[i]) ? appsData.computerDays[i] : 0;
             if (!systemAppsRegex.test(name)) {
-                appsArray.push({ name, hours });
+                appsArray.push({ name, hours, computers, computerDays });
             }
         }
     }
@@ -600,13 +606,22 @@ function renderAppsTable(apps, totalActivos, daysCount) {
     tbody.innerHTML = '';
 
     if (apps.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #94a3b8;">Sin registros de programas</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Sin registros de programas</td></tr>';
         return;
     }
 
     apps.forEach(a => {
-        const dailyAvg = (totalActivos > 0 && daysCount > 0) ? (a.hours / totalActivos / daysCount) : 0;
-        const displayAvg = dailyAvg >= 1.0 ? `${dailyAvg.toFixed(1)} hrs/día` : `${Math.round(dailyAvg * 60)} min/día`;
+        let displayAvg = '—';
+        let displayComputers = '—';
+
+        if (a.computerDays && a.computerDays > 0) {
+            const dailyAvg = a.hours / a.computerDays;
+            displayAvg = dailyAvg >= 1.0 ? `${dailyAvg.toFixed(1)} hrs/día` : `${Math.round(dailyAvg * 60)} min/día`;
+        }
+
+        if (a.computers && a.computers > 0) {
+            displayComputers = a.computers.toLocaleString();
+        }
 
         let icon = 'fa-desktop';
         if (/chrome|firefox|opera/i.test(a.name)) icon = 'fa-globe';
@@ -618,6 +633,7 @@ function renderAppsTable(apps, totalActivos, daysCount) {
         tr.innerHTML = `
             <td><i class="fas ${icon}" style="color: #2563eb; width: 18px;"></i> <strong>${a.name}</strong></td>
             <td><strong style="color: #047857;">${Math.round(a.hours).toLocaleString()} hrs</strong></td>
+            <td style="text-align: center;"><strong style="color: #0284c7;">${displayComputers}</strong></td>
             <td><span style="color: #475569; font-weight: 600;">${displayAvg}</span></td>
             <td><span class="badge" style="background: #f1f5f9; color: #475569;">STB Local</span></td>
         `;
@@ -631,13 +647,22 @@ function renderWebsTable(webs, totalActivos, daysCount) {
     tbody.innerHTML = '';
 
     if (webs.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #94a3b8;">Sin registros de navegación web</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #94a3b8;">Sin registros de navegación web</td></tr>';
         return;
     }
 
     webs.forEach(w => {
-        const dailyAvg = (totalActivos > 0 && daysCount > 0) ? (w.visits / totalActivos / daysCount) : 0;
-        const displayAvg = dailyAvg >= 1.0 ? `${dailyAvg.toFixed(1)} hrs/día` : `${Math.round(dailyAvg * 60)} min/día`;
+        let displayAvg = '—';
+        let displayComputers = '—';
+
+        if (w.computerDays && w.computerDays > 0) {
+            const dailyAvg = w.visits / w.computerDays;
+            displayAvg = dailyAvg >= 1.0 ? `${dailyAvg.toFixed(1)} hrs/día` : `${Math.round(dailyAvg * 60)} min/día`;
+        }
+
+        if (w.computers && w.computers > 0) {
+            displayComputers = w.computers.toLocaleString();
+        }
 
         let badge = '<span class="badge" style="background: #f1f5f9; color: #475569;">General</span>';
         if (/campus\.ccc/i.test(w.name)) {
@@ -656,6 +681,7 @@ function renderWebsTable(webs, totalActivos, daysCount) {
         tr.innerHTML = `
             <td><strong>${w.name}</strong></td>
             <td><strong style="color: #0284c7;">${Math.round(w.visits).toLocaleString()} hrs</strong></td>
+            <td style="text-align: center;"><strong style="color: #0284c7;">${displayComputers}</strong></td>
             <td><span style="color: #475569; font-weight: 600;">${displayAvg}</span></td>
             <td>${badge}</td>
         `;
@@ -732,20 +758,25 @@ function renderEcosystemCategories(webs, apps) {
 }
 
 function processNetworkQuality(networkData, daysCount = 1) {
+    const section   = document.getElementById('networkSection');
     const elP50Down = document.getElementById('net-kpi-p50-down');
     const elUnder1M = document.getElementById('net-kpi-under-1m');
     const elP50Lat  = document.getElementById('net-kpi-p50-lat');
     const elOver200 = document.getElementById('net-kpi-over-200ms');
 
-    const hasData = networkData && networkData.summary && networkData.summary.hasData !== false;
+    const hasData = networkData && 
+                    networkData.summary && 
+                    networkData.summary.hasData !== false &&
+                    networkData.summary.status !== 'sin datos' &&
+                    networkData.summary.p50LatencyMs !== null &&
+                    networkData.summary.p50LatencyMs !== undefined;
 
     if (!hasData) {
-        if (elP50Down) elP50Down.textContent = 'Sin datos';
-        if (elUnder1M) elUnder1M.textContent = 'Sin datos';
-        if (elP50Lat)  elP50Lat.textContent  = 'Sin datos';
-        if (elOver200) elOver200.textContent = 'Sin datos';
+        if (section) section.style.display = 'none';
         return;
     }
+
+    if (section) section.style.display = 'block';
 
     const s = networkData.summary;
     const p50Down = s.p50DownloadMbps;
