@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Script para generar el documento oficial en Word (.docx) del:
-'Módulo de Computación en la Nube: Capacitación Docente y Revitalización de Equipos Escolares'
+'Módulo de Computación en la Nube: Capacitación Docente y Revitalización con Sentido Pedagógico'
 Para Qinaya.
 """
 
@@ -72,7 +72,6 @@ def add_callout_box(doc, title, text, border_color="1E5BA8", bg_color="F1F5F9"):
     run_b.font.size = Pt(10)
     run_b.font.color.rgb = RGBColor(51, 65, 85)
     
-    # Espacio tras la tabla
     p_after = doc.add_paragraph()
     p_after.paragraph_format.space_before = Pt(4)
     p_after.paragraph_format.space_after = Pt(4)
@@ -100,7 +99,7 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
         footer = s.footer
         fp = footer.paragraphs[0]
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        frun = fp.add_run("Programa de Capacitación Docente y Revitalización Digital • 2026")
+        frun = fp.add_run("Capacitación Docente, Empleabilidad y Revitalización con Propósito • 2026")
         frun.font.name = "Calibri"
         frun.font.size = Pt(8.5)
         frun.font.color.rgb = RGBColor(148, 163, 184)
@@ -111,7 +110,7 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     p_pre = doc.add_paragraph()
     p_pre.paragraph_format.space_before = Pt(10)
     p_pre.paragraph_format.space_after = Pt(4)
-    run_badge = p_pre.add_run("QINAYA EDUCACIÓN DIGITAL • CAPACITACIÓN INSTITUCIONAL")
+    run_badge = p_pre.add_run("QINAYA EDUCACIÓN DIGITAL • INNOVACIÓN CURRICULAR")
     run_badge.font.name = "Calibri"
     run_badge.font.size = Pt(10)
     run_badge.font.bold = True
@@ -131,7 +130,7 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     p_sub = doc.add_paragraph()
     p_sub.paragraph_format.space_before = Pt(0)
     p_sub.paragraph_format.space_after = Pt(18)
-    run_sub = p_sub.add_run("Guía Docente de Revitalización de Equipos Escolares con Qinaya Linux, Computadores Virtuales y Herramientas de Nube")
+    run_sub = p_sub.add_run("De la Caja al Centro de Datos: Revitalización Escolar, Empleabilidad Juvenil y Ciudadanía Digital")
     run_sub.font.name = "Calibri"
     run_sub.font.size = Pt(13)
     run_sub.font.color.rgb = RGBColor(71, 85, 105)
@@ -140,16 +139,16 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     meta_table = doc.add_table(rows=4, cols=2)
     meta_table.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_data = [
-        ("Destinatarios:", "Docentes de Tecnología, Informática y Áreas Técnicas del Colegio"),
-        ("Duración Total:", "3 Sesiones Teórico-Prácticas (Intensidad total: 7.5 Horas)"),
-        ("Modelo Pedagógico:", "Train the Trainer (Aprende el Docente y Replica en el Aula con los Estudiantes)"),
-        ("Tecnologías Centrales:", "Qinaya Linux (SO Liviano), Computadores Virtuales en la Nube, Rufus, Dropbox y MEGA")
+        ("Audiencia y Destinatarios:", "Docentes de Tecnología, Informática y Líderes de Clubes Técnicos Escolares"),
+        ("Duración e Intensidad:", "3 Sesiones Formativas (7.5 Horas de Taller Práctico y Pedagógico)"),
+        ("Filosofía de Aprendizaje:", "Abrir con el Mundo (IA, Streaming, Realidad) y Cerrar con el Oficio (Empleabilidad TI)"),
+        ("Ecosistema Tecnológico:", "Qinaya Linux (~450MB RAM en reposo), Computador Virtual Seguro y Almacenamiento Institucional")
     ]
     for i, (k, v) in enumerate(meta_data):
         row = meta_table.rows[i]
         c0, c1 = row.cells[0], row.cells[1]
-        c0.width = Inches(2.0)
-        c1.width = Inches(4.5)
+        c0.width = Inches(2.2)
+        c1.width = Inches(4.3)
         set_cell_background(c0, "F8FAFC")
         set_cell_background(c1, "F1F5F9")
         set_cell_margins(c0, top=60, bottom=60, left=100, right=100)
@@ -174,37 +173,54 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     h1 = doc.add_heading(level=1)
     h1.paragraph_format.space_before = Pt(16)
     h1.paragraph_format.space_after = Pt(8)
-    r_h1 = h1.add_run("1. Introducción y Enfoque Pedagógico")
+    r_h1 = h1.add_run("1. El Diagnóstico y el Enfoque Pedagógico: Más Allá del Manual")
     r_h1.font.name = "Calibri"
     r_h1.font.color.rgb = RGBColor(30, 91, 168)
 
     p_intro = doc.add_paragraph()
     p_intro.paragraph_format.space_after = Pt(10)
     p_intro.add_run(
-        "Las instituciones educativas cuentan con profesores altamente capacitados que ya conocen el mantenimiento físico de computadores "
-        "(limpieza de partes, verificación de hardware y ensamble). Sin embargo, las salas de cómputo enfrentan una problemática recurrente: "
-        "computadores con 8 a 12 años de uso que ya no soportan los sistemas operativos tradicionales ni sus constantes actualizaciones pesadas, "
-        "volviendo la experiencia de clase lenta y frustrante tanto para el docente como para el estudiante.\n\n"
-        "Frente a este escenario, la respuesta tradicional suele ser declarar los equipos obsoletos y solicitar cuantiosos presupuestos para reemplazarlos. "
-        "El presente Módulo de Computación en la Nube propone un camino diferente e innovador desarrollado por Qinaya: revitalizar esos mismos equipos "
-        "sin exigir especificaciones de hardware local, combinando un sistema operativo ultra liviano (Qinaya Linux) con la potencia de computadores en la nube "
-        "y un ecosistema colaborativo de almacenamiento digital."
+        "Enseñar tecnología no puede reducirse a memorizar una secuencia de botones (abrir Rufus, presionar F9 o sincronizar carpetas). "
+        "Cuando un estudiante de noveno o décimo grado entra a la sala de informática, necesita una historia con sentido: ¿Por qué esto le importa a su vida hoy? "
+        "¿Cómo se conecta con la música que escucha, los videojuegos que juega o la Inteligencia Artificial de la que todos hablan? Y, sobre todo, "
+        "¿cómo le abre las puertas a su futuro laboral?\n\n"
+        "Este módulo está diseñado bajo una premisa pedagógica clara: CADA SESIÓN ABRE CON EL MUNDO Y CIERRA CON EL OFICIO. "
+        "Primero, se contextualiza por qué la computación dejó de estar atrapada 'dentro de la caja' física del PC y cómo la nube domina el panorama actual. "
+        "Luego, se aterriza en el oficio técnico real: el soporte de infraestructura, la administración básica de servicios en la nube y la ciberseguridad "
+        "son hoy los escalones de entrada más accesibles y demandados para el primer empleo de un joven graduado. El paso a paso técnico queda, "
+        "pero como un medio para empoderar al estudiante, no como un fin mecánico."
     )
 
     add_callout_box(
         doc,
-        "La Gran Ecuación de la Revitalización Qinaya:",
-        "Equipo Escolar Antiguo + Sistema Liviano (<450MB RAM) + Computador Virtual en la Nube = Estación de Trabajo Rápida, Segura y Libre de Virus.",
+        "Articulación con los Clubes Técnicos Escolares:",
+        "Los colegios cuentan con docentes y Clubes Técnicos que ya enseñan a desarmar, limpiar y reparar hardware. "
+        "Este módulo no compite con ese conocimiento: arranca exactamente donde el Club Técnico termina. "
+        "El piloto de Qinaya con la Secretaría de Educación de Bogotá (SED) dejó una lección contundente: 'La nube no salva un equipo con hardware en mal estado'. "
+        "Si un disco tiene sectores dañados o la placa madre falla, la nube no hace milagros. "
+        "Por eso, el triaje técnico se convierte en un ejercicio de pensamiento crítico e ingeniería: decidir con rigor si un computador es candidato viable "
+        "para una segunda vida o si debe canalizarse a reciclaje responsable de e-waste.",
         border_color="0284C7",
         bg_color="E0F2FE"
     )
 
-    # Metodología Aprende y Replica
-    p_met = doc.add_paragraph()
-    p_met.paragraph_format.space_after = Pt(12)
-    p_met.add_run(
-        "El módulo está estructurado bajo la metodología 'Aprende y Replica': cada sesión está diseñada para que el docente adquiera el dominio técnico "
-        "y conceptual, y cuente a la vez con retos de laboratorio estructurados para aplicar directamente con sus estudiantes en el aula de clases."
+    p_librada = doc.add_paragraph()
+    p_librada.paragraph_format.space_after = Pt(12)
+    p_librada.add_run(
+        "Como prueba de concepto real, el módulo adopta casos tangibles de colegios públicos de Bogotá. El ejemplo del Colegio Santa Librada, "
+        "donde un aula de 36 computadores revitalizados lleva más de 24 meses de servicio ininterrumpido sin fallas críticas, "
+        "sirve como testimonio vivo para los estudiantes de que la economía circular y la computación en la nube transforman realidades."
+    )
+
+    # Parámetros técnicos unificados
+    add_callout_box(
+        doc,
+        "Estándar Técnico Unificado para Revitalización Qinaya:",
+        "• Requisitos mínimos de la máquina física candidata: Procesador de 2 núcleos (arquitectura x64), mínimo 1 GB de memoria RAM (óptimo 2 GB) y al menos 10 GB a 16 GB de almacenamiento en disco.\n"
+        "• Consumo del sistema base: Qinaya Linux requiere apenas ~450 MB de memoria RAM en reposo, garantizando arranques en menos de 35 a 40 segundos en discos mecánicos convencionales.\n"
+        "• Seguridad operativa: Incompatibilidad nativa con malware y ejecutables típicos de Windows (.exe, .vbs, gusanos de USB), protegiendo la sala de informática de forma preventiva.",
+        border_color="EA580C",
+        bg_color="FFF7ED"
     )
 
     # ==========================================
@@ -214,18 +230,16 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     h2_s1 = doc.add_heading(level=1)
     h2_s1.paragraph_format.space_before = Pt(14)
     h2_s1.paragraph_format.space_after = Pt(6)
-    r_s1 = h2_s1.add_run("2. Sesión 1: Sistemas Operativos Livianos, Qinaya Linux y el Computador en la Nube")
+    r_s1 = h2_s1.add_run("2. Sesión 1: ¿Dónde Vive Hoy la Computación? (Nube, IA y de la Caja al Centro de Datos)")
     r_s1.font.name = "Calibri"
     r_s1.font.color.rgb = RGBColor(30, 91, 168)
 
     p_s1_meta = doc.add_paragraph()
     p_s1_meta.paragraph_format.space_after = Pt(10)
-    r_dur1 = p_s1_meta.add_run("Duración estimada: ")
-    r_dur1.bold = True
+    p_s1_meta.add_run("Duración: ").bold = True
     p_s1_meta.add_run("2 Horas  |  ")
-    r_enf1 = p_s1_meta.add_run("Enfoque: ")
-    r_enf1.bold = True
-    p_s1_meta.add_run("Fundamentación teórica, especificaciones de Qinaya Linux y exploración del entorno dual (local vs. virtual).")
+    p_s1_meta.add_run("El Gancho: ").bold = True
+    p_s1_meta.add_run("El estudiante descubre que ya usa la nube todos los días sin saberlo. Del celular al supercomputador remoto.")
 
     # 2.1 Objetivos de Aprendizaje
     h3 = doc.add_heading(level=2)
@@ -236,20 +250,17 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
 
     obj_s1_table = doc.add_table(rows=2, cols=2)
     obj_s1_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    # Headers
     h_c0, h_c1 = obj_s1_table.rows[0].cells[0], obj_s1_table.rows[0].cells[1]
     h_c0.width, h_c1.width = Inches(3.25), Inches(3.25)
     set_cell_background(h_c0, "1E5BA8")
     set_cell_background(h_c1, "EA580C")
     set_cell_margins(h_c0, 80, 80, 100, 100)
     set_cell_margins(h_c1, 80, 80, 100, 100)
-    p_h0 = h_c0.paragraphs[0]
-    p_h0.add_run("Objetivos para el Docente").font.bold = True
-    p_h0.runs[0].font.color.rgb = RGBColor(255, 255, 255)
-    p_h1 = h_c1.paragraphs[0]
-    p_h1.add_run("Objetivos de Transferencia a Estudiantes").font.bold = True
-    p_h1.runs[0].font.color.rgb = RGBColor(255, 255, 255)
-    # Body
+    h_c0.paragraphs[0].add_run("Objetivos para el Docente").font.bold = True
+    h_c0.paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
+    h_c1.paragraphs[0].add_run("Objetivos de Transferencia a Estudiantes").font.bold = True
+    h_c1.paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255)
+    
     b_c0, b_c1 = obj_s1_table.rows[1].cells[0], obj_s1_table.rows[1].cells[1]
     set_cell_background(b_c0, "F8FAFC")
     set_cell_background(b_c1, "FFF7ED")
@@ -257,53 +268,57 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     set_cell_margins(b_c1, 100, 100, 120, 120)
     
     b_c0.paragraphs[0].add_run(
-        "• Diferenciar entre procesamiento local en la máquina física y computación virtual en la nube.\n"
-        "• Conocer las especificaciones técnicas de Qinaya Linux (<450MB de RAM y arranque en <35s).\n"
-        "• Dominar el discurso pedagógico para motivar a los estudiantes sobre el poder del software libre y la nube."
+        "• Guiar la discusión reflexiva sobre cómo la nube y la IA redefinieron el concepto de hardware.\n"
+        "• Conectar el caso del Colegio Santa Librada como evidencia de sostenibilidad y éxito en el sector público.\n"
+        "• Explicar la arquitectura dual de Qinaya Linux: soporte local para robótica escolar y acceso directo a la nube."
     ).font.size = Pt(9.5)
     
     b_c1.paragraphs[0].add_run(
-        "• Desmitificar la necesidad de computadores nuevos costosos para aprender tecnología avanzada.\n"
-        "• Manejar la interfaz amigable de Qinaya Linux y sus aplicaciones locales.\n"
-        "• Autenticarse e iniciar sesión en el Computador Virtual de Qinaya desde el Launcher."
+        "• Descubrir que sus aplicaciones favoritas (TikTok, Spotify, ChatGPT) no corren en su teléfono, sino en centros de datos remotos.\n"
+        "• Entender qué es un Computador Virtual y por qué no depende de la 'caja' vieja que tienen al frente.\n"
+        "• Reconocer el rol del Técnico de Soporte Cloud como una opción real y alcanzable de empleo formal."
     ).font.size = Pt(9.5)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(8)
 
-    # 2.2 Conceptos Clave
+    # 2.2 Desarrollo Temático
     h3 = doc.add_heading(level=2)
     h3.paragraph_format.space_before = Pt(10)
     h3.paragraph_format.space_after = Pt(6)
-    r_conc1 = h3.add_run("2.2 Conceptos Clave y Documentación")
+    r_conc1 = h3.add_run("2.2 Desarrollo Temático: La Descentralización del Cómputo")
     r_conc1.font.color.rgb = RGBColor(2, 132, 199)
 
     doc.add_paragraph(
-        "A. ¿Qué es un Sistema Operativo Liviano?\n"
-        "Es una distribución construida sobre el kernel de Linux depurada de procesos comerciales superfluos, indexación pesada y telemetría de rastreo. "
-        "A diferencia de Windows 10/11 que satura la memoria RAM y el disco duro mecánico al 100%, Qinaya Linux deja el hardware en reposo absoluto, "
-        "permitiendo que toda la máquina esté disponible para la navegación y la conexión de red.\n\n"
-        "B. El Ecosistema Dual de Qinaya Linux:\n"
-        "Qinaya Linux no es una terminal ciega; integra dos capas complementarias:\n"
-        "1. Capa Local: Incluye un navegador web ágil preinstalado, utilidades de diagnóstico de conectividad (Ethernet/WiFi), selector de resolución y "
-        "soporte nativo para periféricos educativos (cámaras web, diademas con audio y micro, y reconocimiento de placas de robótica como Arduino y BBC Micro:bit).\n"
-        "2. Capa Virtual (La Nube): Un icono en el escritorio abre el Launcher de Qinaya. Al introducir sus credenciales escolares, el usuario se conecta "
-        "en pantalla completa a una máquina virtual robusta con abundante RAM y capacidad de procesamiento para suites de ofimática, edición y programación.\n\n"
-        "C. Ventajas de Trabajar en el Computador Virtual:\n"
-        "• Rendimiento uniforme: Todos los estudiantes disfrutan de la misma velocidad sin importar el año del computador físico.\n"
-        "• Protección contra desconfiguraciones: Si el alumno comete un error grave en la sesión, la máquina virtual se reinicia a su estado óptimo de fábrica en segundos."
+        "A. El Mito de 'La Caja': ¿Dónde Ocurre la Magia?\n"
+        "Durante décadas se enseñó que el poder de un computador dependía del tamaño de su torre y la marca de sus chips. "
+        "Hoy, la revolución de los modelos de Inteligencia Artificial y las plataformas de streaming ha cambiado las reglas del juego: "
+        "los cálculos pesados ocurren en centros de datos distribuidos en todo el planeta. La máquina que el usuario toca es simplemente una "
+        "interfaz de visualización y control (Cliente Ligero o Thin Client).\n\n"
+        "B. El Caso del Colegio Santa Librada (Bogotá):\n"
+        "En lugar de hablar de teorías abstractas sobre sistemas operativos, el docente presenta la historia real de la sala de cómputo del Colegio "
+        "Santa Librada: 36 equipos descartados que fueron reactivados con la solución de Qinaya y que hoy acumulan más de dos años de trabajo "
+        "escolar continuo, ejecutando software educativo sin que los colegios hayan gastado en renovar sus torres.\n\n"
+        "C. Qinaya Linux y las Capacidades Locales:\n"
+        "Un sistema operativo liviano de última generación no limita al estudiante: le da autonomía. Qinaya Linux mantiene un entorno local con navegador web "
+        "ligero y soporte nativo para puertos USB, permitiendo programar placas físicas de robótica escolar como Arduino o BBC Micro:bit, "
+        "mientras que su lanzador institucional (Launcher) abre la puerta a un computador virtual con toda la suite de ofimática y software educativo.\n\n"
+        "D. El Oficio: El Primer Escalón en Tecnología:\n"
+        "El soporte de computación en la nube (Cloud Help Desk) es una de las áreas con mayor escasez de talento junior en América Latina. "
+        "Aprender cómo se autentica una sesión remota, cómo se gestiona la latencia y cómo se conectan los periféricos es la antesala técnica "
+        "para certificaciones internacionales y empleo formal."
     )
 
-    # 2.3 Ejercicio Práctico Estudiantes
+    # 2.3 Reto Estudiantil #1
     add_callout_box(
         doc,
-        "Reto Estudiantil #1: 'Explorando la Nube con Qinaya'",
-        "Actividad de Aula para Estudiantes:\n"
-        "1. Encender el computador con Qinaya Linux y cronometrar con un reloj el tiempo hasta ver el escritorio (meta de clase: menos de 40 segundos).\n"
-        "2. Abrir el navegador web local y comprobar la navegación por un portal de investigación escolar.\n"
-        "3. Conectar una memoria USB o diadema con micrófono y verificar la detección inmediata de sonido.\n"
-        "4. Abrir el Launcher de Qinaya, iniciar sesión con su usuario y acceder al escritorio virtual en la nube.\n"
-        "5. Abrir la suite ofimática en la nube y redactar una breve comparación.\n\n"
-        "Entregable del Estudiante: Ficha técnica estudiantil comparando la velocidad de arranque y las aplicaciones abiertas en local vs. virtual.",
+        "Reto Estudiantil #1: 'El Mapa de la Computación Oculta'",
+        "Actividad de Aula para Estudiantes de 9º/10º:\n"
+        "1. Reflexión en parejas: Mapear 3 aplicaciones que usan a diario (ej. Instagram, Free Fire, Gemini) y responder: ¿Qué parte se ejecuta en mi pantalla y qué parte viaja a un servidor en la nube?\n"
+        "2. Encendido del PC con Qinaya Linux y cronometraje de arranque (verificar arranque veloz en menos de 40 segundos).\n"
+        "3. Conectar una placa de robótica (Arduino/Micro:bit) o diadema y verificar en el sistema local su reconocimiento inmediato.\n"
+        "4. Ejecutar el Launcher institucional de Qinaya e ingresar a su Computador Virtual.\n"
+        "5. Comparar la respuesta del cursor y la resolución frente a una máquina local pesada.\n\n"
+        "Entregable del Estudiante: Infografía o esquema 'De mi Aula al Centro de Datos' + Registro de verificación de acceso a su PC Virtual.",
         border_color="EA580C",
         bg_color="FFF7ED"
     )
@@ -315,16 +330,16 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     h2_s2 = doc.add_heading(level=1)
     h2_s2.paragraph_format.space_before = Pt(14)
     h2_s2.paragraph_format.space_after = Pt(6)
-    r_s2 = h2_s2.add_run("3. Sesión 2: Instalación y Puesta a Punto de Qinaya Linux")
+    r_s2 = h2_s2.add_run("3. Sesión 2: Misión Rescate (Economía Circular, Triaje Crítico e Instalación)")
     r_s2.font.name = "Calibri"
     r_s2.font.color.rgb = RGBColor(30, 91, 168)
 
     p_s2_meta = doc.add_paragraph()
     p_s2_meta.paragraph_format.space_after = Pt(10)
-    p_s2_meta.add_run("Duración estimada: ").bold = True
+    p_s2_meta.add_run("Duración: ").bold = True
     p_s2_meta.add_run("3 Horas  |  ")
-    p_s2_meta.add_run("Enfoque: ").bold = True
-    p_s2_meta.add_run("Creación de medios de arranque con Rufus, configuración de BIOS/UEFI e instalación limpia en disco.")
+    p_s2_meta.add_run("El Enfoque: ").bold = True
+    p_s2_meta.add_run("Pensamiento crítico técnico: la nube no salva hardware roto. Economía circular y puesta a punto con Rufus.")
 
     # 3.1 Objetivos de Aprendizaje
     h3 = doc.add_heading(level=2)
@@ -353,94 +368,62 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     set_cell_margins(b_c1, 100, 100, 120, 120)
     
     b_c0.paragraphs[0].add_run(
-        "• Dominar la herramienta de software libre Rufus para flashear imágenes ISO en memorias USB.\n"
-        "• Aprender los parámetros de BIOS/UEFI (arranque Legacy vs. UEFI y desactivación de Secure Boot).\n"
-        "• Guiar y supervisar el despliegue del sistema operativo en lote en la sala de informática del colegio."
+        "• Articular las habilidades de diagnóstico de hardware previas del Club Técnico con la viabilidad para la nube.\n"
+        "• Enseñar el criterio de decisión: distinguir entre un equipo recuperable (2 núcleos, 1GB RAM) y chatarra no viable.\n"
+        "• Dominar el proceso de flasheo masivo con Rufus e instalación limpia de Qinaya Linux."
     ).font.size = Pt(9.5)
     
     b_c1.paragraphs[0].add_run(
-        "• Conocer qué es una imagen ISO y cómo funciona el arranque de un computador desde un medio externo.\n"
-        "• Aprender a ingresar al Boot Menu de diferentes marcas de computadores sin temor.\n"
-        "• Ejecutar el proceso de instalación guiada de software libre paso a paso."
+        "• Comprender el impacto ambiental de la basura electrónica (e-waste) y la importancia de la economía circular.\n"
+        "• Aprender a tomar decisiones técnicas reales: emitir un veredicto de viabilidad sobre una máquina física.\n"
+        "• Adquirir la destreza práctica de configurar BIOS/Boot Menu e instalar un sistema operativo libre."
     ).font.size = Pt(9.5)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(8)
 
-    # 3.2 Paso a Paso Técnico
+    # 3.2 Desarrollo Temático
     h3 = doc.add_heading(level=2)
     h3.paragraph_format.space_before = Pt(10)
     h3.paragraph_format.space_after = Pt(6)
-    r_conc2 = h3.add_run("3.2 Paso a Paso Técnico: Grabación con Rufus y Configuración de Arranque")
+    r_conc2 = h3.add_run("3.2 Desarrollo Temático: Criterio Técnico y Despliegue en Campo")
     r_conc2.font.color.rgb = RGBColor(2, 132, 199)
 
     doc.add_paragraph(
-        "A. Creación de la Memoria USB Booteable con Rufus:\n"
-        "1. Conectar una memoria USB de al menos 4 GB o 8 GB (advertir que su contenido previo será borrado).\n"
-        "2. Abrir Rufus (herramienta gratuita y portable).\n"
-        "3. En 'Dispositivo', verificar que esté seleccionada la memoria USB correcta.\n"
-        "4. En 'Elección de arranque', hacer clic en 'SELECCIONAR' y elegir el archivo .ISO de Qinaya Linux.\n"
-        "5. Esquema de partición: Si el PC del colegio es antiguo (BIOS tradicional), seleccionar 'MBR'. Si el equipo cuenta con UEFI moderno, elegir 'GPT'.\n"
-        "6. Pulsar 'EMPEZAR' y aceptar la opción recomendada 'Escribir en modo imagen ISO'. Esperar a que la barra complete el 100%.\n\n"
-        "B. Ajustes de BIOS/UEFI y Menú de Arranque:\n"
-        "Al encender el computador, presionar de inmediato y de forma repetida la tecla correspondiente a la marca del equipo:"
+        "A. La Gran Lección del Piloto SED: La Nube no Salva Hardware Roto\n"
+        "Uno de los hallazgos más valiosos del trabajo de campo de Qinaya en instituciones distritales de Bogotá fue desmentir la creencia de que "
+        "'la nube revive cualquier cosa'. Si un disco duro mecánico presenta sectores dañados (bad sectors) que generan bloqueos de lectura, "
+        "si los módulos de memoria RAM arrojan errores de paridad o si el procesador se apaga por recalentamiento de pasta térmica vencida, "
+        "el software en la nube se congelará. La nube necesita una base física sana.\n\n"
+        "B. El Triaje Crítico: Decisión de Ingeniería\n"
+        "Por eso, antes de instalar, el estudiante aplica un triaje riguroso. Para que un computador sea candidato a una segunda vida debe cumplir:\n"
+        "• Procesador: Mínimo 2 núcleos con soporte de instrucciones de 64 bits.\n"
+        "• Memoria RAM: Al menos 1 GB físico funcional (2 GB recomendado para multitarea local fluida).\n"
+        "• Disco de almacenamiento: Al menos 10 GB a 16 GB en estado de salud S.M.A.R.T. aceptable.\n"
+        "Si el equipo no supera este umbral, el criterio profesional del estudiante dicta que no debe forzarse: se aprovechan sus piezas útiles "
+        "para reparar otras máquinas y el resto se deriva a reciclaje ambiental certificado.\n\n"
+        "C. El Procedimiento Técnico con Rufus (El Medio para el Fin):\n"
+        "Una vez validado el equipo, los estudiantes preparan su medio de rescate con Rufus:\n"
+        "1. Seleccionar la memoria USB y cargar la imagen ISO oficial de Qinaya Linux.\n"
+        "2. Identificar el esquema de partición: MBR para computadores escolares con BIOS Legacy tradicional, o GPT si la placa soporta UEFI moderno.\n"
+        "3. Grabación en modo imagen ISO y verificación.\n"
+        "4. Configuración de arranque: Desactivar 'Secure Boot' en el BIOS y acceder al Boot Menu (HP: F9/Esc; Lenovo: F12; Dell: F12; Clones: F8/F12).\n"
+        "5. Instalación guiada: Particionado automático Ext4 y creación de partición Swap de soporte de memoria.\n\n"
+        "D. El Oficio: Técnico de Despliegue y Mantenimiento de Campo\n"
+        "Este ejercicio reproduce exactamente lo que hace un técnico de campo o analista de soporte en una empresa al aprovisionar 50 estaciones de trabajo. "
+        "El estudiante no solo instaló un sistema: aprendió despliegue masivo y resolución de incidencias en caliente."
     )
 
-    # Tabla de Teclas de Boot
-    boot_table = doc.add_table(rows=5, cols=3)
-    boot_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    boot_headers = ["Fabricante / Marca", "Tecla Boot Menu (Arranque Rápido)", "Tecla Configuración BIOS"]
-    for j, htext in enumerate(boot_headers):
-        cell = boot_table.rows[0].cells[j]
-        set_cell_background(cell, "1E5BA8")
-        set_cell_margins(cell, 60, 60, 100, 100)
-        p = cell.paragraphs[0]
-        r = p.add_run(htext)
-        r.font.bold = True
-        r.font.size = Pt(9.5)
-        r.font.color.rgb = RGBColor(255, 255, 255)
-    
-    boot_data = [
-        ("HP / Compaq", "F9  (o Esc seguido de F9)", "F10"),
-        ("Lenovo / ThinkCentre", "F12", "F1  /  Enter"),
-        ("Dell / OptiPlex / Vostro", "F12", "F2"),
-        ("Asus / Acer / Clones", "F8  /  F12", "Supr / Del  /  F2")
-    ]
-    for row_idx, data_row in enumerate(boot_data):
-        row = boot_table.rows[row_idx + 1]
-        for col_idx, cell_value in enumerate(data_row):
-            cell = row.cells[col_idx]
-            bg = "F8FAFC" if row_idx % 2 == 0 else "FFFFFF"
-            set_cell_background(cell, bg)
-            set_cell_margins(cell, 50, 50, 100, 100)
-            p = cell.paragraphs[0]
-            r = p.add_run(cell_value)
-            r.font.size = Pt(9)
-            if col_idx == 1:
-                r.font.bold = True
-                r.font.color.rgb = RGBColor(234, 88, 12)
-
-    doc.add_paragraph().paragraph_format.space_after = Pt(8)
-
-    doc.add_paragraph(
-        "C. Instalación en Disco Duro:\n"
-        "1. Seleccionar la memoria USB en el menú de arranque.\n"
-        "2. El instalador de Qinaya Linux cargará automáticamente en pantalla.\n"
-        "3. Seleccionar el idioma Español (Latinoamérica) y distribución de teclado.\n"
-        "4. En tipo de instalación, elegir 'Borrar disco e instalar Qinaya Linux' (configura partición Ext4 y memoria Swap de apoyo).\n"
-        "5. Al finalizar el proceso, retirar la memoria USB y pulsar Enter para reiniciar. ¡El computador escolar ha quedado revitalizado!"
-    )
-
-    # 3.3 Ejercicio Práctico Estudiantes
+    # 3.3 Reto Estudiantil #2
     add_callout_box(
         doc,
-        "Reto Estudiantil #2: 'Misión Rescate: Flasheo e Instalación'",
-        "Actividad de Aula para Estudiantes:\n"
-        "1. En parejas de técnicos escolares, preparar una memoria USB booteable con Rufus y la ISO de Qinaya Linux.\n"
-        "2. Asignar un computador en desuso del colegio e identificar su marca para seleccionar la tecla de arranque.\n"
-        "3. Acceder al BIOS si es necesario y verificar que Secure Boot esté desactivado (Disabled).\n"
-        "4. Ejecutar la instalación completa en disco.\n"
-        "5. Reiniciar, verificar que arranque en menos de 40 segundos y probar auriculares y conexión a internet.\n\n"
-        "Entregable del Estudiante: Acta de Entrega Técnica diligenciada con serial del equipo, tiempo de arranque y firma de conformidad.",
+        "Reto Estudiantil #2: 'Operación Rescate: Del Triaje a la Instalación'",
+        "Actividad de Aula para Estudiantes de 9º/10º:\n"
+        "1. Formar brigadas de soporte técnico de 2 estudiantes y recibir un computador escolar descartado o lento.\n"
+        "2. Aplicar el Triaje Crítico: Encender, entrar al BIOS, verificar 2 núcleos, memoria RAM (>1GB) y comprobar ausencia de ruidos mecánicos de disco.\n"
+        "3. Emitir el veredicto en el acta técnica: ¿Es candidato viable para revitalización con Qinaya o se canaliza a donación de repuestos?\n"
+        "4. En equipos declarados viables: Grabar la memoria USB con Rufus y ejecutar la instalación completa de Qinaya Linux.\n"
+        "5. Reiniciar, cronometrar arranque (debe ser menor a 40 segundos) y validar periféricos (red y sonido).\n\n"
+        "Entregable del Estudiante: Acta de Rescate Técnico diligenciada con justificación del veredicto, especificaciones finales y firma del equipo técnico.",
         border_color="EA580C",
         bg_color="FFF7ED"
     )
@@ -452,16 +435,16 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     h2_s3 = doc.add_heading(level=1)
     h2_s3.paragraph_format.space_before = Pt(14)
     h2_s3.paragraph_format.space_after = Pt(6)
-    r_s3 = h2_s3.add_run("4. Sesión 3: Herramientas de Nube, Gestión de Archivos y Trabajo Colaborativo")
+    r_s3 = h2_s3.add_run("4. Sesión 3: Trabajar en la Nube con Criterio (Colaboración, Ciudadanía Digital y Portafolio)")
     r_s3.font.name = "Calibri"
     r_s3.font.color.rgb = RGBColor(30, 91, 168)
 
     p_s3_meta = doc.add_paragraph()
     p_s3_meta.paragraph_format.space_after = Pt(10)
-    p_s3_meta.add_run("Duración estimada: ").bold = True
+    p_s3_meta.add_run("Duración: ").bold = True
     p_s3_meta.add_run("2.5 Horas  |  ")
-    p_s3_meta.add_run("Enfoque: ").bold = True
-    p_s3_meta.add_run("El Puente de Archivos, repositorios en la nube, casillas de entrega de tareas y salas blindadas contra virus.")
+    p_s3_meta.add_run("El Enfoque: ").bold = True
+    p_s3_meta.add_run("Uso ético y profesional de la nube: privacidad de datos personales de menores, colaboración segura y portafolio laboral.")
 
     # 4.1 Objetivos de Aprendizaje
     h3 = doc.add_heading(level=2)
@@ -490,80 +473,84 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     set_cell_margins(b_c1, 100, 100, 120, 120)
     
     b_c0.paragraphs[0].add_run(
-        "• Implementar casillas de recepción de tareas automáticas en la nube para el aula.\n"
-        "• Dominar el 'Puente de Archivos' entre el computador virtual y dispositivos locales (celulares o USBs).\n"
-        "• Erradicar definitivamente la epidemia de virus por memorias USB en la sala de sistemas."
+        "• Fomentar la protección de datos personales de menores conforme a la normativa de privacidad y habeas data escolar.\n"
+        "• Posicionar el almacenamiento institucional del Computador Virtual Qinaya como el repositorio protegido principal.\n"
+        "• Evaluar y certificar el desempeño del estudiante mediante un portafolio digital tangible."
     ).font.size = Pt(9.5)
     
     b_c1.paragraphs[0].add_run(
-        "• Guardar y respaldar sus proyectos escolares en repositorios seguros en la nube.\n"
-        "• Entregar tareas académicas por medio de enlaces digitales directos sin requerir cuentas complejas.\n"
-        "• Trabajar en equipo simultáneamente sobre documentos compartidos en la nube."
+        "• Desarrollar hábitos de ciberhigiene y entender por qué no se deben subir datos personales a cualquier plataforma libre.\n"
+        "• Trabajar en equipo en tiempo real sobre documentos compartidos dentro del entorno protegido de Qinaya.\n"
+        "• Construir su primer Portafolio Técnico Digital para demostrar sus competencias ante empleadores o directivas."
     ).font.size = Pt(9.5)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(8)
 
-    # 4.2 Conceptos Clave
+    # 4.2 Desarrollo Temático
     h3 = doc.add_heading(level=2)
     h3.paragraph_format.space_before = Pt(10)
     h3.paragraph_format.space_after = Pt(6)
-    r_conc3 = h3.add_run("4.2 Conceptos Clave y Ecosistema de Almacenamiento")
+    r_conc3 = h3.add_run("4.2 Desarrollo Temático: Ciudadanía Digital y Gestión Segura en la Nube")
     r_conc3.font.color.rgb = RGBColor(2, 132, 199)
 
     doc.add_paragraph(
-        "A. El Paradigma del 'Puente de Archivos':\n"
-        "En un esquema de computación en la nube, el computador virtual no debe confundirse con una simple memoria USB. Los estudiantes rotan "
-        "por diferentes máquinas físicas a lo largo de la semana. Por tanto, el trabajo debe guardarse en la nube para asegurar que esté accesible "
-        "desde cualquier computador del colegio o desde casa.\n\n"
-        "B. Herramientas Recomendadas para el Aula:\n"
-        "1. Dropbox y su función 'Solicitud de Archivos' (File Request):\n"
-        "Es la solución ideal para la recolección de tareas. El docente genera un enlace único para su clase (ej. 'Taller Robótica 9A'). "
-        "Los estudiantes ingresan a ese enlace desde el computador virtual y suben sus archivos. "
-        "¡Los alumnos NO necesitan registrarse ni tener cuenta en Dropbox! El docente recibe todos los trabajos centralizados y organizados con el nombre de cada alumno.\n\n"
-        "2. MEGA (20 GB Gratuitos Cifrados):\n"
-        "Excelente alternativa para proyectos pesados de multimedia, programación o diseño 3D que sobrepasan los límites de un correo o Drive convencional.\n\n"
-        "3. Wormhole & SwissTransfer (Transferencias Efímeras con Código QR):\n"
-        "Permite pasar archivos pesados al instante entre el computador virtual y el celular del estudiante o una memoria física mediante un código QR sin crear cuentas.\n\n"
-        "C. La Gran Ventaja Oculta: Salas Escolares Blindadas contra Virus:\n"
-        "En las salas tradicionales con Windows, una sola memoria USB infectada propaga gusanos y accesos directos por toda la red. "
-        "En el ecosistema Qinaya, los virus habituales de Windows (.exe, .vbs, autorun) son completamente inofensivos tanto para Qinaya Linux "
-        "como para los servidores en la nube. Se acaba la necesidad de formatear los computadores cada periodo académico."
+        "A. Protección de Datos y Privacidad Escolar (El Cuidado de Menores):\n"
+        "En instituciones educativas oficiales, la protección de datos personales de niñas, niños y adolescentes es una obligación ética y legal estricta. "
+        "Obligar a los estudiantes a crear cuentas en plataformas externas comerciales o subir tareas a servidores públicos no auditados genera serias "
+        "vulnerabilidades de privacidad. Por este motivo, el PROTAGONISTA CENTRAL DE ALMACENAMIENTO es el Computador Virtual de Qinaya, un entorno "
+        "institucional cerrado, seguro y blindado donde los trabajos quedan resguardados bajo control del colegio.\n\n"
+        "Las herramientas externas (como solicitudes de archivos en Dropbox, repositorios abiertos en MEGA o enlaces efímeros en Wormhole) se abordan "
+        "únicamente como conceptos complementarios de transferencia rápida para proyectos públicos, recalcando siempre la regla de oro: "
+        "nunca almacenar datos personales, nombres completos, fotos o documentos de identidad en servicios externos gratuitos.\n\n"
+        "B. Rigor Técnico: Resiliencia ante el Malware Común:\n"
+        "Ningún sistema en el mundo debe publicitarse falsamente como '100% inmune' o 'totalmente libre de virus'. La ventaja técnica real de Qinaya "
+        "radica en que la inmensa mayoría del malware que azota las salas escolares de cómputo (gusanos propagados por USBs, scripts de acceso directo, "
+        "archivos .vbs y ejecutables .exe maliciosos) fue escrito exclusivamente para sistemas Windows tradicionales. "
+        "Al operar sobre el kernel de Qinaya Linux, estos archivos son naturalmente incompatibles e inofensivos, reduciendo drásticamente las fallas "
+        "y los tiempos muertos de clase sin ralentizar la máquina con antivirus pesados.\n\n"
+        "C. Colaboración en Tiempo Real y Trabajo Productivo:\n"
+        "Los estudiantes aprenden a coeditar documentos de trabajo, compartir carpetas institucionales de clase y gestionar versiones sin el caos "
+        "de 'documento_final_v2_este_si.docx'.\n\n"
+        "D. El Oficio: Portafolio Técnico y Certificación de Competencias:\n"
+        "Para un joven que busca sus primeras prácticas laborales, una hoja de vida sin experiencia previa dice poco; un portafolio técnico con "
+        "evidencias concretas lo dice todo. La sesión cierra con la consolidación del Portafolio del Estudiante: diagnóstico de hardware, acta de "
+        "revitalización y proyectos elaborados en la nube, habilitando la entrega de su Certificado de Aprobación del Módulo."
     )
 
-    # 4.3 Ejercicio Práctico Estudiantes
+    # 4.3 Reto Estudiantil #3
     add_callout_box(
         doc,
-        "Reto Estudiantil #3: 'La Carrera de la Nube Colaborativa'",
-        "Actividad de Aula para Estudiantes:\n"
-        "1. Iniciar sesión en el computador virtual de Qinaya.\n"
-        "2. En equipos de 2 o 3 estudiantes, abrir la suite ofimática en la nube y redactar un informe conjunto sobre una temática asignada.\n"
-        "3. Entregar el archivo final directamente en el enlace de 'Solicitud de Archivos' de Dropbox preparado por el profesor.\n"
-        "4. Utilizar Wormhole.app para generar un código QR y descargar una copia de respaldo del informe en su teléfono móvil.\n"
-        "5. Cerrar la sesión en el computador virtual y confirmar que el equipo físico queda completamente limpio para la siguiente clase.\n\n"
-        "Entregable del Estudiante: Confirmación de entrega digital en la bandeja del profesor y portafolio digital disponible en la nube.",
+        "Reto Estudiantil #3: 'El Portafolio del Técnico Cloud Escolar'",
+        "Actividad de Aula para Estudiantes de 9º/10º:\n"
+        "1. Iniciar sesión en el Computador Virtual Qinaya y acceder a su espacio de almacenamiento institucional protegido.\n"
+        "2. En parejas, coeditar en tiempo real un informe técnico sobre 'La Nube como Motor de Sostenibilidad Escolar'.\n"
+        "3. Aplicar el protocolo de ciberhigiene: verificar que el documento no contenga datos personales sensibles expuestos.\n"
+        "4. Consolidar en una carpeta digital las 3 evidencias del módulo: (a) El mapa de la computación, (b) El acta de triaje e instalación del PC rescatado, y (c) El informe colaborativo.\n"
+        "5. Presentar el portafolio para la revisión del docente y la emisión del Certificado de Competencias.\n\n"
+        "Entregable del Estudiante: Portafolio Técnico Digital completo y validación de competencias para certificación institucional.",
         border_color="16A34A",
         bg_color="F0FDF4"
     )
 
     # ==========================================
-    # 5. ANEXOS: FORMATOS IMPRIMIBLES
+    # 5. ANEXO FORMATOS
     # ==========================================
     doc.add_page_break()
     h2_anx = doc.add_heading(level=1)
     h2_anx.paragraph_format.space_before = Pt(14)
     h2_anx.paragraph_format.space_after = Pt(6)
-    r_anx = h2_anx.add_run("5. Anexo: Formato QN-REV-01 (Ficha Técnica de Equipo Revitalizado)")
+    r_anx = h2_anx.add_run("5. Anexo: Formato QN-REV-02 (Ficha de Triaje Crítico y Decisión de Rescate)")
     r_anx.font.name = "Calibri"
     r_anx.font.color.rgb = RGBColor(30, 91, 168)
 
     doc.add_paragraph(
-        "Este formato está diseñado para ser fotocopiado y utilizado en las sesiones prácticas con los estudiantes "
-        "en el laboratorio de sistemas del colegio."
+        "Formato oficial para los Clubes Técnicos y estudiantes en el laboratorio de sistemas. "
+        "Enfatiza la toma de decisiones informadas de ingeniería y el pensamiento crítico frente al hardware escolar."
     )
 
-    ficha_table = doc.add_table(rows=7, cols=3)
+    ficha_table = doc.add_table(rows=8, cols=3)
     ficha_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    ficha_headers = ["Elemento Verificado", "Especificación / Observación", "Estado Post-Qinaya"]
+    ficha_headers = ["Punto de Evaluación Técnica", "Especificación Medida en BIOS / Hardware", "Criterio de Viabilidad"]
     for j, htext in enumerate(ficha_headers):
         cell = ficha_table.rows[0].cells[j]
         set_cell_background(cell, "1E5BA8")
@@ -575,25 +562,32 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
         r.font.color.rgb = RGBColor(255, 255, 255)
 
     ficha_rows = [
-        ("Identificación del Equipo", "Número de Equipo: _________   |  Ubicación en Sala: _________", "[  ] Registrado"),
-        ("Memoria RAM Física", "Capacidad: [  ] 1GB   [  ] 2GB   [  ] 4GB   [  ] Otra", "[  ] Reconocida"),
-        ("Instalación de Qinaya Linux", "Medio utilizado: Memoria USB creada con Rufus", "[  ] Instalación Exitosa"),
-        ("Tiempo de Arranque Medido", "Segundos desde encendido hasta ver escritorio: _______ seg", "[  ] Menor a 40 seg"),
-        ("Periféricos y Sonido", "Audio probado con auriculares: [  ] Sí  |  Red: [  ] WiFi [  ] Cable", "[  ] Operativo 100%"),
-        ("Conexión al PC Virtual", "Launcher Qinaya ejecutado y sesión iniciada con usuario escolar", "[  ] Sesión Conectada")
+        ("Identificación del Equipo", "N° de Inventario: _________ | Marca: __________________", "Registro Escolar"),
+        ("Arquitectura del Procesador", "Modelo: _________________ | Núcleos: [  ] 2 o más   [  ] 1 núcleo", "[  ] Apto (Mín. 2 núcleos x64)\n[  ] No viable"),
+        ("Salud de Memoria RAM", "Capacidad: [  ] 1GB   [  ] 2GB   [  ] 4GB+ | Sin errores de arranque", "[  ] Apto (Mín. 1GB / Ópt. 2GB)\n[  ] Memoria dañada"),
+        ("Estado Físico del Disco", "Capacidad: _______ GB | Ausencia de ruidos metálicos de cabezal", "[  ] Apto (Mín. 10GB sano)\n[  ] Reemplazar disco"),
+        ("VEREDICTO TÉCNICO", "¿El equipo califica para rescate con Qinaya Linux?", "[  ] VIABLE PARA REVITALIZACIÓN\n[  ] DONACIÓN DE REPUESTOS"),
+        ("Arranque con Qinaya Linux", "Segundos medidos desde encendido hasta ver escritorio: ______ seg", "[  ] Superado (<40 seg)\n[  ] En revisión"),
+        ("Conexión al PC Virtual", "Launcher Qinaya ejecutado y sesión de prueba iniciada con éxito", "[  ] Sesión Estable (<100ms)")
     ]
     for r_idx, r_data in enumerate(ficha_rows):
         row = ficha_table.rows[r_idx + 1]
         for c_idx, c_val in enumerate(r_data):
             cell = row.cells[c_idx]
             bg = "F8FAFC" if r_idx % 2 == 0 else "FFFFFF"
+            if r_idx == 4:
+                bg = "FFF7ED" # Destacar veredicto
             set_cell_background(cell, bg)
-            set_cell_margins(cell, 60, 60, 100, 100)
+            set_cell_margins(cell, 50, 50, 100, 100)
             p = cell.paragraphs[0]
             r = p.add_run(c_val)
             r.font.size = Pt(9)
             if c_idx == 0:
                 r.font.bold = True
+            if r_idx == 4:
+                r.font.bold = True
+                if c_idx == 0:
+                    r.font.color.rgb = RGBColor(234, 88, 12)
 
     doc.add_paragraph().paragraph_format.space_after = Pt(20)
 
@@ -603,7 +597,7 @@ def build_docx(filename="Modulo_de_Computacion_en_la_Nube_Qinaya.docx"):
     firmas_p.paragraph_format.space_after = Pt(0)
     firmas_p.add_run(
         "________________________________________                  ________________________________________\n"
-        "       Firma del Estudiante Técnico                               Firma del Docente de Tecnología"
+        "   Firma del Estudiante Técnico Líder                            Firma del Docente Tutor de Aula"
     ).font.size = Pt(10)
 
     # Guardar
