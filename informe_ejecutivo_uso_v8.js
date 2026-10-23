@@ -11,6 +11,7 @@ const CONFIG = {
         websites:      '/websites.asp',
         apps:          '/apps.asp',
         network:       '/network.asp',
+        schools:       '/schools.asp',
     },
     HEADERS: { 'Accept': 'application/json' },
     DEFAULT_ORG_ID: '28', // Secretaría de Educación de Bogotá
@@ -76,6 +77,10 @@ class QinayaAPI {
     async getNetwork(orgId, since, until, extra = {}) {
         return this.request(CONFIG.ENDPOINTS.network, { org: orgId, since, until, ...extra });
     }
+
+    async getSchools(orgId, since, until) {
+        return this.request(CONFIG.ENDPOINTS.schools, { org: orgId, since, until });
+    }
 }
 
 // ============================================
@@ -122,26 +127,29 @@ async function loadData() {
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
 
-    let orgDataList, pcData, websiteData, usageData, appsData, networkData;
+    let orgDataList, pcData, websiteData, usageData, appsData, networkData, schoolsData;
 
     try {
         // Ejecución concurrente ya que no dependemos de proxies frágiles
-        [orgDataList, pcData, websiteData, usageData, appsData, networkData] = await Promise.all([
+        [orgDataList, pcData, websiteData, usageData, appsData, networkData, schoolsData] = await Promise.all([
             api.getOrganizations().catch(e => { console.warn(e); return []; }),
             api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
             api.request(CONFIG.ENDPOINTS.usage, { org: CONFIG.DEFAULT_ORG_ID, since, until }).catch(e => { console.warn(e); return null; }),
             api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
-            api.getNetwork(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; })
+            api.getNetwork(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
+            api.getSchools(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; })
         ]);
         
         if (!Array.isArray(pcData)) pcData = [];
         if (!Array.isArray(websiteData)) websiteData = [];
+        if (!Array.isArray(schoolsData)) schoolsData = [];
         
     } catch (e) {
         console.error("Fallo general al conectar con la API:", e);
         pcData = [];
         websiteData = [];
+        schoolsData = [];
         alert("Hubo un error al conectar con la base de datos. Por favor verifica tu conexión a internet.");
     }
 
@@ -186,7 +194,7 @@ async function loadData() {
     let daysCount = getBusinessDays(since, until);
 
     try {
-        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount, networkData);
+        processReportData(pcData, websiteData, usageData, appsData, currentOrg, daysCount, networkData, schoolsData);
     } catch (err) {
         console.error("Error procesando reporte:", err);
     } finally {
@@ -194,8 +202,18 @@ async function loadData() {
     }
 }
 
-function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null) {
+function processReportData(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null, schoolsData = []) {
     
+    // Mapa de datos de schools.asp por nombre normalizado (trim + lowercase)
+    const schoolsApiMap = new Map();
+    if (Array.isArray(schoolsData)) {
+        schoolsData.forEach(sc => {
+            if (sc && sc.name) {
+                schoolsApiMap.set(sc.name.trim().toLowerCase(), sc);
+            }
+        });
+    }
+
     // Extraer inventario instalado de la organización
     let totalEquiposInstalados = 0;
     let totalColegiosInstalados = 0;
@@ -290,6 +308,15 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
             c.topApp = `Chrome: ${topWeb}`;
         }
 
+        // Enlazar Top 5 programas desde schools.asp
+        const schoolApiItem = schoolsApiMap.get(c.name.trim().toLowerCase());
+        if (schoolApiItem && Array.isArray(schoolApiItem.topApps) && schoolApiItem.topApps.length > 0) {
+            const appNames = schoolApiItem.topApps.map(a => a && a.name ? a.name.trim() : '').filter(Boolean);
+            c.top5Apps = appNames.length > 0 ? appNames.join(', ') : '—';
+        } else {
+            c.top5Apps = '—';
+        }
+
         // Distinción de Nube (VDI) vs Local:
         // Si el programa es de Windows (POWERPNT, WINWORD, EXCEL, etc.) o hay horas VM registradas (vmHours > 0), pasa a VDI.
         const isWindowsApp = /windows|powerpnt|winword|excel|photoshop|illustrator/i.test(c.topApp);
@@ -351,7 +378,7 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
     }
     const elPromDiarioActivosSub = document.getElementById('kpi-promedio-diario-sub');
     if (elPromDiarioActivosSub) {
-        elPromDiarioActivosSub.innerHTML = `Por equipo con uso al día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalEquiposActivos.toLocaleString()} equipos activos &middot; ${sumNumComputers.toLocaleString()} equipo-días</span>`;
+        elPromDiarioActivosSub.innerHTML = `Por equipo con uso al día<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${totalEquiposActivos.toLocaleString()} equipos activos</span>`;
     }
 
     // KPI Promedio Diario (Instalados) - NUEVO
@@ -373,11 +400,11 @@ function processReportData(pcDataRaw, websiteData, usageData, appsData, currentO
 
     // Filtrar los que tienen cero horas de los tops, pero mantenerlos en 'All'
     const colegiosConUso = colegiosArray.filter(c => c.avgHours > 0);
-    const top5 = colegiosConUso.slice(0, 5);
-    const bottom5 = colegiosConUso.slice().reverse().slice(0, 5);
+    const top20 = colegiosConUso.slice(0, 20);
+    const bottom20 = colegiosConUso.slice().reverse().slice(0, 20);
 
-    renderColegiosTable('tableTopColegios', top5, daysCount);
-    renderColegiosTable('tableBottomColegios', bottom5, daysCount);
+    renderColegiosTable('tableTopColegios', top20, daysCount);
+    renderColegiosTable('tableBottomColegios', bottom20, daysCount);
 
     // Renderizar Detalle de Todos los Colegios (Ordenado por mayor uso)
     renderColegiosTable('tableAllColegios', colegiosArray, daysCount);
@@ -502,7 +529,7 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
     tbody.innerHTML = '';
     
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay datos</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No hay datos</td></tr>';
         return;
     }
 
@@ -550,6 +577,7 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
             <td><strong style="color: #ea580c;">${displayDailyAvgActive} hrs</strong></td>
             <td><strong style="color: #0284c7;">${displayDailyAvgInstalled} hrs</strong></td>
             <td><span class="status-high" style="font-weight: 600;">${item.topApp}</span> ${badgesHTML}</td>
+            <td style="color: var(--text-secondary); font-size: 0.8rem;">${item.top5Apps || '—'}</td>
             <td style="color: var(--text-muted);">${Math.round(item.totalHours).toLocaleString()} hrs</td>
         `;
         tbody.appendChild(tr);
