@@ -550,6 +550,9 @@ function renderColegiosTable(elementId, data, daysCount = 1) {
             if (dailyAvgActive > 6.6) dailyAvgActive = 6.6;
             if (dailyAvgInstalled > 6.6) dailyAvgInstalled = 6.6;
         }
+        // Ajuste general de jornada doble escolar (máximo estimado real < 10 hrs/día)
+        if (dailyAvgActive > 9.6) dailyAvgActive = 9.6;
+        if (dailyAvgInstalled > 9.6) dailyAvgInstalled = 9.6;
 
         const displayDailyAvgActive = dailyAvgActive > 0 && dailyAvgActive < 0.1 ? '< 0.1' : dailyAvgActive.toFixed(1);
         const displayDailyAvgInstalled = dailyAvgInstalled > 0 && dailyAvgInstalled < 0.1 ? '< 0.1' : dailyAvgInstalled.toFixed(1);
