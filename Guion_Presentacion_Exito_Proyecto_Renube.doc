@@ -1,0 +1,464 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta charset="utf-8">
+    <title>Guion Ejecutivo de Presentación - Proyecto ReNube (Qinaya & SED Bogotá)</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>100</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+        @page {
+            size: 21.59cm 27.94cm;
+            margin: 2.0cm 2.0cm 2.0cm 2.0cm;
+        }
+        body {
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.45;
+            color: #1e293b;
+        }
+        h1 {
+            font-size: 20pt;
+            color: #0f172a;
+            border-bottom: 3px solid #ea580c;
+            padding-bottom: 6px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 14pt;
+            color: #ffffff;
+            background-color: #1e3a8a;
+            padding: 8px 12px;
+            margin-top: 22px;
+            margin-bottom: 10px;
+            border-left: 6px solid #ea580c;
+        }
+        h3 {
+            font-size: 12pt;
+            color: #0f172a;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 3px;
+        }
+        p {
+            margin-top: 4px;
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .header-box {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #2563eb;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+        }
+        .speech-box {
+            background-color: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-left: 5px solid #ea580c;
+            padding: 10px 14px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .chart-box {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-left: 5px solid #0284c7;
+            padding: 10px 14px;
+            margin: 10px 0;
+        }
+        .tip-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #16a34a;
+            padding: 10px 14px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 14px 0;
+            font-size: 10pt;
+        }
+        th {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 6px 8px;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+        td {
+            padding: 6px 8px;
+            border: 1px solid #cbd5e1;
+            vertical-align: top;
+        }
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        .badge {
+            font-weight: bold;
+            color: #ea580c;
+        }
+        .vdi-badge {
+            font-weight: bold;
+            color: #7e22ce;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>GUION EJECUTIVO Y EXPLICACIÓN DE GRÁFICAS<br>
+    <span style="font-size: 13pt; color: #ea580c;">Presentación de Impacto, Sostenibilidad y Continuidad — Proyecto ReNube (Qinaya &amp; SED Bogotá)</span></h1>
+
+    <div class="header-box">
+        <p><strong>Objetivo Estratégico de la Presentación:</strong> Demostrar con telemetría 100% real de la API (<code>panel.qinaya.co/api2</code>) y evidencias de campo el éxito rotundo del Proyecto ReNube en los <strong>51 colegios oficiales (1.001 equipos instalados)</strong>, resaltando la permanencia del 100% de las instituciones (cero bajas), el alto uso del Escritorio Virtual en Nube (VDI) y del sistema local, el liderazgo del Top 20 de colegios, la fluidez pedagógica lograda gracias a las capacitaciones y el bajísimo índice de fallas (98.94% de autonomía operativa), con el fin de sustentar la <strong>renovación del proyecto por un nuevo año y su expansión a más equipos e instituciones del Distrito</strong>.</p>
+        <p style="margin-bottom: 0;"><strong>Enlace de la Presentación:</strong> <a href="https://hernana71.github.io/kit-bienvenida-qinaya/Presentacion_Exito_Proyecto_Renube.html">https://hernana71.github.io/kit-bienvenida-qinaya/Presentacion_Exito_Proyecto_Renube.html</a></p>
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 1: Portada e Indicadores Macro del Ecosistema</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Es el resumen ejecutivo de alto impacto. Presenta la identidad institucional (Logos de Qinaya, Proyecto ReNube y Secretaría de Educación de Bogotá), una fotografía real de aula activa y las <strong>6 tarjetas de indicadores clave (KPIs)</strong> conectadas directamente a la API.</p>
+
+    <h3>2. Explicación de las 6 Tarjetas KPI (Datos para mencionar):</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Indicador en Pantalla</th>
+                <th>Valor</th>
+                <th>Qué significa y cómo explicarlo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Colegios Beneficiados</strong></td>
+                <td><strong>51 IED (0 bajas)</strong></td>
+                <td>Los 51 colegios donde se instaló la solución siguen activos. Ningún rector ni colegio ha pedido retirar o dar de baja el proyecto.</td>
+            </tr>
+            <tr>
+                <td><strong>Equipos Potenciados</strong></td>
+                <td><strong>1.001 instalados</strong></td>
+                <td>Total de computadores recuperados y repotenciados en las 51 instituciones educativas distritales.</td>
+            </tr>
+            <tr>
+                <td><strong>Equipos con Uso Real</strong></td>
+                <td><strong>932 activos (93.1%)</strong></td>
+                <td>Equipos únicos que ya han reportado sesiones efectivas de clase en la API (<code>computers.asp</code>).</td>
+            </tr>
+            <tr>
+                <td><strong>Promedio (Activos)</strong></td>
+                <td><strong>5.7 hrs / día</strong></td>
+                <td>Promedio diario general por equipo activo cada vez que se enciende en jornada escolar (sin el texto confuso de "equipo-días").</td>
+            </tr>
+            <tr>
+                <td><strong>Horas Acumuladas</strong></td>
+                <td><strong>207.115 hrs totales</strong></td>
+                <td>Tiempo total de uso pedagógico desde marzo, de las cuales <strong>24.856 horas</strong> corresponden a sesiones de Escritorio Virtual Windows (VDI).</td>
+            </tr>
+            <tr>
+                <td><strong>Autonomía Operativa</strong></td>
+                <td><strong>98.94%</strong></td>
+                <td>El 98.94% del tiempo las salas operan sin requerir soporte técnico. La calificación de satisfacción docente en las actas es de <strong>4.84 sobre 5.0</strong>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Hoy queremos presentarles el balance ejecutivo de impacto del Proyecto ReNube con tecnología Qinaya en los colegios oficiales de Bogotá. Todos los números que verán en esta presentación provienen directamente y sin alteraciones de nuestra API de telemetría en tiempo real. Hoy tenemos <strong>51 colegios beneficiados y 1.001 equipos potenciados</strong>, con un hito fundamental: <strong>cero colegios dados de baja (100% de retención institucional)</strong>. Hemos superado las <strong>207.115 horas de uso real en clase</strong>, con un promedio de <strong>5.7 horas diarias por equipo activo</strong> y una estabilidad técnica del <strong>98.94%</strong>."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 2: Desempeño Real en Nube (VDI) y 100% de Permanencia en las 51 IED</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Responde de forma 100% visual (mediante <strong>4 tarjetas superiores y 3 gráficas grandes</strong> con etiquetas de datos visibles) cómo se comporta el uso del <strong>Escritorio Virtual Windows en la Nube (VDI)</strong> dentro de la API y por qué los 51 colegios permanecen activos.</p>
+
+    <h3>2. Explicación detallada de cada una de las 3 Gráficas de la Diapositiva 2:</h3>
+
+    <div class="chart-box">
+        <strong>GRÁFICA 1 (Izquierda): "¿Por qué subió el VDI en el 2° Semestre? — Evolución Mensual API"</strong>
+        <ul>
+            <li><strong>Tipo de gráfica:</strong> Gráfico combinado de Barras Azules (Horas VDI <code>vmHours</code>) + Línea Morada (% de VDI sobre el total de horas del mes).</li>
+            <li><strong>Qué explica:</strong> Si alguien mira el promedio acumulado desde marzo hasta octubre ve un 12%, pero esta gráfica muestra exactamente por qué: en <strong>Mayo (0.04% — 12.3 hrs)</strong> y <strong>Junio (0.04% — 7.2 hrs)</strong> los colegios ya usaban intensamente los equipos en modo local mientras se surtía el proceso de activación de licencias remotas.</li>
+            <li><strong>El salto del 2.° Semestre:</strong> Apenas quedaron activos los accesos remotos en julio, el uso del Escritorio Virtual Windows se disparó:
+                <ul>
+                    <li><strong>Julio:</strong> 14.9% de uso VDI (4.371 horas VDI de 29.437 horas totales).</li>
+                    <li><strong>Agosto:</strong> <strong>21.7% de uso VDI (7.092 horas VDI de 32.647 horas totales)</strong>.</li>
+                    <li><strong>Septiembre:</strong> 15.2% de uso VDI (<strong>7.227 horas VDI</strong> de 47.476 horas totales — el mes con mayor volumen bruto de horas en la nube).</li>
+                    <li><strong>Octubre (corte al día 27):</strong> 17.6% de uso VDI (5.264 horas VDI de 29.951 horas totales).</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chart-box">
+        <strong>GRÁFICA 2 (Centro): "Mejores Promedios Globales (API usage.asp) — Picos de Uso VDI"</strong>
+        <ul>
+            <li><strong>Tipo de gráfica:</strong> Barras horizontales comparativas con porcentaje y horas impresas en cada barra.</li>
+            <li><strong>Qué explica:</strong> Muestra los mejores cortes globales reales de uso de Escritorio Virtual Windows en todo el proyecto según la API (<code>usage.asp</code>):
+                <ul>
+                    <li><strong>Acumulado Mar-Oct (incluyendo May-Jun):</strong> 12.0% (24.856 hrs VDI).</li>
+                    <li><strong>Mejor Mes Completo (Agosto):</strong> <strong>21.7% VDI</strong> (7.091,7 hrs VDI de 32.646,7 hrs).</li>
+                    <li><strong>Mejor Quincena Consolidada (15 al 31 de Agosto):</strong> <strong>23.7% VDI</strong> (4.340,4 hrs VDI de 18.294,4 hrs).</li>
+                    <li><strong>Mejor Semana Activa (13 al 21 de Agosto):</strong> <strong>26.5% VDI</strong> (2.630,6 hrs VDI de 9.943,5 hrs).</li>
+                    <li><strong>Mejor Jornada de Clases (Jueves 13 de Agosto):</strong> <strong>41.4% VDI</strong> (382,3 hrs VDI de 922,7 hrs en un solo día).</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chart-box">
+        <strong>GRÁFICA 3 (Derecha): "Top Colegios con Mayor % VDI (schools.asp) — Mes Pico vs. Acumulado"</strong>
+        <ul>
+            <li><strong>Tipo de gráfica:</strong> Barras horizontales dobles (Barra Morada = % VDI en Mes Pico Agosto | Barra Azul = % VDI Acumulado Histórico Mar-Oct).</li>
+            <li><strong>Qué explica:</strong> Demuestra con datos de <code>schools.asp</code> que en los colegios donde la conectividad acompaña y el currículo exige Windows, el uso del Escritorio Virtual es altísimo:
+                <ul>
+                    <li><strong>Mochuelo Alto IED:</strong> <strong>84.8% VDI</strong> (17,9h VDI de 21,1h).</li>
+                    <li><strong>Colegio Estrella del Sur Sede B:</strong> <strong>66.3% VDI en agosto</strong> (1.566,9h VDI de 2.361,8h) y <strong>39.9% acumulado</strong> (3.854,3h VDI).</li>
+                    <li><strong>Colegio Atanasio Girardot:</strong> <strong>46.5% VDI en agosto</strong> (1.084,4h VDI de 2.331,5h) y <strong>19.5% acumulado</strong> (3.073,8h VDI).</li>
+                    <li><strong>República de México IED:</strong> <strong>44.5% VDI en agosto</strong> y 18.6% acumulado.</li>
+                    <li><strong>Colegio El Salitre Suba:</strong> <strong>41.7% VDI en agosto</strong> (556,9h VDI de 1.334,7h) y <strong>26.4% acumulado</strong> (2.053,1h VDI).</li>
+                    <li><strong>San Isidro Sur Oriental:</strong> <strong>37.8% VDI acumulado</strong> (32.7% en agosto).</li>
+                    <li><strong>Colegio Paulo VI IED:</strong> <strong>35.6% VDI en agosto</strong> y 20.7% acumulado.</li>
+                    <li><strong>Colegio Carlos Arango Vélez:</strong> <strong>32.4% VDI en agosto</strong> (980,5h VDI) y <strong>26.8% acumulado</strong> (3.685,3h VDI).</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "En esta segunda diapositiva abrimos la lupa sobre el corazón técnico de ReNube: nuestro esquema híbrido con Escritorio Virtual Windows en la Nube (VDI). En la <strong>primera gráfica</strong> vemos la evolución mensual real en la API: durante mayo y junio el indicador VDI estuvo en 0.04% porque los colegios estaban trabajando localmente mientras finalizábamos la activación de licencias remotas. Pero observen el segundo semestre: en julio sube a 14.9%, en agosto alcanza el <strong>21.7% con más de 7.092 horas VDI</strong>, y en septiembre supera las <strong>7.227 horas en la nube</strong>.<br><br>
+        En la <strong>segunda gráfica</strong> vemos nuestros mejores cortes globales en la API: una quincena consolidada del <strong>23.7%</strong>, semanas del <strong>26.5%</strong> y jornadas pico donde el <strong>41.4% de todo el cómputo del Distrito corrió sobre Windows Virtual</strong>. Y en la <strong>tercera gráfica</strong> vemos colegios referentes como <strong>Estrella del Sur con 66.3% de uso VDI en agosto, Atanasio Girardot con 46.5%, República de México con 44.5% y El Salitre con 41.7%</strong>. Además, gracias a que el sistema tiene respaldo local automático, cuando un colegio tiene fallas de internet la clase nunca se detiene, logrando que <strong>las 51 instituciones sigan 100% activas en el proyecto</strong>."
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 3: Top 20 Colegios Líderes — Gráfica de Promedio Diario de Uso</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Muestra el ranking visual del <strong>Top 20 de instituciones con mayor uso diario promedio por equipo activo</strong>, verificando estrictamente que ningún colegio supere el límite físico real de una doble jornada escolar (máximo 10 horas diarias).</p>
+
+    <h3>2. Explicación de la Gráfica y Tarjetas Laterales:</h3>
+    <div class="chart-box">
+        <strong>GRÁFICA PRINCIPAL: "Top 20 Colegios con Mayor Uso — Promedio Diario por Equipo Activo (hrs/día)"</strong>
+        <ul>
+            <li><strong>Escala horizontal (0 a 10 horas):</strong> Muestra con total transparencia que los datos están auditados bajo la realidad escolar (descontando vacaciones de mitad de año del 16 de junio al 3 de julio, fines de semana y festivos = 64 días efectivos de clase).</li>
+            <li><strong>Código de colores de las barras:</strong>
+                <ul>
+                    <li><strong>Barras Naranjas (7.0 a 9.6 hrs/día — Doble Jornada Intensiva):</strong> Lideradas por <em>Colegio Atanasio Girardot (9.6 hrs/día)</em>, <em>Manuel Cepeda Vargas (9.4 hrs/día)</em>, <em>Carlos Arango Vélez (9.0 hrs/día)</em>, <em>Antonio García (8.5 hrs/día)</em> y <em>Gustavo Morales Morales (7.0 hrs/día)</em>. Son colegios que usan la sala mañana y tarde casi sin descanso.</li>
+                    <li><strong>Barras Moradas y Azules (3.2 a 6.6 hrs/día — Jornada Única / Media):</strong> Destaca el <em>Colegio Manuela Beltrán (6.6 hrs/día con 16.853 hrs acumuladas)</em>, <em>Santa Lucía (5.6 hrs/día)</em>, <em>El Salitre (5.1 hrs/día)</em>, <em>Estrella del Sur Sede B (4.4 hrs/día)</em> y <em>Eduardo Santos (4.2 hrs/día)</em>.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Pasamos ahora del Top 5 tradicional al <strong>Top 20 de colegios líderes</strong>. Esta gráfica es muy importante porque refleja un cálculo riguroso de las horas efectivas de clase, descontando el receso escolar de junio-julio. Como pueden ver en la escala de 0 a 10 horas, ningún colegio sobrepasa el límite real de 10 horas de una doble jornada. Tenemos un bloque de honor en color naranja —Atanasio Girardot, Manuel Cepeda Vargas, Carlos Arango Vélez y Antonio García— cuyos computadores trabajan entre <strong>8.5 y 9.6 horas diarias</strong> (mañana y tarde), seguido de colegios de una sola jornada como el Manuela Beltrán o Santa Lucía que mantienen entre <strong>5.6 y 6.6 horas efectivas cada día</strong>."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 4: Tabla Ejecutiva del Top 20 + Nueva Columna "Top 5 Programas"</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Presenta la tabla completa de los <strong>20 colegios líderes</strong> conectada al nuevo endpoint <code>/api2/schools.asp</code> desarrollado en el servidor de Qinaya. Incluye tanto la columna tradicional <em>"Programa más usado"</em> (con su porcentaje exacto VDI vs. Local de la API) como la <strong>nueva columna "Top 5 Programas (API schools.asp)"</strong>.</p>
+
+    <h3>2. Puntos clave para destacar al mostrar la tabla:</h3>
+    <ul>
+        <li><strong>Coherencia total con el Dashboard Ejecutivo:</strong> Es exactamente la misma estructura que se actualizó en el informe web en vivo.</li>
+        <li><strong>Transparencia del % VDI por colegio:</strong> Al lado del programa principal aparece la etiqueta morada con el porcentaje acumulado real de VDI de cada colegio (ej. <em>Estrella del Sur: VDI 40% / Local 60%</em>; <em>Carlos Arango Vélez: VDI 27% / Local 73%</em>; <em>El Salitre: VDI 26% / Local 74%</em>; <em>Paulo VI: VDI 21% / Local 79%</em>; <em>Atanasio Girardot: VDI 20% / Local 80%</em>).</li>
+        <li><strong>Columna "Top 5 Programas":</strong> Permite ver de un vistazo la riqueza curricular en cada colegio: combinación de navegador Chrome, programación en <strong>Scratch</strong>, diseño 3D en <strong>Tinkercad</strong>, robótica en <strong>Arduino</strong>, matemáticas en <strong>GeoGebra</strong>, ofimática en <strong>LibreOffice</strong> y aplicaciones nativas de Windows en el escritorio virtual (<strong>EXCEL Windows, POWERPNT Windows, explorer Windows</strong>).</li>
+    </ul>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "En esta cuarta diapositiva vemos el detalle tabular de los 20 colegios líderes alimentado por nuestro nuevo servicio de datos por institución (<code>schools.asp</code>). Hemos incorporado la columna <strong>'Top 5 Programas'</strong>, que nos permite demostrar que los equipos no se usan solo para navegar: aquí vemos a los estudiantes programando en Scratch, diseñando en 3D con Tinkercad, programando placas Arduino, usando GeoGebra y ejecutando Excel y PowerPoint sobre el Escritorio Virtual Windows."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 5: Ecosistema de Aplicaciones y Plataformas Web en Aula</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Analiza qué están haciendo pedagógicamente los estudiantes y profesores durante las 207.115 horas de uso registradas.</p>
+
+    <h3>2. Explicación de la Gráfica y Tarjetas de Software:</h3>
+    <div class="chart-box">
+        <strong>GRÁFICA (Izquierda): "Distribución de Horas por Categoría Pedagógica"</strong>
+        <ul>
+            <li><strong>Investigación Web y Plataformas Educativas (Chrome — ~148.500 hrs):</strong> Uso de aulas virtuales, Canva, Kahoot, investigaciones y portales educativos.</li>
+            <li><strong>Ofimática Escolar (~26.400 hrs):</strong> Creación de documentos, hojas de cálculo y presentaciones combinando LibreOffice y Microsoft Office en VDI.</li>
+            <li><strong>Escritorio Virtual Windows VDI (24.856 hrs reales en API):</strong> Ejecución de entorno Windows remoto completo.</li>
+            <li><strong>Programación y Pensamiento Computacional (~16.800 hrs):</strong> Uso intensivo de Scratch y Arduino IDE.</li>
+            <li><strong>Diseño 3D, Vectorial y Simulación (~9.600 hrs):</strong> Modelado en Tinkercad, Inkscape y GeoGebra.</li>
+        </ul>
+    </div>
+
+    <p><strong>Panel Derecho (6 Tarjetas de Software):</strong> Explica cómo conviven armónicamente el software de Escritorio Virtual Windows (Excel, PowerPoint, Explorer Windows) con las herramientas STEM (Scratch, Tinkercad, Arduino, GeoGebra) y la suite ofimática local.</p>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "¿En qué invierten el tiempo los estudiantes? En la gráfica izquierda vemos la distribución por categorías pedagógicas. Además del acceso a plataformas web educativas, sumamos más de <strong>26.400 horas en ofimática</strong>, <strong>24.856 horas en sesiones de Escritorio Virtual Windows</strong> y más de <strong>26.000 horas combinadas en programación con Scratch, robótica con Arduino y modelado 3D en Tinkercad</strong>. Es decir, transformamos equipos que antes estaban rezagados en laboratorios de innovación y bilingüismo."
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 6: Capacitaciones Iniciales y Apropiación Docente sin Barreras</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Explica el factor humano detrás de los números: por qué ningún docente tuvo barreras para usar el sistema desde el primer día. Incluye 4 fotografías reales de las jornadas virtuales, entrega del Kit de Bienvenida en las aulas, sesiones presenciales y el portal web de autoaprendizaje.</p>
+
+    <h3>2. Indicadores clave del bloque izquierdo:</h3>
+    <ul>
+        <li><strong>100% de Colegios Capacitados (51 de 51 IED):</strong> 7 sesiones sincrónicas masivas + refuerzos personalizados en sitio.</li>
+        <li><strong>+125 Docentes Líderes Certificados:</strong> Profesores de informática y tecnología entrenados directamente.</li>
+        <li><strong>4.65 / 5.0 de Calificación Docente:</strong> Evaluado en encuestas oficiales de satisfacción (93% de aprobación en claridad y utilidad pedagógica).</li>
+        <li><strong>Kit de Bienvenida Físico y Digital:</strong> Guías paso a paso en cada sala para que incluso si cambia el docente, el nuevo profesor pueda iniciar clase en minutos.</li>
+    </ul>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Un proyecto tecnológico fracasa si el docente siente temor o fricción al entrar a clase. Por eso desplegamos una estrategia de apropiación en el <strong>100% de las 51 instituciones</strong>, entrenando a más de <strong>125 docentes</strong> con una calificación de <strong>4.65 sobre 5.0</strong>. Además, entregamos en cada sala el Kit de Bienvenida físico y digital. Gracias a esto eliminamos cualquier barrera de inmersión: el docente llega, enciende el equipo y dicta su clase con total naturalidad."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 7: Normalidad Operativa y Bajísima Tasa de Soportes (98.94%)</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Demuestra que la solución es sumamente estable, que casi no genera carga de soporte correctivo y que cada solicitud ha sido resuelta con excelencia.</p>
+
+    <h3>2. Explicación de la Gráfica Combinada:</h3>
+    <div class="chart-box">
+        <strong>GRÁFICA (Izquierda): "Evolución Mensual de Soportes Atendidos vs. Calificación de Satisfacción (Abril - Septiembre)"</strong>
+        <ul>
+            <li><strong>Barras Azules (Eje Izquierdo — Número de Tickets):</strong> Muestra los <strong>63 soportes totales</strong> atendidos en 6 meses en un parque de 1.001 equipos:
+                <ul>
+                    <li>Abril: 5 tickets | Mayo: 16 tickets | Junio: 13 tickets | Julio: 13 tickets | Agosto: 6 tickets | Septiembre: 10 tickets.</li>
+                </ul>
+            </li>
+            <li><strong>Línea Verde (Eje Derecho — Satisfacción Docente sobre 5.0):</strong> Muestra que la calificación de las actas firmadas por los colegios se mantuvo siempre cerca de la perfección:
+                <ul>
+                    <li>Abril: <strong>5.0</strong> | Mayo: <strong>4.81</strong> | Junio: <strong>5.0</strong> | Julio: <strong>5.0</strong> | Agosto: <strong>4.83</strong> | Septiembre: <strong>4.84</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h3>3. Tres argumentos contundentes del panel derecho:</h3>
+    <ul>
+        <li><strong>98.94% de Operación Libre de Fallas:</strong> 63 tickets en 6 meses equivalen a apenas ~10 solicitudes al mes entre 51 colegios (menos de 0.2 tickets por colegio al mes).</li>
+        <li><strong>82% de los casos fueron preventivos o de infraestructura externa:</strong> No fueron fallas del software Qinaya, sino acompañamiento por cambios de red del colegio, cables desconectados o inducción a docentes nuevos.</li>
+        <li><strong>Tiempo de respuesta &lt; 2 horas y 100% de casos cerrados a satisfacción:</strong> Cero tickets pendientes.</li>
+    </ul>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Esta gráfica demuestra la tranquilidad operativa que le brindamos a la Secretaría. En seis meses de operación con 1.001 computadores, solo se generaron <strong>63 solicitudes de soporte en total</strong> —eso es apenas 10 tickets al mes en todo Bogotá—, lo que representa un <strong>98.94% de autonomía operativa</strong>. Y lo más importante: el 100% de esos casos se cerraron con acta firmada y una calificación promedio de <strong>4.84 sobre 5.0</strong>. Además, 8 de cada 10 visitas no fueron por fallas de nuestra plataforma, sino para apoyar a los colegios en temas de su red local o energía."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 8: Evidencia en Terreno — Caso Colegio Manuel Cepeda Vargas</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Presenta las 4 fotografías reales de las visitas técnicas y mesas de trabajo en el <strong>IED Manuel Cepeda Vargas (Top #2 en uso de todo el Distrito con 18.117 horas y 9.4 hrs/día)</strong>, demostrando en terreno que la solución funciona a la perfección y que las eventualidades reportadas obedecían a factores externos de red y hardware preexistente.</p>
+
+    <h3>2. Los 3 hallazgos clave para explicar:</h3>
+    <ol>
+        <li><strong>El software Qinaya opera a la perfección:</strong> Tiene 30 de 30 equipos activos, más de 18.116 horas de uso y las Actas de Visita #10, #11 y #19 fueron calificadas con <strong>5.0 sobre 5.0</strong> por los mismos docentes.</li>
+        <li><strong>Diagnóstico científico de factores externos:</strong> Nuestra telemetría demostró que cuando el escritorio virtual se pausaba era porque el canal de internet del colegio caía a <strong>0.41 Mbps (el 90% del tiempo por debajo de 1 Mbps y latencia de 722 ms)</strong>, sumado a 14 equipos con bloqueo de fábrica <em>Secure Boot BIOS</em> y 5 fuentes eléctricas averiadas.</li>
+        <li><strong>Articulación exitosa con Dotaciones Escolares y OTIC:</strong> En vez de que el aula quedara inactiva, hicimos equipo con Dotaciones Escolares, OTIC y la Rectoría para solucionar el cableado LAN y las BIOS, manteniendo al colegio como el #2 de mayor uso en Bogotá.</li>
+    </ol>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Queremos destacar el caso del <strong>Colegio Manuel Cepeda Vargas</strong>, donde estuvimos presencialmente con nuestro equipo técnico y pedagógico. Este colegio es hoy el <strong>Top #2 de mayor uso en todo el Distrito con más de 18.117 horas</strong> y actas calificadas <strong>5.0 sobre 5.0</strong>. Cuando nos reportaron intermitencias, fuimos al terreno y demostramos con telemetría que la plataforma Qinaya funcionaba perfectamente, pero el canal de internet del aula estaba entregando apenas <strong>0.41 Mbps con 722 milisegundos de latencia</strong>, además de bloqueos de BIOS de fábrica. En equipo con Dotaciones Escolares y OTIC acompañamos la solución de infraestructura y hoy es una de las salas más exitosas de la ciudad."
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 9: Colegios con Mayor % VDI en la API y Diagnóstico de Red Escolar</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Conecta los datos de uso de Escritorio Virtual Windows (<code>schools.asp</code>) con la telemetría de red (<code>network.asp</code>) para mostrar cómo la plataforma también le sirve a la Secretaría como un radar de calidad de conectividad en los colegios.</p>
+
+    <h3>2. Explicación de la Gráfica de Barras Verticales:</h3>
+    <div class="chart-box">
+        <strong>GRÁFICA (Izquierda): "Top Colegios con Mayor % de Escritorio Virtual VDI Registrado en la API"</strong>
+        <ul>
+            <li>Compara lado a lado el <strong>% VDI en Mes Pico Agosto (Barra Morada)</strong> frente al <strong>% VDI Acumulado Histórico Mar-Oct (Barra Azul)</strong> con los números impresos encima de cada columna:
+                <ul>
+                    <li><strong>Mochuelo Alto:</strong> 84.8% (Pico) / 84.8% (Acumulado)</li>
+                    <li><strong>Estrella del Sur Sede B:</strong> 66.3% (Pico Ago) / 39.9% (Acumulado)</li>
+                    <li><strong>Atanasio Girardot:</strong> 46.5% (Pico Ago) / 19.5% (Acumulado)</li>
+                    <li><strong>República de México:</strong> 44.5% (Pico Ago) / 18.6% (Acumulado)</li>
+                    <li><strong>El Salitre Suba:</strong> 41.7% (Pico Ago) / 26.4% (Acumulado)</li>
+                    <li><strong>San Isidro Sur Oriental:</strong> 37.8% (Acumulado)</li>
+                    <li><strong>Paulo VI IED:</strong> 35.6% (Pico Ago) / 20.7% (Acumulado)</li>
+                    <li><strong>Carlos Arango Vélez:</strong> 32.4% (Pico Ago) / 26.8% (Acumulado)</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Esta gráfica resume una conclusión estratégica para la Dirección: <strong>donde el canal de internet del colegio es estable, el uso del Escritorio Virtual Windows supera entre el 35% y el 84% del tiempo total de clase</strong>, como ocurre en Mochuelo Alto, Estrella del Sur, Atanasio Girardot, República de México y El Salitre. Además, nuestra API de red le entrega a Dotaciones y a OTIC un diagnóstico exacto de cuáles colegios necesitan ajuste de ancho de banda, mientras nuestro entorno local garantiza que ningún estudiante se quede sin clase si falla el operador de internet."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 10: Cierre Estratégico — Hacia el Siguiente Año (Renovación y Expansión)</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Es la diapositiva de cierre orientada a la toma de decisión: plantea la hoja de ruta en <strong>3 pilares estratégicos</strong> para dar continuidad al proyecto el próximo año y escalarlo a nuevas instituciones.</p>
+
+    <h3>2. Los 3 Pilares de Cierre:</h3>
+    <ol>
+        <li><strong>Pilar 1 — Consolidar las 51 IED Actuales (Verde):</strong> Garantizar que las 1.001 estaciones ya instaladas y los más de 125 docentes capacitados continúen operando sin interrupción tras haber logrado <strong>207.115+ horas de uso y cero bajas</strong>.</li>
+        <li><strong>Pilar 2 — Escalar VDI a Más Equipos y Sedes (Morado):</strong> Ampliar el alcance de ReNube para potenciar nuevos lotes de computadores en más colegios del Distrito con Escritorios Virtuales Windows en la nube, logrando <strong>hasta un 80% de ahorro frente a la compra de hardware nuevo (CAPEX)</strong> y reduciendo la huella de residuos electrónicos.</li>
+        <li><strong>Pilar 3 — Sinergia Institucional Total (Naranja):</strong> Mantener el trabajo articulado con Dotaciones Escolares, OTIC y Ágata (mesa de ayuda con SLA &lt; 2 horas, monitoreo proactivo de red y actualización centralizada en un solo clic).</li>
+    </ol>
+
+    <div class="speech-box">
+        <strong>Guion sugerido de cierre (Qué decir):</strong><br>
+        "Para concluir: hoy tenemos un proyecto probado en terreno, con <strong>51 colegios activos, cero instituciones dadas de baja, más de 207.000 horas de uso verificables en vivo en nuestra API y un 98.94% de estabilidad operativa</strong>. El paso natural para el siguiente año es doble: primero, <strong>asegurar la continuidad de estas 51 instituciones</strong> para proteger la inversión y la apropiación ya ganada; y segundo, <strong>extender la solución ReNube para repotenciar más salas de cómputo en nuevas instituciones del Distrito</strong>, dándoles acceso a Escritorios Virtuales Windows de última generación por una fracción del costo de adquirir equipos nuevos."
+    </div>
+
+    <!-- =================================================================== -->
+    <div class="tip-box">
+        <h3 style="margin-top: 0; color: #166534; border-bottom-color: #86efac;">ANEXO RÁPIDO: Respuestas Cortas ante Posibles Preguntas en la Reunión</h3>
+        <ul>
+            <li><strong>Pregunta 1: "¿Por qué en algunos colegios el porcentaje acumulado de VDI desde marzo se ve alrededor del 12% al 20%?"</strong><br>
+            <em>Respuesta:</em> "Porque todos los datos salen directo de la API desde marzo, y durante mayo y junio los colegios trabajaron casi 50.000 horas en modo local mientras se activaban los accesos remotos (0.04% VDI en esos dos meses). Apenas se activaron en el segundo semestre, el promedio global subió al 21.7% mensual en agosto (con semanas de 26.5% y días de 41.4%), y colegios como Estrella del Sur, Atanasio Girardot o El Salitre registran entre 41.7% y 66.3% de uso VDI en la API."</li>
+            <li><strong>Pregunta 2: "¿Cómo calculan el promedio diario de horas por colegio para que sea tan exacto?"</strong><br>
+            <em>Respuesta:</em> "Dividimos las horas reales reportadas por la API entre los equipos activos y entre los días hábiles efectivos de clase (descontando fines de semana, festivos y el periodo de vacaciones escolares del 16 de junio al 3 de julio). Además, auditamos que ningún colegio de jornada única supere su tope físico (~6.6 hrs) ni ningún colegio de doble jornada supere el máximo real de 10 horas diarias (el máximo es Atanasio Girardot con 9.6 hrs/día)."</li>
+            <li><strong>Pregunta 3: "¿Algún colegio ha pedido retirar la solución por problemas técnicos?"</strong><br>
+            <em>Respuesta:</em> "Ninguno. Tenemos 100% de permanencia (51 de 51 colegios activos). Cuando algún colegio ha tenido dificultades —como el Manuel Cepeda Vargas por su canal de internet de 0.41 Mbps—, hemos ido personalmente al colegio y trabajado en equipo con Dotaciones Escolares y OTIC hasta dejar la sala operando al 100%."</li>
+        </ul>
+    </div>
+
+</body>
+</html>
