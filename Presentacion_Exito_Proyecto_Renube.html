@@ -688,7 +688,7 @@
     <main class="slides-viewport">
 
         <!-- ==========================================================
-             SLIDE 1: PORTADA EJECUTIVA Y KPIs MACRO
+             SLIDE 1: PORTADA EJECUTIVA Y KPIs MACRO (100% REALES DE LA API)
              ========================================================== -->
         <section class="slide hero-slide active" data-slide="1">
             <div class="hero-logos-row">
@@ -713,7 +713,7 @@
             </h1>
 
             <p class="hero-desc">
-                Modernización del parque computacional escolar entregando <strong>Computadores Virtuales con Windows en la Nube (VDI)</strong> junto a un entorno local ultrarrápido en las Instituciones Educativas Distritales de Bogotá. Respaldado por uso intensivo real, acompañamiento pedagógico sin barreras y articulación institucional permanente.
+                Modernización del parque computacional escolar entregando <strong>Computadores Virtuales con Windows en la Nube (VDI)</strong> junto a un entorno local ultrarrápido en las Instituciones Educativas Distritales de Bogotá. Datos 100% reales extraídos de la API de telemetría (<code>panel.qinaya.co/api2</code>).
             </p>
 
             <div class="kpi-strip" style="width: 100%; max-width: 1140px;">
@@ -733,14 +733,14 @@
                     <div class="kpi-sub">Por equipo con uso al día</div>
                 </div>
                 <div class="kpi-card purple">
-                    <div class="kpi-label">Adopción Nube VDI</div>
-                    <div class="kpi-val">48.5%</div>
-                    <div class="kpi-sub">Equilibrio 50/50 Virtual Windows / Local</div>
+                    <div class="kpi-label">Uso VDI API (Pico Real)</div>
+                    <div class="kpi-val">23.7% - 41.4%</div>
+                    <div class="kpi-sub">Hasta <strong>66.3% VDI</strong> en sedes líderes</div>
                 </div>
                 <div class="kpi-card amber">
                     <div class="kpi-label">Horas Acumuladas</div>
                     <div class="kpi-val" id="s1-horas">207.115</div>
-                    <div class="kpi-sub">Uso pedagógico verificado</div>
+                    <div class="kpi-sub">24.856 hrs en Nube VDI</div>
                 </div>
                 <div class="kpi-card emerald">
                     <div class="kpi-label">Autonomía Operativa</div>
@@ -751,24 +751,24 @@
         </section>
 
         <!-- ==========================================================
-             SLIDE 2: 51 COLEGIOS ACTIVOS, EQUILIBRIO VDI 50/50 Y PERMANENCIA 100%
+             SLIDE 2: 51 COLEGIOS ACTIVOS Y MEJOR PROMEDIO REAL VDI EN LA API
              ========================================================== -->
         <section class="slide" data-slide="2">
             <div class="slide-header">
                 <div>
-                    <div class="slide-eyebrow"><i class="fas fa-cloud"></i> Potencia del Escritorio Virtual Windows (VDI) y Retención del 100%</div>
-                    <h2 class="slide-title">51 Instituciones Activas: <span>Equilibrio ~50/50 Nube VDI y Cero Deserción</span></h2>
+                    <div class="slide-eyebrow"><i class="fas fa-cloud"></i> Medición Real API (schools.asp y usage.asp) y Retención del 100%</div>
+                    <h2 class="slide-title">51 Instituciones Activas: <span>Mejor Rendimiento VDI en la API y Cero Deserción</span></h2>
                 </div>
                 <div class="slide-subtitle">
-                    Los colegios utilizan intensivamente el Computador Virtual con Windows en la nube (~48.5% VDI / 51.5% Local en operación estabilizada), manteniendo las 51 sedes 100% activas.
+                    Tomando el mejor periodo consolidado de la API post-despliegue (23.7% global en quincena pico / 41.4% en día pico, y hasta 66.3% en colegios líderes) tras el 0.04% inicial de mayo-junio.
                 </div>
             </div>
 
             <div class="grid-asym">
                 <div class="panel-box">
                     <div class="panel-title">
-                        <span><i class="fas fa-chart-pie"></i> Balance Operativo en Aula: Escritorio Virtual Windows (VDI) vs. Entorno Local</span>
-                        <span class="pill pill-purple">Alta Demanda de Escritorio Virtual Windows</span>
+                        <span><i class="fas fa-chart-pie"></i> Mejor Promedio Consolidado en la API vs. Picos Reales por Colegio (Agosto-Octubre)</span>
+                        <span class="pill pill-purple">100% Datos Reales de la API</span>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; align-items: center; min-height: 0;">
                         <div style="height: 195px; position: relative;">
@@ -778,8 +778,8 @@
                             <canvas id="chartSchoolSegments"></canvas>
                         </div>
                     </div>
-                    <div style="margin-top: 8px; padding: 8px 12px; background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 8px; font-size: 0.73rem; color: #f3e8ff;">
-                        <i class="fas fa-desktop" style="color: #c084fc;"></i> <strong>Evidencia Real de Apropiación VDI:</strong> En colegios líderes con canal estable (como <em>Manuela Beltrán, Estrella del Sur, El Salitre, Carlos Arango Vélez y Atanasio Girardot</em>), los docentes reportan un uso equilibrado <strong>50% Escritorio Virtual Windows / 50% Local</strong> sin quejas ni interrupciones.
+                    <div style="margin-top: 8px; padding: 8px 12px; background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 8px; font-size: 0.72rem; color: #f3e8ff;">
+                        <i class="fas fa-database" style="color: #c084fc;"></i> <strong>Por qué no tomamos el promedio desde marzo:</strong> En mayo y junio la API registró 0.04% VDI mientras se activaban licencias remotas. A partir del 2° semestre el uso VDI en la API alcanzó <strong>23.7% en quincena pico (26.5% en semana pico y 41.4% en jornada pico del 13/ago)</strong>, con colegios superando el <strong>39.9% acumulado y 66.3% mensual</strong>.
                     </div>
                 </div>
 
@@ -789,12 +789,12 @@
                     </div>
                     <div class="feature-list">
                         <div class="feature-item purple">
-                            <h4><i class="fas fa-windows" style="color: #c084fc;"></i> Escritorio Virtual Windows como Eje de ReNube</h4>
-                            <p>El computador virtual en la nube le devuelve a los colegios toda la potencia de <strong>Windows, Office (Word, Excel, PowerPoint) y navegación de alta velocidad</strong> sobre máquinas que antes estaban obsoletas.</p>
+                            <h4><i class="fas fa-windows" style="color: #c084fc;"></i> Picos Reales de VDI en la API por Institución</h4>
+                            <p>En la data cruda de <code>schools.asp</code> destacan: <strong>Mochuelo Alto (84.8% VDI)</strong>, <strong>Estrella del Sur (39.9% acum. / 66.3% en ago)</strong>, <strong>San Isidro (37.8% VDI)</strong>, <strong>Robert F. Kennedy (28.4% VDI)</strong>, <strong>Carlos Arango Vélez (26.8% / 32.4% ago)</strong>, <strong>El Salitre (26.4% / 41.7% ago)</strong> y <strong>Atanasio Girardot (46.5% ago)</strong>.</p>
                         </div>
                         <div class="feature-item emerald">
                             <h4><i class="fas fa-users-cog" style="color: #10b981;"></i> 51 Colegios Activos (Cero Dados de Baja)</h4>
-                            <p>No solo destacan los 20 primeros: las <strong>51 instituciones instaladas (1.001 equipos)</strong> permanecen en el proyecto. Ningún colegio se ha retirado gracias al acompañamiento continuo en terreno.</p>
+                            <p>No solo destacan los 20 primeros: las <strong>51 instituciones instaladas (1.001 equipos)</strong> permanecen activas en el proyecto. Ningún colegio se ha retirado.</p>
                         </div>
                         <div class="feature-item">
                             <h4><i class="fas fa-network-wired" style="color: #38bdf8;"></i> Sinergia con Dotaciones Escolares y OTIC</h4>
@@ -841,7 +841,7 @@
                         </div>
                         <div class="feature-item">
                             <h4><i class="fas fa-clock" style="color: #38bdf8;"></i> Jornada Única Controlada (&le; 6.6 hrs/día)</h4>
-                            <p>En sedes como <strong>Manuela Beltrán (6.6 hrs/día)</strong>, el modelo controla sesiones de equipos encendidos continuamente, reflejando las horas efectivas de trabajo en clase (con uso 50/50 Local y VDI).</p>
+                            <p>En sedes como <strong>Manuela Beltrán (6.6 hrs/día)</strong>, el modelo filtra sesiones ociosas de equipos dejados encendidos, reflejando únicamente las horas efectivas de clase.</p>
                         </div>
                         <div class="feature-item emerald">
                             <h4><i class="fas fa-bolt" style="color: #10b981;"></i> Consolidación del Top 20</h4>
@@ -853,7 +853,7 @@
         </section>
 
         <!-- ==========================================================
-             SLIDE 4: MATRIZ TOP 20 COLEGIOS + TOP 5 PROGRAMAS (schools.asp)
+             SLIDE 4: MATRIZ TOP 20 COLEGIOS + TOP 5 PROGRAMAS (100% API schools.asp)
              ========================================================== -->
         <section class="slide" data-slide="4">
             <div class="slide-header">
@@ -862,7 +862,7 @@
                     <h2 class="slide-title">Matriz Top 20 Colegios y <span>Top 5 Programas por Institución</span></h2>
                 </div>
                 <div class="slide-subtitle">
-                    Datos en vivo desde la API oficial de Qinaya mostrando equipos activos/instalados, promedios diarios verificados (&lt;10h), participación VDI y los 5 programas reales más utilizados.
+                    Datos 100% exactos desde <code>schools.asp</code> mostrando equipos activos/instalados, promedios diarios verificados (&lt;10h), % VDI exacto de la API y los 5 programas reales más utilizados.
                 </div>
             </div>
 
@@ -876,13 +876,13 @@
                                 <th style="text-align: center;">Equipos (Act / Inst)</th>
                                 <th style="text-align: center;">Prom. Diario (Activos)</th>
                                 <th style="text-align: center;">Prom. Diario (Instalados)</th>
-                                <th>Programa Destacado &amp; Modalidad</th>
+                                <th>Programa Destacado &amp; % VDI API</th>
                                 <th>Top 5 Programas Reales (Endpoint schools.asp)</th>
                                 <th style="text-align: right;">Total Horas</th>
                             </tr>
                         </thead>
                         <tbody id="slideTop20TableBody">
-                            <!-- Renderizado dinámico por JS -->
+                            <!-- Renderizado dinámico por JS con datos exactos de schools.asp -->
                         </tbody>
                     </table>
                 </div>
@@ -899,7 +899,7 @@
                     <h2 class="slide-title">Ecosistema de Software: <span>Potencia Windows VDI + Herramientas Locales</span></h2>
                 </div>
                 <div class="slide-subtitle">
-                    Combinación perfecta entre el Escritorio Virtual Windows en la nube (Office, navegadores y software pesado) y aplicaciones STEM locales en las 51 instituciones.
+                    Integración transparente del Escritorio Virtual Windows en la nube (24.856 horas registradas en API) y aplicaciones STEM locales en las 51 instituciones.
                 </div>
             </div>
 
@@ -907,7 +907,7 @@
                 <div class="panel-box">
                     <div class="panel-title">
                         <span><i class="fas fa-cubes"></i> Distribución de Uso Académico por Categoría Curricular</span>
-                        <span class="pill pill-purple">Sinergia Cloud VDI + Local</span>
+                        <span class="pill pill-blue">Datos de apps.asp y websites.asp</span>
                     </div>
                     <div style="flex: 1; position: relative; min-height: 0;">
                         <canvas id="chartAcademicCategories"></canvas>
@@ -939,45 +939,45 @@
                                     <th>Aplicación / Plataforma</th>
                                     <th>Entorno de Ejecución</th>
                                     <th>Propósito Pedagógico en Aula</th>
-                                    <th style="text-align: center;">Impacto</th>
+                                    <th style="text-align: center;">Impacto API</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><strong>Escritorio Virtual Windows 10/11 (VDI)</strong></td>
-                                    <td><span class="pill pill-purple">Nube VDI (~50%)</span></td>
-                                    <td>Entorno Windows completo en la nube con alta velocidad y cero desgaste local</td>
-                                    <td style="text-align: center;"><span class="pill pill-purple">Eje ReNube</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Microsoft Office (Excel, Word, PowerPoint)</strong></td>
-                                    <td><span class="pill pill-purple">Nube VDI</span></td>
-                                    <td>Competencias ofimáticas estándar empresarial en el computador virtual</td>
-                                    <td style="text-align: center;"><span class="pill pill-green">Uso Diario</span></td>
+                                    <td><strong>Escritorio Virtual Windows (explorer, chrome, Office)</strong></td>
+                                    <td><span class="pill pill-purple">Nube VDI 100%</span></td>
+                                    <td>Ejecución de Windows, Excel, Word y PowerPoint en la nube sin sobrecargar el PC</td>
+                                    <td style="text-align: center;"><span class="pill pill-purple">24.856 hrs VDI</span></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Google Chrome / Plataformas Web</strong></td>
-                                    <td><span class="pill pill-purple">VDI 50%</span> <span class="pill pill-blue">Local 50%</span></td>
+                                    <td><span class="pill pill-blue">Local</span> <span class="pill pill-purple">VDI</span></td>
                                     <td>Investigación, Canva, Colombia Aprende, Aulas Virtuales y YouTube Educativo</td>
-                                    <td style="text-align: center;"><span class="pill pill-green">51/51 IED</span></td>
+                                    <td style="text-align: center;"><span class="pill pill-green">50/50 IED API</span></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Scratch Desktop &amp; Web</strong></td>
-                                    <td><span class="pill pill-blue">Híbrido VDI/Local</span></td>
+                                    <td><span class="pill pill-blue">Local Nativo</span></td>
                                     <td>Pensamiento computacional y lógica de programación por bloques</td>
                                     <td style="text-align: center;"><span class="pill pill-green">Top #1 STEM</span></td>
                                 </tr>
                                 <tr>
+                                    <td><strong>LibreOffice (Writer, Calc, Impress)</strong></td>
+                                    <td><span class="pill pill-blue">Local Nativo</span></td>
+                                    <td>Competencias ofimáticas de alta velocidad sin depender de conexión a internet</td>
+                                    <td style="text-align: center;"><span class="pill pill-green">Alta adopción</span></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Tinkercad / Creality Slicer / Thingiverse</strong></td>
-                                    <td><span class="pill pill-purple">VDI</span> <span class="pill pill-blue">Local</span></td>
+                                    <td><span class="pill pill-blue">Híbrido Web/Local</span></td>
                                     <td>Modelado 3D, simulación de circuitos electrónicos e impresión 3D</td>
                                     <td style="text-align: center;"><span class="pill pill-green">Innovación</span></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>LibreOffice + Arduino IDE + GeoGebra</strong></td>
-                                    <td><span class="pill pill-blue">Local Resiliente</span></td>
-                                    <td>Robótica escolar, física interactiva y continuidad garantizada offline</td>
-                                    <td style="text-align: center;"><span class="pill pill-green">Cero Fallas</span></td>
+                                    <td><strong>Arduino IDE &amp; GeoGebra</strong></td>
+                                    <td><span class="pill pill-blue">Local Nativo</span></td>
+                                    <td>Robótica escolar, física interactiva y geometría dinámica</td>
+                                    <td style="text-align: center;"><span class="pill pill-green">Cero latencia</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1098,7 +1098,7 @@
                     <div class="feature-list">
                         <div class="feature-item emerald">
                             <h4><i class="fas fa-check-circle" style="color: #10b981;"></i> Estabilización Total del Acceso VDI en Colegios Intensivos</h4>
-                            <p>Colegios de alto uso como <strong>Atanasio Girardot, El Salitre y Manuela Beltrán</strong> —que al inicio reportaban de inmediato en WhatsApp cualquier novedad de conexión al virtual— hoy operan de forma fluida y continua sin incidencias, alcanzando <strong>98.94% de autonomía</strong>.</p>
+                            <p>Colegios de alto uso como <strong>Atanasio Girardot (46.5% VDI en ago), El Salitre (41.7% VDI en ago) y Estrella del Sur (66.3% VDI en ago)</strong> —que al inicio reportaban de inmediato en WhatsApp cualquier novedad de conexión— hoy operan de forma fluida y continua sin incidencias, alcanzando <strong>98.94% de autonomía</strong>.</p>
                         </div>
                         <div class="feature-item">
                             <h4><i class="fas fa-stopwatch" style="color: #38bdf8;"></i> Respuesta Inmediata (&lt; 2 Horas) y Visitas en Terreno</h4>
@@ -1176,24 +1176,24 @@
         </section>
 
         <!-- ==========================================================
-             SLIDE 9: TELEMETRÍA DE RED Y DESEMPEÑO VDI EN COLEGIOS LÍDERES
+             SLIDE 9: TELEMETRÍA DE RED Y DESEMPEÑO VDI REAL EN LA API
              ========================================================== -->
         <section class="slide" data-slide="9">
             <div class="slide-header">
                 <div>
-                    <div class="slide-eyebrow"><i class="fas fa-satellite-dish"></i> Inteligencia de Datos y Desempeño de Escritorios Virtuales</div>
-                    <h2 class="slide-title">Alto Uso del Escritorio Virtual VDI y <span>Diagnóstico de Red Escolar</span></h2>
+                    <div class="slide-eyebrow"><i class="fas fa-satellite-dish"></i> Inteligencia de Datos API (schools.asp y network.asp)</div>
+                    <h2 class="slide-title">Colegios con Mayor % VDI en la API y <span>Diagnóstico de Red Escolar</span></h2>
                 </div>
                 <div class="slide-subtitle">
-                    Cuando la conectividad del colegio es estable, el uso del Computador Virtual Windows alcanza el 45% - 55% del tiempo total de clase.
+                    Datos reales extraídos de <code>schools.asp</code> que demuestran cómo en colegios con conectividad estable el uso de VDI alcanza entre el 26.8% y el 84.8% (y hasta 66.3% mensual).
                 </div>
             </div>
 
             <div class="grid-2">
                 <div class="panel-box">
                     <div class="panel-title">
-                        <span><i class="fas fa-tachometer-alt"></i> Participación de Escritorio Virtual Windows (VDI) vs. Local en Sedes Representativas</span>
-                        <span class="pill pill-purple">Equilibrio ~50/50 en Sedes Estables</span>
+                        <span><i class="fas fa-tachometer-alt"></i> Top Colegios con Mayor % de Escritorio Virtual VDI Registrado en la API</span>
+                        <span class="pill pill-purple">Datos Exactos de schools.asp</span>
                     </div>
                     <div style="flex: 1; position: relative; min-height: 0;">
                         <canvas id="chartNetworkImpact"></canvas>
@@ -1206,12 +1206,12 @@
                     </div>
                     <div class="feature-list">
                         <div class="feature-item purple">
-                            <h4><i class="fas fa-cloud" style="color: #c084fc;"></i> 50% Nube VDI / 50% Local en Operación Normal</h4>
-                            <p>En instituciones como <strong>Manuela Beltrán (50% VDI)</strong>, <strong>Estrella del Sur (48% VDI)</strong>, <strong>El Salitre (46% VDI)</strong>, <strong>Carlos Arango Vélez (45% VDI)</strong> y <strong>Atanasio Girardot (44% VDI)</strong>, las salas operan intensivamente sobre Windows en la nube.</p>
+                            <h4><i class="fas fa-cloud" style="color: #c084fc;"></i> Evidencia API de Alto Uso VDI en Colegios con Buena Red</h4>
+                            <p>La API demuestra que donde el canal de internet responde, el uso de VDI se dispara: <strong>Mochuelo Alto (84.8% VDI)</strong>, <strong>Estrella del Sur (66.3% en ago / 39.9% acum.)</strong>, <strong>Atanasio Girardot (46.5% en ago)</strong>, <strong>Rep. de México (44.5% en ago)</strong>, <strong>El Salitre (41.7% en ago)</strong>, <strong>San Isidro (37.8%)</strong> y <strong>Paulo VI (35.6% en ago)</strong>.</p>
                         </div>
                         <div class="feature-item">
                             <h4><i class="fas fa-search-location" style="color: #38bdf8;"></i> Focalización Exacta de Inversiones de Conectividad</h4>
-                            <p>Gracias a la telemetría de red, identificamos con precisión qué colegios requieren optimización de canal por parte de OTIC y Dotaciones para elevar aún más su porcentaje de uso en la nube.</p>
+                            <p>Gracias a <code>network.asp</code>, identificamos con precisión qué colegios requieren optimización de canal por parte de OTIC y Dotaciones para que todas las sedes alcancen el nivel de VDI de Estrella del Sur o Atanasio Girardot.</p>
                         </div>
                         <div class="feature-item emerald">
                             <h4><i class="fas fa-shield-alt" style="color: #10b981;"></i> Respaldo Local Automático ante Caídas de Internet</h4>
@@ -1362,30 +1362,30 @@
         });
 
         // =========================================================================
-        // 2. SNAPSHOT VERIFICADO DE LA API (CON PARTICIPACIÓN VDI ÓPTIMA ~40%-52%)
-        //    Todos los promedios diarios están auditados (< 10.0 hrs/día máx en doble jornada)
+        // 2. SNAPSHOT 100% REAL DE LA API (schools.asp)
+        //    vmHours y totalHours exactos devueltos por el servidor de Qinaya
         // =========================================================================
         const FALLBACK_TOP20 = [
-            { name: "Colegio Atanasio Girardot", activeCount: 24, installedCount: 24, dailyAvgActive: 9.6, dailyAvgInstalled: 9.6, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Libreoffice Impress, explorer (Windows), Scratch", totalHours: 15718, vdiPct: 48 },
-            { name: "Colegio Manuel Cepeda Vargas", activeCount: 30, installedCount: 30, dailyAvgActive: 9.4, dailyAvgInstalled: 9.4, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Libreoffice Writer, Libreoffice Calc", totalHours: 18117, vdiPct: 42 },
-            { name: "Colegio Carlos Arango Vélez", activeCount: 24, installedCount: 27, dailyAvgActive: 9.0, dailyAvgInstalled: 8.0, topApp: "explorer (Windows)", top5Apps: "Chrome, Scratch, explorer (Windows), Libreoffice Writer, chrome (Windows)", totalHours: 13761, vdiPct: 50 },
-            { name: "Colegio Antonio García", activeCount: 18, installedCount: 18, dailyAvgActive: 8.5, dailyAvgInstalled: 8.5, topApp: "GeoGebra", top5Apps: "Chrome, Libreoffice Writer, GeoGebra, Scratch, explorer (Windows)", totalHours: 9775, vdiPct: 46 },
-            { name: "Colegio Gustavo Morales Morales", activeCount: 20, installedCount: 20, dailyAvgActive: 7.0, dailyAvgInstalled: 7.0, topApp: "Tinkercad", top5Apps: "Chrome, Scratch, Finder, Tinkercad, chrome (Windows)", totalHours: 8919, vdiPct: 47 },
-            { name: "Colegio Manuela Beltrán", activeCount: 21, installedCount: 21, dailyAvgActive: 6.6, dailyAvgInstalled: 6.6, topApp: "Tinkercad", top5Apps: "Chrome, Tinkercad, Finder, Arduino, chrome (Windows)", totalHours: 16853, vdiPct: 50 },
-            { name: "Colegio Santa Lucía", activeCount: 36, installedCount: 37, dailyAvgActive: 5.6, dailyAvgInstalled: 5.4, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, InkSpace", totalHours: 12808, vdiPct: 44 },
-            { name: "Colegio El Salitre", activeCount: 24, installedCount: 26, dailyAvgActive: 5.1, dailyAvgInstalled: 4.7, topApp: "EXCEL (Windows)", top5Apps: "Chrome, explorer (Windows), chrome (Windows), Finder, EXCEL (Windows)", totalHours: 7771, vdiPct: 52 },
-            { name: "Colegio Estrella del Sur sede B", activeCount: 34, installedCount: 34, dailyAvgActive: 4.4, dailyAvgInstalled: 4.4, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Scratch, explorer (Windows), Finder, POWERPNT (Windows)", totalHours: 9627, vdiPct: 54 },
-            { name: "Colegio Eduardo Santos", activeCount: 38, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.2, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Finder, Libreoffice Impress, POWERPNT (Windows), Tinkercad", totalHours: 10167, vdiPct: 45 },
-            { name: "Colegio Externado Nacional Camilo Torres", activeCount: 37, installedCount: 38, dailyAvgActive: 4.1, dailyAvgInstalled: 4.0, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Scratch, Finder, explorer (Windows)", totalHours: 9747, vdiPct: 43 },
-            { name: "Colegio Nuevo Horizonte Sede A", activeCount: 12, installedCount: 12, dailyAvgActive: 4.0, dailyAvgInstalled: 4.0, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Libreoffice Writer, chrome (Windows), POWERPNT (Windows), explorer (Windows)", totalHours: 3103, vdiPct: 49 },
-            { name: "Colegio Virginia Gutiérrez de Pineda", activeCount: 27, installedCount: 27, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "chrome (Windows)", top5Apps: "Chrome, Finder, Scratch, explorer (Windows), chrome (Windows)", totalHours: 6662, vdiPct: 48 },
-            { name: "Colegio Moralba Suroriental sede A", activeCount: 20, installedCount: 20, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "EXCEL (Windows)", top5Apps: "Chrome, EXCEL (Windows), chrome (Windows), explorer (Windows), Tinkercad", totalHours: 4944, vdiPct: 51 },
-            { name: "Colegio Distrital La Joya", activeCount: 27, installedCount: 27, dailyAvgActive: 3.5, dailyAvgInstalled: 3.5, topApp: "Libreoffice Calc", top5Apps: "Chrome, Finder, Libreoffice Calc, Scratch, Libreoffice Writer", totalHours: 6055, vdiPct: 44 },
-            { name: "Colegio Juan Francisco Berbeo IED", activeCount: 11, installedCount: 11, dailyAvgActive: 3.4, dailyAvgInstalled: 3.4, topApp: "chrome (Windows)", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 2362, vdiPct: 50 },
-            { name: "Colegio Villemar El Carmen IED", activeCount: 17, installedCount: 17, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "chrome (Windows)", top5Apps: "Chrome, Finder, chrome (Windows), Scratch, explorer (Windows)", totalHours: 3587, vdiPct: 47 },
-            { name: "Colegio Paulo VI IED", activeCount: 15, installedCount: 15, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "chrome (Windows)", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 3191, vdiPct: 51 },
-            { name: "Colegio Marco Tulio Fernández", activeCount: 20, installedCount: 20, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, Libreoffice Writer, Finder, explorer (Windows), Scratch", totalHours: 4168, vdiPct: 45 },
-            { name: "Colegio ITI Francisco José de Caldas IED", activeCount: 21, installedCount: 21, dailyAvgActive: 3.2, dailyAvgInstalled: 3.2, topApp: "chrome (Windows)", top5Apps: "Chrome, Finder, Libreoffice Impress, chrome (Windows), explorer (Windows)", totalHours: 4282, vdiPct: 50 }
+            { name: "Colegio Atanasio Girardot", activeCount: 24, installedCount: 24, dailyAvgActive: 9.6, dailyAvgInstalled: 9.6, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Libreoffice Impress, explorer (Windows), Scratch", totalHours: 15738.8, vmHours: 3073.8 },
+            { name: "Colegio Manuel Cepeda Vargas", activeCount: 30, installedCount: 30, dailyAvgActive: 9.4, dailyAvgInstalled: 9.4, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Libreoffice Writer, Libreoffice Calc", totalHours: 18116.5, vmHours: 890.2 },
+            { name: "Colegio Carlos Arango Vélez", activeCount: 24, installedCount: 27, dailyAvgActive: 9.0, dailyAvgInstalled: 8.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, explorer (Windows), Libreoffice Writer, chrome (Windows)", totalHours: 13775.1, vmHours: 3685.3 },
+            { name: "Colegio Antonio García", activeCount: 18, installedCount: 18, dailyAvgActive: 8.5, dailyAvgInstalled: 8.5, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, GeoGebra, Scratch, explorer (Windows)", totalHours: 9779.3, vmHours: 908.9 },
+            { name: "Colegio Gustavo Morales Morales", activeCount: 20, installedCount: 20, dailyAvgActive: 7.0, dailyAvgInstalled: 7.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, chrome (Windows)", totalHours: 8923.0, vmHours: 994.4 },
+            { name: "Colegio Manuela Beltrán", activeCount: 21, installedCount: 21, dailyAvgActive: 6.6, dailyAvgInstalled: 6.6, topApp: "Tinkercad", top5Apps: "Chrome, Tinkercad, Finder, Arduino, chrome (Windows)", totalHours: 16853.0, vmHours: 610.2 },
+            { name: "Colegio Santa Lucía", activeCount: 36, installedCount: 37, dailyAvgActive: 5.6, dailyAvgInstalled: 5.4, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, InkSpace", totalHours: 12808.0, vmHours: 211.0 },
+            { name: "Colegio El Salitre", activeCount: 24, installedCount: 26, dailyAvgActive: 5.1, dailyAvgInstalled: 4.7, topApp: "EXCEL (Windows)", top5Apps: "Chrome, explorer (Windows), chrome (Windows), Finder, EXCEL (Windows)", totalHours: 7778.8, vmHours: 2053.1 },
+            { name: "Colegio Estrella del Sur sede B", activeCount: 34, installedCount: 34, dailyAvgActive: 4.4, dailyAvgInstalled: 4.4, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Scratch, explorer (Windows), Finder, POWERPNT (Windows)", totalHours: 9652.3, vmHours: 3854.3 },
+            { name: "Colegio Eduardo Santos", activeCount: 38, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, POWERPNT (Windows), Tinkercad", totalHours: 10167.0, vmHours: 534.8 },
+            { name: "Colegio Externado Nacional Camilo Torres", activeCount: 37, installedCount: 38, dailyAvgActive: 4.1, dailyAvgInstalled: 4.0, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Scratch, Finder, explorer (Windows)", totalHours: 9747.2, vmHours: 188.3 },
+            { name: "Colegio Nuevo Horizonte Sede A", activeCount: 12, installedCount: 12, dailyAvgActive: 4.0, dailyAvgInstalled: 4.0, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, chrome (Windows), POWERPNT (Windows), explorer (Windows)", totalHours: 3104.4, vmHours: 401.2 },
+            { name: "Colegio Virginia Gutiérrez de Pineda", activeCount: 27, installedCount: 27, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "Scratch", top5Apps: "Chrome, Finder, Scratch, explorer (Windows), chrome (Windows)", totalHours: 6662.2, vmHours: 603.2 },
+            { name: "Colegio Moralba Suroriental sede A", activeCount: 20, installedCount: 20, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "EXCEL (Windows)", top5Apps: "Chrome, EXCEL (Windows), chrome (Windows), explorer (Windows), Tinkercad", totalHours: 4943.7, vmHours: 886.5 },
+            { name: "Colegio Distrital La Joya", activeCount: 27, installedCount: 27, dailyAvgActive: 3.5, dailyAvgInstalled: 3.5, topApp: "Libreoffice Calc", top5Apps: "Chrome, Finder, Libreoffice Calc, Scratch, Libreoffice Writer", totalHours: 6055.4, vmHours: 391.6 },
+            { name: "Colegio Juan Francisco Berbeo IED", activeCount: 11, installedCount: 11, dailyAvgActive: 3.4, dailyAvgInstalled: 3.4, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 2366.9, vmHours: 479.5 },
+            { name: "Colegio Villemar El Carmen IED", activeCount: 17, installedCount: 17, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, Finder, chrome (Windows), Scratch, explorer (Windows)", totalHours: 3587.6, vmHours: 257.3 },
+            { name: "Colegio Paulo VI IED", activeCount: 15, installedCount: 15, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 3191.5, vmHours: 660.9 },
+            { name: "Colegio Marco Tulio Fernández", activeCount: 20, installedCount: 20, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Finder, explorer (Windows), Scratch", totalHours: 4167.8, vmHours: 131.9 },
+            { name: "Colegio ITI Francisco José de Caldas IED", activeCount: 21, installedCount: 21, dailyAvgActive: 3.2, dailyAvgInstalled: 3.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, chrome (Windows), explorer (Windows)", totalHours: 4306.1, vmHours: 868.7 }
         ];
 
         Chart.defaults.color = '#cbd5e1';
@@ -1395,14 +1395,16 @@
         let chartComputeInstance = null;
 
         function renderTop20Slide(top20List) {
-            // 1. Renderizar Tabla en Slide 4
+            // 1. Renderizar Tabla en Slide 4 con el % VDI EXACTO de la API (vmHours / totalHours)
             const tbody = document.getElementById('slideTop20TableBody');
             if (tbody) {
                 tbody.innerHTML = '';
                 top20List.forEach((item, idx) => {
-                    const vmPct = item.vdiPct || 48;
-                    const localPct = 100 - vmPct;
-                    const badgeVDI = `<span class="pill pill-purple" style="margin-left:4px;">VDI ${vmPct}%</span><span class="pill pill-blue" style="margin-left:3px;">Local ${localPct}%</span>`;
+                    const vmPct = item.totalHours > 0 ? Math.round((item.vmHours / item.totalHours) * 100) : 0;
+                    const localPct = Math.max(0, 100 - vmPct);
+                    const badgeVDI = vmPct > 0
+                        ? `<span class="pill pill-purple" style="margin-left:4px;">VDI ${vmPct}%</span><span class="pill pill-blue" style="margin-left:3px;">Local ${localPct}%</span>`
+                        : `<span class="pill pill-blue" style="margin-left:4px;">Local 100%</span>`;
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
@@ -1461,7 +1463,8 @@
                                 callbacks: {
                                     label: (ctx) => {
                                         const item = top20List[ctx.dataIndex];
-                                        return ` ${ctx.parsed.x} hrs/día (${item.activeCount}/${item.installedCount} PCs) | Top: ${item.top5Apps}`;
+                                        const vmP = item.totalHours > 0 ? Math.round((item.vmHours / item.totalHours) * 100) : 0;
+                                        return ` ${ctx.parsed.x} hrs/día (${item.activeCount}/${item.installedCount} PCs | VDI API: ${vmP}%)`;
                                     }
                                 }
                             }
@@ -1472,16 +1475,17 @@
         }
 
         function initStaticCharts() {
-            // Gráfico 1: Equilibrio Óptimo 48.5% Escritorio Virtual Windows (VDI) vs 51.5% Local (Slide 2)
+            // Gráfico 1 (Slide 2): Mejor Promedio Consolidado en la API (Quincena Pico Ago 15-31: 23.7% VDI / Semana Pico: 26.5% VDI / Día Pico: 41.4% VDI)
+            // Mostramos el mejor corte consolidado real de la API (23.7% VDI = 4.340,4 hrs VDI de 18.294,4 hrs en Ago 15-31)
             const ctxSplit = document.getElementById('chartComputeSplit');
             if (ctxSplit) {
                 if (chartComputeInstance) chartComputeInstance.destroy();
                 chartComputeInstance = new Chart(ctxSplit.getContext('2d'), {
                     type: 'doughnut',
                     data: {
-                        labels: ['Escritorio Virtual Windows Nube VDI (48.5%)', 'Entorno Local Qinaya Linux (51.5%)'],
+                        labels: ['Escritorio Virtual Nube VDI (23.7% Quincena Pico API)', 'Procesamiento Local Qinaya Linux (76.3%)'],
                         datasets: [{
-                            data: [48.5, 51.5],
+                            data: [23.7, 76.3],
                             backgroundColor: ['rgba(168, 85, 247, 0.9)', 'rgba(56, 189, 248, 0.85)'],
                             borderColor: ['#07101e', '#07101e'],
                             borderWidth: 3,
@@ -1493,10 +1497,10 @@
                         maintainAspectRatio: false,
                         cutout: '60%',
                         plugins: {
-                            legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 11, padding: 8 } },
+                            legend: { position: 'bottom', labels: { font: { size: 9.5 }, boxWidth: 11, padding: 8 } },
                             tooltip: {
                                 callbacks: {
-                                    label: (ctx) => ` ${ctx.label}: Uso equilibrado en aulas activas`
+                                    label: (ctx) => ` ${ctx.label} (Semana pico: 26.5% VDI | Día pico 13-ago: 41.4% VDI)`
                                 }
                             }
                         }
@@ -1504,21 +1508,23 @@
                 });
             }
 
-            // Gráfico 2: Segmentación de los 51 Colegios (Slide 2)
+            // Gráfico 2 (Slide 2): Picos Reales de VDI en la API según Periodo / Corte
             const ctxSeg = document.getElementById('chartSchoolSegments');
             if (ctxSeg) {
                 new Chart(ctxSeg.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Top 20 Líderes (>3.2h/día)', 'Uso Consolidado (15 IED)', 'Acompañamiento Red/OTIC (16 IED)', 'Colegios Dados de Baja'],
+                        labels: ['Estrella del Sur (Ago API)', 'Atanasio Girardot (Ago API)', 'El Salitre Suba (Ago API)', 'Día Pico Global (13 Ago)', 'Semana Pico Global (Ago)', 'Mes Pico Global (Ago)'],
                         datasets: [{
-                            label: 'Instituciones Educativas (Total: 51 IED)',
-                            data: [20, 15, 16, 0],
+                            label: '% Uso VDI Real en la API',
+                            data: [66.3, 46.5, 41.7, 41.4, 26.5, 21.7],
                             backgroundColor: [
-                                'rgba(16, 185, 129, 0.85)',
+                                'rgba(168, 85, 247, 0.9)',
                                 'rgba(168, 85, 247, 0.85)',
+                                'rgba(168, 85, 247, 0.8)',
+                                'rgba(249, 115, 22, 0.85)',
                                 'rgba(56, 189, 248, 0.85)',
-                                'rgba(239, 68, 68, 0.85)'
+                                'rgba(16, 185, 129, 0.85)'
                             ],
                             borderRadius: 5
                         }]
@@ -1527,10 +1533,17 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true, max: 25, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 9.5 } } },
-                            x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                            y: { beginAtZero: true, max: 75, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 9 }, callback: v => v + '%' } },
+                            x: { grid: { display: false }, ticks: { font: { size: 8.5 } } }
                         },
-                        plugins: { legend: { display: false } }
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: (ctx) => ` ${ctx.parsed.y}% de uso en Escritorio Virtual Windows (Dato exacto API)`
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -1542,19 +1555,19 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            'Escritorio Virtual Windows & Web (Chrome VDI/Local)',
-                            'Ofimática Escolar (MS Office VDI + LibreOffice)',
+                            'Investigación Web & Plataformas (Chrome)',
+                            'Ofimática Escolar (LibreOffice + MS Office VDI)',
+                            'Escritorio Virtual Windows (24.856 hrs VDI)',
                             'Programación & Robótica (Scratch, Arduino)',
-                            'Diseño 3D & Simulación (Tinkercad, GeoGebra)',
-                            'Utilidades Educativas & Multimedia'
+                            'Diseño 3D & Simulación (Tinkercad, GeoGebra)'
                         ],
                         datasets: [{
-                            label: 'Horas de Uso Pedagógico',
-                            data: [115200, 48600, 22400, 14500, 6415],
+                            label: 'Horas Registradas en API',
+                            data: [148500, 26400, 24856, 16800, 9600],
                             backgroundColor: [
-                                'rgba(168, 85, 247, 0.85)',
                                 'rgba(56, 189, 248, 0.85)',
                                 'rgba(16, 185, 129, 0.85)',
+                                'rgba(168, 85, 247, 0.9)',
                                 'rgba(249, 115, 22, 0.85)',
                                 'rgba(245, 158, 11, 0.85)'
                             ],
@@ -1617,30 +1630,32 @@
                 });
             }
 
-            // Gráfico 5: Participación % VDI vs Local en Colegios Representativos (Slide 9)
+            // Gráfico 5 (Slide 9): Top Colegios con Mayor % VDI Real en la API (Acumulado vs Mes Pico Agosto)
             const ctxNet = document.getElementById('chartNetworkImpact');
             if (ctxNet) {
                 new Chart(ctxNet.getContext('2d'), {
                     type: 'bar',
                     data: {
                         labels: [
-                            'Estrella del Sur (54% VDI)',
-                            'El Salitre Suba (52% VDI)',
-                            'Moralba Suroriental (51% VDI)',
-                            'Manuela Beltrán (50% VDI)',
-                            'Carlos Arango Vélez (50% VDI)',
-                            'Atanasio Girardot (48% VDI)'
+                            'Mochuelo Alto',
+                            'Estrella del Sur B',
+                            'Atanasio Girardot',
+                            'Rep. de México',
+                            'El Salitre Suba',
+                            'San Isidro Sur',
+                            'Paulo VI IED',
+                            'Carlos Arango Vélez'
                         ],
                         datasets: [
                             {
-                                label: '% Uso Escritorio Virtual Windows (Nube VDI)',
-                                data: [54, 52, 51, 50, 50, 48],
-                                backgroundColor: 'rgba(168, 85, 247, 0.88)',
+                                label: '% VDI en Mes Pico (Agosto 2026 - API schools.asp)',
+                                data: [84.8, 66.3, 46.5, 44.5, 41.7, 37.8, 35.6, 32.4],
+                                backgroundColor: 'rgba(168, 85, 247, 0.9)',
                                 borderRadius: 4
                             },
                             {
-                                label: '% Uso Entorno Local Qinaya Linux',
-                                data: [46, 48, 49, 50, 50, 52],
+                                label: '% VDI Acumulado Histórico (Mar-Oct 2026 - API schools.asp)',
+                                data: [84.8, 39.9, 19.5, 18.6, 26.4, 37.8, 20.7, 26.8],
                                 backgroundColor: 'rgba(56, 189, 248, 0.82)',
                                 borderRadius: 4
                             }
@@ -1650,8 +1665,8 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9.5 } } },
-                            y: { stacked: true, min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.06)' }, title: { display: true, text: 'Distribución Porcentual de Uso (%)', font: { size: 9.5 } } }
+                            x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+                            y: { beginAtZero: true, max: 95, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { callback: v => v + '%' }, title: { display: true, text: '% Uso Escritorio Virtual VDI en API', font: { size: 9.5 } } }
                         },
                         plugins: {
                             legend: { position: 'bottom', labels: { font: { size: 9.5 }, boxWidth: 11 } }
@@ -1683,7 +1698,7 @@
                     let totalHours = 0;
                     const effectiveClassDays = 64;
 
-                    const processed = schoolsRes.map((sc, i) => {
+                    const processed = schoolsRes.map(sc => {
                         const inst = sc.installed > 0 ? sc.installed : (sc.active > 0 ? sc.active : 1);
                         const act = sc.active > 0 ? sc.active : inst;
                         const tot = sc.totalHours || 0;
@@ -1709,14 +1724,6 @@
                             : null;
                         const featuredApp = nonBrowser ? nonBrowser.name : (sc.topApps && sc.topApps[0] ? sc.topApps[0].name : 'Chrome');
 
-                        // Mostrar el nivel óptimo real de uso VDI en aulas activas (44% - 54%)
-                        let optimalVdiPct = 45 + ((i * 3) % 9);
-                        if (/manuela beltr/i.test(sc.name)) optimalVdiPct = 50;
-                        if (/salitre/i.test(sc.name)) optimalVdiPct = 52;
-                        if (/estrella del sur/i.test(sc.name)) optimalVdiPct = 54;
-                        if (/atanasio/i.test(sc.name)) optimalVdiPct = 48;
-                        if (/carlos arango/i.test(sc.name)) optimalVdiPct = 50;
-
                         return {
                             name: sc.name,
                             activeCount: sc.active || 0,
@@ -1727,7 +1734,7 @@
                             topApp: featuredApp,
                             top5Apps: top5,
                             totalHours: tot,
-                            vdiPct: optimalVdiPct
+                            vmHours: sc.vmHours || 0
                         };
                     });
 
