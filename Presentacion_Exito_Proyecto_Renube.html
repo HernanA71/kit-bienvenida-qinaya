@@ -751,55 +751,72 @@
         </section>
 
         <!-- ==========================================================
-             SLIDE 2: 51 COLEGIOS ACTIVOS Y MEJOR PROMEDIO REAL VDI EN LA API
+             SLIDE 2: ANÁLISIS GRÁFICO DEL USO VDI EN LA API Y 51 COLEGIOS ACTIVOS
              ========================================================== -->
         <section class="slide" data-slide="2">
             <div class="slide-header">
                 <div>
-                    <div class="slide-eyebrow"><i class="fas fa-cloud"></i> Medición Real API (schools.asp y usage.asp) y Retención del 100%</div>
-                    <h2 class="slide-title">51 Instituciones Activas: <span>Mejor Rendimiento VDI en la API y Cero Deserción</span></h2>
+                    <div class="slide-eyebrow"><i class="fas fa-chart-area"></i> Telemetría Real de Escritorios Virtuales (API schools.asp &amp; usage.asp)</div>
+                    <h2 class="slide-title">Desempeño Real en Nube (VDI) y <span>100% de Permanencia en las 51 IED</span></h2>
                 </div>
                 <div class="slide-subtitle">
-                    Tomando el mejor periodo consolidado de la API post-despliegue (23.7% global en quincena pico / 41.4% en día pico, y hasta 66.3% en colegios líderes) tras el 0.04% inicial de mayo-junio.
+                    Visualización directa de la API: despegue del VDI tras la activación de remotos en julio, mejores cortes globales y colegios líderes en Escritorio Virtual Windows.
                 </div>
             </div>
 
-            <div class="grid-asym">
+            <!-- Franja Visual de 4 KPIs de los Hallazgos VDI + Retención -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-shrink: 0;">
+                <div class="kpi-card purple" style="padding: 8px 12px;">
+                    <div class="kpi-label">1. Despegue 2° Semestre (API)</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">0.04% &rarr; 21.7%</div>
+                    <div class="kpi-sub">Salto tras activación de licencias VDI (Jul-Ago)</div>
+                </div>
+                <div class="kpi-card orange" style="padding: 8px 12px;">
+                    <div class="kpi-label">2. Mejores Cortes Globales API</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">23.7% &middot; 26.5% &middot; 41.4%</div>
+                    <div class="kpi-sub">Quincena pico &middot; Semana pico &middot; Jornada pico</div>
+                </div>
+                <div class="kpi-card" style="padding: 8px 12px;">
+                    <div class="kpi-label">3. Top Sedes VDI (schools.asp)</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">Hasta 66.3% - 84.8%</div>
+                    <div class="kpi-sub">Estrella del Sur (66.3%), Atanasio (46.5%), Salitre (41.7%)</div>
+                </div>
+                <div class="kpi-card emerald" style="padding: 8px 12px;">
+                    <div class="kpi-label">4. Permanencia Institucional</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">51 / 51 IED Activas</div>
+                    <div class="kpi-sub"><strong>0 Colegios dados de baja</strong> (Sinergia Dotaciones + OTIC)</div>
+                </div>
+            </div>
+
+            <!-- 3 Grandes Gráficos Visuales en vez de texto pequeño -->
+            <div class="grid-3">
                 <div class="panel-box">
                     <div class="panel-title">
-                        <span><i class="fas fa-chart-pie"></i> Mejor Promedio Consolidado en la API vs. Picos Reales por Colegio (Agosto-Octubre)</span>
-                        <span class="pill pill-purple">100% Datos Reales de la API</span>
+                        <span><i class="fas fa-chart-line"></i> 1. ¿Por qué subió el VDI en el 2° Semestre?</span>
+                        <span class="pill pill-purple">Evolución Mensual API</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; align-items: center; min-height: 0;">
-                        <div style="height: 195px; position: relative;">
-                            <canvas id="chartComputeSplit"></canvas>
-                        </div>
-                        <div style="height: 195px; position: relative;">
-                            <canvas id="chartSchoolSegments"></canvas>
-                        </div>
-                    </div>
-                    <div style="margin-top: 8px; padding: 8px 12px; background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.35); border-radius: 8px; font-size: 0.72rem; color: #f3e8ff;">
-                        <i class="fas fa-database" style="color: #c084fc;"></i> <strong>Por qué no tomamos el promedio desde marzo:</strong> En mayo y junio la API registró 0.04% VDI mientras se activaban licencias remotas. A partir del 2° semestre el uso VDI en la API alcanzó <strong>23.7% en quincena pico (26.5% en semana pico y 41.4% en jornada pico del 13/ago)</strong>, con colegios superando el <strong>39.9% acumulado y 66.3% mensual</strong>.
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartVdiMonthlyEvolution"></canvas>
                     </div>
                 </div>
 
                 <div class="panel-box">
                     <div class="panel-title">
-                        <span><i class="fas fa-handshake"></i> Solución Real y Trabajo en Equipo</span>
+                        <span><i class="fas fa-bolt"></i> 2. Mejores Promedios Globales (API usage.asp)</span>
+                        <span class="pill pill-orange">Picos de Uso VDI</span>
                     </div>
-                    <div class="feature-list">
-                        <div class="feature-item purple">
-                            <h4><i class="fas fa-windows" style="color: #c084fc;"></i> Picos Reales de VDI en la API por Institución</h4>
-                            <p>En la data cruda de <code>schools.asp</code> destacan: <strong>Mochuelo Alto (84.8% VDI)</strong>, <strong>Estrella del Sur (39.9% acum. / 66.3% en ago)</strong>, <strong>San Isidro (37.8% VDI)</strong>, <strong>Robert F. Kennedy (28.4% VDI)</strong>, <strong>Carlos Arango Vélez (26.8% / 32.4% ago)</strong>, <strong>El Salitre (26.4% / 41.7% ago)</strong> y <strong>Atanasio Girardot (46.5% ago)</strong>.</p>
-                        </div>
-                        <div class="feature-item emerald">
-                            <h4><i class="fas fa-users-cog" style="color: #10b981;"></i> 51 Colegios Activos (Cero Dados de Baja)</h4>
-                            <p>No solo destacan los 20 primeros: las <strong>51 instituciones instaladas (1.001 equipos)</strong> permanecen activas en el proyecto. Ningún colegio se ha retirado.</p>
-                        </div>
-                        <div class="feature-item">
-                            <h4><i class="fas fa-network-wired" style="color: #38bdf8;"></i> Sinergia con Dotaciones Escolares y OTIC</h4>
-                            <p>Cuando un colegio presenta retos de red local o infraestructura, articulamos mesas técnicas con <strong>Dotaciones Escolares y OTIC</strong> para restablecer la conectividad y garantizar el acceso fluido al VDI.</p>
-                        </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartVdiGlobalPeaks"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-school"></i> 3. Top Colegios con Mayor % VDI (schools.asp)</span>
+                        <span class="pill pill-green">Mes Pico vs. Acumulado</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartVdiTopSchools"></canvas>
                     </div>
                 </div>
             </div>
@@ -1474,33 +1491,124 @@
             }
         }
 
+        // Plugin ligero para mostrar los valores directamente sobre las barras/puntos sin necesidad de pasar el mouse
+        const directValueLabelsPlugin = {
+            id: 'directValueLabels',
+            afterDatasetsDraw(chart, args, pluginOptions) {
+                if (!pluginOptions || !pluginOptions.enabled) return;
+                const { ctx } = chart;
+                ctx.save();
+                chart.data.datasets.forEach((dataset, datasetIndex) => {
+                    if (dataset.hideDirectLabel) return;
+                    const meta = chart.getDatasetMeta(datasetIndex);
+                    if (meta.hidden) return;
+                    meta.data.forEach((element, index) => {
+                        const rawVal = dataset.data[index];
+                        if (rawVal === null || rawVal === undefined) return;
+                        const labelText = dataset.customLabels && dataset.customLabels[index]
+                            ? dataset.customLabels[index]
+                            : `${rawVal}${pluginOptions.suffix || '%'}`;
+
+                        ctx.font = `700 ${pluginOptions.fontSize || 10}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillStyle = dataset.labelColor || pluginOptions.color || '#f8fafc';
+
+                        if (chart.config.options.indexAxis === 'y') {
+                            ctx.textAlign = 'left';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(labelText, element.x + 5, element.y);
+                        } else if (dataset.type === 'line') {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillStyle = '#e9d5ff';
+                            ctx.fillText(labelText, element.x, element.y - 7);
+                        } else {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(labelText, element.x, element.y - 4);
+                        }
+                    });
+                });
+                ctx.restore();
+            }
+        };
+        Chart.register(directValueLabelsPlugin);
+
         function initStaticCharts() {
-            // Gráfico 1 (Slide 2): Mejor Promedio Consolidado en la API (Quincena Pico Ago 15-31: 23.7% VDI / Semana Pico: 26.5% VDI / Día Pico: 41.4% VDI)
-            // Mostramos el mejor corte consolidado real de la API (23.7% VDI = 4.340,4 hrs VDI de 18.294,4 hrs en Ago 15-31)
-            const ctxSplit = document.getElementById('chartComputeSplit');
-            if (ctxSplit) {
-                if (chartComputeInstance) chartComputeInstance.destroy();
-                chartComputeInstance = new Chart(ctxSplit.getContext('2d'), {
-                    type: 'doughnut',
+            // Gráfico 1 (Slide 2): Evolución Mensual del VDI en la API (Por qué el acumulado parecía 12% y cómo despegó en el 2° Semestre)
+            const ctxMonthly = document.getElementById('chartVdiMonthlyEvolution');
+            if (ctxMonthly) {
+                const monthlyHoursVDI = [903, 12.3, 7.2, 4371, 7092, 7227, 5264];
+                const monthlyTotalHours = [18624, 29327, 19854, 29437, 32647, 47476, 29951];
+                new Chart(ctxMonthly.getContext('2d'), {
+                    type: 'bar',
                     data: {
-                        labels: ['Escritorio Virtual Nube VDI (23.7% Quincena Pico API)', 'Procesamiento Local Qinaya Linux (76.3%)'],
-                        datasets: [{
-                            data: [23.7, 76.3],
-                            backgroundColor: ['rgba(168, 85, 247, 0.9)', 'rgba(56, 189, 248, 0.85)'],
-                            borderColor: ['#07101e', '#07101e'],
-                            borderWidth: 3,
-                            hoverOffset: 8
-                        }]
+                        labels: ['Mar-Abr', 'Mayo*', 'Junio*', 'Julio', 'Agosto', 'Sept.', 'Oct. (27)'],
+                        datasets: [
+                            {
+                                type: 'line',
+                                label: '% VDI Mensual Real (API)',
+                                data: [4.85, 0.04, 0.04, 14.85, 21.72, 15.22, 17.58],
+                                customLabels: ['4.9%', '0.04%', '0.04%', '14.9%', '21.7%', '15.2%', '17.6%'],
+                                borderColor: '#c084fc',
+                                backgroundColor: 'rgba(168, 85, 247, 0.25)',
+                                pointBackgroundColor: '#a855f7',
+                                pointBorderColor: '#ffffff',
+                                pointRadius: 4,
+                                borderWidth: 2.5,
+                                tension: 0.3,
+                                yAxisID: 'y1',
+                                order: 1
+                            },
+                            {
+                                type: 'bar',
+                                label: 'Horas VDI en Nube (vmHours)',
+                                data: monthlyHoursVDI,
+                                hideDirectLabel: true,
+                                backgroundColor: monthlyHoursVDI.map((v, i) => i < 3 ? 'rgba(148, 163, 184, 0.38)' : 'rgba(56, 189, 248, 0.78)'),
+                                borderColor: monthlyHoursVDI.map((v, i) => i < 3 ? '#64748b' : '#38bdf8'),
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                yAxisID: 'y',
+                                order: 2
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        cutout: '60%',
+                        layout: { padding: { top: 18 } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 8500,
+                                position: 'left',
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => v.toLocaleString() + 'h' },
+                                title: { display: true, text: 'Horas VDI (vmHours)', font: { size: 8.5 }, color: '#38bdf8' }
+                            },
+                            y1: {
+                                beginAtZero: true,
+                                max: 27,
+                                position: 'right',
+                                grid: { display: false },
+                                ticks: { font: { size: 8.5 }, color: '#e9d5ff', callback: v => v + '%' },
+                                title: { display: true, text: '% VDI sobre Total', font: { size: 8.5 }, color: '#c084fc' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.5 }, color: '#f8fafc' }
+                            }
+                        },
                         plugins: {
-                            legend: { position: 'bottom', labels: { font: { size: 9.5 }, boxWidth: 11, padding: 8 } },
+                            directValueLabels: { enabled: true, fontSize: 9.5 },
+                            legend: { position: 'bottom', labels: { font: { size: 8.5 }, boxWidth: 10, padding: 6 } },
                             tooltip: {
                                 callbacks: {
-                                    label: (ctx) => ` ${ctx.label} (Semana pico: 26.5% VDI | Día pico 13-ago: 41.4% VDI)`
+                                    afterBody: (items) => {
+                                        const idx = items[0].dataIndex;
+                                        const note = (idx === 1 || idx === 2) ? ' (Activación de licencias remotas en curso)' : ' (Operación 2° Semestre con VDI activo)';
+                                        return `Detalle API: ${monthlyHoursVDI[idx].toLocaleString()} hrs VDI de ${monthlyTotalHours[idx].toLocaleString()} hrs totales${note}`;
+                                    }
                                 }
                             }
                         }
@@ -1508,39 +1616,147 @@
                 });
             }
 
-            // Gráfico 2 (Slide 2): Picos Reales de VDI en la API según Periodo / Corte
-            const ctxSeg = document.getElementById('chartSchoolSegments');
-            if (ctxSeg) {
-                new Chart(ctxSeg.getContext('2d'), {
+            // Gráfico 2 (Slide 2): Mejores Promedios Globales Reales en la API (Segundo Semestre - usage.asp)
+            const ctxPeaks = document.getElementById('chartVdiGlobalPeaks');
+            if (ctxPeaks) {
+                const peakDetails = [
+                    '902,6h + 23.953h VDI de 207.115h (Incluye May-Jun 0.04%)',
+                    '7.091,7 hrs VDI de 32.646,7 hrs totales (Agosto completo)',
+                    '4.340,4 hrs VDI de 18.294,4 hrs totales (15 al 31 de Agosto)',
+                    '2.630,6 hrs VDI de 9.943,5 hrs totales (13 al 21 de Agosto)',
+                    '382,3 hrs VDI de 922,7 hrs totales (Jueves 13 de Agosto)'
+                ];
+                new Chart(ctxPeaks.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Estrella del Sur (Ago API)', 'Atanasio Girardot (Ago API)', 'El Salitre Suba (Ago API)', 'Día Pico Global (13 Ago)', 'Semana Pico Global (Ago)', 'Mes Pico Global (Ago)'],
+                        labels: [
+                            'Acum. Mar-Oct (Con May-Jun)',
+                            'Mejor Mes (Agosto Completo)',
+                            'Mejor Quincena (15-31 Ago)',
+                            'Mejor Semana (13-21 Ago)',
+                            'Mejor Día Clases (Jue 13 Ago)'
+                        ],
                         datasets: [{
-                            label: '% Uso VDI Real en la API',
-                            data: [66.3, 46.5, 41.7, 41.4, 26.5, 21.7],
-                            backgroundColor: [
-                                'rgba(168, 85, 247, 0.9)',
-                                'rgba(168, 85, 247, 0.85)',
-                                'rgba(168, 85, 247, 0.8)',
-                                'rgba(249, 115, 22, 0.85)',
-                                'rgba(56, 189, 248, 0.85)',
-                                'rgba(16, 185, 129, 0.85)'
+                            label: '% VDI Global Real en API (usage.asp)',
+                            data: [12.0, 21.7, 23.7, 26.5, 41.4],
+                            customLabels: [
+                                '12.0% (24.856h VDI)',
+                                '21.7% (7.092h VDI)',
+                                '23.7% (4.340h VDI)',
+                                '26.5% (2.631h VDI)',
+                                '41.4% (382h VDI)'
                             ],
+                            backgroundColor: [
+                                'rgba(148, 163, 184, 0.5)',
+                                'rgba(56, 189, 248, 0.85)',
+                                'rgba(168, 85, 247, 0.85)',
+                                'rgba(249, 115, 22, 0.88)',
+                                'rgba(16, 185, 129, 0.9)'
+                            ],
+                            borderColor: ['#94a3b8', '#38bdf8', '#a855f7', '#f97316', '#10b981'],
+                            borderWidth: 1,
                             borderRadius: 5
                         }]
                     },
                     options: {
+                        indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
+                        layout: { padding: { right: 92 } },
                         scales: {
-                            y: { beginAtZero: true, max: 75, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 9 }, callback: v => v + '%' } },
-                            x: { grid: { display: false }, ticks: { font: { size: 8.5 } } }
+                            x: {
+                                beginAtZero: true,
+                                max: 52,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => v + '%' },
+                                title: { display: true, text: '% de Uso en Escritorio Virtual Windows (API)', font: { size: 8.5 }, color: '#94a3b8' }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.8 }, color: '#f8fafc' }
+                            }
                         },
                         plugins: {
+                            directValueLabels: { enabled: true, fontSize: 9 },
                             legend: { display: false },
                             tooltip: {
                                 callbacks: {
-                                    label: (ctx) => ` ${ctx.parsed.y}% de uso en Escritorio Virtual Windows (Dato exacto API)`
+                                    label: (ctx) => ` ${ctx.parsed.x}% VDI — ${peakDetails[ctx.dataIndex]}`
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico 3 (Slide 2): Colegios con Mayor % de VDI Real en la API (schools.asp)
+            const ctxTopSchools = document.getElementById('chartVdiTopSchools');
+            if (ctxTopSchools) {
+                const schoolApiNotes = [
+                    'Mochuelo Alto: 17,9h VDI de 21,1h totales (84.8%)',
+                    'Estrella del Sur B: Ago 1.566,9h/2.361,8h (66.3%) | Acum 3.854,3h/9.652,3h (39.9%)',
+                    'Atanasio Girardot: Ago 1.084,4h/2.331,5h (46.5%) | Acum 3.073,8h/15.738,8h (19.5%)',
+                    'Rep. de México: Ago 16,5h/37,0h (44.5%) | Acum 79,6h/428,1h (18.6%)',
+                    'El Salitre Suba: Ago 556,9h/1.334,7h (41.7%) | Acum 2.053,1h/7.778,8h (26.4%)',
+                    'San Isidro Sur: Acum 170,1h/450,2h (37.8%) | Ago 51,1h/156,3h (32.7%)',
+                    'Paulo VI IED: Ago 298,1h/838,5h (35.6%) | Acum 660,9h/3.191,5h (20.7%)',
+                    'Carlos Arango V.: Ago 980,5h/3.022,5h (32.4%) | Acum 3.685,3h/13.775,1h (26.8%)'
+                ];
+                new Chart(ctxTopSchools.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Mochuelo Alto IED',
+                            'Estrella del Sur B',
+                            'Atanasio Girardot',
+                            'Rep. de México IED',
+                            'El Salitre Suba',
+                            'San Isidro Sur Or.',
+                            'Paulo VI IED',
+                            'Carlos Arango Vélez'
+                        ],
+                        datasets: [
+                            {
+                                label: '% VDI Mes Pico (Ago API)',
+                                data: [84.8, 66.3, 46.5, 44.5, 41.7, 32.7, 35.6, 32.4],
+                                customLabels: ['84.8%', '66.3%', '46.5%', '44.5%', '41.7%', '32.7%', '35.6%', '32.4%'],
+                                labelColor: '#e9d5ff',
+                                backgroundColor: 'rgba(168, 85, 247, 0.9)',
+                                borderRadius: 3
+                            },
+                            {
+                                label: '% VDI Acumulado (Mar-Oct API)',
+                                data: [84.8, 39.9, 19.5, 18.6, 26.4, 37.8, 20.7, 26.8],
+                                customLabels: ['84.8%', '39.9%', '19.5%', '18.6%', '26.4%', '37.8%', '20.7%', '26.8%'],
+                                labelColor: '#7dd3fc',
+                                backgroundColor: 'rgba(56, 189, 248, 0.8)',
+                                borderRadius: 3
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 36 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 96,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => v + '%' }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.5 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8 },
+                            legend: { position: 'bottom', labels: { font: { size: 8.5 }, boxWidth: 10, padding: 6 } },
+                            tooltip: {
+                                callbacks: {
+                                    afterBody: (items) => schoolApiNotes[items[0].dataIndex]
                                 }
                             }
                         }
@@ -1664,11 +1880,13 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
+                        layout: { padding: { top: 14 } },
                         scales: {
                             x: { grid: { display: false }, ticks: { font: { size: 9 } } },
-                            y: { beginAtZero: true, max: 95, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { callback: v => v + '%' }, title: { display: true, text: '% Uso Escritorio Virtual VDI en API', font: { size: 9.5 } } }
+                            y: { beginAtZero: true, max: 98, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { callback: v => v + '%' }, title: { display: true, text: '% Uso Escritorio Virtual VDI en API', font: { size: 9.5 } } }
                         },
                         plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
                             legend: { position: 'bottom', labels: { font: { size: 9.5 }, boxWidth: 11 } }
                         }
                     }
