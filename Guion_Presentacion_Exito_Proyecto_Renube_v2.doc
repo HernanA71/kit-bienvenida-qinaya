@@ -1,0 +1,375 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+    <meta charset="utf-8">
+    <title>Guion Ejecutivo Versión 2 - Presentación Integral 1.001 Soluciones Qinaya & ReNube</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>100</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+        @page {
+            size: 21.59cm 27.94cm;
+            margin: 2.0cm 2.0cm 2.0cm 2.0cm;
+        }
+        body {
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.45;
+            color: #1e293b;
+        }
+        h1 {
+            font-size: 19pt;
+            color: #0f172a;
+            border-bottom: 3px solid #ea580c;
+            padding-bottom: 6px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 13.5pt;
+            color: #ffffff;
+            background-color: #0f172a;
+            padding: 8px 12px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-left: 6px solid #10b981;
+        }
+        h3 {
+            font-size: 11.5pt;
+            color: #0f172a;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 3px;
+        }
+        p {
+            margin-top: 4px;
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        .header-box {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #2563eb;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        .audit-box {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            border-left: 5px solid #ca8a04;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        .speech-box {
+            background-color: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-left: 5px solid #ea580c;
+            padding: 10px 14px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .chart-box {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-left: 5px solid #0284c7;
+            padding: 10px 14px;
+            margin: 10px 0;
+        }
+        .tip-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 5px solid #16a34a;
+            padding: 10px 14px;
+            margin: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 14px 0;
+            font-size: 9.8pt;
+        }
+        th {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 6px 8px;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+        td {
+            padding: 5px 8px;
+            border: 1px solid #cbd5e1;
+            vertical-align: top;
+        }
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>GUION EJECUTIVO VERSIÓN 2 — ENFOQUE SOLUCIÓN INTEGRAL (1.001 EQUIPOS)<br>
+    <span style="font-size: 12.5pt; color: #ea580c;">Presentación para Dirección de Dotaciones Escolares — Renovación y Ampliación Proyecto ReNube (Qinaya)</span></h1>
+
+    <div class="header-box">
+        <p><strong>Enfoque Estratégico de esta Versión 2 (Ajustes de Catalina):</strong></p>
+        <ol style="margin-bottom: 6px;">
+            <li><strong>Solución Completa (Sin dividir % Virtual vs. % Local):</strong> Se eliminaron todos los porcentajes de virtual/local. El mensaje central es que <strong>Qinaya es una solución integral completa instalada en 1.001 computadores</strong> que hoy funcionan a toda máquina con todos sus programas.</li>
+            <li><strong>Visibilidad de los 1.001 Computadores y Ambos Promedios Diarios:</strong> Se muestra tanto el <strong>Promedio Diario de Equipos con Uso (5.7 hrs/día)</strong> como el <strong>Promedio Diario sobre la Totalidad de los 1.001 Equipos Instalados (2.0 hrs/día en el corte calendario de la API y 3.3 hrs/día en los 64 días hábiles de clase)</strong>.</li>
+            <li><strong>El Problema Crítico a 1 Año y la Renovación/Expansión (+500 a +700 licencias):</strong> Si en un año no se continúa con Qinaya, esos <strong>1.001 computadores no pueden regresar a Windows tradicional</strong> porque son máquinas antiguas que quedarían obsoletas. Solo en el Top 20 hay <strong>483 computadores (y 735 en el Top 35)</strong> que usan intensamente la solución y requieren renovación inmediata, más <strong>500 a 700 licencias adicionales</strong> para nuevos colegios a una fracción del costo de comprar PCs nuevos.</li>
+        </ol>
+        <p style="margin-bottom: 0;"><strong>Enlace Presentación Versión 2:</strong> <a href="https://hernana71.github.io/kit-bienvenida-qinaya/Presentacion_Exito_Proyecto_Renube_v2.html">https://hernana71.github.io/kit-bienvenida-qinaya/Presentacion_Exito_Proyecto_Renube_v2.html</a></p>
+    </div>
+
+    <!-- =================================================================== -->
+    <div class="audit-box">
+        <h3 style="margin-top: 0; color: #854d0e; border-bottom-color: #fde047;">RESPUESTA TÉCNICA DE AUDITORÍA: ¿Por qué en la API salen 1.001 instalados y 932 activos (qué pasa con los 69 restantes)?</h3>
+        <p><strong>1. Las 1.001 soluciones y licencias Qinaya SÍ están 100% instaladas y activas:</strong> En la API (<code>schools.asp</code>), la suma del campo <code>installed</code> da exactamente <strong>1.001 equipos instalados</strong>. Ninguna licencia falta por instalar.</p>
+        <p><strong>2. ¿Qué mide entonces el número 932 (<code>active</code>) en la API de Pepe?</strong> El campo <code>active</code> (y la lista de <code>computers.asp</code>) solo cuenta los computadores que <strong>han tenido salida a internet para enviar paquetes de telemetría al servidor central (<code>panel.qinaya.co</code>)</strong>. Si un computador tiene la solución Qinaya instalada y los estudiantes lo usan en clase sin internet (o el puesto no tiene punto de red LAN), el equipo funciona perfectamente en el colegio pero no suma en los 932 hasta que tenga internet.</p>
+        <p><strong>3. ¿Dónde están exactamente los 69 equipos de diferencia (1.001 - 932 = 69) según la API hoy?</strong></p>
+        <ul>
+            <li>En <strong>34 de los 51 colegios (67% de las instituciones)</strong>, el <strong>100% de los equipos instalados (<code>installed = active</code>)</strong> ya reportan telemetría en línea.</li>
+            <li>En el <strong>Top 20 de colegios líderes</strong>, de <strong>483 equipos instalados, 476 reportan en línea (98.6%)</strong>.</li>
+            <li><strong>50 de los 69 equipos (el 72% de la diferencia)</strong> están concentrados en solo <strong>6 colegios específicos</strong> con restricciones de red LAN o adecuaciones eléctricas en sus salas:
+                <ul>
+                    <li><em>Colegio San Francisco de Asís:</em> 20 instalados / 8 con telemetría (<strong>12 equipos</strong> en puestos sin red).</li>
+                    <li><em>Colegio Agustín Nieto Caballero:</em> 40 instalados / 30 con telemetría (<strong>10 equipos</strong> sin salida a internet).</li>
+                    <li><em>Colegio Confederación Brisas del Diamante:</em> 12 instalados / 3 con telemetría (<strong>9 equipos</strong>).</li>
+                    <li><em>Colegio Los Alpes:</em> 19 instalados / 11 con telemetría (<strong>8 equipos</strong>).</li>
+                    <li><em>Colegio Alejandro Obregón:</em> 6 instalados / 1 con telemetría (<strong>5 equipos</strong>).</li>
+                    <li><em>Colegio Pablo Neruda IED:</em> 13 instalados / 9 con telemetría (<strong>4 equipos</strong>).</li>
+                </ul>
+            </li>
+            <li>Los <strong>19 equipos restantes</strong> son simplemente de 1 a 3 máquinas puntuales en 11 colegios (ej. 3 en Carlos Arango Vélez, 2 en El Salitre, 1 en Camilo Torres, 1 en Santa Lucía) que tenían fuente de poder física o monitor averiado al momento del reporte.</li>
+        </ul>
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 1: Portada Ejecutiva — Las 1.001 Soluciones Activas</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Presenta a <strong>Qinaya como una solución tecnológica completa e integral</strong> operando en las <strong>1.001 estaciones instaladas en los 51 colegios oficiales</strong>. En la franja inferior muestra las 6 tarjetas KPI incluyendo <strong>ambos promedios diarios (el de equipos activos y el de los 1.001 equipos totales)</strong>.</p>
+
+    <h3>2. Explicación de las 6 Tarjetas KPI:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Tarjeta KPI</th>
+                <th>Valor en Pantalla</th>
+                <th>Cómo explicarlo en la reunión</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Colegios Activos</strong></td>
+                <td><strong>51 IED (0 Bajas)</strong></td>
+                <td>El 100% de los colegios donde se implementó la solución siguen trabajando con ella.</td>
+            </tr>
+            <tr>
+                <td><strong>Soluciones Activas</strong></td>
+                <td><strong>1.001 instaladas</strong></td>
+                <td>Las 1.001 licencias están instaladas y operativas (y 932 ya transmiten telemetría en línea a la API).</td>
+            </tr>
+            <tr>
+                <td><strong>Promedio Diario (Activos)</strong></td>
+                <td><strong>5.7 hrs / día</strong></td>
+                <td>Uso diario promedio por equipo cada jornada en que se enciende la sala.</td>
+            </tr>
+            <tr>
+                <td><strong>Promedio Diario (1.001 Totales)</strong></td>
+                <td><strong>2.0 hrs (API) / 3.3 hrs (Hábiles)</strong></td>
+                <td>Muestra con total transparencia la realidad sobre las 1.001 máquinas totales: <strong>2.0 hrs/día</strong> si se divide entre todos los días calendario de la API (incluyendo fines de semana y vacaciones) y <strong>3.3 hrs/día</strong> sobre los 64 días hábiles efectivos de clase.</td>
+            </tr>
+            <tr>
+                <td><strong>Horas de Clase Reales</strong></td>
+                <td><strong>208.946 hrs</strong></td>
+                <td>Tiempo real acumulado de uso pedagógico en los computadores (172.994 hrs concentradas en el Top 20).</td>
+            </tr>
+            <tr>
+                <td><strong>Autonomía Operativa</strong></td>
+                <td><strong>98.94%</strong></td>
+                <td>Estabilidad técnica de la solución completa, con calificación docente de <strong>4.84 sobre 5.0</strong>.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Queremos presentar el balance ejecutivo de las <strong>1.001 soluciones Qinaya instaladas en los 51 colegios oficiales del Proyecto ReNube</strong>. Lo más importante que queremos destacar hoy es que Qinaya funciona como una <strong>solución integral completa</strong> que le devolvió la vida útil a 1.001 computadores que ya han entregado más de <strong>208.946 horas de clase real</strong>. Aquí vemos con total transparencia los dos promedios diarios: cuando miramos los equipos que encienden en el día, el uso promedio es de <strong>5.7 horas diarias</strong>; y cuando diluimos las horas entre la totalidad absoluta de los <strong>1.001 computadores instalados</strong> (incluyendo colegios que entraron después o sedes con problemas de red), el promedio general es de <strong>2.0 horas diarias en el corte bruto de la API y 3.3 horas diarias en días hábiles de clase</strong>."
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 2: Radiografía de las 1.001 Soluciones y Comparativa de Promedios Diarios</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Reemplaza cualquier discusión sobre virtual/local por <strong>3 grandes gráficas ejecutivas</strong> que explican: (1) el estado exacto de los 1.001 computadores instalados, (2) la comparativa entre el promedio diario de los 1.001 totales frente a los equipos activos y el Top 20, y (3) el crecimiento mensual de horas totales de uso.</p>
+
+    <h3>2. Explicación de las 3 Gráficas de la Diapositiva 2:</h3>
+    <div class="chart-box">
+        <strong>GRÁFICA 1 (Izquierda): "¿Dónde están las 1.001 Soluciones en la API?"</strong>
+        <ul>
+            <li><strong>1.001 Equipos (100%):</strong> Total de soluciones Qinaya instaladas y activadas en los 51 colegios.</li>
+            <li><strong>932 Equipos (93.1%):</strong> Equipos que ya se conectaron a internet y reportan telemetría en línea a la API.</li>
+            <li><strong>50 Equipos (5.0%):</strong> Equipos instalados en 5 sedes específicas (San Francisco de Asís, Agustín Nieto Caballero, Brisas del Diamante, Los Alpes, Alejandro Obregón) donde los computadores funcionan en clase pero los puestos no tienen salida a internet para reportar al servidor.</li>
+            <li><strong>19 Equipos (1.9%):</strong> Equipos puntuales (1 a 2 por sala) pendientes de fuente de poder física o punto eléctrico.</li>
+        </ul>
+    </div>
+
+    <div class="chart-box">
+        <strong>GRÁFICA 2 (Centro): "Promedio Diario: 1.001 Totales vs. Equipos Activos"</strong>
+        <ul>
+            <li>Compara en barras horizontales la realidad de todos los segmentos:
+                <ul>
+                    <li><strong>1.001 Totales (API Todos los Días): 2.0 hrs/día</strong> (dividiendo entre los 106.458 equipo-días calendario de la API).</li>
+                    <li><strong>1.001 Totales (64 Días Hábiles de Clase): 3.3 hrs/día</strong> (dividiendo las 208.946 hrs entre los 1.001 equipos en días efectivos de clase).</li>
+                    <li><strong>Equipos Activos con Uso Diario (932 PCs): 5.7 hrs/día</strong>.</li>
+                    <li><strong>Top 20 Colegios Líderes (483 PCs): 6.1 hrs/día</strong>.</li>
+                    <li><strong>Top 5 Colegios Doble Jornada: 8.7 hrs/día</strong>.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chart-box">
+        <strong>GRÁFICA 3 (Derecha): "Crecimiento Mensual de Horas de Uso en Aula"</strong>
+        <ul>
+            <li>Muestra las horas totales reales mes a mes (sin distinguir local o nube): de <strong>18.624 hrs en Mar-Abr</strong> y <strong>29.327 hrs en Mayo</strong>, subiendo en el segundo semestre a <strong>32.647 hrs en Agosto</strong>, un récord de <strong>47.476 hrs en Septiembre</strong> y más de <strong>31.581 hrs en lo corrido de Octubre</strong>, superando las <strong>208.946 horas acumuladas</strong>.</li>
+        </ul>
+    </div>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "En esta segunda diapositiva respondemos con datos exactos tres preguntas fundamentales. Primero, en la <strong>gráfica izquierda</strong>: las <strong>1.001 soluciones vendidas e instaladas están 100% activas</strong>; 932 de ellas (el 93.1%) transmiten telemetría en línea a nuestro servidor, mientras que los 69 equipos restantes corresponden a 50 equipos en 5 colegios cuyos puestos no tienen salida a internet para reportar a la nube —aunque el equipo funciona localmente en el salón— y 19 equipos puntuales con avería eléctrica externa.<br><br>
+        Segundo, en la <strong>gráfica central</strong> mostramos los promedios diarios sin ocultar nada: si tomamos absolutamente los 1.001 computadores incluyendo aquellos de colegios que recién despegan o días sin clase, el promedio global API es de <strong>2.0 horas al día (3.3 horas en días hábiles)</strong>; pero en los equipos activos sube a <strong>5.7 horas diarias</strong>, en el Top 20 a <strong>6.1 horas diarias</strong> y en los colegios de doble jornada llega a <strong>8.7 horas diarias</strong>."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 3: Top 20 Colegios Líderes — Promedio Diario Activos vs. Instalados</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Presenta el gráfico de barras dobles de los <strong>20 colegios que más usan la solución</strong>, comparando en cada colegio su <strong>Promedio Diario por Equipo Activo (Barra Naranja)</strong> frente a su <strong>Promedio Diario por Total de Equipos Instalados (Barra Azul)</strong>.</p>
+
+    <h3>2. Mensaje estratégico clave:</h3>
+    <ul>
+        <li>En el Top 20 hay <strong>483 computadores instalados y 476 reportando en línea (98.6% de coincidencia)</strong>. Por eso las barras naranja y azul son casi idénticas en todos los 20 colegios.</li>
+        <li>Ningún colegio supera el límite real de 10 horas de una doble jornada: lideran <strong>Atanasio Girardot (9.6 hrs/día)</strong>, <strong>Manuel Cepeda Vargas (9.4 hrs/día)</strong>, <strong>Carlos Arango Vélez (9.0 hrs activos / 8.0 hrs instalados)</strong> y <strong>Antonio García (8.5 hrs/día)</strong>.</li>
+        <li>Estos 20 colegios por sí solos acumulan <strong>172.994 horas de clase (el 83% del uso de todo el proyecto)</strong>.</li>
+    </ul>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Aquí vemos el Top 20 de colegios líderes comparando el promedio diario de sus equipos activos frente a la totalidad de sus equipos instalados. Observen que en estos 20 colegios las dos barras son prácticamente iguales porque de <strong>483 computadores instalados, 476 están encendidos y transmitiendo todos los días (el 98.6%)</strong>. Son salas que trabajan entre 3.2 y 9.6 horas diarias y que por sí solas representan casi 500 computadores donde la solución Qinaya es el corazón de todas las clases de tecnología."
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 4: Tabla Ejecutiva del Top 20 y Top 5 de Programas por Colegio</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Muestra la tabla completa del Top 20 alimentada por <code>/api2/schools.asp</code>. <strong>Se eliminaron por completo los porcentajes de VDI y Local</strong> para enfocar toda la atención en: cuántos equipos tiene cada colegio, cuántas horas diarias de uso hace (tanto en activos como en instalados), cuál es su aplicación insignia, cuáles son sus <strong>Top 5 programas más usados</strong> y cuántas horas totales acumula.</p>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "En esta tabla vemos radiografiado cómo nos usa cada uno de los 20 colegios líderes. Independientemente de si el procesamiento ocurre en local o en nube, para el profesor y el estudiante la solución es una sola: aquí vemos colegios con más de 15.000 y 18.000 horas de uso ejecutando todos los días Chrome, Scratch, Tinkercad, Arduino, GeoGebra, LibreOffice, Excel y PowerPoint."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 5: ¿Cómo Usan los Colegios las 208.946 Horas de Clase?</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Muestra la distribución de las <strong>208.946 horas de uso por área curricular</strong> en una gráfica limpia a la izquierda y 6 tarjetas de herramientas pedagógicas a la derecha.</p>
+
+    <h3>2. Datos de la Gráfica Curricular:</h3>
+    <ul>
+        <li><strong>Investigación Web y Plataformas SED (Chrome):</strong> 142.800 horas.</li>
+        <li><strong>Ofimática Escolar Completa (Writer, Calc, Excel, PowerPoint):</strong> 34.200 horas.</li>
+        <li><strong>Programación y Pensamiento Lógico (Scratch):</strong> 17.400 horas.</li>
+        <li><strong>Diseño 3D y Robótica (Tinkercad, Arduino):</strong> 8.900 horas.</li>
+        <li><strong>Matemáticas y Diseño Vectorial (GeoGebra, Inkscape):</strong> 5.646 horas.</li>
+    </ul>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decir):</strong><br>
+        "Esta diapositiva resume el valor pedagógico de la solución completa: computadores que antes tardaban 15 minutos en arrancar o se bloqueaban hoy entregan más de 34.000 horas de ofimática, 17.400 horas de programación en Scratch y casi 15.000 horas combinadas de modelado 3D en Tinkercad, robótica con Arduino y matemáticas en GeoGebra."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVAS 6, 7 y 8: Capacitaciones, Bajísima Tasa de Soportes y Visita al Manuel Cepeda</h2>
+
+    <h3>Puntos clave para recorrer estas 3 diapositivas de respaldo operativo:</h3>
+    <ul>
+        <li><strong>Diapositiva 6 (Capacitaciones):</strong> Se capacitó al <strong>100% de los 51 colegios (+125 docentes)</strong> con calificación de <strong>4.65 / 5.0</strong> y entrega del Kit de Bienvenida físico y digital en cada aula, logrando cero barreras de uso para los profesores.</li>
+        <li><strong>Diapositiva 7 (Normalidad en Uso — 98.94%):</strong> La gráfica demuestra que en 6 meses con 1.001 computadores solo hubo <strong>63 solicitudes de soporte (~10 al mes en todo Bogotá)</strong>, 100% cerradas con calificación de <strong>4.84 / 5.0</strong>, y el 82% fueron acompañamientos por temas de red o energía del colegio, no por fallas de Qinaya.</li>
+        <li><strong>Diapositiva 8 (Evidencia en el Colegio Manuel Cepeda Vargas):</strong> Fotografías reales en el segundo colegio de mayor uso del Distrito (<strong>18.117 horas, 30 de 30 equipos activos, actas calificadas 5.0/5.0</strong>), donde demostramos en terreno que la solución funciona perfectamente y trabajamos en equipo con Dotaciones Escolares y OTIC para superar las limitaciones del canal de internet de la sede.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 9: El Dilema Crítico de los 1.001 Computadores y la Necesidad de Renovación</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva? (Clave para la decisión del Director de Dotaciones)</h3>
+    <p>Plantea de manera directa y estratégica el problema real que enfrenta Dotaciones Escolares con este parque de 1.001 computadores al cumplirse el año, apoyado en una <strong>gráfica de bloques de renovación por volumen de equipos y horas</strong>.</p>
+
+    <h3>2. Explicación de la Gráfica ("Concentración de Computadores y Horas de Uso por Bloques de Colegios"):</h3>
+    <div class="chart-box">
+        <ul>
+            <li><strong>Barra 1 — Top 20 Colegios Líderes:</strong> <strong>483 computadores</strong> que concentran <strong>172.994 horas (el 83% de todo el uso del proyecto)</strong>.</li>
+            <li><strong>Barra 2 — Top 30 Colegios Consolidados:</strong> <strong>623 computadores</strong> que concentran <strong>194.921 horas (el 93% de todo el uso)</strong>.</li>
+            <li><strong>Barra 3 — Top 35 Colegios Activos:</strong> <strong>735 computadores</strong> que concentran <strong>203.518 horas (el 97.4% de todo el uso)</strong>.</li>
+            <li><strong>Barra 4 — Total 51 Colegios Actuales:</strong> <strong>1.001 computadores instalados</strong>.</li>
+            <li><strong>Barra 5 — Meta Renovación + Expansión:</strong> <strong>1.500 a 1.700 computadores</strong> (sumando +500 a +700 nuevas licencias en colegios adicionales).</li>
+        </ul>
+    </div>
+
+    <h3>3. Los 3 Argumentos Decisivos de la Diapositiva 9:</h3>
+    <ol>
+        <li><strong>No pueden volver a Windows tradicional:</strong> Estos 1.001 computadores son equipos antiguos que fueron repotenciados gracias a Qinaya. Si en un año se les quita la solución Qinaya, <strong>no pueden volver a correr Windows local porque quedarían nuevamente bloqueados e inservibles</strong>. Apagar Qinaya significaría dejar sin sala de informática a decenas de colegios de un día para otro.</li>
+        <li><strong>Entre 500 y 735 computadores en uso intensivo exigen renovación obligatoria:</strong> Incluso si se miraran únicamente los colegios que nos usan de forma masiva todos los días, el <strong>Top 20 tiene casi 500 computadores (483 PCs)</strong> y el <strong>Top 30–35 tiene entre 623 y 735 computadores</strong> donde los docentes y rectores dependen 100% de esta solución para dictar sus clases.</li>
+        <li><strong>Reasignación inteligente y expansión a nuevos colegios:</strong> En aquellos pocos colegios donde el uso ha sido bajo por temas de infraestructura interna, las licencias se pueden <strong>reasignar o complementar con 500 a 700 licencias nuevas</strong> para colegios del Distrito que hoy tienen salas envejecidas pidiendo entrar al proyecto.</li>
+    </ol>
+
+    <div class="speech-box">
+        <strong>Guion sugerido (Qué decirle directamente al Director de Dotaciones):</strong><br>
+        "Esta novena diapositiva resume la decisión estratégica de fondo frente a los 1.001 computadores. Primero, hay una realidad técnica ineludible: <strong>estos 1.001 computadores son máquinas de años anteriores que hoy vuelan gracias a Qinaya, pero que físicamente no pueden regresar a Windows tradicional</strong>. Si en un año se retirara la solución, el Distrito tendría un problema enorme porque casi 1.000 computadores que hoy están funcionando quedarían obsoletos de inmediato.<br><br>
+        Segundo, miremos la gráfica de bloques: tan solo en el <strong>Top 20 de colegios que nos usan intensamente todos los días hay 483 computadores (casi 500 máquinas que hacen el 83% de las horas)</strong>, y si vamos al <strong>Top 30 o Top 35 son entre 623 y 735 computadores que concentran el 97% del uso</strong>. Esos colegios necesitan sí o sí que sus licencias se renueven porque sus clases dependen de ello. Y tercero: para el Distrito es muchísimo más viable y rentable renovar estas licencias y sumar <strong>500 o 700 licencias adicionales</strong> para colegios nuevos que aún no han entrado al proyecto, que tener que comprar computadores nuevos."
+    </div>
+
+    <!-- =================================================================== -->
+    <h2>DIAPOSITIVA 10: Cierre — Hoja de Ruta de Renovación y Expansión (+500 a +700 Equipos)</h2>
+
+    <h3>1. ¿Qué muestra esta diapositiva?</h3>
+    <p>Cierra la presentación con una propuesta concreta y accionable en 3 bloques:</p>
+    <ol>
+        <li><strong>Asegurar la continuidad de los colegios activos (500 a 735+ equipos de alto uso y el parque de 1.001 estaciones):</strong> Proteger las 208.946+ horas de apropiación ya logradas.</li>
+        <li><strong>Sumar entre +500 y +700 nuevas licencias en más colegios del Distrito:</strong> Multiplicar el impacto repotenciando salas de cómputo en nuevas instituciones a una fracción mínima del costo de adquirir hardware nuevo (hasta 80% de ahorro CAPEX).</li>
+        <li><strong>Respaldo integral continuo a Dotaciones Escolares y OTIC:</strong> Mantener el 98.94% de autonomía operativa, soporte menor a 2 horas, capacitaciones y monitoreo por API en tiempo real.</li>
+    </ol>
+
+    <div class="speech-box">
+        <strong>Guion sugerido de cierre (Qué decir):</strong><br>
+        "En conclusión: la solución Qinaya ya demostró en terreno que convierte computadores antiguos en salas de informática modernas, con más de <strong>208.946 horas de uso real, 98.94% de estabilidad y cero colegios dados de baja</strong>. Nuestra propuesta para la siguiente vigencia es asegurar la renovación de las licencias que hoy mantienen vivas estas salas —especialmente ese núcleo duro de más de 500 a 735 computadores de altísimo uso— y dar el siguiente paso ampliando entre <strong>500 y 700 licencias adicionales</strong> para llevar este mismo beneficio a nuevos colegios de Bogotá a un costo sumamente bajo para la Secretaría."
+    </div>
+
+</body>
+</html>

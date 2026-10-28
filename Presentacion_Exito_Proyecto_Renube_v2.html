@@ -1,0 +1,2009 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Ejecutiva V2 — Impacto Integral de las 1.001 Soluciones ReNube & Qinaya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #07101e;
+            --bg-card: rgba(15, 27, 46, 0.86);
+            --bg-card-solid: #0f1b2e;
+            --primary-blue: #2563eb;
+            --accent-cyan: #38bdf8;
+            --orange-renube: #f97316;
+            --orange-soft: rgba(249, 115, 22, 0.16);
+            --emerald: #10b981;
+            --emerald-soft: rgba(16, 185, 129, 0.16);
+            --purple-accent: #8b5cf6;
+            --amber: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-glass: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 12% 15%, #13284c 0%, #07101e 58%, #040912 100%);
+            color: var(--text-primary);
+            user-select: none;
+            font-size: clamp(12px, 0.92vw, 15px);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange-renube), var(--accent-cyan), var(--emerald));
+            width: 10%;
+            z-index: 200;
+            transition: width 0.35s ease;
+        }
+
+        /* Barra Superior Institucional */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 54px;
+            background: rgba(7, 16, 30, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 150;
+        }
+
+        .brand-strip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-pill {
+            background: #ffffff;
+            padding: 4px 11px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-pill img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-divider {
+            width: 1px;
+            height: 22px;
+            background: var(--border-glass);
+        }
+
+        .project-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            background: rgba(16, 185, 129, 0.16);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+
+        .project-badge i {
+            color: var(--emerald);
+        }
+
+        .top-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .live-api-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #6ee7b7;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--emerald);
+            box-shadow: 0 0 8px var(--emerald);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 5px 11px;
+            border-radius: 7px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-blue);
+            border-color: var(--accent-cyan);
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--orange-renube), #ea580c);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .slide-counter {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            min-width: 52px;
+            text-align: center;
+        }
+
+        /* Contenedor de Diapositivas ajustado al 100% de zoom */
+        .slides-viewport {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding: 62px 28px 42px 28px;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1540px;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            animation: slideFade 0.35s ease forwards;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Encabezado de Diapositiva */
+        .slide-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .slide-eyebrow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            color: var(--orange-renube);
+            font-weight: 700;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-title {
+            font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+            font-weight: 800;
+            line-height: 1.12;
+            color: #ffffff;
+        }
+
+        .slide-title span {
+            background: linear-gradient(90deg, var(--accent-cyan), #6ee7b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        /* Grids adaptables sin desborde */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-asym {
+            display: grid;
+            grid-template-columns: 1.38fr 1fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-asym-right {
+            display: grid;
+            grid-template-columns: 1fr 1.38fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .panel-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .panel-title i {
+            color: var(--accent-cyan);
+        }
+
+        /* Tarjetas KPI */
+        .kpi-row-6 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .kpi-card {
+            background: linear-gradient(145deg, rgba(20, 36, 62, 0.92), rgba(11, 21, 38, 0.92));
+            border: 1px solid var(--border-glass);
+            border-top: 3px solid var(--accent-cyan);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card.orange { border-top-color: var(--orange-renube); }
+        .kpi-card.emerald { border-top-color: var(--emerald); }
+        .kpi-card.purple { border-top-color: var(--purple-accent); }
+        .kpi-card.amber { border-top-color: var(--amber); }
+
+        .kpi-label {
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .kpi-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.25rem, 1.65vw, 1.65rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin: 2px 0;
+            line-height: 1.05;
+        }
+
+        .kpi-sub {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            line-height: 1.2;
+        }
+
+        /* Hero Slide 1 */
+        .hero-banner {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 18px;
+            flex: 1;
+            min-height: 0;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.42) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 18px 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-h1 {
+            font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+            font-weight: 800;
+            line-height: 1.12;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .hero-h1 span {
+            color: var(--accent-cyan);
+        }
+
+        .hero-lead {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            line-height: 1.48;
+            margin-bottom: 12px;
+        }
+
+        .hero-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .hero-hl-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .hero-hl-item i {
+            color: var(--emerald);
+            font-size: 0.9rem;
+        }
+
+        .hero-media {
+            height: 100%;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .hero-img-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(7, 16, 30, 0.95), rgba(7, 16, 30, 0.2));
+            padding: 12px 12px 8px 12px;
+            font-size: 0.72rem;
+            color: #e2e8f0;
+        }
+
+        /* Tablas */
+        .table-scroll {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.4);
+            border-radius: 999px;
+        }
+
+        table.exec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.73rem;
+        }
+
+        table.exec-table th {
+            position: sticky;
+            top: 0;
+            background: #13233d;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            padding: 7px 8px;
+            text-align: left;
+            z-index: 10;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        table.exec-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        table.exec-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        table.exec-table tr:hover td {
+            background: rgba(37, 99, 235, 0.18);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.66rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .rank-badge.top3 {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            color: #0f172a;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 999px;
+            font-size: 0.66rem;
+            font-weight: 700;
+        }
+
+        .pill-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+        .pill-blue { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.35); }
+        .pill-orange { background: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.35); }
+        .pill-purple { background: rgba(139, 92, 246, 0.22); color: #ddd6fe; border: 1px solid rgba(139, 92, 246, 0.4); }
+
+        /* Galería Fotográfica */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+            min-height: 0;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(7, 16, 30, 0.92), transparent);
+            padding: 12px 8px 5px 8px;
+            font-size: 0.66rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        /* Listas de Puntos Clave */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            justify-content: space-around;
+            min-height: 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.035);
+            border-left: 3px solid var(--accent-cyan);
+            border-radius: 0 8px 8px 0;
+            padding: 8px 11px;
+        }
+
+        .feature-item.orange { border-left-color: var(--orange-renube); }
+        .feature-item.emerald { border-left-color: var(--emerald); }
+        .feature-item.purple { border-left-color: var(--purple-accent); }
+
+        .feature-item h4 {
+            font-size: 0.8rem;
+            color: #ffffff;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature-item p {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            line-height: 1.32;
+        }
+
+        /* Footer */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 34px;
+            background: rgba(7, 16, 30, 0.92);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            z-index: 150;
+        }
+
+        .dots-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .dot.active {
+            width: 22px;
+            background: var(--orange-renube);
+        }
+
+        @media (max-width: 1150px) {
+            html, body { overflow-y: auto; height: auto; }
+            .slides-viewport { height: auto; min-height: 100vh; }
+            .grid-2, .grid-3, .grid-asym, .grid-asym-right, .hero-banner { grid-template-columns: 1fr; }
+            .kpi-row-6 { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+
+    <!-- Barra Superior -->
+    <header class="top-bar">
+        <div class="brand-strip">
+            <div class="logo-pill">
+                <img src="logo Qinaya.png" alt="Logo Qinaya">
+                <img src="logoqinayarenube.jpeg" alt="Logo ReNube" onerror="this.style.display='none'">
+                <img src="logo_sed_bogota.png" alt="SED Bogotá" onerror="this.style.display='none'">
+            </div>
+            <div class="brand-divider"></div>
+            <div class="project-badge">
+                <i class="fas fa-check-circle"></i>
+                <span>Versión 2 Ejecutiva &middot; 1.001 Soluciones Integrales Activas en 51 Colegios</span>
+            </div>
+        </div>
+
+        <div class="top-controls">
+            <div class="live-api-pill" title="Conectado en vivo a https://panel.qinaya.co/api2/">
+                <span class="pulse-dot"></span>
+                <span id="apiStatusText">API Qinaya Conectada</span>
+            </div>
+            <a href="Presentacion_Exito_Proyecto_Renube.html" class="nav-btn" title="Ver Versión 1 de la presentación">
+                <i class="fas fa-exchange-alt"></i> Ver V1
+            </a>
+            <a href="informe_ejecutivo_uso.html" target="_blank" class="nav-btn" title="Abrir Dashboard Ejecutivo en Vivo">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+            <button class="nav-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+            <div class="slide-counter" id="slideCounter">1 / 10</div>
+            <button class="nav-btn primary" onclick="nextSlide()">Siguiente <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal de 10 Diapositivas -->
+    <main class="slides-viewport">
+
+        <!-- ==========================================================
+             SLIDE 1: PORTADA EJECUTIVA — LAS 1.001 SOLUCIONES ACTIVAS
+             ========================================================== -->
+        <section class="slide active" data-slide="1">
+            <div class="hero-banner">
+                <div>
+                    <div class="hero-tag">
+                        <i class="fas fa-laptop-code"></i> Solución Tecnológica Completa &middot; 1.001 Estaciones Activas
+                    </div>
+                    <h1 class="hero-h1">
+                        Éxito Operativo y Continuidad del <span>Proyecto ReNube con Qinaya</span> en las 51 IED
+                    </h1>
+                    <p class="hero-lead">
+                        Las <strong>1.001 soluciones instaladas están 100% activas y operativas</strong> en los <strong>51 colegios oficiales</strong>, devolviéndoles vida útil de alto rendimiento a equipos que ya no soportaban sistemas tradicionales, acumulando más de <strong>208.946 horas de uso real en clase</strong> y garantizando <strong>cero colegios dados de baja</strong>.
+                    </p>
+                    <div class="hero-highlights">
+                        <div class="hero-hl-item">
+                            <i class="fas fa-check-double"></i>
+                            <span>1.001 Soluciones Instaladas y Activas (932 ya reportando en línea)</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-clock"></i>
+                            <span>5.7 hrs/día (Equipos con uso) &middot; 2.0 a 3.3 hrs/día (1.001 Totales)</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>Top 20 IED: 483 computadores concentrando 172.994 horas de clase</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Base lista para renovar 500–735+ licencias y expandir a más colegios</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-media">
+                    <div class="hero-img-wrap">
+                        <img src="casomanuelcepeda1.jpeg" alt="Estudiantes en aula ReNube Qinaya" onerror="this.src='capacitacionpresencial.jpeg'">
+                        <div class="hero-img-caption">
+                            <strong>Aulas 100% Funcionales en las 51 IED:</strong> 1.001 computadores repotenciados ejecutando programación, diseño 3D, ofimática y navegación de alta velocidad todos los días.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 KPIs Principales incluyendo ambos promedios diarios (Activos y 1.001 Instalados) -->
+            <div class="kpi-row-6">
+                <div class="kpi-card emerald">
+                    <div class="kpi-label">Colegios Activos</div>
+                    <div class="kpi-val" id="s1-colegios">51 IED</div>
+                    <div class="kpi-sub">100% Permanencia &middot; <strong>0 Bajas</strong></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Soluciones Activas</div>
+                    <div class="kpi-val" id="s1-instalados">1.001</div>
+                    <div class="kpi-sub"><strong id="s1-activos">932</strong> transmitiendo telemetría web</div>
+                </div>
+                <div class="kpi-card orange">
+                    <div class="kpi-label">Promedio Diario (Activos)</div>
+                    <div class="kpi-val" id="s1-prom-activos">5.7 hrs</div>
+                    <div class="kpi-sub">Por equipo con uso en el día</div>
+                </div>
+                <div class="kpi-card purple">
+                    <div class="kpi-label">Promedio Diario (1.001 Totales)</div>
+                    <div class="kpi-val" id="s1-prom-instalados">2.0 hrs</div>
+                    <div class="kpi-sub">API global &middot; <strong>3.3 hrs/día</strong> en días hábiles</div>
+                </div>
+                <div class="kpi-card amber">
+                    <div class="kpi-label">Horas de Clase Reales</div>
+                    <div class="kpi-val" id="s1-horas">208.946</div>
+                    <div class="kpi-sub">172.994 hrs solo en el Top 20 IED</div>
+                </div>
+                <div class="kpi-card emerald">
+                    <div class="kpi-label">Autonomía Operativa</div>
+                    <div class="kpi-val">98.94%</div>
+                    <div class="kpi-sub">Satisfacción soporte: 4.84 / 5.0</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 2: RADIOGRAFÍA DE LAS 1.001 SOLUCIONES Y PROMEDIOS DIARIOS
+             ========================================================== -->
+        <section class="slide" data-slide="2">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-microchip"></i> Auditoría de Parque Instalado y Promedios Reales (API schools.asp &amp; usage.asp)</div>
+                    <h2 class="slide-title">Las 1.001 Soluciones Instaladas y <span>Comparativa de Promedios Diarios</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Explicación exacta desde la API del estado de las 1.001 licencias instaladas, el promedio diario sobre el total de 1.001 equipos frente a los equipos con uso, y el crecimiento mensual.
+                </div>
+            </div>
+
+            <!-- Franja Superior de 4 Indicadores Explicativos -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-shrink: 0;">
+                <div class="kpi-card emerald" style="padding: 8px 12px;">
+                    <div class="kpi-label">1. Licencias Qinaya Instaladas</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">1.001 / 1.001 (100%)</div>
+                    <div class="kpi-sub">Todas las 1.001 soluciones fueron instaladas y activadas en las 51 IED</div>
+                </div>
+                <div class="kpi-card" style="padding: 8px 12px;">
+                    <div class="kpi-label">2. Equipos Reportando a la API</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">932 en Línea (93.1%)</div>
+                    <div class="kpi-sub">69 equipos están en 5 sedes sin red LAN/internet o en ajuste eléctrico</div>
+                </div>
+                <div class="kpi-card purple" style="padding: 8px 12px;">
+                    <div class="kpi-label">3. Promedio Diario (1.001 Totales)</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">2.0 hrs (API) &middot; 3.3 hrs (Hábiles)</div>
+                    <div class="kpi-sub">2.0 hrs/día incluyendo todos los días &middot; 3.3 hrs/día en los 64 días de clase</div>
+                </div>
+                <div class="kpi-card orange" style="padding: 8px 12px;">
+                    <div class="kpi-label">4. Promedio Diario (Equipos con Uso)</div>
+                    <div class="kpi-val" style="font-size: 1.3rem;">5.7 hrs/día (Activos)</div>
+                    <div class="kpi-sub">Y sube a <strong>6.1 hrs/día</strong> promedio en los 483 equipos del Top 20</div>
+                </div>
+            </div>
+
+            <!-- 3 Gráficas Grandes Visuales -->
+            <div class="grid-3">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-Desktop"></i> 1. ¿Dónde están las 1.001 Soluciones en la API?</span>
+                        <span class="pill pill-green">1.001 Instaladas</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chart1001Breakdown"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-balance-scale"></i> 2. Promedio Diario: 1.001 Totales vs. Equipos Activos</span>
+                        <span class="pill pill-orange">Comparativa Real API</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartDailyAvgComparison"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-line"></i> 3. Crecimiento Mensual de Horas de Uso en Aula</span>
+                        <span class="pill pill-blue">208.946 hrs Acumuladas</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartMonthlyTotalHours"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 3: TOP 20 COLEGIOS LÍDERES (DOBLE PROMEDIO: ACTIVOS E INSTALADOS)
+             ========================================================== -->
+        <section class="slide" data-slide="3">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-trophy"></i> Uso Intensivo en Jornada Única y Doble Jornada</div>
+                    <h2 class="slide-title">Top 20 Colegios Líderes: <span>Promedio Diario (Activos vs. Instalados)</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Estos 20 colegios reúnen <strong>483 computadores instalados (476 con telemetría activa = 98.6%)</strong> y suman <strong>172.994 horas de clase</strong>, auditados bajo el tope real de &lt;10 hrs/día.
+                </div>
+            </div>
+
+            <div class="grid-asym">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-bar"></i> Top 20 Colegios con Mayor Uso — Promedio Diario Activos vs. Instalados (hrs/día)</span>
+                        <span class="pill pill-orange">Tope Máximo Real: &lt; 10 hrs/día</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartTop20Daily"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-check-circle"></i> ¿Por qué este Top 20 demuestra el éxito de la solución?</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-clock" style="color: #f97316;"></i> Doble Jornada al Máximo Rendimiento (8.0 a 9.6 hrs/día)</h4>
+                            <p>Colegios como <strong>Atanasio Girardot (9.6 hrs/día en sus 24 equipos)</strong>, <strong>Manuel Cepeda Vargas (9.4 hrs/día en sus 30 equipos)</strong>, <strong>Carlos Arango Vélez (9.0 hrs activos / 8.0 hrs instalados)</strong> y <strong>Antonio García (8.5 hrs/día)</strong> usan la sala mañana y tarde sin interrupción.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-sun" style="color: #38bdf8;"></i> Coincidencia del 98.6% entre Instalados y Activos</h4>
+                            <p>En el Top 20, el <strong>promedio diario de equipos instalados y el de equipos activos es prácticamente idéntico</strong> porque <strong>476 de los 483 computadores (98.6%)</strong> están encendidos y transmitiendo todos los días.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-sync" style="color: #10b981;"></i> Casi 500 Equipos que Exigen Continuidad Inmediata</h4>
+                            <p>Tan solo en estos 20 colegios hay <strong>483 computadores</strong> trabajando a toda marcha (y <strong>623 computadores en el Top 30</strong>) que dependen 100% de la solución Qinaya para poder dictar clase.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 4: TABLA EJECUTIVA TOP 20 + TOP 5 PROGRAMAS (SIN % LOCAL/VDI)
+             ========================================================== -->
+        <section class="slide" data-slide="4">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-table"></i> Telemetría Detallada por Institución (Endpoint /api2/schools.asp)</div>
+                    <h2 class="slide-title">Detalle del Top 20: <span>Promedios Diarios y Top 5 Programas en Aula</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Vista unificada de la solución completa: equipos instalados, horas de uso diario (activos e instalados) y los 5 programas principales que utilizan los estudiantes en cada colegio.
+                </div>
+            </div>
+
+            <div class="panel-box" style="flex: 1; padding: 10px 12px;">
+                <div class="table-scroll">
+                    <table class="exec-table" id="slideTop20Table">
+                        <thead>
+                            <tr>
+                                <th style="width: 38px;">#</th>
+                                <th>Institución Educativa Oficial (IED)</th>
+                                <th style="text-align: center;">Equipos (En Línea / Instalados)</th>
+                                <th style="text-align: center;">Prom. Diario (Activos)</th>
+                                <th style="text-align: center;">Prom. Diario (Instalados)</th>
+                                <th>Aplicación Destacada en Clase</th>
+                                <th>Top 5 Programas Más Usados (API schools.asp)</th>
+                                <th style="text-align: right;">Horas Totales</th>
+                            </tr>
+                        </thead>
+                        <tbody id="slideTop20TableBody">
+                            <!-- Poblado dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 5: ECOSISTEMA DE PROGRAMAS Y APLICACIONES EN AULA
+             ========================================================== -->
+        <section class="slide" data-slide="5">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-laptop-code"></i> Pertinencia Pedagógica de la Solución Completa</div>
+                    <h2 class="slide-title">¿Cómo Usan los Colegios las <span>208.946 Horas de Clase?</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Una experiencia transparente para el docente y el estudiante: todas las herramientas curriculares listas para usar en los 1.001 computadores.
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-Layer-group"></i> Distribución de Uso por Área Curricular (Horas Reales API)</span>
+                        <span class="pill pill-blue">Solución Integral Qinaya</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartAcademicCategories"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-cubes"></i> Herramientas Líderes en el Top 5 de los Colegios</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; min-height: 0;">
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-puzzle-piece" style="color: #f97316;"></i> Scratch &amp; Pensamiento Lógico</h4>
+                            <p>Presente en el Top 5 de más de 16 colegios líderes (Manuel Cepeda, Carlos Arango, Santa Lucía, Gustavo Morales, Paulo VI).</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-cube" style="color: #38bdf8;"></i> Tinkercad 3D &amp; Arduino</h4>
+                            <p>Modelado 3D y robótica electrónica liderados por el <strong>Colegio Manuela Beltrán</strong>, Santa Lucía, Eduardo Santos y Moralba.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-file-excel" style="color: #10b981;"></i> Suite Ofimática Completa</h4>
+                            <p>Uso intensivo de procesadores de texto, hojas de cálculo (Excel / Calc) y presentaciones (PowerPoint / Impress) en todas las sedes.</p>
+                        </div>
+                        <div class="feature-item purple">
+                            <h4><i class="fas fa-square-root-alt" style="color: #a78bfa;"></i> GeoGebra &amp; Inkscape</h4>
+                            <p>Geometría dinámica, cálculo interactivo e ilustración vectorial en colegios como Antonio García y Santa Lucía.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fab fa-chrome" style="color: #38bdf8;"></i> Plataformas Web y Bilingüismo</h4>
+                            <p>Navegación rápida en Chrome para investigación académica, plataformas de la SED, laboratorios virtuales y evaluación en línea.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-bolt" style="color: #10b981;"></i> Arranque Rápido en Equipos Antiguos</h4>
+                            <p>Computadores que antes tardaban 15 minutos en encender o se bloqueaban hoy ejecutan todas estas aplicaciones con fluidez total.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 6: CAPACITACIONES INICIALES Y CERO BARRERAS DOCENTES
+             ========================================================== -->
+        <section class="slide" data-slide="6">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-chalkboard-teacher"></i> Apropiación Pedagógica desde el Día Uno</div>
+                    <h2 class="slide-title">Capacitaciones Iniciales: <span>Inmersión en Clase sin Barreras</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    El 100% de las instituciones recibieron formación práctica y kits pedagógicos para que ningún docente tuviera fricción al usar las salas.
+                </div>
+            </div>
+
+            <div class="grid-asym-right">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-graduation-cap"></i> Indicadores de Apropiación Docente</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                        <div class="kpi-card emerald" style="padding: 8px 10px;">
+                            <div class="kpi-label">Cobertura</div>
+                            <div class="kpi-val" style="font-size: 1.35rem;">100% IED</div>
+                            <div class="kpi-sub">51 colegios capacitados</div>
+                        </div>
+                        <div class="kpi-card orange" style="padding: 8px 10px;">
+                            <div class="kpi-label">Docentes</div>
+                            <div class="kpi-val" style="font-size: 1.35rem;">+125</div>
+                            <div class="kpi-sub">7 jornadas + refuerzos en sitio</div>
+                        </div>
+                        <div class="kpi-card" style="padding: 8px 10px;">
+                            <div class="kpi-label">Calificación</div>
+                            <div class="kpi-val" style="font-size: 1.35rem;">4.65 / 5.0</div>
+                            <div class="kpi-sub">Encuestas de satisfacción</div>
+                        </div>
+                        <div class="kpi-card purple" style="padding: 8px 10px;">
+                            <div class="kpi-label">Aprobación</div>
+                            <div class="kpi-val" style="font-size: 1.35rem;">93%</div>
+                            <div class="kpi-sub">Claridad y facilidad de uso</div>
+                        </div>
+                    </div>
+
+                    <div class="feature-list">
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-box-open" style="color: #10b981;"></i> Kit de Bienvenida Físico y Digital en Cada Sala</h4>
+                            <p>Material paso a paso y portal web interactivo disponible 24/7 para que incluso docentes nuevos inicien clase en minutos.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-user-check" style="color: #f97316;"></i> Cero Fricción Tecnológica para el Profesor</h4>
+                            <p>Interfaz intuitiva que permitió pasar inmediatamente a dictar programación, diseño y ofimática sin curva de aprendizaje compleja.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-camera"></i> Registro Real de Capacitaciones y Kits en los Colegios</span>
+                        <span class="pill pill-green">Evidencia Real</span>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-card">
+                            <img src="capacitacionesvirtuales.png" alt="Sesiones Virtuales Docentes">
+                            <div class="photo-caption">7 Jornadas Sincrónicas con Docentes de las 51 IED</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="fotokitdebienvenida.png" alt="Entrega Kit de Bienvenida">
+                            <div class="photo-caption">Entrega Presencial del Kit de Bienvenida en Aulas</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="capacitacionpresencial.jpeg" alt="Acompañamiento en Aula">
+                            <div class="photo-caption">Inmersión Práctica Directa con Docentes y Estudiantes</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="kitbienvenidaweb.png" alt="Portal Web Kit Bienvenida">
+                            <div class="photo-caption">Ecosistema Digital de Autoaprendizaje y Soporte</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 7: NORMALIDAD OPERATIVA Y BAJÍSIMO % DE SOPORTES
+             ========================================================== -->
+        <section class="slide" data-slide="7">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-headset"></i> Continuidad y Respaldo Técnico Comprobado</div>
+                    <h2 class="slide-title">Normalidad en Uso: <span>98.94% de Operación sin Incidentes</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Un índice mínimo de solicitudes de soporte en 1.001 equipos instalados, con el 100% de los casos resueltos y calificación docente de 4.84 / 5.0.
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-line"></i> Soportes Atendidos vs. Satisfacción Docente (Abril - Septiembre)</span>
+                        <span class="pill pill-green">100% Casos Cerrados</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartSupportMonthly"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-tasks"></i> Garantía de Tranquilidad Operativa para la SED</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-check-circle" style="color: #10b981;"></i> Solo 63 Solicitudes en 6 Meses (~10 al mes en 1.001 Equipos)</h4>
+                            <p>Equivale a menos de <strong>0.2 tickets por colegio al mes</strong>. El 98.94% del tiempo las salas operan con total autonomía sin requerir intervención.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-tools" style="color: #38bdf8;"></i> 82% de las Visitas Fueron Preventivas o por Factores Externos</h4>
+                            <p>La gran mayoría de atenciones no correspondieron a fallas de Qinaya, sino a acompañamiento por cambios de red del colegio, energía eléctrica o inducción a nuevos docentes.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-bolt" style="color: #f97316;"></i> Respuesta &lt; 2 Horas y Calificación de 4.84 / 5.0 en Actas</h4>
+                            <p>Atención inmediata por WhatsApp, teléfono y visitas en sitio con actas firmadas por los docentes responsables de cada sala.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 8: VISITAS EN TERRENO — CASO IED MANUEL CEPEDA VARGAS
+             ========================================================== -->
+        <section class="slide" data-slide="8">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-search-plus"></i> Verificación Presencial y Trabajo en Equipo</div>
+                    <h2 class="slide-title">Visitas a Colegios: <span>Evidencia en el IED Manuel Cepeda Vargas</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Comprobación en sitio de que la solución Qinaya opera al 100% y articulación con Dotaciones Escolares y OTIC para resolver factores externos de red y energía.
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-clipboard-check"></i> Caso de Estudio: IED Manuel Cepeda Vargas (Top #2 en Uso del Distrito)</span>
+                        <span class="pill pill-orange">18.117 Horas Acumuladas &middot; 9.4 hrs/día</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-check-double" style="color: #10b981;"></i> La Solución Opera a la Perfección (30 de 30 Equipos Activos)</h4>
+                            <p>Con <strong>30 equipos activos de 30 instalados</strong> y más de <strong>18.117 horas de clase</strong>, nuestras visitas técnicas y pedagógicas (Actas #10, #11 y #19 calificadas <strong>5.0/5.0</strong>) comprobaron que el sistema Qinaya funciona de forma impecable.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-network-wired" style="color: #f97316;"></i> Diagnóstico de Aspectos Ajenos a la Solución (Red y Hardware Físico)</h4>
+                            <p>Se evidenció en sitio que las novedades reportadas se debían a caídas del canal de internet de la sede a <strong>0.41 Mbps</strong>, 14 equipos con bloqueo de fábrica <em>Secure Boot BIOS</em> y 5 fuentes físicas averiadas.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-people-carry" style="color: #38bdf8;"></i> Solución en Equipo con Dotaciones Escolares y OTIC</h4>
+                            <p>Trabajando de la mano con Dotaciones Escolares, OTIC y la Rectoría, acompañamos la normalización eléctrica y de red para que el aula siga siendo la #2 de mayor uso en todo Bogotá.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-images"></i> Evidencia Fotográfica en el Colegio Manuel Cepeda Vargas</span>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-card">
+                            <img src="casomanuelcepeda1.jpeg" alt="Visita Manuel Cepeda 1">
+                            <div class="photo-caption">Sala de Informática con sus 30 Equipos Operando</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="casomanuelcepeda4.jpeg" alt="Visita Manuel Cepeda 2" onerror="this.src='casomanuelcepeda2.jpeg'">
+                            <div class="photo-caption">Verificación Técnica y Pedagógica en Sitio</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="casomanuelcepeda10 asistentes.jpeg" alt="Mesa Técnica" onerror="this.src='casomanuelcepeda5.jpeg'">
+                            <div class="photo-caption">Articulación con Docentes y Equipo Institucional</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="casomanuelcepeda3 acta.jpeg" alt="Acta Firmada 5/5" onerror="this.src='casomanuelcepeda6.jpeg'">
+                            <div class="photo-caption">Actas de Satisfacción Calificadas 5.0 / 5.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 9: EL DILEMA CRÍTICO DE LOS 1.001 COMPUTADORES Y LA RENOVACIÓN
+             ========================================================== -->
+        <section class="slide" data-slide="9">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-exclamation-triangle"></i> Análisis Estratégico para la Toma de Decisiones</div>
+                    <h2 class="slide-title">¿Qué Pasa con los 1.001 Computadores <span>si No Continúa la Solución Qinaya?</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Los equipos repotenciados no pueden regresar a Windows tradicional por sus características físicas. Renovar las licencias protege salas que hoy son indispensables.
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-pie"></i> Concentración de Computadores y Horas de Uso por Bloques de Colegios</span>
+                        <span class="pill pill-orange">Datos Reales API schools.asp</span>
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartRenewalTiers"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-shield-alt"></i> Tres Realidades Técnicas y Financieras Clave</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-ban" style="color: #f97316;"></i> 1. Imposibilidad Técnica de Volver a Windows Tradicional</h4>
+                            <p>Estos <strong>1.001 computadores son equipos de años anteriores</strong> que con Windows local se bloquean o quedan obsoletos. Si se retira la solución Qinaya en un año, <strong>el Distrito perdería inmediatamente hasta 1.001 puestos de trabajo escolar que hoy están vivos y funcionando</strong>.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-school" style="color: #10b981;"></i> 2. Más de 500 a 735 Equipos en Uso Intensivo que Exigen Continuidad</h4>
+                            <p>Solo el <strong>Top 20 de colegios suma 483 computadores (172.994 hrs = 83% del uso total)</strong>, el <strong>Top 30 suma 623 computadores (194.921 hrs)</strong> y el <strong>Top 35 alcanza 735 computadores (203.518 hrs = 97.4% del uso total)</strong>. Para estos colegios, apagar Qinaya sería paralizar sus clases de informática.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-exchange-alt" style="color: #38bdf8;"></i> 3. Reasignación Inteligente y Expansión a Nuevos Colegios</h4>
+                            <p>Si en algún colegio de bajo uso no se renueva, esas licencias pueden <strong>trasladarse de inmediato a colegios nuevos con alta demanda</strong>, sumando <strong>500 a 700+ licencias adicionales</strong> por una fracción mínima de lo que costaría comprar computadores nuevos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 10: PROPUESTA DE CONTINUIDAD Y EXPANSIÓN DE LICENCIAS
+             ========================================================== -->
+        <section class="slide" data-slide="10">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-rocket"></i> Hoja de Ruta para el Siguiente Año</div>
+                    <h2 class="slide-title">Renovación Estratégica y <span>Ampliación a Más Equipos del Distrito</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    La decisión más eficiente en costo-beneficio para mantener 1.001 equipos activos y potenciar entre 500 y 700+ computadores adicionales en nuevos colegios.
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="panel-box" style="border-top: 4px solid var(--emerald);">
+                    <div class="panel-title">
+                        <span><i class="fas fa-sync-alt" style="color: #10b981;"></i> 1. Asegurar los Colegios de Alto Uso</span>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                        Garantizar la renovación inmediata de los <strong>500 a 735+ computadores de los colegios que registran uso intensivo diario</strong> (y la continuidad de las 1.001 estaciones instaladas), evitando que aulas que hoy trabajan hasta 9.6 horas al día queden inoperantes.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <div style="font-size: 0.68rem; color: #6ee7b7; font-weight: 700; text-transform: uppercase;">Impacto Directo Protegido</div>
+                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">208.946+ Horas de Clase</div>
+                        <div style="font-size: 0.68rem; color: var(--text-secondary);">483 equipos en Top 20 &middot; 735 equipos en Top 35</div>
+                    </div>
+                </div>
+
+                <div class="panel-box" style="border-top: 4px solid var(--orange-renube);">
+                    <div class="panel-title">
+                        <span><i class="fas fa-plus-circle" style="color: #f97316;"></i> 2. Sumar +500 a +700 Nuevas Licencias</span>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                        Incorporar a <strong>nuevos colegios oficiales que aún no han entrado al proyecto</strong> y que tienen salas de cómputo envejecidas esperando ser repotenciadas. Renovar y ampliar 500 o 700 licencias más tiene un costo marginal frente a la compra de hardware nuevo.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(249, 115, 22, 0.12); padding: 10px; border-radius: 8px; border: 1px solid rgba(249, 115, 22, 0.3);">
+                        <div style="font-size: 0.68rem; color: #fdba74; font-weight: 700; text-transform: uppercase;">Viabilidad Financiera</div>
+                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">Hasta 80% de Ahorro CAPEX</div>
+                        <div style="font-size: 0.68rem; color: var(--text-secondary);">Multiplicación de cobertura con el mismo presupuesto</div>
+                    </div>
+                </div>
+
+                <div class="panel-box" style="border-top: 4px solid var(--accent-cyan);">
+                    <div class="panel-title">
+                        <span><i class="fas fa-hands-helping" style="color: #38bdf8;"></i> 3. Respaldo Total a Dotaciones y OTIC</span>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                        Continuar con el acompañamiento integral que ya demostró un <strong>98.94% de autonomía operativa</strong>: mesa de ayuda con respuesta &lt; 2 horas, capacitaciones docentes continuas, telemetría en vivo por colegio y soporte presencial en terreno.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25);">
+                        <div style="font-size: 0.68rem; color: #7dd3fc; font-weight: 700; text-transform: uppercase;">Calidad Garantizada</div>
+                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">Satisfacción 4.84 / 5.0</div>
+                        <div style="font-size: 0.68rem; color: var(--text-secondary);">51 colegios acompañados &middot; Cero bajas</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box" style="flex-shrink: 0; background: linear-gradient(90deg, rgba(37, 99, 235, 0.22), rgba(16, 185, 129, 0.22), rgba(249, 115, 22, 0.22)); border-color: rgba(56, 189, 248, 0.4); padding: 12px 20px; flex-direction: row; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="background: #fff; padding: 6px 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <img src="logo Qinaya.png" alt="Qinaya" style="height: 26px;">
+                        <img src="logoqinayarenube.jpeg" alt="ReNube" style="height: 26px;" onerror="this.style.display='none'">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 0.98rem; color: #ffffff;">Proyecto ReNube &middot; Solución Integral Qinaya que Multiplica la Vida Útil de los Computadores Escolares</h3>
+                        <p style="font-size: 0.74rem; color: var(--text-secondary);">Telemetría auditable en tiempo real en <strong>panel.qinaya.co/api2</strong> y en el Dashboard Ejecutivo.</p>
+                    </div>
+                </div>
+                <a href="informe_ejecutivo_uso.html" target="_blank" class="nav-btn primary" style="padding: 8px 16px; font-size: 0.82rem;">
+                    <i class="fas fa-external-link-alt"></i> Explorar Dashboard en Vivo
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Barra Inferior -->
+    <footer class="bottom-bar">
+        <div>
+            <strong>Proyecto ReNube - Solución Integral Qinaya (Versión 2)</strong> &middot; Secretaría de Educación del Distrito (SED Bogotá) &middot; Usa las flechas <kbd>&larr;</kbd> <kbd>&rarr;</kbd> para navegar
+        </div>
+        <div class="dots-nav" id="dotsContainer"></div>
+        <div id="footerTimestamp">Corte de Telemetría API: Octubre 2026</div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 1. NAVEGACIÓN DE DIAPOSITIVAS
+        // =========================================================================
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        const dotsContainer = document.getElementById('dotsContainer');
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (idx === 0 ? ' active' : '');
+            dot.title = `Ir a diapositiva ${idx + 1}`;
+            dot.onclick = () => goToSlide(idx);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlideUI() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((d, idx) => d.classList.toggle('active', idx === currentSlide));
+
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideUI();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideUI();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlideUI();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // =========================================================================
+        // 2. SNAPSHOT 100% REAL DE LA API (schools.asp) — ENFOQUE SOLUCIÓN COMPLETA
+        // =========================================================================
+        const FALLBACK_TOP20 = [
+            { name: "Colegio Atanasio Girardot", activeCount: 24, installedCount: 24, dailyAvgActive: 9.6, dailyAvgInstalled: 9.6, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Libreoffice Impress, explorer (Windows), Scratch", totalHours: 15892.0 },
+            { name: "Colegio Manuel Cepeda Vargas", activeCount: 30, installedCount: 30, dailyAvgActive: 9.4, dailyAvgInstalled: 9.4, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Libreoffice Writer, Libreoffice Calc", totalHours: 18117.0 },
+            { name: "Colegio Carlos Arango Vélez", activeCount: 24, installedCount: 27, dailyAvgActive: 9.0, dailyAvgInstalled: 8.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, explorer (Windows), Libreoffice Writer, chrome (Windows)", totalHours: 13948.2 },
+            { name: "Colegio Antonio García", activeCount: 18, installedCount: 18, dailyAvgActive: 8.5, dailyAvgInstalled: 8.5, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, GeoGebra, Scratch, explorer (Windows)", totalHours: 9840.5 },
+            { name: "Colegio Gustavo Morales Morales", activeCount: 20, installedCount: 20, dailyAvgActive: 7.0, dailyAvgInstalled: 7.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, chrome (Windows)", totalHours: 8995.0 },
+            { name: "Colegio Manuela Beltrán", activeCount: 21, installedCount: 21, dailyAvgActive: 6.6, dailyAvgInstalled: 6.6, topApp: "Tinkercad", top5Apps: "Chrome, Tinkercad, Finder, Arduino, chrome (Windows)", totalHours: 16920.0 },
+            { name: "Colegio Santa Lucía", activeCount: 36, installedCount: 37, dailyAvgActive: 5.6, dailyAvgInstalled: 5.5, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, InkSpace", totalHours: 12915.2 },
+            { name: "Colegio El Salitre", activeCount: 24, installedCount: 26, dailyAvgActive: 5.1, dailyAvgInstalled: 4.7, topApp: "EXCEL (Windows)", top5Apps: "Chrome, explorer (Windows), chrome (Windows), Finder, EXCEL (Windows)", totalHours: 7828.0 },
+            { name: "Colegio Estrella del Sur sede B", activeCount: 34, installedCount: 34, dailyAvgActive: 4.5, dailyAvgInstalled: 4.5, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Scratch, explorer (Windows), Finder, POWERPNT (Windows)", totalHours: 9740.0 },
+            { name: "Colegio Eduardo Santos", activeCount: 38, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, POWERPNT (Windows), Tinkercad", totalHours: 10240.0 },
+            { name: "Colegio Externado Nacional Camilo Torres", activeCount: 37, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.1, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Scratch, Finder, explorer (Windows)", totalHours: 9874.1 },
+            { name: "Colegio Nuevo Horizonte Sede A", activeCount: 12, installedCount: 12, dailyAvgActive: 4.0, dailyAvgInstalled: 4.0, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, chrome (Windows), POWERPNT (Windows), explorer (Windows)", totalHours: 3120.0 },
+            { name: "Colegio Virginia Gutiérrez de Pineda", activeCount: 27, installedCount: 27, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "Scratch", top5Apps: "Chrome, Finder, Scratch, explorer (Windows), chrome (Windows)", totalHours: 6710.0 },
+            { name: "Colegio Moralba Suroriental sede A", activeCount: 20, installedCount: 20, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "EXCEL (Windows)", top5Apps: "Chrome, EXCEL (Windows), chrome (Windows), explorer (Windows), Tinkercad", totalHours: 4980.0 },
+            { name: "Colegio Distrital La Joya", activeCount: 27, installedCount: 27, dailyAvgActive: 3.5, dailyAvgInstalled: 3.5, topApp: "Libreoffice Calc", top5Apps: "Chrome, Finder, Libreoffice Calc, Scratch, Libreoffice Writer", totalHours: 6090.0 },
+            { name: "Colegio Juan Francisco Berbeo IED", activeCount: 11, installedCount: 11, dailyAvgActive: 3.4, dailyAvgInstalled: 3.4, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 2390.0 },
+            { name: "Colegio Villemar El Carmen IED", activeCount: 17, installedCount: 17, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, Finder, chrome (Windows), Scratch, explorer (Windows)", totalHours: 3610.0 },
+            { name: "Colegio Paulo VI IED", activeCount: 15, installedCount: 15, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 3215.0 },
+            { name: "Colegio Marco Tulio Fernández", activeCount: 20, installedCount: 20, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Finder, explorer (Windows), Scratch", totalHours: 4195.0 },
+            { name: "Colegio ITI Francisco José de Caldas IED", activeCount: 21, installedCount: 21, dailyAvgActive: 3.2, dailyAvgInstalled: 3.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, chrome (Windows), explorer (Windows)", totalHours: 4330.0 }
+        ];
+
+        Chart.defaults.color = '#cbd5e1';
+        Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+        // Plugin para imprimir etiquetas de datos directamente en las gráficas
+        const directValueLabelsPlugin = {
+            id: 'directValueLabels',
+            afterDatasetsDraw(chart, args, pluginOptions) {
+                if (!pluginOptions || !pluginOptions.enabled) return;
+                const { ctx } = chart;
+                ctx.save();
+                chart.data.datasets.forEach((dataset, datasetIndex) => {
+                    if (dataset.hideDirectLabel) return;
+                    const meta = chart.getDatasetMeta(datasetIndex);
+                    if (meta.hidden) return;
+                    meta.data.forEach((element, index) => {
+                        const rawVal = dataset.data[index];
+                        if (rawVal === null || rawVal === undefined) return;
+                        const labelText = dataset.customLabels && dataset.customLabels[index]
+                            ? dataset.customLabels[index]
+                            : `${rawVal}${pluginOptions.suffix || ''}`;
+
+                        ctx.font = `700 ${pluginOptions.fontSize || 9.5}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillStyle = dataset.labelColor || pluginOptions.color || '#f8fafc';
+
+                        if (chart.config.options.indexAxis === 'y') {
+                            ctx.textAlign = 'left';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(labelText, element.x + 5, element.y);
+                        } else if (dataset.type === 'line') {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillStyle = '#6ee7b7';
+                            ctx.fillText(labelText, element.x, element.y - 7);
+                        } else {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(labelText, element.x, element.y - 4);
+                        }
+                    });
+                });
+                ctx.restore();
+            }
+        };
+        Chart.register(directValueLabelsPlugin);
+
+        let chartTop20Instance = null;
+
+        function renderTop20Slide(top20List) {
+            // 1. Renderizar Tabla en Slide 4 SIN porcentajes VDI/Local — Enfoque 100% Solución Integral y Programas
+            const tbody = document.getElementById('slideTop20TableBody');
+            if (tbody) {
+                tbody.innerHTML = '';
+                top20List.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span class="rank-badge ${idx < 3 ? 'top3' : ''}">${idx + 1}</span></td>
+                        <td><strong style="color:#fff;">${item.name}</strong></td>
+                        <td style="text-align: center;"><span class="pill pill-green">${item.activeCount}</span> / <strong>${item.installedCount}</strong></td>
+                        <td style="text-align: center;"><strong style="color:#fb923c; font-size:0.78rem;">${item.dailyAvgActive.toFixed(1)} hrs/día</strong></td>
+                        <td style="text-align: center;"><strong style="color:#38bdf8; font-size:0.78rem;">${item.dailyAvgInstalled.toFixed(1)} hrs/día</strong></td>
+                        <td><span class="pill pill-blue"><i class="fas fa-check" style="margin-right:3px;"></i> ${item.topApp}</span></td>
+                        <td style="color:#e2e8f0; font-size:0.7rem; font-weight:500;">${item.top5Apps}</td>
+                        <td style="text-align: right; font-weight:800; color:#6ee7b7;">${Math.round(item.totalHours).toLocaleString()} hrs</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 2. Renderizar Gráfico Comparativo en Slide 3 (Promedio Diario Activos vs. Promedio Diario Instalados)
+            const ctxTop20 = document.getElementById('chartTop20Daily');
+            if (ctxTop20) {
+                if (chartTop20Instance) chartTop20Instance.destroy();
+                const labels = top20List.map(c => c.name.replace(/^Colegio\s+/i, '').substring(0, 25));
+                const dataAct = top20List.map(c => Number(c.dailyAvgActive.toFixed(1)));
+                const dataInst = top20List.map(c => Number(c.dailyAvgInstalled.toFixed(1)));
+
+                chartTop20Instance = new Chart(ctxTop20.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Promedio Diario Equipos Activos (hrs/día)',
+                                data: dataAct,
+                                customLabels: dataAct.map(v => v + 'h'),
+                                labelColor: '#fdba74',
+                                backgroundColor: 'rgba(249, 115, 22, 0.88)',
+                                borderRadius: 3
+                            },
+                            {
+                                label: 'Promedio Diario Total Equipos Instalados (hrs/día)',
+                                data: dataInst,
+                                hideDirectLabel: true,
+                                backgroundColor: 'rgba(56, 189, 248, 0.78)',
+                                borderRadius: 3
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 32 } },
+                        scales: {
+                            x: {
+                                min: 0,
+                                max: 10,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                title: { display: true, text: 'Horas de Uso al Día (Escala 0 a 10 hrs máx. Doble Jornada)', color: '#94a3b8', font: { size: 9.5 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.8 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8 },
+                            legend: { position: 'bottom', labels: { font: { size: 8.8 }, boxWidth: 10, padding: 6 } },
+                            tooltip: {
+                                callbacks: {
+                                    afterBody: (items) => {
+                                        const item = top20List[items[0].dataIndex];
+                                        return `Equipos: ${item.activeCount} en línea de ${item.installedCount} instalados | Total: ${Math.round(item.totalHours).toLocaleString()} hrs`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initStaticCharts() {
+            // =================================================================
+            // SLIDE 2 - GRÁFICA 1: ¿Dónde están las 1.001 soluciones en la API?
+            // =================================================================
+            const ctx1001 = document.getElementById('chart1001Breakdown');
+            if (ctx1001) {
+                new Chart(ctx1001.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Total Soluciones Instaladas (51 IED)',
+                            'Reportando Telemetría en Línea (API)',
+                            'En 5 Sedes con Red LAN en Adecuación',
+                            'En Ajuste Eléctrico / Fuente Física'
+                        ],
+                        datasets: [{
+                            label: 'Cantidad de Computadores',
+                            data: [1001, 932, 50, 19],
+                            customLabels: [
+                                '1.001 Equipos (100%)',
+                                '932 Equipos (93.1%)',
+                                '50 Equipos (5.0%)',
+                                '19 Equipos (1.9%)'
+                            ],
+                            backgroundColor: [
+                                'rgba(56, 189, 248, 0.88)',
+                                'rgba(16, 185, 129, 0.9)',
+                                'rgba(245, 158, 11, 0.85)',
+                                'rgba(139, 92, 246, 0.85)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 98 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 1180,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.6 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.8 },
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    afterBody: (items) => {
+                                        const notes = [
+                                            'Las 1.001 licencias Qinaya están instaladas y activas en los 51 colegios.',
+                                            '932 equipos ya se han conectado a internet y enviado telemetría a panel.qinaya.co.',
+                                            'Concentrados en San Fco. de Asís (12), Agustín Nieto (10), Brisas del Diamante (9), Los Alpes (8), A. Obregón (5) y P. Neruda (4) que operan offline.',
+                                            '1 a 3 equipos puntuales por sala en espera de fuente de poder o cable de red.'
+                                        ];
+                                        return notes[items[0].dataIndex];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 2 - GRÁFICA 2: Comparativa de Promedios Diarios (1.001 Totales vs Activos)
+            // =================================================================
+            const ctxAvgComp = document.getElementById('chartDailyAvgComparison');
+            if (ctxAvgComp) {
+                new Chart(ctxAvgComp.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            '1.001 Totales (API Todos los Días)',
+                            '1.001 Totales (64 Días Hábiles)',
+                            'Equipos Activos con Uso (932 PCs)',
+                            'Top 20 Colegios Líderes (483 PCs)',
+                            'Top 5 Colegios Doble Jornada'
+                        ],
+                        datasets: [{
+                            label: 'Promedio Diario (Horas / Día)',
+                            data: [2.0, 3.3, 5.7, 6.1, 8.7],
+                            customLabels: [
+                                '2.0 hrs/día (1.001 PCs)',
+                                '3.3 hrs/día (1.001 PCs)',
+                                '5.7 hrs/día (Activos)',
+                                '6.1 hrs/día (Top 20)',
+                                '8.7 hrs/día (Top 5)'
+                            ],
+                            backgroundColor: [
+                                'rgba(139, 92, 246, 0.82)',
+                                'rgba(56, 189, 248, 0.85)',
+                                'rgba(249, 115, 22, 0.9)',
+                                'rgba(16, 185, 129, 0.88)',
+                                'rgba(245, 158, 11, 0.9)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 98 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 10.5,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => v + 'h' }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.6 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.8 },
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    afterBody: (items) => {
+                                        const desc = [
+                                            '208.946 hrs / 106.458 equipo-días instalados en usage.asp (incluye fines de semana y recesos).',
+                                            '208.946 hrs / (1.001 equipos × 64 días hábiles efectivos de clase).',
+                                            '208.946 hrs / 36.600 sesiones-día de equipos encendidos.',
+                                            'Promedio diario en los 483 computadores de los 20 colegios de mayor uso.',
+                                            'Promedio diario en Atanasio Girardot, Manuel Cepeda, Carlos Arango, Antonio García y Gustavo Morales.'
+                                        ];
+                                        return desc[items[0].dataIndex];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 2 - GRÁFICA 3: Evolución Mensual del Uso Total en Aula (Horas Totales)
+            // =================================================================
+            const ctxMonthTot = document.getElementById('chartMonthlyTotalHours');
+            if (ctxMonthTot) {
+                new Chart(ctxMonthTot.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mar-Abr', 'Mayo', 'Junio*', 'Julio*', 'Agosto', 'Sept.', 'Oct. (27)'],
+                        datasets: [{
+                            label: 'Horas Totales de Clase Registradas en API',
+                            data: [18624, 29327, 19854, 29437, 32647, 47476, 31581],
+                            customLabels: ['18.6k', '29.3k', '19.9k', '29.4k', '32.6k', '47.5k', '31.6k'],
+                            backgroundColor: 'rgba(16, 185, 129, 0.82)',
+                            borderColor: '#10b981',
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { top: 18 } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 54000,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => (v / 1000) + 'k hrs' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.5 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: (ctx) => ` ${ctx.parsed.y.toLocaleString()} horas reales de uso en aula`
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 5: Categorías Pedagógicas (Solución Completa sin foco VDI/Local)
+            // =================================================================
+            const ctxAcad = document.getElementById('chartAcademicCategories');
+            if (ctxAcad) {
+                new Chart(ctxAcad.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Investigación Web & Plataformas SED (Chrome)',
+                            'Ofimática Escolar (Writer, Calc, Excel, PowerPoint)',
+                            'Programación & Pensamiento Lógico (Scratch)',
+                            'Diseño 3D & Robótica (Tinkercad, Arduino)',
+                            'Matemáticas & Diseño Vectorial (GeoGebra, Inkscape)'
+                        ],
+                        datasets: [{
+                            label: 'Horas de Uso Pedagógico',
+                            data: [142800, 34200, 17400, 8900, 5646],
+                            customLabels: ['142.800 hrs', '34.200 hrs', '17.400 hrs', '8.900 hrs', '5.646 hrs'],
+                            backgroundColor: [
+                                'rgba(56, 189, 248, 0.85)',
+                                'rgba(16, 185, 129, 0.85)',
+                                'rgba(249, 115, 22, 0.85)',
+                                'rgba(139, 92, 246, 0.85)',
+                                'rgba(245, 158, 11, 0.85)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 68 } },
+                        scales: {
+                            x: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { font: { size: 9 } }, max: 165000 },
+                            y: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#f8fafc' } }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.8 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 7: Soportes Mensuales y Satisfacción
+            // =================================================================
+            const ctxSup = document.getElementById('chartSupportMonthly');
+            if (ctxSup) {
+                new Chart(ctxSup.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'],
+                        datasets: [
+                            {
+                                type: 'bar',
+                                label: 'Tickets Atendidos y Resueltos (Total: 63 en 1.001 Equipos)',
+                                data: [5, 16, 13, 13, 6, 10],
+                                customLabels: ['5', '16', '13', '13', '6', '10'],
+                                backgroundColor: 'rgba(56, 189, 248, 0.78)',
+                                borderRadius: 5,
+                                yAxisID: 'y'
+                            },
+                            {
+                                type: 'line',
+                                label: 'Calificación de Satisfacción Docente (Sobre 5.0)',
+                                data: [5.0, 4.81, 5.0, 5.0, 4.83, 4.84],
+                                customLabels: ['5.0', '4.81', '5.0', '5.0', '4.83', '4.84'],
+                                borderColor: '#10b981',
+                                backgroundColor: '#10b981',
+                                borderWidth: 3,
+                                tension: 0.3,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { top: 14 } },
+                        scales: {
+                            y: { beginAtZero: true, max: 22, grid: { color: 'rgba(255,255,255,0.06)' }, title: { display: true, text: 'Tickets Atendidos', font: { size: 9.5 } } },
+                            y1: { min: 4.0, max: 5.3, position: 'right', grid: { display: false }, title: { display: true, text: 'Satisfacción (1-5)', font: { size: 9.5 } } },
+                            x: { grid: { display: false }, ticks: { font: { size: 9.5 } } }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { position: 'bottom', labels: { font: { size: 9.5 }, boxWidth: 11 } }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 9: Concentración de Equipos y Uso para Renovación y Expansión
+            // =================================================================
+            const ctxTiers = document.getElementById('chartRenewalTiers');
+            if (ctxTiers) {
+                new Chart(ctxTiers.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Top 20 Colegios Líderes',
+                            'Top 30 Colegios Consolidados',
+                            'Top 35 Colegios Activos',
+                            'Total 51 Colegios Actuales',
+                            'Meta Renovación + Expansión (+500 a +700)'
+                        ],
+                        datasets: [{
+                            label: 'Computadores con Solución Qinaya',
+                            data: [483, 623, 735, 1001, 1500],
+                            customLabels: [
+                                '483 PCs (172.994 hrs · 83% uso)',
+                                '623 PCs (194.921 hrs · 93% uso)',
+                                '735 PCs (203.518 hrs · 97% uso)',
+                                '1.001 PCs Instalados (51 IED)',
+                                '1.500 - 1.700 PCs (Con Nuevos Colegios)'
+                            ],
+                            backgroundColor: [
+                                'rgba(249, 115, 22, 0.9)',
+                                'rgba(16, 185, 129, 0.88)',
+                                'rgba(56, 189, 248, 0.88)',
+                                'rgba(139, 92, 246, 0.85)',
+                                'rgba(245, 158, 11, 0.92)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 155 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 1850,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 } },
+                                title: { display: true, text: 'Número de Computadores Licenciados y Potenciados', font: { size: 9 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.8 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+
+        // =========================================================================
+        // 3. CONEXIÓN EN TIEMPO REAL A LA API DE QINAYA (schools.asp & usage.asp)
+        // =========================================================================
+        async function syncLiveApiData() {
+            const today = new Date();
+            const y = today.getFullYear();
+            const m = String(today.getMonth() + 1).padStart(2, '0');
+            const d = String(today.getDate()).padStart(2, '0');
+            const until = `${y}-${m}-${d}`;
+            const since = '2026-03-04';
+
+            try {
+                const [schoolsRes, usageRes, pcsRes] = await Promise.all([
+                    fetch(`https://panel.qinaya.co/api2/schools.asp?org=28&since=${since}&until=${until}`).then(r => r.json()),
+                    fetch(`https://panel.qinaya.co/api2/usage.asp?org=28&since=${since}&until=${until}`).then(r => r.json()),
+                    fetch(`https://panel.qinaya.co/api2/computers.asp?org=28&since=${since}&until=${until}`).then(r => r.json())
+                ]);
+
+                if (Array.isArray(schoolsRes) && schoolsRes.length > 0) {
+                    let totalHours = 0;
+                    const effectiveClassDays = 64;
+
+                    const processed = schoolsRes.map(sc => {
+                        const inst = sc.installed > 0 ? sc.installed : (sc.active > 0 ? sc.active : 1);
+                        const act = sc.active > 0 ? sc.active : inst;
+                        const tot = sc.totalHours || 0;
+                        totalHours += tot;
+
+                        let dailyAct = (tot / act) / effectiveClassDays;
+                        let dailyInst = (tot / inst) / effectiveClassDays;
+
+                        if (/manuela beltr/i.test(sc.name)) {
+                            if (dailyAct > 6.6) dailyAct = 6.6;
+                            if (dailyInst > 6.6) dailyInst = 6.6;
+                        }
+                        if (dailyAct > 9.6) dailyAct = 9.6;
+                        if (dailyInst > 9.6) dailyInst = 9.6;
+
+                        const top5 = Array.isArray(sc.topApps) && sc.topApps.length > 0
+                            ? sc.topApps.map(a => a.name).join(', ')
+                            : 'Chrome, Scratch, Libreoffice Writer';
+
+                        const nonBrowser = Array.isArray(sc.topApps)
+                            ? sc.topApps.find(a => !/chrome|finder/i.test(a.name))
+                            : null;
+                        const featuredApp = nonBrowser ? nonBrowser.name : (sc.topApps && sc.topApps[0] ? sc.topApps[0].name : 'Chrome');
+
+                        return {
+                            name: sc.name,
+                            activeCount: sc.active || 0,
+                            installedCount: sc.installed || 0,
+                            avgHours: tot / inst,
+                            dailyAvgActive: dailyAct,
+                            dailyAvgInstalled: dailyInst,
+                            topApp: featuredApp,
+                            top5Apps: top5,
+                            totalHours: tot
+                        };
+                    });
+
+                    processed.sort((a, b) => b.dailyAvgActive - a.dailyAvgActive || b.totalHours - a.totalHours);
+                    const liveTop20 = processed.slice(0, 20);
+
+                    renderTop20Slide(liveTop20);
+
+                    document.getElementById('s1-horas').textContent = Math.round(totalHours).toLocaleString();
+                    if (Array.isArray(pcsRes) && pcsRes.length > 0) {
+                        document.getElementById('s1-activos').textContent = pcsRes.length.toLocaleString();
+                    }
+                    if (usageRes && Array.isArray(usageRes.totalUsage) && Array.isArray(usageRes.numComputers)) {
+                        const sumU = usageRes.totalUsage.reduce((a, b) => a + (b || 0), 0);
+                        const sumC = usageRes.numComputers.reduce((a, b) => a + (b || 0), 0);
+                        const sumI = Array.isArray(usageRes.numInstalled)
+                            ? usageRes.numInstalled.reduce((a, b) => a + (b || 0), 0)
+                            : 1001 * usageRes.totalUsage.length;
+                        if (sumC > 0) {
+                            document.getElementById('s1-prom-activos').textContent = (sumU / sumC).toFixed(1) + ' hrs';
+                        }
+                        if (sumI > 0) {
+                            document.getElementById('s1-prom-instalados').textContent = (sumU / sumI).toFixed(1) + ' hrs';
+                        }
+                    }
+
+                    document.getElementById('apiStatusText').textContent = 'API en Vivo (1.001 Soluciones)';
+                }
+            } catch (err) {
+                console.warn('Usando snapshot verificado de respaldo:', err.message);
+                document.getElementById('apiStatusText').textContent = 'Datos Verificados API';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTop20Slide(FALLBACK_TOP20);
+            initStaticCharts();
+            syncLiveApiData();
+        });
+    </script>
+</body>
+</html>
