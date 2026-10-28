@@ -608,21 +608,26 @@
             color: #f8fafc;
         }
 
-        /* Listas de Puntos Clave */
+        /* Listas de Puntos Clave — Tipografía Grande y Legible */
         .feature-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             flex: 1;
-            justify-content: space-around;
+            justify-content: stretch;
             min-height: 0;
         }
 
         .feature-item {
-            background: rgba(255, 255, 255, 0.035);
-            border-left: 3px solid var(--accent-cyan);
-            border-radius: 0 8px 8px 0;
-            padding: 8px 11px;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 0 10px 10px 0;
+            padding: 12px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .feature-item.orange { border-left-color: var(--orange-renube); }
@@ -630,18 +635,34 @@
         .feature-item.purple { border-left-color: var(--purple-accent); }
 
         .feature-item h4 {
-            font-size: 0.8rem;
+            font-size: clamp(0.98rem, 1.15vw, 1.14rem);
+            font-weight: 700;
             color: #ffffff;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            line-height: 1.25;
         }
 
         .feature-item p {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            line-height: 1.32;
+            font-size: clamp(0.86rem, 1.0vw, 0.98rem);
+            color: #e2e8f0;
+            line-height: 1.45;
+        }
+
+        .grid-cards-2x3 .feature-item {
+            padding: 10px 13px;
+        }
+
+        .grid-cards-2x3 .feature-item h4 {
+            font-size: clamp(0.88rem, 1.02vw, 1.0rem);
+            margin-bottom: 4px;
+        }
+
+        .grid-cards-2x3 .feature-item p {
+            font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+            line-height: 1.38;
         }
 
         /* Footer */
@@ -766,9 +787,9 @@
 
                 <div class="hero-media">
                     <div class="hero-img-wrap">
-                        <img src="casomanuelcepeda1.jpeg" alt="Estudiantes en aula ReNube Qinaya" onerror="this.src='capacitacionpresencial.jpeg'">
+                        <img src="portada_aula_renube_qinaya.jpg" alt="Aula Interactiva ReNube Qinaya con Estudiantes">
                         <div class="hero-img-caption">
-                            <strong>Aulas 100% Funcionales en las 51 IED:</strong> 1.001 computadores repotenciados ejecutando programación, diseño 3D, ofimática y navegación de alta velocidad todos los días.
+                            <strong>Aulas 100% Funcionales en las 51 IED:</strong> 1.001 computadores de escritorio, portátiles y todo-en-uno repotenciados con la solución integral Qinaya &amp; ReNube.
                         </div>
                     </div>
                 </div>
@@ -994,7 +1015,7 @@
                     <div class="panel-title">
                         <span><i class="fas fa-cubes"></i> Herramientas Líderes en el Top 5 de los Colegios</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1; min-height: 0;">
+                    <div class="grid-cards-2x3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0;">
                         <div class="feature-item orange">
                             <h4><i class="fas fa-puzzle-piece" style="color: #f97316;"></i> Scratch &amp; Pensamiento Lógico</h4>
                             <p>Presente en el Top 5 de más de 16 colegios líderes (Manuel Cepeda, Carlos Arango, Santa Lucía, Gustavo Morales, Paulo VI).</p>
@@ -1043,7 +1064,7 @@
                     <div class="panel-title">
                         <span><i class="fas fa-graduation-cap"></i> Indicadores de Apropiación Docente</span>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
                         <div class="kpi-card emerald" style="padding: 8px 10px;">
                             <div class="kpi-label">Cobertura</div>
                             <div class="kpi-val" style="font-size: 1.35rem;">100% IED</div>
@@ -1089,16 +1110,16 @@
                             <div class="photo-caption">7 Jornadas Sincrónicas con Docentes de las 51 IED</div>
                         </div>
                         <div class="photo-card">
-                            <img src="fotokitdebienvenida.png" alt="Entrega Kit de Bienvenida">
-                            <div class="photo-caption">Entrega Presencial del Kit de Bienvenida en Aulas</div>
+                            <img src="fotokitdebienvenida.png" alt="Portal Web Kit de Bienvenida">
+                            <div class="photo-caption">Portal Digital de Autoaprendizaje y Video-Tutoriales</div>
                         </div>
                         <div class="photo-card">
-                            <img src="capacitacionpresencial.jpeg" alt="Acompañamiento en Aula">
-                            <div class="photo-caption">Inmersión Práctica Directa con Docentes y Estudiantes</div>
+                            <img src="Evidecacompaula.png" alt="Taller Práctico Scratch en Vivo">
+                            <div class="photo-caption">Inmersión Práctica en Vivo: Programación en Scratch con Docentes</div>
                         </div>
                         <div class="photo-card">
-                            <img src="kitbienvenidaweb.png" alt="Portal Web Kit Bienvenida">
-                            <div class="photo-caption">Ecosistema Digital de Autoaprendizaje y Soporte</div>
+                            <img src="Imagen del kit de bienvenida Qinaya.jpeg" alt="Carpeta Kit de Bienvenida Qinaya">
+                            <div class="photo-caption">Kit de Bienvenida Físico Entregado a cada Institución</div>
                         </div>
                     </div>
                 </div>
@@ -1194,20 +1215,20 @@
                     </div>
                     <div class="photo-grid">
                         <div class="photo-card">
-                            <img src="casomanuelcepeda1.jpeg" alt="Visita Manuel Cepeda 1">
-                            <div class="photo-caption">Sala de Informática con sus 30 Equipos Operando</div>
+                            <img src="casomanuelcepeda10 asistentes.jpeg" alt="Mesa Técnica en Sitio">
+                            <div class="photo-caption">Mesa Técnica en Sitio con Docentes y Equipo SED / Dotaciones</div>
                         </div>
                         <div class="photo-card">
-                            <img src="casomanuelcepeda4.jpeg" alt="Visita Manuel Cepeda 2" onerror="this.src='casomanuelcepeda2.jpeg'">
-                            <div class="photo-caption">Verificación Técnica y Pedagógica en Sitio</div>
+                            <img src="casomanuelcepeda3 acta.jpeg" alt="Acta Firmada 5/5">
+                            <div class="photo-caption">Actas Oficiales de Visita Calificadas 5.0 / 5.0 en Terreno</div>
                         </div>
                         <div class="photo-card">
-                            <img src="casomanuelcepeda10 asistentes.jpeg" alt="Mesa Técnica" onerror="this.src='casomanuelcepeda5.jpeg'">
-                            <div class="photo-caption">Articulación con Docentes y Equipo Institucional</div>
+                            <img src="casomanuelcepeda7.jpeg" alt="Interfaz Qinaya ReNube en Aula" style="object-position: center 14%; transform: scale(1.42); transform-origin: top center;">
+                            <div class="photo-caption">Sistema Qinaya Launcher Activo en Sala de Informática</div>
                         </div>
                         <div class="photo-card">
-                            <img src="casomanuelcepeda3 acta.jpeg" alt="Acta Firmada 5/5" onerror="this.src='casomanuelcepeda6.jpeg'">
-                            <div class="photo-caption">Actas de Satisfacción Calificadas 5.0 / 5.0</div>
+                            <img src="casomanuelcepeda2.jpeg" alt="Gestión con Mesa de Ayuda SED">
+                            <div class="photo-caption">Articulación con Soporte SED para Desbloqueo de BIOS</div>
                         </div>
                     </div>
                 </div>
@@ -1276,45 +1297,45 @@
             </div>
 
             <div class="grid-3">
-                <div class="panel-box" style="border-top: 4px solid var(--emerald);">
-                    <div class="panel-title">
+                <div class="panel-box" style="border-top: 4px solid var(--emerald); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 12px;">
                         <span><i class="fas fa-sync-alt" style="color: #10b981;"></i> 1. Asegurar los Colegios de Alto Uso</span>
                     </div>
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                    <p style="font-size: clamp(0.9rem, 1.04vw, 1.02rem); color: #e2e8f0; line-height: 1.52; margin-bottom: 12px;">
                         Garantizar la renovación inmediata de los <strong>500 a 735+ computadores de los colegios que registran uso intensivo diario</strong> (y la continuidad de las 1.001 estaciones instaladas), evitando que aulas que hoy trabajan hasta 9.6 horas al día queden inoperantes.
                     </p>
-                    <div style="margin-top: auto; background: rgba(16, 185, 129, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.25);">
-                        <div style="font-size: 0.68rem; color: #6ee7b7; font-weight: 700; text-transform: uppercase;">Impacto Directo Protegido</div>
-                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">208.946+ Horas de Clase</div>
-                        <div style="font-size: 0.68rem; color: var(--text-secondary);">483 equipos en Top 20 &middot; 735 equipos en Top 35</div>
+                    <div style="margin-top: auto; background: rgba(16, 185, 129, 0.12); padding: 14px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <div style="font-size: 0.76rem; color: #6ee7b7; font-weight: 700; text-transform: uppercase;">Impacto Directo Protegido</div>
+                        <div style="font-size: 1.22rem; font-weight: 800; color: #fff; margin-top: 3px;">208.946+ Horas de Clase</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">483 equipos en Top 20 &middot; 735 equipos en Top 35</div>
                     </div>
                 </div>
 
-                <div class="panel-box" style="border-top: 4px solid var(--orange-renube);">
-                    <div class="panel-title">
+                <div class="panel-box" style="border-top: 4px solid var(--orange-renube); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 12px;">
                         <span><i class="fas fa-plus-circle" style="color: #f97316;"></i> 2. Sumar +500 a +700 Nuevas Licencias</span>
                     </div>
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                    <p style="font-size: clamp(0.9rem, 1.04vw, 1.02rem); color: #e2e8f0; line-height: 1.52; margin-bottom: 12px;">
                         Incorporar a <strong>nuevos colegios oficiales que aún no han entrado al proyecto</strong> y que tienen salas de cómputo envejecidas esperando ser repotenciadas. Renovar y ampliar 500 o 700 licencias más tiene un costo marginal frente a la compra de hardware nuevo.
                     </p>
-                    <div style="margin-top: auto; background: rgba(249, 115, 22, 0.12); padding: 10px; border-radius: 8px; border: 1px solid rgba(249, 115, 22, 0.3);">
-                        <div style="font-size: 0.68rem; color: #fdba74; font-weight: 700; text-transform: uppercase;">Viabilidad Financiera</div>
-                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">Hasta 80% de Ahorro CAPEX</div>
-                        <div style="font-size: 0.68rem; color: var(--text-secondary);">Multiplicación de cobertura con el mismo presupuesto</div>
+                    <div style="margin-top: auto; background: rgba(249, 115, 22, 0.14); padding: 14px; border-radius: 10px; border: 1px solid rgba(249, 115, 22, 0.35);">
+                        <div style="font-size: 0.76rem; color: #fdba74; font-weight: 700; text-transform: uppercase;">Viabilidad Financiera</div>
+                        <div style="font-size: 1.22rem; font-weight: 800; color: #fff; margin-top: 3px;">Hasta 80% de Ahorro CAPEX</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Multiplicación de cobertura con el mismo presupuesto</div>
                     </div>
                 </div>
 
-                <div class="panel-box" style="border-top: 4px solid var(--accent-cyan);">
-                    <div class="panel-title">
+                <div class="panel-box" style="border-top: 4px solid var(--accent-cyan); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 12px;">
                         <span><i class="fas fa-hands-helping" style="color: #38bdf8;"></i> 3. Respaldo Total a Dotaciones y OTIC</span>
                     </div>
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.45; margin-bottom: 10px;">
+                    <p style="font-size: clamp(0.9rem, 1.04vw, 1.02rem); color: #e2e8f0; line-height: 1.52; margin-bottom: 12px;">
                         Continuar con el acompañamiento integral que ya demostró un <strong>98.94% de autonomía operativa</strong>: mesa de ayuda con respuesta &lt; 2 horas, capacitaciones docentes continuas, telemetría en vivo por colegio y soporte presencial en terreno.
                     </p>
-                    <div style="margin-top: auto; background: rgba(56, 189, 248, 0.1); padding: 10px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.25);">
-                        <div style="font-size: 0.68rem; color: #7dd3fc; font-weight: 700; text-transform: uppercase;">Calidad Garantizada</div>
-                        <div style="font-size: 1.02rem; font-weight: 800; color: #fff; margin-top: 2px;">Satisfacción 4.84 / 5.0</div>
-                        <div style="font-size: 0.68rem; color: var(--text-secondary);">51 colegios acompañados &middot; Cero bajas</div>
+                    <div style="margin-top: auto; background: rgba(56, 189, 248, 0.12); padding: 14px; border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.3);">
+                        <div style="font-size: 0.76rem; color: #7dd3fc; font-weight: 700; text-transform: uppercase;">Calidad Garantizada</div>
+                        <div style="font-size: 1.22rem; font-weight: 800; color: #fff; margin-top: 3px;">Satisfacción 4.84 / 5.0</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">51 colegios acompañados &middot; Cero bajas</div>
                     </div>
                 </div>
             </div>
