@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webinar 2: Creación de Videojuegos Educativos con Scratch | Qinaya ReNube - SED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #081220;
+            --bg-card: rgba(15, 29, 53, 0.88);
+            --bg-card-border: rgba(255, 255, 255, 0.12);
+            --primary-blue: #2563eb;
+            --accent-cyan: #38bdf8;
+            --renube-orange: #f97316;
+            --scratch-orange: #ff8c1a;
+            --scratch-yellow: #ffab19;
+            --scratch-blue: #4c97ff;
+            --scratch-purple: #9966ff;
+            --scratch-green: #59c059;
+            --scratch-sound: #cf63cf;
+            --success-green: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            user-select: none;
+        }
+
+        /* Top Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--scratch-orange), var(--scratch-yellow), var(--accent-cyan));
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Top Navigation Header */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 35px;
+            background: rgba(8, 18, 32, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--bg-card-border);
+            z-index: 900;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-logo-card {
+            background: #ffffff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            height: 42px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-logo-card img {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-title-box {
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title-box span:first-child {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--scratch-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title-box span:last-child {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--scratch-orange);
+            background: rgba(255, 140, 26, 0.12);
+            border: 1px solid rgba(255, 140, 26, 0.3);
+            padding: 5px 14px;
+            border-radius: 20px;
+        }
+
+        .ctrl-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--bg-card-border);
+            color: #ffffff;
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .ctrl-btn-orange {
+            background: var(--scratch-orange);
+            border-color: var(--scratch-orange);
+        }
+
+        .ctrl-btn-orange:hover {
+            background: #e67e15;
+            border-color: #e67e15;
+        }
+
+        /* Slide Container */
+        .presentation-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            padding-top: 68px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 68px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 68px);
+            padding: 35px 60px 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(0.98);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        /* Slide Header */
+        .slide-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 140, 26, 0.12);
+            border: 1px solid rgba(255, 140, 26, 0.3);
+            color: var(--scratch-yellow);
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        .slide-tag-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--scratch-orange);
+        }
+
+        .slide-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            line-height: 1.45;
+            max-width: 950px;
+        }
+
+        /* Layout Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .grid-1-2 {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .grid-2-1 {
+            display: grid;
+            grid-template-columns: 1.25fr 0.95fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-accent-orange { border-top: 4px solid var(--scratch-orange); }
+        .card-accent-yellow { border-top: 4px solid var(--scratch-yellow); }
+        .card-accent-blue { border-top: 4px solid var(--scratch-blue); }
+        .card-accent-green { border-top: 4px solid var(--scratch-green); }
+        .card-accent-purple { border-top: 4px solid var(--scratch-purple); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .icon-orange { background: rgba(255, 140, 26, 0.2); color: var(--scratch-orange); }
+        .icon-yellow { background: rgba(255, 171, 25, 0.2); color: var(--scratch-yellow); }
+        .icon-blue { background: rgba(76, 151, 255, 0.2); color: var(--scratch-blue); }
+        .icon-green { background: rgba(89, 192, 89, 0.2); color: var(--scratch-green); }
+        .icon-purple { background: rgba(153, 102, 255, 0.2); color: var(--scratch-purple); }
+
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .card-body {
+            font-size: 13.5px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .card-body p {
+            margin-bottom: 8px;
+        }
+
+        .card-body ul {
+            margin-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card-body li {
+            margin-bottom: 5px;
+        }
+
+        /* SCRATCH BLOCK VISUAL STYLES */
+        .scratch-script-box {
+            background: #182234;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .s-block {
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .s-event { background: #e69d00; border-top-left-radius: 14px; border-top-right-radius: 14px; }
+        .s-motion { background: #4c97ff; }
+        .s-looks { background: #9966ff; }
+        .s-sound { background: #cf63cf; }
+        .s-control { background: #ffab19; }
+        .s-sensing { background: #5cb1d6; }
+        .s-operator { background: #59c059; }
+        .s-variable { background: #ff8c1a; }
+
+        .s-pill {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .s-input {
+            background: #ffffff;
+            color: #111827;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-shadow: none;
+        }
+
+        .s-indent-1 { margin-left: 18px; }
+        .s-indent-2 { margin-left: 36px; }
+
+        /* Media Elements */
+        .game-preview-card {
+            background: #0f172a;
+            border: 2px solid var(--scratch-orange);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(255, 140, 26, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-preview-card img {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .game-preview-footer {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 10px 18px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Callout Box */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(255, 140, 26, 0.12) 0%, rgba(37, 99, 235, 0.1) 100%);
+            border-left: 4px solid var(--scratch-orange);
+            border-radius: 0 12px 12px 0;
+            padding: 16px 22px;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #e2e8f0;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Steps workflow list */
+        .workflow-box {
+            display: flex;
+            gap: 14px;
+            margin-top: 12px;
+        }
+
+        .wf-step {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+        }
+
+        .wf-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--scratch-orange);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .wf-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .wf-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+
+        /* Bottom Floating Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(15, 29, 53, 0.92);
+            backdrop-filter: blur(16px);
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--bg-card-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            z-index: 950;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--scratch-yellow);
+        }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Cover Slide Specifics */
+        .cover-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cover-logos-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .cover-logo-card {
+            background: #ffffff;
+            padding: 8px 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        .cover-logo-card img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .cover-badge {
+            background: rgba(255, 140, 26, 0.15);
+            border: 1px solid rgba(255, 140, 26, 0.4);
+            color: var(--scratch-yellow);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .cover-title {
+            font-size: 40px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.8px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 40%, #ffedd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 1050px;
+        }
+
+        .cover-subtitle {
+            font-size: 19px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 22px;
+            max-width: 850px;
+        }
+
+        .cover-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 15px;
+            font-size: 14.5px;
+            color: var(--text-muted);
+        }
+
+        .meta-pill {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--bg-card-border);
+            padding: 8px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-pill strong {
+            color: #ffffff;
+        }
+
+        .kbd-hint {
+            position: fixed;
+            bottom: 22px;
+            right: 35px;
+            font-size: 11.5px;
+            color: var(--text-dim);
+            z-index: 900;
+        }
+
+        kbd {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 10.5px;
+        }
+
+        /* PRINT STYLES FOR HIGH QUALITY LANDSCAPE PDF EXPORT */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+
+            html, body {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 100% !important;
+                background-color: #081220 !important;
+                background: #081220 !important;
+                color: #f8fafc !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .slide {
+                display: flex !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                position: relative !important;
+                top: 0 !important;
+                left: 0 !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                break-after: page !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                overflow: hidden !important;
+                padding: 30px 40px !important;
+                transform: none !important;
+                transition: none !important;
+                background: #081220 !important;
+            }
+
+            .card {
+                background: rgba(15, 29, 53, 0.95) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            }
+
+            .scratch-script-box {
+                background: #182234 !important;
+            }
+
+            .top-navbar, .bottom-nav, .kbd-hint, #progress-bar {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="top-navbar">
+        <div class="header-logos">
+            <div class="header-logo-card">
+                <img src="logo_sed_bogota.png" alt="SED Bogotá">
+            </div>
+            <div class="header-logo-card">
+                <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube">
+            </div>
+            <div class="header-logo-card">
+                <img src="logo%20Qinaya.png" alt="Qinaya">
+            </div>
+            <div class="header-title-box">
+                <span>Webinar 2 • Apropiación TIC</span>
+                <span>Videojuegos Educativos con Scratch en Qinaya</span>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <div class="slide-counter" id="slide-number">Slide 1 / 11</div>
+            <button class="ctrl-btn ctrl-btn-orange" onclick="window.print()" title="Descargar toda la presentación en PDF">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Descargar en PDF
+            </button>
+            <button class="ctrl-btn" onclick="toggleFullscreen()" title="Pantalla Completa (F)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Presentation Container -->
+    <main class="presentation-wrapper">
+
+        <!-- ========================================== -->
+        <!-- SLIDE 1: PORTADA                           -->
+        <!-- ========================================== -->
+        <section class="slide active">
+            <div class="cover-content">
+                <div class="cover-logos-row">
+                    <div class="cover-logo-card">
+                        <img src="logo_sed_bogota.png" alt="Secretaría de Educación del Distrito">
+                    </div>
+                    <div class="cover-logo-card">
+                        <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube">
+                    </div>
+                    <div class="cover-logo-card">
+                        <img src="logo%20Qinaya.png" alt="Qinaya Cloud Solution">
+                    </div>
+                </div>
+
+                <div class="cover-badge">CICLO DE FORMACIÓN DOCENTE TRANSVERSAL 2026 • WEBINAR 2</div>
+
+                <h1 class="cover-title">Creación de Videojuegos Educativos con Scratch</h1>
+                <div class="cover-subtitle">Potenciando la Programación Creativa en las Aplicaciones Locales de Qinaya</div>
+
+                <p style="font-size: 15px; color: #cbd5e1; max-width: 820px; margin-bottom: 24px; line-height: 1.5;">
+                    Taller pedagógico y técnico paso a paso: configuración de escenarios y personajes, eventos de teclado, clones y gravedad, variables dinámicas de puntos y vidas, y articulación curricular con áreas STEM y transversales.
+                </p>
+
+                <div class="cover-meta">
+                    <div class="meta-pill">
+                        📅 <strong>Viernes, 30 de Octubre de 2026</strong>
+                    </div>
+                    <div class="meta-pill">
+                        ⏰ <strong>5:30 p.m. a 7:00 p.m. (90 min)</strong>
+                    </div>
+                    <div class="meta-pill">
+                        👨‍🏫 <strong>Hernán A. Rodríguez — Coordinación de Apropiación TIC</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 2: VENTAJAS SCRATCH LOCAL EN QINAYA   -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Arquitectura Técnica Pedagógica</div>
+            <h2 class="slide-title">¿Por qué Scratch Local en Qinaya Linux?</h2>
+            <div class="slide-subtitle">La solución Qinaya integra Scratch directamente en el sistema operativo local de cada máquina, eliminando las fricciones típicas de las salas de informática escolares.</div>
+
+            <div class="grid-3">
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">⚡</div>
+                        <div class="card-title">Cero Consumo de Internet</div>
+                    </div>
+                    <div class="card-body">
+                        <p>Al estar preinstalado en el sistema local Linux, <strong>40 estudiantes pueden programar simultáneamente</strong> sin consumir un solo kilobyte del ancho de banda de la sede educativa.</p>
+                        <p>Si la red del colegio fluctúa o se cae, <strong>la clase de programación continúa con total normalidad</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🎮</div>
+                        <div class="card-title">Cero Latencia en Controles</div>
+                    </div>
+                    <div class="card-body">
+                        <p>A diferencia de la versión web en la nube, los bucles de colisiones, teclas y animaciones responden a <strong>60 fotogramas por segundo</strong> sin retardos.</p>
+                        <p>El teclado responde al instante para videojuegos de plataformas, carreras o reflejos.</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🛡️</div>
+                        <div class="card-title">Privacidad y Simplicidad</div>
+                    </div>
+                    <div class="card-body">
+                        <p>No requiere que los estudiantes creen cuentas, recuerden contraseñas ni expongan correos electrónicos de menores de edad.</p>
+                        <p>Los proyectos se guardan en formato estándar <strong>.sb3</strong> directamente en la carpeta local o en la nube institucional.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                💡 <strong>Ubicación en tu Sala Qinaya:</strong> Enciende la máquina física y en la barra inferior de aplicaciones encontrarás el ícono oficial de <strong>Scratch</strong>. ¡Un clic y abre de inmediato listo para programar!
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 3: VISTA GENERAL DEL JUEGO            -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Proyecto Demostrativo en Vivo</div>
+            <h2 class="slide-title">El Videojuego: «Monkey & Bananas»</h2>
+            <div class="slide-subtitle">Un proyecto integrador que enseña las mecánicas esenciales de todo videojuego moderno: jugador, objetos que caen, colisiones, conteo dinámico y estados de fin de partida.</div>
+
+            <div class="grid-1-2">
+                <div class="card card-accent-yellow">
+                    <div class="card-header">
+                        <div class="card-icon icon-yellow">🎯</div>
+                        <div class="card-title">Estructura y Reglas del Juego</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>1. Personaje Jugador (Monkey):</strong> Se desplaza horizontalmente con las flechas del teclado en la parte inferior de la pantalla.</p>
+                        <p><strong>2. Lluvia de Objetos (Bananas):</strong> Caen desde posiciones aleatorias del cielo a diferentes velocidades simulando gravedad.</p>
+                        <p><strong>3. Sistema de Puntuación:</strong> Cada banana atrapada suma <strong>+1 a la variable Bananas</strong> y emite un sonido alegre.</p>
+                        <p><strong>4. Sistema de Vidas:</strong> Si una banana toca el suelo, el jugador pierde <strong>-1 vida</strong>. Al llegar a 0 vidas, se declara <em>Game Over</em> con opción de reiniciar.</p>
+                    </div>
+                </div>
+
+                <div class="game-preview-card">
+                    <img src="juego%20scratch%20webinar2.png" alt="Juego Scratch Monkey & Bananas">
+                    <div class="game-preview-footer">
+                        <span>🍌 Variables activas: <strong>Bananas [ 0 ]</strong> | <strong>vidas [ 0 ]</strong></span>
+                        <span style="color: var(--scratch-yellow);">● Entorno Scratch 3.0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 4: ETAPA 1 - ESCENARIO Y SPRITES     -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Etapa 1 • Paso a Paso</div>
+            <h2 class="slide-title">Fondo del Juego y Configuración de Sprites</h2>
+            <div class="slide-subtitle">Alistamiento del escenario gráfico, importación de personajes y definición de tamaños, posiciones iniciales y disfraces.</div>
+
+            <div class="grid-3">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">🌄</div>
+                        <div class="card-title">1. El Escenario (Fondo)</div>
+                    </div>
+                    <div class="card-body">
+                        <p>En la biblioteca de fondos de Scratch, selecciona <strong>Hills</strong> (Colinas) o diseña en el editor vectorial:</p>
+                        <ul>
+                            <li>Cielo azul/celeste (#80F0FF).</li>
+                            <li>Colinas verdes en la zona media.</li>
+                            <li>Franja marrón de suelo en la parte inferior (y: -160 a -180).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🐵</div>
+                        <div class="card-title">2. Sprite «Monkey»</div>
+                    </div>
+                    <div class="card-body">
+                        <p>Añade el sprite <strong>Monkey</strong> desde la biblioteca oficial:</p>
+                        <ul>
+                            <li><strong>Tamaño:</strong> Ajustar al 75% u 80% para balancear el juego.</li>
+                            <li><strong>Posición inicial:</strong> x: 0, y: -130 (apoyado en el suelo marrón).</li>
+                            <li><strong>Estilo de rotación:</strong> Fijar en <em>izquierda-derecha</em> para que no se voltee de cabeza.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card card-accent-yellow">
+                    <div class="card-header">
+                        <div class="card-icon icon-yellow">🍌</div>
+                        <div class="card-title">3. Sprite «Bananas»</div>
+                    </div>
+                    <div class="card-body">
+                        <p>Añade el sprite <strong>Bananas</strong>:</p>
+                        <ul>
+                            <li><strong>Tamaño:</strong> Ajustar al 60% o 65%.</li>
+                            <li><strong>Posición inicial:</strong> Parte superior del escenario (y: 160).</li>
+                            <li>Se configurará con generación aleatoria en el eje horizontal X (-210 a 210).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🎨 <strong>Tip Pedagógico:</strong> Explicar a los estudiantes el plano cartesiano de Scratch: el centro es (0,0), el ancho va de -240 a +240 en el eje X, y el alto de -180 a +180 en el eje Y. ¡Es geometría y coordenadas aplicadas!
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 5: ETAPA 2 - PROGRAMAR EL MONKEY      -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Etapa 2 • Paso a Paso</div>
+            <h2 class="slide-title">Programar al Monkey: Movimiento y Disfraces</h2>
+            <div class="slide-subtitle">Captura de eventos del teclado, desplazamiento lateral fluido y alternancia de disfraces para simular animación.</div>
+
+            <div class="grid-2">
+                <div class="scratch-script-box">
+                    <div style="color: #94a3b8; font-size: 11.5px; margin-bottom: 6px;">Código en el Sprite: Monkey</div>
+                    <div class="s-block s-event">al presionar <span class="s-pill">🚩 bandera verde</span></div>
+                    <div class="s-block s-motion">ir a x: <span class="s-input">0</span> y: <span class="s-input">-130</span></div>
+                    <div class="s-block s-motion">fijar estilo de rotación a <span class="s-pill">izquierda-derecha</span></div>
+                    <div class="s-block s-control">por siempre</div>
+                    <div class="s-block s-control s-indent-1">si <span class="s-pill">¿tecla [flecha derecha ▼] presionada?</span> entonces</div>
+                    <div class="s-block s-motion s-indent-2">apuntar en dirección <span class="s-input">90</span></div>
+                    <div class="s-block s-motion s-indent-2">cambiar x en <span class="s-input">12</span></div>
+                    <div class="s-block s-looks s-indent-2">siguiente disfraz</div>
+                    <div class="s-block s-control s-indent-1">si <span class="s-pill">¿tecla [flecha izquierda ▼] presionada?</span> entonces</div>
+                    <div class="s-block s-motion s-indent-2">apuntar en dirección <span class="s-input">-90</span></div>
+                    <div class="s-block s-motion s-indent-2">cambiar x en <span class="s-input">-12</span></div>
+                    <div class="s-block s-looks s-indent-2">siguiente disfraz</div>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">💡</div>
+                        <div class="card-title">Conceptos Clave de Programación</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Bucle Infinito (`por siempre`):</strong> Mantiene al juego atento a las acciones del jugador durante toda la partida.</p>
+                        <p><strong>Estructuras Condicionales (`si ... entonces`):</strong> Evalúan si el usuario presionó la tecla y ejecutan la respuesta motora.</p>
+                        <p><strong>Eje X (Horizontal):</strong> Sumar valores positivos mueve a la derecha; sumar valores negativos mueve a la izquierda.</p>
+                        <p><strong>Animación de Disfraces:</strong> Alternar entre disfraces crea la ilusión óptica de que el mono camina alegremente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 6: ETAPA 3 - BANANAS Y CLONES         -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Etapa 3 • Paso a Paso</div>
+            <h2 class="slide-title">Programar la Banana: Caída, Gravedad y Clones</h2>
+            <div class="slide-subtitle">Simulación de física gravitacional con velocidades graduales y duplicación mediante clones para crear una lluvia de objetos.</div>
+
+            <div class="grid-2">
+                <div class="scratch-script-box">
+                    <div style="color: #94a3b8; font-size: 11.5px; margin-bottom: 6px;">Código en el Sprite: Bananas (Ciclo de Caída)</div>
+                    <div class="s-block s-event">al presionar <span class="s-pill">🚩 bandera verde</span></div>
+                    <div class="s-block s-motion">ir a x: <span class="s-pill">número aleatorio entre -200 y 200</span> y: <span class="s-input">160</span></div>
+                    <div class="s-block s-control">por siempre</div>
+                    <div class="s-block s-motion s-indent-1">cambiar y en <span class="s-input">-7</span> (gravedad)</div>
+                    <div class="s-block s-control s-indent-1">si <span class="s-pill">posición en y &lt; -150</span> entonces</div>
+                    <div class="s-block s-sound s-indent-2">iniciar sonido <span class="s-pill">Oops ▼</span></div>
+                    <div class="s-block s-variable s-indent-2">sumar a <span class="s-pill">vidas ▼</span> el valor <span class="s-input">-1</span></div>
+                    <div class="s-block s-motion s-indent-2">ir a x: <span class="s-pill">número aleatorio entre -200 y 200</span> y: <span class="s-input">160</span></div>
+                </div>
+
+                <div class="card card-accent-yellow">
+                    <div class="card-header">
+                        <div class="card-icon icon-yellow">🍌</div>
+                        <div class="card-title">¿Cómo Funcionan los Duplicados?</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Aleatoriedad (`Pick Random`):</strong> Cada vez que la banana cae o reaparece, Scratch elige una coordenada X distinta entre -200 y +200, haciendo que cada intento sea impredecible y divertido.</p>
+                        <p><strong>Alternativa Avanzada (Clones):</strong> Podemos usar el bloque <code>crear clon de mí mismo</code> cada 1.5 segundos para que caigan múltiples bananas al mismo tiempo a ritmos variados.</p>
+                        <p><strong>Límite Inferior:</strong> Cuando la posición Y baja de -150 (toca el suelo), la banana se reinicia en el cielo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 7: ETAPA 4 - VARIABLES PUNTOS Y VIDAS -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Etapa 4 • Paso a Paso</div>
+            <h2 class="slide-title">Programar el Conteo: Variables «Bananas» y «vidas»</h2>
+            <div class="slide-subtitle">Gestión del estado de memoria del juego mediante variables dinámicas que se actualizan ante cada colisión o fallo.</div>
+
+            <div class="grid-2">
+                <div class="scratch-script-box">
+                    <div style="color: #94a3b8; font-size: 11.5px; margin-bottom: 6px;">Detección de Colisión (¿Tocando al Monkey?)</div>
+                    <div class="s-block s-control">si <span class="s-pill">¿tocando [Monkey ▼]?</span> entonces</div>
+                    <div class="s-block s-sound s-indent-1">iniciar sonido <span class="s-pill">Chomp ▼</span></div>
+                    <div class="s-block s-variable s-indent-1">sumar a <span class="s-pill">Bananas ▼</span> el valor <span class="s-input">1</span></div>
+                    <div class="s-block s-motion s-indent-1">ir a x: <span class="s-pill">número aleatorio entre -200 y 200</span> y: <span class="s-input">160</span></div>
+                    <div style="margin: 8px 0; border-top: 1px dashed rgba(255,255,255,0.2);"></div>
+                    <div style="color: #94a3b8; font-size: 11.5px; margin-bottom: 4px;">Inicialización al Empezar la Partida:</div>
+                    <div class="s-block s-event">al presionar <span class="s-pill">🚩 bandera verde</span></div>
+                    <div class="s-block s-variable">fijar <span class="s-pill">Bananas ▼</span> a <span class="s-input">0</span></div>
+                    <div class="s-block s-variable">fijar <span class="s-pill">vidas ▼</span> a <span class="s-input">3</span></div>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">📊</div>
+                        <div class="card-title">El Poder Pedagógico de las Variables</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>¿Qué es una Variable?:</strong> Una "caja con nombre" en la memoria de la máquina que guarda un número que cambia a lo largo del tiempo.</p>
+                        <p><strong>Inicialización Obligatoria:</strong> Al hacer clic en la bandera verde, siempre debemos resetear: <code>Bananas = 0</code> y <code>vidas = 3</code>, para no iniciar con los datos de la partida anterior.</p>
+                        <p><strong>Sensor de Contacto (`¿tocando ...?`):</strong> La física de videojuegos se basa en verificar si los límites de dos figuras se cruzan en las coordenadas de la pantalla.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 8: ETAPA 5 - SONIDOS, GAME OVER Y REINICIO -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Etapa 5 • Paso a Paso</div>
+            <h2 class="slide-title">Colocar Sonidos, Game Over y Botón de Reinicio</h2>
+            <div class="slide-subtitle">Retroalimentación auditiva inmersiva, control de finalización de juego y creación de un botón interactivo para volver a jugar.</div>
+
+            <div class="grid-3">
+                <div class="card card-accent-purple">
+                    <div class="card-header">
+                        <div class="card-icon icon-purple">🔊</div>
+                        <div class="card-title">1. Efectos de Sonido</div>
+                    </div>
+                    <div class="card-body">
+                        <p>Scratch incluye una biblioteca integrada de sonidos libres de derechos:</p>
+                        <ul>
+                            <li><strong>Chomp / Collect:</strong> Al atrapar con éxito la banana.</li>
+                            <li><strong>Oops / Low Boing:</strong> Al caer la banana al suelo.</li>
+                            <li><strong>Lose / Game Over:</strong> Melodía de cierre cuando vidas llega a cero.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🛑</div>
+                        <div class="card-title">2. Condición Game Over</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="scratch-script-box" style="padding: 10px; font-size: 11.5px;">
+                            <div class="s-block s-control">si <span class="s-pill">vidas &lt;= 0</span> entonces</div>
+                            <div class="s-block s-event s-indent-1">enviar mensaje <span class="s-pill">FinDelJuego ▼</span></div>
+                            <div class="s-block s-control s-indent-1">detener <span class="s-pill">otros programas</span></div>
+                        </div>
+                        <p style="margin-top: 8px; font-size: 12.5px;">El mensaje detiene la caída de bananas y muestra la pantalla final.</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🔄</div>
+                        <div class="card-title">3. Botón de Reinicio</div>
+                    </div>
+                    <div class="card-body">
+                        <p>Creamos un nuevo Sprite con forma de botón <strong>«Jugar de Nuevo»</strong>:</p>
+                        <div class="scratch-script-box" style="padding: 10px; font-size: 11.5px;">
+                            <div class="s-block s-event">al hacer clic en este objeto</div>
+                            <div class="s-block s-event">enviar mensaje <span class="s-pill">IniciarPartida ▼</span></div>
+                            <div class="s-block s-looks">ocultar</div>
+                        </div>
+                        <p style="margin-top: 8px; font-size: 12.5px;">¡Permite a los estudiantes jugar una y otra vez sin reiniciar la página!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 9: ARTICULACIÓN CURRICULAR            -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Transversalidad Pedagógica</div>
+            <h2 class="slide-title">Cómo Adaptar este Juego a Cualquier Asignatura</h2>
+            <div class="slide-subtitle">El modelo de «Atrapar Objetos con Variables» es una plantilla modular que cualquier docente puede utilizar en su materia sin cambiar la estructura básica del código.</div>
+
+            <div class="grid-2">
+                <div class="card card-accent-blue">
+                    <div class="card-header">
+                        <div class="card-icon icon-blue">📐</div>
+                        <div class="card-title">Matemáticas: Múltiplos y Primos</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Dinámica:</strong> En lugar de bananas, caen números del 1 al 50. El estudiante debe atrapar solo los múltiplos de 5 o números primos.</p>
+                        <p><strong>Lógica:</strong> Si el número es correcto suma puntos; si atrapa un número incorrecto resta vidas. ¡Aritmética divertida!</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-green">
+                    <div class="card-header">
+                        <div class="card-icon icon-green">🌱</div>
+                        <div class="card-title">Ciencias Naturales: Separación de Residuos</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Dinámica:</strong> El personaje es una caneca de reciclaje blanca o verde, y del cielo caen botellas plásticas, cáscaras de fruta y pilas.</p>
+                        <p><strong>Lógica:</strong> Gamificación del cuidado ambiental y reciclaje en la fuente en el aula escolar.</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-orange">
+                    <div class="card-header">
+                        <div class="card-icon icon-orange">🌍</div>
+                        <div class="card-title">Ciencias Sociales: Geografía de Colombia</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Dinámica:</strong> Caen nombres de capitales y el jugador debe atraparlas en la región correspondiente (Andina, Caribe, Pacífica, Amazonía).</p>
+                    </div>
+                </div>
+
+                <div class="card card-accent-purple">
+                    <div class="card-header">
+                        <div class="card-icon icon-purple">💬</div>
+                        <div class="card-title">Inglés / Lenguaje: Vocabulario y Ortografía</div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Dinámica:</strong> Caen palabras en inglés (Food, Animals, Verbs). El jugador debe clasificar y atrapar la categoría indicada por la pantalla.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 10: GUARDAR Y TRABAJAR EN QINAYA      -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="slide-tag"><span class="slide-tag-dot"></span> Flujo de Aula en Qinaya</div>
+            <h2 class="slide-title">Ruta de Trabajo en la Sala: Del Guardado a la Evaluación</h2>
+            <div class="slide-subtitle">Cómo organizar a los estudiantes en las estaciones Qinaya para guardar sus proyectos y socializarlos con el docente.</div>
+
+            <div class="workflow-box">
+                <div class="wf-step">
+                    <div class="wf-num">1</div>
+                    <div class="wf-title">Creación Local</div>
+                    <div class="wf-desc">Los estudiantes abren Scratch en la barra inferior de Qinaya Linux y programan su juego sin depender de internet.</div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-num">2</div>
+                    <div class="wf-title">Guardar en Equipo</div>
+                    <div class="wf-desc">Menú <strong>Archivo → Guardar en tu computador</strong>. Se genera el archivo <code>juego_mono.sb3</code> en la carpeta Documentos.</div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-num">3</div>
+                    <div class="wf-title">Subir a la Nube</div>
+                    <div class="wf-desc">Desde el navegador local suben el archivo a la carpeta compartida de Google Drive / OneDrive aprendida en el Webinar 1.</div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-num">4</div>
+                    <div class="wf-title">Coevaluación</div>
+                    <div class="wf-desc">Los compañeros descargan el archivo .sb3 de otro estudiante, lo abren en Scratch, juegan y le asignan una retroalimentación.</div>
+                </div>
+            </div>
+
+            <div class="callout-box" style="margin-top: 25px;">
+                🛡️ <strong>Blindaje Escolar:</strong> Al no utilizar memorias USB para compartir los juegos, las salas de cómputo se mantienen 100% libres de virus informáticos y se aprovecha al máximo la nube institucional del Distrito.
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SLIDE 11: RECURSOS, ASISTENCIA Y CONTACTO   -->
+        <!-- ========================================== -->
+        <section class="slide">
+            <div class="cover-content">
+                <div class="slide-tag"><span class="slide-tag-dot"></span> Cierre y Recursos Descargables</div>
+                <h2 class="slide-title">¡Gracias por Participar en el Webinar 2!</h2>
+                <div class="slide-subtitle">Recuerda diligenciar el formulario oficial de asistencia y descargar las plantillas de código para tus clases.</div>
+
+                <div class="grid-3" style="max-width: 1050px; width: 100%; text-align: left; margin-top: 10px;">
+                    <div class="card card-accent-green">
+                        <div class="card-header">
+                            <div class="card-icon icon-green">📝</div>
+                            <div class="card-title">Asistencia Certificada</div>
+                        </div>
+                        <div class="card-body">
+                            <p>En el chat de Google Meet se ha compartido el enlace al formulario oficial de registro de asistencia.</p>
+                            <span class="card-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 6px; font-size: 11px;">Registro Válido SED - Ágata</span>
+                        </div>
+                    </div>
+
+                    <div class="card card-accent-yellow">
+                        <div class="card-header">
+                            <div class="card-icon icon-yellow">📦</div>
+                            <div class="card-title">Plantillas y Proyecto .sb3</div>
+                        </div>
+                        <div class="card-body">
+                            <p>Descarga el archivo completo del juego <strong>Monkey & Bananas</strong> listo para abrir y modificar en tus salas Qinaya.</p>
+                            <span class="card-badge" style="background: rgba(255, 171, 25, 0.2); color: var(--scratch-yellow); padding: 4px 10px; border-radius: 6px; font-size: 11px;">Disponible en el Repositorio</span>
+                        </div>
+                    </div>
+
+                    <div class="card card-accent-blue">
+                        <div class="card-header">
+                            <div class="card-icon icon-blue">💬</div>
+                            <div class="card-title">Soporte y Acompañamiento</div>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Hernán A. Rodríguez</strong><br>Coordinación Académica y de Apropiación<br>Proyecto Renube — Solución Qinaya<br>WhatsApp Soporte: <strong>(+57) 311 207 8846</strong></p>
+                            <span class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc; padding: 4px 10px; border-radius: 6px; font-size: 11px;">Grupo de WhatsApp de tu Colegio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover-logos-row" style="margin-top: 25px; margin-bottom: 0;">
+                    <div class="cover-logo-card" style="height: 50px;">
+                        <img src="logo_sed_bogota.png" alt="SED Bogotá" style="height: 36px;">
+                    </div>
+                    <div class="cover-logo-card" style="height: 50px;">
+                        <img src="logoqinayarenube.jpeg" alt="Proyecto ReNube" style="height: 36px;">
+                    </div>
+                    <div class="cover-logo-card" style="height: 50px;">
+                        <img src="logo%20Qinaya.png" alt="Qinaya" style="height: 36px;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Floating Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-btn" onclick="prevSlide()" title="Anterior (Flecha Izquierda)">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <button class="nav-btn" onclick="togglePlay()" id="play-btn" title="Reproducción Automática">
+            <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="nav-btn" onclick="nextSlide()" title="Siguiente (Flecha Derecha / Espacio)">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+    </nav>
+
+    <!-- Keyboard navigation hint -->
+    <div class="kbd-hint">
+        Navega con <kbd>←</kbd> <kbd>→</kbd> o <kbd>Espacio</kbd> • Pantalla Completa: <kbd>F</kbd>
+    </div>
+
+    <!-- Interactive Navigation Scripts -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progress-bar');
+        const counter = document.getElementById('slide-number');
+        let autoPlayInterval = null;
+
+        function updateSlide() {
+            slides.forEach((s, idx) => {
+                s.classList.remove('active');
+                if (idx === currentSlide) {
+                    s.classList.add('active');
+                }
+            });
+
+            // Update counter and progress bar
+            counter.innerText = `Slide ${currentSlide + 1} / ${totalSlides}`;
+            const pct = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${pct}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            } else {
+                currentSlide = 0;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error al entrar en pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function togglePlay() {
+            const playIcon = document.getElementById('play-icon');
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+                autoPlayInterval = null;
+                playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+            } else {
+                autoPlayInterval = setInterval(nextSlide, 7000);
+                playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            } else if (e.key.toLowerCase() === 'f') {
+                toggleFullscreen();
+            } else if (e.key === 'Home') {
+                currentSlide = 0;
+                updateSlide();
+            } else if (e.key === 'End') {
+                currentSlide = totalSlides - 1;
+                updateSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
