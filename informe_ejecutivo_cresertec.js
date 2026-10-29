@@ -61,20 +61,20 @@ class QinayaAPI {
         return this.request(CONFIG.ENDPOINTS.organizations);
     }
 
-    async getComputers(orgId, since, until) {
-        return this.request(CONFIG.ENDPOINTS.computers, { org: orgId, since, until });
+    async getComputers(orgId, since, until, extra = {}) {
+        return this.request(CONFIG.ENDPOINTS.computers, { org: orgId, since, until, ...extra });
     }
 
-    async getUsage(orgId, since, until) {
-        return this.request(CONFIG.ENDPOINTS.usage, { org: orgId, since, until });
+    async getUsage(orgId, since, until, extra = {}) {
+        return this.request(CONFIG.ENDPOINTS.usage, { org: orgId, since, until, ...extra });
     }
 
-    async getWebsites(orgId, since, until) {
-        return this.request(CONFIG.ENDPOINTS.websites, { org: orgId, since, until });
+    async getWebsites(orgId, since, until, extra = {}) {
+        return this.request(CONFIG.ENDPOINTS.websites, { org: orgId, since, until, ...extra });
     }
 
-    async getApps(orgId, since, until) {
-        return this.request(CONFIG.ENDPOINTS.apps, { org: orgId, since, until });
+    async getApps(orgId, since, until, extra = {}) {
+        return this.request(CONFIG.ENDPOINTS.apps, { org: orgId, since, until, ...extra });
     }
 
     async getNetwork(orgId, since, until, extra = {}) {
@@ -101,9 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fromInput) fromInput.value = formatDate(projectStart);
     if (toInput)   toInput.value   = formatDate(today);
 
-    // Botón consultar
+    // Botón consultar y selector de Sede
     const btnConsultar = document.getElementById('btnConsultar');
     if (btnConsultar) btnConsultar.addEventListener('click', loadData);
+
+    const selectSede = document.getElementById('selectSede');
+    if (selectSede) selectSede.addEventListener('change', loadData);
 
     // Presets de fechas
     document.querySelectorAll('.preset-btn').forEach(btn => {
@@ -201,21 +204,35 @@ async function loadData() {
     showLoading(true);
     const since = document.getElementById('dateFrom').value;
     const until = document.getElementById('dateTo').value;
+    const selectSede = document.getElementById('selectSede');
+    const selectedSite = selectSede ? selectSede.value : '';
+
+    const extraParams = {};
+    if (selectedSite) {
+        extraParams.site = selectedSite;
+        if (selectedSite === 'Buenaventura') extraParams.school = '328';
+        if (selectedSite === 'Buma') extraParams.school = '266';
+    }
 
     let orgDataList, pcData, websiteData, usageData, appsData, networkData;
 
     try {
         [orgDataList, pcData, websiteData, usageData, appsData, networkData] = await Promise.all([
             api.getOrganizations().catch(e => { console.warn(e); return []; }),
-            api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
-            api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return []; }),
-            api.getUsage(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
-            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; }),
-            api.getNetwork(CONFIG.DEFAULT_ORG_ID, since, until).catch(e => { console.warn(e); return null; })
+            api.getComputers(CONFIG.DEFAULT_ORG_ID, since, until, extraParams).catch(e => { console.warn(e); return []; }),
+            api.getWebsites(CONFIG.DEFAULT_ORG_ID, since, until, extraParams).catch(e => { console.warn(e); return []; }),
+            api.getUsage(CONFIG.DEFAULT_ORG_ID, since, until, extraParams).catch(e => { console.warn(e); return null; }),
+            api.getApps(CONFIG.DEFAULT_ORG_ID, since, until, extraParams).catch(e => { console.warn(e); return null; }),
+            api.getNetwork(CONFIG.DEFAULT_ORG_ID, since, until, extraParams).catch(e => { console.warn(e); return null; })
         ]);
 
         if (!Array.isArray(pcData)) pcData = [];
         if (!Array.isArray(websiteData)) websiteData = [];
+
+        // Filtro de seguridad en cliente: si se seleccionó una sede, asegurar que solo se procesen de esa sede
+        if (selectedSite && pcData.length > 0) {
+            pcData = pcData.filter(pc => (pc.site || '').toLowerCase() === selectedSite.toLowerCase());
+        }
 
     } catch (e) {
         console.error("Fallo general al conectar con la API:", e);
@@ -234,7 +251,7 @@ async function loadData() {
     let daysCount = getBusinessDays(since, until);
 
     try {
-        processCreSerTecReport(pcData, websiteData, usageData, appsData, currentOrg, daysCount, networkData);
+        processCreSerTecReport(pcData, websiteData, usageData, appsData, currentOrg, daysCount, networkData, selectedSite);
     } catch (err) {
         console.error("Error procesando reporte CreSER Tec:", err);
     } finally {
@@ -242,12 +259,21 @@ async function loadData() {
     }
 }
 
-function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null) {
-    // 1. Metas del Programa e Inventario
-    const metaPrograma = 1000;
-    let totalEntregados = 923; // 923 entregados según actas de entrega
-    if (currentOrg && currentOrg.computers && currentOrg.computers[0] && Number(currentOrg.computers[0]) < 1100) {
-        totalEntregados = Number(currentOrg.computers[0]);
+function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, currentOrg, daysCount = 1, networkData = null, selectedSite = '') {
+    // 1. Metas del Programa e Inventario por Sede
+    let metaPrograma = 1000;
+    let totalEntregados = 923;
+
+    if (selectedSite === 'Buenaventura') {
+        metaPrograma = 200; // Meta Buenaventura (Colegio ID 328)
+        totalEntregados = 200; // Equipos programados para Buenaventura
+    } else if (selectedSite === 'Buma') {
+        metaPrograma = 1000;
+        totalEntregados = 923;
+    } else {
+        // Consolidado de sedes
+        metaPrograma = 1200;
+        totalEntregados = 1123;
     }
 
     // 2. Dispositivos STB Activos con Telemetría en el Periodo
@@ -255,6 +281,7 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
     let totalHoras = 0;
     let totalLocal = 0;
     let totalVM = 0;
+    let totalOnline = 0;
 
     const systemAppsRegex = /minstall|roxterm|finder|explorer|taskmgr|system|installer|bash|cmd|terminal|xfce|gnome|pantallazo|sysinfo|kinfocenter|Rel_upgrade/i;
 
@@ -266,6 +293,9 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
         totalLocal += lh;
         totalVM += vh;
 
+        const isOnline = (pc.status || '').toLowerCase() === 'online';
+        if (isOnline) totalOnline++;
+
         const dailyAvg = daysCount > 0 ? (h / daysCount) : 0;
         let topApp = pc.topApp || 'Navegador Web';
         if (topApp === 'Soffice') topApp = 'LibreOffice';
@@ -273,8 +303,9 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
 
         return {
             id: pc.id,
-            site: pc.site || 'Buma',
+            site: pc.site || (selectedSite || 'Buma'),
             status: pc.status || 'online',
+            isOnline: isOnline,
             totalHours: h,
             localHours: lh,
             vmHours: vh,
@@ -329,14 +360,32 @@ function processCreSerTecReport(pcDataRaw, websiteData, usageData, appsData, cur
 
     // 4. Actualizar KPIs Principales en UI
     document.getElementById('kpi-meta').textContent = metaPrograma.toLocaleString();
+    const elMetaSub = document.getElementById('kpi-meta-sub');
+    if (elMetaSub) {
+        elMetaSub.textContent = selectedSite ? `Meta ${selectedSite}` : `Dispositivos meta global`;
+    }
+
     const elEntregados = document.getElementById('kpi-entregados');
     if (elEntregados) elEntregados.textContent = totalEntregados.toLocaleString();
     const elEntregadosSub = document.getElementById('kpi-entregados-sub');
     if (elEntregadosSub) elEntregadosSub.textContent = `${((totalEntregados / metaPrograma) * 100).toFixed(1)}% de la meta`;
 
     document.getElementById('kpi-activos').textContent = totalActivos.toLocaleString();
-    const elTasa = document.getElementById('kpi-tasa-activacion');
-    if (elTasa) elTasa.textContent = tasaActivacion.toFixed(1) + '%';
+    const elActivosSub = document.getElementById('kpi-activos-sub');
+    if (elActivosSub) {
+        elActivosSub.textContent = `${tasaActivacion.toFixed(1)}% de entregados`;
+    }
+
+    const elOnline = document.getElementById('kpi-online');
+    if (elOnline) {
+        elOnline.innerHTML = `<span style="display:inline-block; width:9px; height:9px; border-radius:50%; background:#16a34a; margin-right:5px; box-shadow:0 0 6px #16a34a;"></span>${totalOnline.toLocaleString()}`;
+    }
+    const elOnlineSub = document.getElementById('kpi-online-sub');
+    if (elOnlineSub) {
+        const pctOnline = totalActivos > 0 ? ((totalOnline / totalActivos) * 100).toFixed(0) : 0;
+        elOnlineSub.textContent = `${pctOnline}% de activos prendidos`;
+    }
+
     document.getElementById('kpi-horas').textContent = Math.round(totalHoras).toLocaleString() + ' hrs';
     document.getElementById('kpi-promedio-activos').textContent = promedioDiarioActivos.toFixed(1) + ' hrs';
     const elPromActivosSub = document.getElementById('kpi-promedio-activos-sub');
@@ -531,11 +580,15 @@ function renderSTBTable(elementId, data, daysCount, isTop) {
         const badgeColor = isTop ? '#15803d' : '#b45309';
         const badgeBg = isTop ? '#dcfce7' : '#fef3c7';
 
+        const statusDot = stb.isOnline
+            ? '<span title="Prendido (Online)" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#16a34a; margin-right:5px; box-shadow:0 0 5px rgba(22,163,74,0.8);"></span>'
+            : '<span title="Desconectado (Offline)" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#94a3b8; margin-right:5px;"></span>';
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>
                 <span class="badge" style="background: ${badgeBg}; color: ${badgeColor}; font-weight: 700; min-width: 22px; text-align: center;">#${rank}</span>
-                <strong style="margin-left: 6px; color: #1e293b; font-family: monospace; font-size: 0.95rem;">${stb.id}</strong>
+                <strong style="margin-left: 6px; color: #1e293b; font-family: monospace; font-size: 0.95rem;">${statusDot}${stb.id}</strong>
             </td>
             <td><span class="badge" style="background: #f1f5f9; color: #475569;">${stb.site}</span></td>
             <td><strong style="color: ${isTop ? '#15803d' : '#b45309'}; font-size: 0.95rem;">${stb.totalHours.toFixed(1)} hrs</strong></td>
@@ -555,7 +608,7 @@ function renderAllSTBsTable(data, daysCount) {
     tbody.innerHTML = '';
 
     if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #94a3b8;">No hay terminales STB con telemetría en este periodo</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #94a3b8;">No hay terminales STB con telemetría en este periodo</td></tr>';
         return;
     }
 
@@ -578,10 +631,15 @@ function renderSTBChunk(items, tbody, daysCount) {
             levelBadge = '<span class="badge" style="background: #ffedd5; color: #c2410c;">Mínimo</span>';
         }
 
+        const statusBadge = stb.isOnline
+            ? '<span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 700; white-space: nowrap;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#16a34a; margin-right:5px; box-shadow:0 0 6px #16a34a;"></span>Prendido (Online)</span>'
+            : '<span class="badge" style="background: #f1f5f9; color: #64748b; white-space: nowrap;"><span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#94a3b8; margin-right:5px;"></span>Desconectado</span>';
+
         return `
             <tr>
                 <td style="font-family: monospace; font-weight: 700; color: #1e293b;">${stb.id}</td>
-                <td>${stb.site}</td>
+                <td style="text-align: center;">${statusBadge}</td>
+                <td><span class="badge" style="background: #f1f5f9; color: #475569;">${stb.site}</span></td>
                 <td>${levelBadge}</td>
                 <td style="font-weight: 700; color: #0284c7;">${stb.totalHours.toFixed(1)} hrs</td>
                 <td style="color: #475569;">${displayAvg}</td>
@@ -599,10 +657,14 @@ function filterAllSTBsTable(query) {
         renderSTBChunk(allComputersGlobal.slice(0, 100), tbody, daysCount);
         return;
     }
-    const filtered = allComputersGlobal.filter(c => 
-        c.id.toLowerCase().includes(query) || 
-        c.topApp.toLowerCase().includes(query)
-    );
+    const q = query.toLowerCase();
+    const filtered = allComputersGlobal.filter(c => {
+        const idMatch = (c.id || '').toLowerCase().includes(q);
+        const appMatch = (c.topApp || '').toLowerCase().includes(q);
+        const siteMatch = (c.site || '').toLowerCase().includes(q);
+        const statusMatch = (q === 'online' || q === 'prendido') ? c.isOnline : ((q === 'offline' || q === 'desconectado') ? !c.isOnline : false);
+        return idMatch || appMatch || siteMatch || statusMatch;
+    });
     renderSTBChunk(filtered.slice(0, 100), tbody, daysCount);
 }
 
