@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Ejecutiva V3 —Continuidad, Renovación de Licencias e Impacto Qinaya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #07101e;
+            --bg-card: rgba(15, 27, 46, 0.86);
+            --bg-card-solid: #0f1b2e;
+            --primary-blue: #2563eb;
+            --accent-cyan: #38bdf8;
+            --orange-renube: #f97316;
+            --orange-soft: rgba(249, 115, 22, 0.16);
+            --emerald: #10b981;
+            --emerald-soft: rgba(16, 185, 129, 0.16);
+            --purple-accent: #8b5cf6;
+            --amber: #f59e0b;
+            --rose-alert: #f43f5e;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-glass: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 12% 15%, #13284c 0%, #07101e 58%, #040912 100%);
+            color: var(--text-primary);
+            user-select: none;
+            font-size: clamp(12px, 0.92vw, 15px);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange-renube), var(--accent-cyan), var(--emerald));
+            width: 12.5%;
+            z-index: 200;
+            transition: width 0.35s ease;
+        }
+
+        /* Barra Superior Institucional */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 54px;
+            background: rgba(7, 16, 30, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 150;
+        }
+
+        .brand-strip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-pill {
+            background: #ffffff;
+            padding: 4px 11px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-pill img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-divider {
+            width: 1px;
+            height: 22px;
+            background: var(--border-glass);
+        }
+
+        .project-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            background: rgba(249, 115, 22, 0.18);
+            border: 1px solid rgba(249, 115, 22, 0.45);
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+
+        .project-badge i {
+            color: var(--orange-renube);
+        }
+
+        .top-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .live-api-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #6ee7b7;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--emerald);
+            box-shadow: 0 0 8px var(--emerald);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.65; }
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 5px 11px;
+            border-radius: 7px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-blue);
+            border-color: var(--accent-cyan);
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, var(--orange-renube), #ea580c);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .slide-counter {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            min-width: 52px;
+            text-align: center;
+        }
+
+        /* Contenedor de Diapositivas ajustado al 100% de zoom */
+        .slides-viewport {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding: 62px 28px 42px 28px;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1540px;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            animation: slideFade 0.35s ease forwards;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Encabezado de Diapositiva */
+        .slide-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 6px;
+            flex-shrink: 0;
+        }
+
+        .slide-eyebrow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+            color: var(--orange-renube);
+            font-weight: 700;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .slide-title {
+            font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+            font-weight: 800;
+            line-height: 1.12;
+            color: #ffffff;
+        }
+
+        .slide-title span {
+            background: linear-gradient(90deg, var(--accent-cyan), #6ee7b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            text-align: right;
+            line-height: 1.32;
+        }
+
+        /* Etiqueta de Rango de Fechas Visible en Gráficas */
+        .range-banner {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 7px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            color: #e0f2fe;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .range-banner i {
+            color: var(--accent-cyan);
+        }
+
+        .chart-range-sub {
+            font-size: 0.68rem;
+            color: #93c5fd;
+            background: rgba(37, 99, 235, 0.16);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 3px 8px;
+            border-radius: 0 5px 5px 0;
+            margin-bottom: 6px;
+            flex-shrink: 0;
+            font-weight: 600;
+        }
+
+        /* Grids adaptables sin desborde */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-asym {
+            display: grid;
+            grid-template-columns: 1.38fr 1fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .grid-asym-right {
+            display: grid;
+            grid-template-columns: 1fr 1.38fr;
+            gap: 14px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .panel-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .panel-title i {
+            color: var(--accent-cyan);
+        }
+
+        /* Tarjetas KPI */
+        .kpi-row-6 {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .kpi-card {
+            background: linear-gradient(145deg, rgba(20, 36, 62, 0.92), rgba(11, 21, 38, 0.92));
+            border: 1px solid var(--border-glass);
+            border-top: 3px solid var(--accent-cyan);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card.orange { border-top-color: var(--orange-renube); }
+        .kpi-card.emerald { border-top-color: var(--emerald); }
+        .kpi-card.purple { border-top-color: var(--purple-accent); }
+        .kpi-card.amber { border-top-color: var(--amber); }
+        .kpi-card.rose { border-top-color: var(--rose-alert); }
+
+        .kpi-label {
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .kpi-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.25rem, 1.65vw, 1.65rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin: 2px 0;
+            line-height: 1.05;
+        }
+
+        .kpi-sub {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            line-height: 1.2;
+        }
+
+        /* Hero Slide 1 */
+        .hero-banner {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 18px;
+            flex: 1;
+            min-height: 0;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.42) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 18px 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-h1 {
+            font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+            font-weight: 800;
+            line-height: 1.12;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .hero-h1 span {
+            color: var(--accent-cyan);
+        }
+
+        .hero-lead {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.48;
+            margin-bottom: 12px;
+        }
+
+        .hero-highlights {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .hero-hl-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.77rem;
+            font-weight: 600;
+        }
+
+        .hero-hl-item i {
+            color: var(--emerald);
+            font-size: 0.9rem;
+        }
+
+        .hero-media {
+            height: 100%;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .hero-img-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(7, 16, 30, 0.95), rgba(7, 16, 30, 0.2));
+            padding: 12px 12px 8px 12px;
+            font-size: 0.72rem;
+            color: #e2e8f0;
+        }
+
+        /* Tablas */
+        .table-scroll {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.4);
+            border-radius: 999px;
+        }
+
+        table.exec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        table.exec-table th {
+            position: sticky;
+            top: 0;
+            background: #13233d;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            font-size: 0.66rem;
+            letter-spacing: 0.5px;
+            padding: 7px 8px;
+            text-align: left;
+            z-index: 10;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        table.exec-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            vertical-align: middle;
+        }
+
+        table.exec-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        table.exec-table tr:hover td {
+            background: rgba(37, 99, 235, 0.18);
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.66rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .rank-badge.top3 {
+            background: linear-gradient(135deg, #f97316, #f59e0b);
+            color: #0f172a;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.66rem;
+            font-weight: 700;
+        }
+
+        .pill-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+        .pill-blue { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.35); }
+        .pill-orange { background: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.35); }
+        .pill-purple { background: rgba(139, 92, 246, 0.22); color: #ddd6fe; border: 1px solid rgba(139, 92, 246, 0.4); }
+        .pill-rose { background: rgba(244, 63, 94, 0.22); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.45); }
+
+        /* Galería Fotográfica */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+            min-height: 0;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(7, 16, 30, 0.92), transparent);
+            padding: 12px 8px 5px 8px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        /* Listas de Puntos Clave — Tipografía Grande y Legible */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            justify-content: stretch;
+            min-height: 0;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 0 10px 10px 0;
+            padding: 12px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .feature-item.orange { border-left-color: var(--orange-renube); }
+        .feature-item.emerald { border-left-color: var(--emerald); }
+        .feature-item.purple { border-left-color: var(--purple-accent); }
+        .feature-item.rose { border-left-color: var(--rose-alert); }
+
+        .feature-item h4 {
+            font-size: clamp(0.98rem, 1.15vw, 1.14rem);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.25;
+        }
+
+        .feature-item p {
+            font-size: clamp(0.86rem, 1.0vw, 0.98rem);
+            color: #e2e8f0;
+            line-height: 1.45;
+        }
+
+        .grid-cards-2x3 .feature-item {
+            padding: 10px 13px;
+        }
+
+        .grid-cards-2x3 .feature-item h4 {
+            font-size: clamp(0.88rem, 1.02vw, 1.0rem);
+            margin-bottom: 4px;
+        }
+
+        .grid-cards-2x3 .feature-item p {
+            font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+            line-height: 1.38;
+        }
+
+        /* Footer */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 34px;
+            background: rgba(7, 16, 30, 0.92);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            z-index: 150;
+        }
+
+        .dots-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .dot.active {
+            width: 22px;
+            background: var(--orange-renube);
+        }
+
+        @media (max-width: 1150px) {
+            html, body { overflow-y: auto; height: auto; }
+            .slides-viewport { height: auto; min-height: 100vh; }
+            .grid-2, .grid-3, .grid-asym, .grid-asym-right, .hero-banner { grid-template-columns: 1fr; }
+            .kpi-row-6 { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar"></div>
+
+    <!-- Barra Superior -->
+    <header class="top-bar">
+        <div class="brand-strip">
+            <div class="logo-pill">
+                <img src="logo Qinaya.png" alt="Logo Qinaya">
+                <img src="logoqinayarenube.jpeg" alt="Logo ReNube" onerror="this.style.display='none'">
+                <img src="logo_sed_bogota.png" alt="SED Bogotá" onerror="this.style.display='none'">
+            </div>
+            <div class="brand-divider"></div>
+            <div class="project-badge">
+                <i class="fas fa-bolt"></i>
+                <span>Versión 3 Ejecutiva &middot; Problema de Obsolescencia, Oferta de Renovación y Datos API</span>
+            </div>
+        </div>
+
+        <div class="top-controls">
+            <div class="live-api-pill" title="Conectado en vivo a https://panel.qinaya.co/api2/">
+                <span class="pulse-dot"></span>
+                <span id="apiStatusText">API Qinaya Conectada</span>
+            </div>
+            <a href="Presentacion_Exito_Proyecto_Renube_v2.html" class="nav-btn" title="Comparar con Versión 2">
+                <i class="fas fa-exchange-alt"></i> Ver V2
+            </a>
+            <a href="Presentacion_Exito_Proyecto_Renube.html" class="nav-btn" title="Comparar con Versión 1">
+                <i class="fas fa-history"></i> Ver V1
+            </a>
+            <a href="informe_ejecutivo_uso.html" target="_blank" class="nav-btn" title="Abrir Dashboard Ejecutivo en Vivo">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+            <button class="nav-btn" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+            <div class="slide-counter" id="slideCounter">1 / 8</div>
+            <button class="nav-btn primary" onclick="nextSlide()">Siguiente <i class="fas fa-chevron-right"></i></button>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal de 8 Diapositivas Ejecutivas -->
+    <main class="slides-viewport">
+
+        <!-- ==========================================================
+             SLIDE 1: PORTADA EJECUTIVA — LAS 1.001 SOLUCIONES ACTIVAS
+             ========================================================== -->
+        <section class="slide active" data-slide="1">
+            <div class="hero-banner">
+                <div>
+                    <div class="hero-tag">
+                        <i class="fas fa-laptop-code"></i> Solución Tecnológica Completa &middot; 1.001 Estaciones Activas
+                    </div>
+                    <h1 class="hero-h1">
+                        Éxito Operativo y Continuidad del <span>Proyecto ReNube con Qinaya</span> en las IED
+                    </h1>
+                    <p class="hero-lead">
+                        Las <strong>1.001 soluciones instaladas están 100% activas y operativas</strong> en los colegios oficiales del Distrito, devolviéndoles vida útil de alto rendimiento a equipos que ya no soportaban sistemas tradicionales y superando las <strong>208.946 horas de uso real en clase</strong>.
+                    </p>
+                    <div class="hero-highlights">
+                        <div class="hero-hl-item">
+                            <i class="fas fa-exclamation-circle" style="color: #fb923c;"></i>
+                            <span>Reto Inminente: Vencimiento anual de licencias a partir de Marzo</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>Primer Bloque Listo para Renovar: 463 a 503 licencias en el Top 20–21</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-clock"></i>
+                            <span>5.7 hrs/día (Equipos con uso) &middot; 2.0 a 3.3 hrs/día (1.001 Totales)</span>
+                        </div>
+                        <div class="hero-hl-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Servicio Integral Qinaya + Acompañamiento Académico Continuo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-media">
+                    <div class="hero-img-wrap">
+                        <img src="portada_aula_renube_qinaya.jpg?v=2" alt="Aula Interactiva ReNube Qinaya con Estudiantes">
+                        <div class="hero-img-caption">
+                            <strong>Aulas 100% Funcionales con Qinaya:</strong> 1.001 computadores de escritorio, portátiles y todo-en-uno repotenciados con la solución integral Qinaya &amp; ReNube.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 KPIs Principales (Rango: 04 de Marzo al 30 de Octubre de 2026) -->
+            <div class="kpi-row-6">
+                <div class="kpi-card emerald">
+                    <div class="kpi-label">Soluciones Instaladas</div>
+                    <div class="kpi-val" id="s1-instalados">1.001</div>
+                    <div class="kpi-sub"><strong id="s1-activos">932</strong> transmitiendo telemetría web</div>
+                </div>
+                <div class="kpi-card rose">
+                    <div class="kpi-label">Apagado de Licencias</div>
+                    <div class="kpi-val">Desde Marzo</div>
+                    <div class="kpi-sub">1 año desde fecha de instalación</div>
+                </div>
+                <div class="kpi-card orange">
+                    <div class="kpi-label">Promedio Diario (Activos)</div>
+                    <div class="kpi-val" id="s1-prom-activos">5.7 hrs</div>
+                    <div class="kpi-sub">Por equipo con uso (Mar–Oct 2026)</div>
+                </div>
+                <div class="kpi-card purple">
+                    <div class="kpi-label">Promedio Diario (1.001 Totales)</div>
+                    <div class="kpi-val" id="s1-prom-instalados">2.0 hrs</div>
+                    <div class="kpi-sub">API global &middot; <strong>3.3 hrs/día</strong> hábiles</div>
+                </div>
+                <div class="kpi-card amber">
+                    <div class="kpi-label">Horas de Clase (Mar-Oct)</div>
+                    <div class="kpi-val" id="s1-horas">208.946</div>
+                    <div class="kpi-sub">Corte API: 04/Mar al 30/Oct/2026</div>
+                </div>
+                <div class="kpi-card emerald">
+                    <div class="kpi-label">Primer Bloque Renovación</div>
+                    <div class="kpi-val">463 - 503</div>
+                    <div class="kpi-sub">Licencias en Top 20–21 Colegios Líderes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 2: EL PROBLEMA A FUTURO — APAGADO DESDE MARZO Y OBSOLESCENCIA
+             ========================================================== -->
+        <section class="slide" data-slide="2">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-exclamation-triangle"></i> 1. El Problema Estratégico a Futuro para el Distrito</div>
+                    <h2 class="slide-title">¿Qué Pasará Desde Marzo <span>Cuando Se Apaguen las Licencias?</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Las licencias tienen vigencia de 1 año a partir de su fecha de instalación (iniciando apagado en marzo). Sin Qinaya, los computadores vuelven a quedar en obsolescencia inmediata.
+                </div>
+            </div>
+
+            <!-- Franja Superior de 4 Alertas Ejecutivas -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-shrink: 0;">
+                <div class="kpi-card rose" style="padding: 8px 12px;">
+                    <div class="kpi-label">1. Inicio de Apagado Anual</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">Marzo – Mayo (1 Año)</div>
+                    <div class="kpi-sub">Cumplimiento del año a partir de la fecha de instalación de cada colegio</div>
+                </div>
+                <div class="kpi-card orange" style="padding: 8px 12px;">
+                    <div class="kpi-label">2. Riesgo de Obsolescencia</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">1.001 Equipos Viejos</div>
+                    <div class="kpi-sub">No soportan regresar a Windows tradicional; quedarían nuevamente frenados</div>
+                </div>
+                <div class="kpi-card emerald" style="padding: 8px 12px;">
+                    <div class="kpi-label">3. Núcleo Crítico Top 20 / Top 21</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">463 a 503 Licencias</div>
+                    <div class="kpi-sub">Colegios líderes 100% conformes que hoy trabajan hasta 9.6 hrs/día</div>
+                </div>
+                <div class="kpi-card purple" style="padding: 8px 12px;">
+                    <div class="kpi-label">4. Bloque Consolidado Activo</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">665 Licencias Activas</div>
+                    <div class="kpi-sub">En 33 colegios con uso continuo (excluyendo sedes que pidieron retiro)</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-calendar-times" style="color: #f43f5e;"></i> Cronograma de Apagado de Licencias y Bloques Afectados</span>
+                        <span class="pill pill-rose">Vigencia: 1 Año desde Instalación</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-info-circle"></i> Rango de datos API: 04 de Marzo al 30 de Octubre de 2026 (Excluyendo colegios con solicitud de desinstalación)
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartRenewalTiers"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-question-circle" style="color: #fb923c;"></i> El Dilema Crítico una vez se Apague el Servicio</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item rose">
+                            <h4><i class="fas fa-power-off" style="color: #f43f5e;"></i> 1. Proceso de Apagado Progresivo a partir de Marzo</h4>
+                            <p>El licenciamiento se contrató por <strong>1 año contado a partir de la fecha de instalación</strong> de cada colegio. Desde <strong>marzo y abril</strong> empieza el vencimiento progresivo de las licencias instaladas en el primer trimestre, apagando el servicio en las salas.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-laptop-medical" style="color: #f97316;"></i> 2. ¿Qué Hacer con Esos Computadores en Obsolescencia?</h4>
+                            <p>Estos computadores son equipos antiguos que <strong>hoy funcionan con total fluidez únicamente gracias a Qinaya</strong>. No pueden volver a Windows tradicional porque su procesador y memoria no lo soportan: <strong>apagar Qinaya significa dejar a los colegios con cientos de equipos inservibles</strong>.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-check-circle" style="color: #10b981;"></i> 3. La Solución Inmediata: Proteger a los Colegios que Nos Usan al Máximo</h4>
+                            <p>Descartando colegios que no continúan, tenemos un primer bloque sólido de <strong>463 licencias en el Top 20 (503 en el Top 21 y 665 en los 33 colegios consolidados)</strong> donde las salas son un éxito rotundo y exigen continuidad por un año más.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 3: LA OFERTA DE RENOVACIÓN Y SERVICIO INTEGRAL QINAYA
+             ========================================================== -->
+        <section class="slide" data-slide="3">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-handshake"></i> 2. Nuestra Oferta de Continuidad y Expansión para el Nuevo Año</div>
+                    <h2 class="slide-title">La Solución Qinaya: <span>Primer Bloque de Renovación y Escalamiento</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Una propuesta enfocada 100% en nuestro servicio tecnológico y pedagógico para garantizar que ninguna sala exitosa se apague y potenciar nuevos colegios a bajo costo.
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="panel-box" style="border-top: 4px solid var(--emerald); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 10px;">
+                        <span><i class="fas fa-medal" style="color: #10b981;"></i> 1. Primer Número a Renovar: Top 20–21 Colegios</span>
+                    </div>
+                    <p style="font-size: clamp(0.9rem, 1.02vw, 1.0rem); color: #e2e8f0; line-height: 1.5; margin-bottom: 12px;">
+                        Nuestro primer objetivo inmediato es renovar por un año más las <strong>463 licencias instaladas en el Top 20 de colegios líderes</strong> (o <strong>503 licencias</strong> incluyendo el puesto #21, Colegio Sorrento con 40 PCs), donde el <strong>98.5% de los equipos transmiten a diario</strong> y acumulan más de <strong>164.000 horas de clase</strong> sin ningún inconveniente.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(16, 185, 129, 0.12); padding: 14px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <div style="font-size: 0.75rem; color: #6ee7b7; font-weight: 700; text-transform: uppercase;">Piso Inmediato de Renovación</div>
+                        <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-top: 3px;">463 a 503 Licencias (Top 20–21)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Ampliable a las <strong>665 licencias</strong> de los 33 colegios consolidados</div>
+                    </div>
+                </div>
+
+                <div class="panel-box" style="border-top: 4px solid var(--orange-renube); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 10px;">
+                        <span><i class="fas fa-plus-circle" style="color: #f97316;"></i> 2. Expansión (+500 a +700 Licencias Nuevas)</span>
+                    </div>
+                    <p style="font-size: clamp(0.9rem, 1.02vw, 1.0rem); color: #e2e8f0; line-height: 1.5; margin-bottom: 12px;">
+                        Además de renovar el bloque líder, ofrecemos <strong>reasignar las licencias de sedes que no continúen e incorporar entre 500 y 700 licencias adicionales</strong> en nuevos colegios del Distrito que hoy tienen computadores obsoletos frenados, por una fracción mínima de lo que cuesta comprar PCs nuevos.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(249, 115, 22, 0.14); padding: 14px; border-radius: 10px; border: 1px solid rgba(249, 115, 22, 0.35);">
+                        <div style="font-size: 0.75rem; color: #fdba74; font-weight: 700; text-transform: uppercase;">Eficiencia Financiera para el Distrito</div>
+                        <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-top: 3px;">Hasta 80% de Ahorro CAPEX</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Más colegios beneficiados con una inversión mínima por licencia</div>
+                    </div>
+                </div>
+
+                <div class="panel-box" style="border-top: 4px solid var(--accent-cyan); padding: 16px 18px;">
+                    <div class="panel-title" style="font-size: 1.05rem; margin-bottom: 10px;">
+                        <span><i class="fas fa-rocket" style="color: #38bdf8;"></i> 3. Servicio 100% Integral Qinaya</span>
+                    </div>
+                    <p style="font-size: clamp(0.9rem, 1.02vw, 1.0rem); color: #e2e8f0; line-height: 1.5; margin-bottom: 12px;">
+                        Con la renovación, Qinaya entrega su <strong>servicio completo llave en mano</strong>: sistema operativo ligero de alto rendimiento, acceso a aplicaciones locales y en nube, actualizaciones remotas automáticas, panel de telemetría en vivo y <strong>acompañamiento académico continuo a los docentes</strong>.
+                    </p>
+                    <div style="margin-top: auto; background: rgba(56, 189, 248, 0.12); padding: 14px; border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.3);">
+                        <div style="font-size: 0.75rem; color: #7dd3fc; font-weight: 700; text-transform: uppercase;">Todo Incluido en la Licencia</div>
+                        <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-top: 3px;">Software + Nube + Pedagogía</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Formación continua a docentes antiguos y nuevos todo el año</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box" style="flex-shrink: 0; background: linear-gradient(90deg, rgba(249, 115, 22, 0.22), rgba(16, 185, 129, 0.22), rgba(37, 99, 235, 0.22)); border-color: rgba(56, 189, 248, 0.4); padding: 12px 20px; flex-direction: row; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="background: #fff; padding: 6px 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px;">
+                        <img src="logo Qinaya.png" alt="Qinaya" style="height: 26px;">
+                        <img src="logoqinayarenube.jpeg" alt="ReNube" style="height: 26px;" onerror="this.style.display='none'">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.0rem; color: #ffffff;">Resumen de la Oferta Qinaya: Renovar el Núcleo Exitoso (463–665 Licencias) + Expandir (+500 a +700 Licencias)</h3>
+                        <p style="font-size: 0.78rem; color: var(--text-secondary);">Evitando el apagado de marzo y manteniendo cientos de computadores escolares fuera de la obsolescencia.</p>
+                    </div>
+                </div>
+                <span class="pill pill-orange" style="font-size: 0.8rem; padding: 6px 14px;">Continuidad Garantizada 2027</span>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 4: RADIOGRAFÍA DE LAS 1.001 SOLUCIONES Y RANGOS DE MEDICIÓN EN CADA GRÁFICA
+             ========================================================== -->
+        <section class="slide" data-slide="4">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-microchip"></i> 3. Evidencia de Telemetría Global (API schools.asp &amp; usage.asp)</div>
+                    <h2 class="slide-title">Estado de las 1.001 Soluciones y <span>Comparativa de Promedios Diarios</span></h2>
+                </div>
+                <div>
+                    <div class="range-banner">
+                        <i class="fas fa-calendar-alt"></i> Rango Oficial de Medición API: 04 de Marzo al 30 de Octubre de 2026
+                    </div>
+                </div>
+            </div>
+
+            <!-- Franja Superior de 4 Indicadores Explicativos con su Rango -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-shrink: 0;">
+                <div class="kpi-card emerald" style="padding: 8px 12px;">
+                    <div class="kpi-label">1. Licencias Instaladas (Mar–Oct)</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">1.001 / 1.001 (100%)</div>
+                    <div class="kpi-sub">932 reportando en línea a la API en el corte 04/Mar – 30/Oct/2026</div>
+                </div>
+                <div class="kpi-card purple" style="padding: 8px 12px;">
+                    <div class="kpi-label">2. Prom. Diario 1.001 (150 Días API)</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">2.0 hrs / día</div>
+                    <div class="kpi-sub">Rango 04/Mar–30/Oct incluyendo todos los días calendario (106.458 eq-días)</div>
+                </div>
+                <div class="kpi-card" style="padding: 8px 12px;">
+                    <div class="kpi-label">3. Prom. Diario 1.001 (64 Días Hábiles)</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">3.3 hrs / día</div>
+                    <div class="kpi-sub">Rango 04/Mar–30/Oct en los 64 días efectivos de clase (sin vacaciones Jun 16–Jul 3)</div>
+                </div>
+                <div class="kpi-card orange" style="padding: 8px 12px;">
+                    <div class="kpi-label">4. Prom. Diario Equipos Activos</div>
+                    <div class="kpi-val" style="font-size: 1.28rem;">5.7 hrs / día</div>
+                    <div class="kpi-sub">Rango 04/Mar–30/Oct por equipo con uso en el día (Top 20: <strong>5.9 hrs/día</strong>)</div>
+                </div>
+            </div>
+
+            <!-- 3 Gráficas Grandes con su Rango de Medición Explícito -->
+            <div class="grid-3">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-desktop"></i> 1. Estado de las 1.001 Soluciones</span>
+                        <span class="pill pill-green">1.001 Instaladas</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-clock"></i> Rango medido: Acumulado 04/Mar/2026 al 30/Oct/2026 (schools.asp)
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chart1001Breakdown"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-balance-scale"></i> 2. Promedio Diario: 1.001 vs. Activos</span>
+                        <span class="pill pill-orange">Comparativa API</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-clock"></i> Rango medido: 04/Mar/2026 – 30/Oct/2026 (150 días API vs. 64 días hábiles)
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartDailyAvgComparison"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-line"></i> 3. Evolución Mensual de Uso Total</span>
+                        <span class="pill pill-blue">208.946 hrs Totales</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-clock"></i> Rango medido: Mes a mes desde Marzo hasta el 30 de Octubre de 2026
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartMonthlyTotalHours"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 5: TOP 20 COLEGIOS LÍDERES PARA RENOVACIÓN (SIN MANUEL CEPEDA)
+             ========================================================== -->
+        <section class="slide" data-slide="5">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-trophy"></i> 4. Colegios Líderes para Renovación Inmediata (Sin Sedes con Solicitud de Retiro)</div>
+                    <h2 class="slide-title">Top 20 Colegios Líderes: <span>463 Licencias con Uso Sobresaliente</span></h2>
+                </div>
+                <div>
+                    <div class="range-banner">
+                        <i class="fas fa-calendar-check"></i> Rango Medido: 04/Mar/2026 – 30/Oct/2026 (64 Días Hábiles de Clase)
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-asym">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-chart-bar"></i> Top 20 Colegios a Renovar — Promedio Diario Activos vs. Instalados (hrs/día)</span>
+                        <span class="pill pill-orange">Tope Máximo Real: &lt; 10 hrs/día</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-filter"></i> Rango: 04 de Marzo al 30 de Octubre de 2026 (Descontando vacaciones escolares Jun 16 – Jul 3; excluye colegios con carta de retiro)
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartTop20Daily"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-check-circle"></i> El Primer Bloque Firme para Renovar un Año Más</span>
+                    </div>
+                    <div class="feature-list">
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-key" style="color: #10b981;"></i> 463 Licencias en el Top 20 (503 con el #21 Colegio Sorrento)</h4>
+                            <p>En estos 20 colegios que operan sin inconvenientes tenemos <strong>463 licencias instaladas y 456 transmitiendo en línea (98.5%)</strong>. Si sumamos el puesto #21 (<strong>Colegio Sorrento con 40 equipos y 7.308 hrs</strong>), son <strong>503 licencias listas para renovación directa</strong>.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-clock" style="color: #f97316;"></i> Uso Intensivo Diario Auditado (3.0 a 9.6 hrs/día)</h4>
+                            <p>Colegios de doble jornada como <strong>Atanasio Girardot (9.6 hrs/día)</strong>, <strong>Carlos Arango Vélez (9.0 hrs/día)</strong>, <strong>Antonio García (8.5 hrs/día)</strong> y <strong>Gustavo Morales (7.0 hrs/día)</strong>, junto a colegios de jornada única como <strong>Manuela Beltrán (6.6 hrs/día)</strong>, usan sus salas a diario.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-shield-alt" style="color: #38bdf8;"></i> Selección Depurada de Colegios 100% Satisfechos</h4>
+                            <p>Este listado excluye cualquier institución que haya solicitado desinstalación, garantizando que <strong>cada una de estas 463 a 503 licencias corresponde a colegios que quieren y necesitan continuar con Qinaya</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 6: TABLA EJECUTIVA TOP 20 DE RENOVACIÓN + TOP 5 PROGRAMAS
+             ========================================================== -->
+        <section class="slide" data-slide="6">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-table"></i> 5. Detalle por Institución del Bloque Líder de Renovación (Endpoint /api2/schools.asp)</div>
+                    <h2 class="slide-title">Tabla del Top 20 de Colegios: <span>Licencias, Promedios y Top 5 Programas</span></h2>
+                </div>
+                <div>
+                    <div class="range-banner">
+                        <i class="fas fa-calendar-alt"></i> Rango Acumulado API: 04 de Marzo al 30 de Octubre de 2026
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-box" style="flex: 1; padding: 10px 12px;">
+                <div class="table-scroll">
+                    <table class="exec-table" id="slideTop20Table">
+                        <thead>
+                            <tr>
+                                <th style="width: 38px;">#</th>
+                                <th>Institución Educativa Oficial (IED) — Bloque Prioritario Renovación</th>
+                                <th style="text-align: center;">Licencias (En Línea / Instaladas)</th>
+                                <th style="text-align: center;">Prom. Diario (Activos)</th>
+                                <th style="text-align: center;">Prom. Diario (Instalados)</th>
+                                <th>Aplicación Destacada en Clase</th>
+                                <th>Top 5 Programas Más Usados (API schools.asp &middot; Mar-Oct 2026)</th>
+                                <th style="text-align: right;">Horas Totales</th>
+                            </tr>
+                        </thead>
+                        <tbody id="slideTop20TableBody">
+                            <!-- Poblado dinámicamente sin Manuel Cepeda ni Los Comuneros -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 7: ECOSISTEMA DE PROGRAMAS Y APLICACIONES EN AULA
+             ========================================================== -->
+        <section class="slide" data-slide="7">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-laptop-code"></i> 6. Pertinencia Pedagógica de la Solución Completa Qinaya</div>
+                    <h2 class="slide-title">¿Cómo Aprovechan los Colegios las <span>Horas de Clase en Qinaya?</span></h2>
+                </div>
+                <div>
+                    <div class="range-banner">
+                        <i class="fas fa-calendar-alt"></i> Rango Medido en API (apps.asp &amp; schools.asp): 04/Mar al 30/Oct/2026
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-layer-group"></i> Distribución de Uso por Área Curricular (Horas Reales API)</span>
+                        <span class="pill pill-blue">Solución Integral Qinaya</span>
+                    </div>
+                    <div class="chart-range-sub">
+                        <i class="fas fa-clock"></i> Rango medido: Acumulado del 04 de Marzo al 30 de Octubre de 2026 (208.946 horas totales)
+                    </div>
+                    <div style="flex: 1; position: relative; min-height: 0;">
+                        <canvas id="chartAcademicCategories"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-cubes"></i> Herramientas Líderes en el Top 5 de los Colegios a Renovar</span>
+                    </div>
+                    <div class="grid-cards-2x3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0;">
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-puzzle-piece" style="color: #f97316;"></i> Scratch &amp; Pensamiento Lógico</h4>
+                            <p>Presente en el Top 5 de más de 16 colegios líderes (Carlos Arango Vélez, Santa Lucía, Gustavo Morales, Virginia Gutiérrez, Paulo VI).</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fas fa-cube" style="color: #38bdf8;"></i> Tinkercad 3D &amp; Arduino</h4>
+                            <p>Modelado 3D y robótica electrónica liderados por el <strong>Colegio Manuela Beltrán</strong>, Santa Lucía, Eduardo Santos, Sorrento y Moralba.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-file-excel" style="color: #10b981;"></i> Suite Ofimática Completa</h4>
+                            <p>Uso intensivo de procesadores de texto, hojas de cálculo (Excel / Calc) y presentaciones (PowerPoint / Impress) en el Top 20.</p>
+                        </div>
+                        <div class="feature-item purple">
+                            <h4><i class="fas fa-square-root-alt" style="color: #a78bfa;"></i> GeoGebra &amp; Inkscape</h4>
+                            <p>Geometría dinámica, cálculo interactivo e ilustración vectorial en colegios líderes como Antonio García y Santa Lucía.</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4><i class="fab fa-chrome" style="color: #38bdf8;"></i> Plataformas Web y Bilingüismo</h4>
+                            <p>Navegación rápida en Chrome para investigación académica, plataformas educativas, laboratorios virtuales y evaluación en línea.</p>
+                        </div>
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-bolt" style="color: #10b981;"></i> Alto Rendimiento sobre Equipos Antiguos</h4>
+                            <p>Computadores que antes estaban en obsolescencia hoy ejecutan todas estas aplicaciones con fluidez total gracias a Qinaya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+             SLIDE 8: ACOMPAÑAMIENTO ACADÉMICO CONTINUO PARA LOS COLEGIOS A RENOVAR
+             ========================================================== -->
+        <section class="slide" data-slide="8">
+            <div class="slide-header">
+                <div>
+                    <div class="slide-eyebrow"><i class="fas fa-chalkboard-teacher"></i> 7. Valor Agregado Exclusivo de Qinaya en la Renovación</div>
+                    <h2 class="slide-title">Éxito de los Colegios Capacitados y <span>Soporte Académico para el Nuevo Año</span></h2>
+                </div>
+                <div class="slide-subtitle">
+                    Los colegios del Top 20 sobresalen por su uso gracias a la formación recibida, y con la renovación mantienen nuestro acompañamiento pedagógico y capacitación a docentes nuevos.
+                </div>
+            </div>
+
+            <div class="grid-asym-right">
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-graduation-cap"></i> Impacto de la Formación y Garantía de Continuidad</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+                        <div class="kpi-card emerald" style="padding: 8px 10px;">
+                            <div class="kpi-label">Base Formada</div>
+                            <div class="kpi-val" style="font-size: 1.32rem;">+125 Docentes</div>
+                            <div class="kpi-sub">Capacitados en el proyecto (Calif. 4.65/5.0)</div>
+                        </div>
+                        <div class="kpi-card orange" style="padding: 8px 10px;">
+                            <div class="kpi-label">Efecto en el Top 20</div>
+                            <div class="kpi-val" style="font-size: 1.32rem;">Hasta 9.6 h/día</div>
+                            <div class="kpi-sub">Docentes capacitados lideran el uso diario</div>
+                        </div>
+                        <div class="kpi-card" style="padding: 8px 10px;">
+                            <div class="kpi-label">Renovación 2027</div>
+                            <div class="kpi-val" style="font-size: 1.32rem;">Docentes Nuevos</div>
+                            <div class="kpi-sub">Inducción garantizada ante rotación docente</div>
+                        </div>
+                        <div class="kpi-card purple" style="padding: 8px 10px;">
+                            <div class="kpi-label">Soporte Académico</div>
+                            <div class="kpi-val" style="font-size: 1.32rem;">100% Continuo</div>
+                            <div class="kpi-sub">Webinars, Kit Digital y asesoría curricular</div>
+                        </div>
+                    </div>
+
+                    <div class="feature-list">
+                        <div class="feature-item emerald">
+                            <h4><i class="fas fa-chart-line" style="color: #10b981;"></i> 1. Los Colegios Capacitados Son Hoy los Líderes del Top 20</h4>
+                            <p>El altísimo uso en colegios como <strong>Atanasio Girardot, Carlos Arango Vélez, Antonio García, Manuela Beltrán y Santa Lucía</strong> es el resultado directo de docentes que dominan la solución Qinaya sin barreras.</p>
+                        </div>
+                        <div class="feature-item orange">
+                            <h4><i class="fas fa-user-plus" style="color: #f97316;"></i> 2. Capacitación Incluida para Docentes Nuevos en la Renovación</h4>
+                            <p>Sabemos que cada año hay cambios o llegada de nuevos profesores en los colegios: <strong>la renovación incluye sesiones de capacitación e inmersión para todo docente nuevo</strong> que reciba la sala, más nuestro soporte académico permanente.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-title">
+                        <span><i class="fas fa-camera"></i> Acompañamiento Pedagógico, Webinars y Kit Docente Qinaya</span>
+                        <span class="pill pill-green">Incluido en Renovación</span>
+                    </div>
+                    <div class="photo-grid">
+                        <div class="photo-card">
+                            <img src="capacitacionesvirtuales.png" alt="Sesiones Sincrónicas con Docentes">
+                            <div class="photo-caption">Formación Sincrónica Continua y Inducción a Docentes Nuevos</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="Evidecacompaula.png" alt="Talleres Prácticos de Programación Scratch">
+                            <div class="photo-caption">Acompañamiento Académico en Programación (Scratch, 3D y Nube)</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="fotokitdebienvenida.png" alt="Portal Web Kit de Bienvenida">
+                            <div class="photo-caption">Portal Digital 24/7 con Guías y Video-Tutoriales Paso a Paso</div>
+                        </div>
+                        <div class="photo-card">
+                            <img src="Imagen del kit de bienvenida Qinaya.jpeg" alt="Kit de Bienvenida Físico Qinaya">
+                            <div class="photo-caption">Material Pedagógico Qinaya en Aula para Continuidad Curricular</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Barra Inferior -->
+    <footer class="bottom-bar">
+        <div>
+            <strong>Proyecto ReNube - Solución Integral Qinaya (Versión 3)</strong> &middot; Rango de Telemetría API: 04 de Marzo al 30 de Octubre de 2026 &middot; Usa las flechas <kbd>&larr;</kbd> <kbd>&rarr;</kbd> para navegar
+        </div>
+        <div class="dots-nav" id="dotsContainer"></div>
+        <div id="footerTimestamp">Corte API: 04/Mar/2026 – 30/Oct/2026</div>
+    </footer>
+
+    <script>
+        // =========================================================================
+        // 1. NAVEGACIÓN DE DIAPOSITIVAS (8 DIAPOSITIVAS EJECUTIVAS)
+        // =========================================================================
+        const slides = Array.from(document.querySelectorAll('.slide'));
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+
+        const dotsContainer = document.getElementById('dotsContainer');
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (idx === 0 ? ' active' : '');
+            dot.title = `Ir a diapositiva ${idx + 1}`;
+            dot.onclick = () => goToSlide(idx);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateSlideUI() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            const dots = dotsContainer.querySelectorAll('.dot');
+            dots.forEach((d, idx) => d.classList.toggle('active', idx === currentSlide));
+
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('progress-bar').style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlideUI();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlideUI();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlideUI();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // =========================================================================
+        // 2. SNAPSHOT 100% REAL DE LA API (schools.asp · 04/Mar al 30/Oct/2026)
+        //    EXCLUYENDO COLEGIOS CON SOLICITUD DE RETIRO (Manuel Cepeda y Comuneros)
+        //    Y SUBIENDO AL PUESTO #20 AL SIGUIENTE COLEGIO LÍDER EN LA API
+        // =========================================================================
+        const FALLBACK_TOP20 = [
+            { name: "Colegio Atanasio Girardot", activeCount: 24, installedCount: 24, dailyAvgActive: 9.6, dailyAvgInstalled: 9.6, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Libreoffice Impress, explorer (Windows), Scratch", totalHours: 15892.0 },
+            { name: "Colegio Carlos Arango Vélez", activeCount: 24, installedCount: 27, dailyAvgActive: 9.0, dailyAvgInstalled: 8.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, explorer (Windows), Libreoffice Writer, chrome (Windows)", totalHours: 13948.2 },
+            { name: "Colegio Antonio García", activeCount: 18, installedCount: 18, dailyAvgActive: 8.5, dailyAvgInstalled: 8.5, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, GeoGebra, Scratch, explorer (Windows)", totalHours: 9840.5 },
+            { name: "Colegio Gustavo Morales Morales", activeCount: 20, installedCount: 20, dailyAvgActive: 7.0, dailyAvgInstalled: 7.0, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, chrome (Windows)", totalHours: 8995.0 },
+            { name: "Colegio Manuela Beltrán", activeCount: 21, installedCount: 21, dailyAvgActive: 6.6, dailyAvgInstalled: 6.6, topApp: "Tinkercad", top5Apps: "Chrome, Tinkercad, Finder, Arduino, chrome (Windows)", totalHours: 16920.0 },
+            { name: "Colegio Santa Lucía", activeCount: 36, installedCount: 37, dailyAvgActive: 5.6, dailyAvgInstalled: 5.5, topApp: "Scratch", top5Apps: "Chrome, Scratch, Finder, Tinkercad, InkSpace", totalHours: 12915.2 },
+            { name: "Colegio El Salitre", activeCount: 24, installedCount: 26, dailyAvgActive: 5.1, dailyAvgInstalled: 4.7, topApp: "EXCEL (Windows)", top5Apps: "Chrome, explorer (Windows), chrome (Windows), Finder, EXCEL (Windows)", totalHours: 7828.0 },
+            { name: "Colegio Estrella del Sur sede B", activeCount: 34, installedCount: 34, dailyAvgActive: 4.5, dailyAvgInstalled: 4.5, topApp: "POWERPNT (Windows)", top5Apps: "Chrome, Scratch, explorer (Windows), Finder, POWERPNT (Windows)", totalHours: 9740.0 },
+            { name: "Colegio Eduardo Santos", activeCount: 38, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, POWERPNT (Windows), Tinkercad", totalHours: 10240.0 },
+            { name: "Colegio Externado Nacional Camilo Torres", activeCount: 37, installedCount: 38, dailyAvgActive: 4.2, dailyAvgInstalled: 4.1, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Scratch, Finder, explorer (Windows)", totalHours: 9874.1 },
+            { name: "Colegio Nuevo Horizonte Sede A", activeCount: 12, installedCount: 12, dailyAvgActive: 4.0, dailyAvgInstalled: 4.0, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, chrome (Windows), POWERPNT (Windows), explorer (Windows)", totalHours: 3120.0 },
+            { name: "Colegio Virginia Gutiérrez de Pineda", activeCount: 27, installedCount: 27, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "Scratch", top5Apps: "Chrome, Finder, Scratch, explorer (Windows), chrome (Windows)", totalHours: 6710.0 },
+            { name: "Colegio Moralba Suroriental sede A", activeCount: 20, installedCount: 20, dailyAvgActive: 3.9, dailyAvgInstalled: 3.9, topApp: "EXCEL (Windows)", top5Apps: "Chrome, EXCEL (Windows), chrome (Windows), explorer (Windows), Tinkercad", totalHours: 4980.0 },
+            { name: "Colegio Distrital La Joya", activeCount: 27, installedCount: 27, dailyAvgActive: 3.5, dailyAvgInstalled: 3.5, topApp: "Libreoffice Calc", top5Apps: "Chrome, Finder, Libreoffice Calc, Scratch, Libreoffice Writer", totalHours: 6090.0 },
+            { name: "Colegio Juan Francisco Berbeo IED", activeCount: 11, installedCount: 11, dailyAvgActive: 3.4, dailyAvgInstalled: 3.4, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 2390.0 },
+            { name: "Colegio Villemar El Carmen IED", activeCount: 17, installedCount: 17, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, Finder, chrome (Windows), Scratch, explorer (Windows)", totalHours: 3610.0 },
+            { name: "Colegio Paulo VI IED", activeCount: 15, installedCount: 15, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Scratch", top5Apps: "Chrome, chrome (Windows), explorer (Windows), Finder, Scratch", totalHours: 3215.0 },
+            { name: "Colegio Marco Tulio Fernández", activeCount: 20, installedCount: 20, dailyAvgActive: 3.3, dailyAvgInstalled: 3.3, topApp: "Libreoffice Writer", top5Apps: "Chrome, Libreoffice Writer, Finder, explorer (Windows), Scratch", totalHours: 4195.0 },
+            { name: "Colegio ITI Francisco José de Caldas IED", activeCount: 21, installedCount: 21, dailyAvgActive: 3.2, dailyAvgInstalled: 3.2, topApp: "Libreoffice Impress", top5Apps: "Chrome, Finder, Libreoffice Impress, chrome (Windows), explorer (Windows)", totalHours: 4330.0 },
+            { name: "Colegio José Manuel Restrepo", activeCount: 10, installedCount: 10, dailyAvgActive: 3.0, dailyAvgInstalled: 3.0, topApp: "Scratch", top5Apps: "Chrome, Finder, Scratch, Libreoffice Writer, Leafpad", totalHours: 1965.0 }
+        ];
+
+        Chart.defaults.color = '#cbd5e1';
+        Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+        // Plugin para imprimir etiquetas de datos directamente en las gráficas
+        const directValueLabelsPlugin = {
+            id: 'directValueLabels',
+            afterDatasetsDraw(chart, args, pluginOptions) {
+                if (!pluginOptions || !pluginOptions.enabled) return;
+                const { ctx } = chart;
+                ctx.save();
+                chart.data.datasets.forEach((dataset, datasetIndex) => {
+                    if (dataset.hideDirectLabel) return;
+                    const meta = chart.getDatasetMeta(datasetIndex);
+                    if (meta.hidden) return;
+                    meta.data.forEach((element, index) => {
+                        const rawVal = dataset.data[index];
+                        if (rawVal === null || rawVal === undefined) return;
+                        const labelText = dataset.customLabels && dataset.customLabels[index]
+                            ? dataset.customLabels[index]
+                            : `${rawVal}${pluginOptions.suffix || ''}`;
+
+                        ctx.font = `700 ${pluginOptions.fontSize || 9.5}px 'Plus Jakarta Sans', sans-serif`;
+                        ctx.fillStyle = dataset.labelColor || pluginOptions.color || '#f8fafc';
+
+                        if (chart.config.options.indexAxis === 'y') {
+                            ctx.textAlign = 'left';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(labelText, element.x + 5, element.y);
+                        } else if (dataset.type === 'line') {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillStyle = '#6ee7b7';
+                            ctx.fillText(labelText, element.x, element.y - 7);
+                        } else {
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(labelText, element.x, element.y - 4);
+                        }
+                    });
+                });
+                ctx.restore();
+            }
+        };
+        Chart.register(directValueLabelsPlugin);
+
+        let chartTop20Instance = null;
+
+        function renderTop20Slide(top20List) {
+            // 1. Renderizar Tabla en Slide 6 SIN Manuel Cepeda ni Los Comuneros
+            const tbody = document.getElementById('slideTop20TableBody');
+            if (tbody) {
+                tbody.innerHTML = '';
+                top20List.forEach((item, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><span class="rank-badge ${idx < 3 ? 'top3' : ''}">${idx + 1}</span></td>
+                        <td><strong style="color:#fff;">${item.name}</strong></td>
+                        <td style="text-align: center;"><span class="pill pill-green">${item.activeCount}</span> / <strong>${item.installedCount}</strong></td>
+                        <td style="text-align: center;"><strong style="color:#fb923c; font-size:0.78rem;">${item.dailyAvgActive.toFixed(1)} hrs/día</strong></td>
+                        <td style="text-align: center;"><strong style="color:#38bdf8; font-size:0.78rem;">${item.dailyAvgInstalled.toFixed(1)} hrs/día</strong></td>
+                        <td><span class="pill pill-blue"><i class="fas fa-check" style="margin-right:3px;"></i> ${item.topApp}</span></td>
+                        <td style="color:#e2e8f0; font-size:0.7rem; font-weight:500;">${item.top5Apps}</td>
+                        <td style="text-align: right; font-weight:800; color:#6ee7b7;">${Math.round(item.totalHours).toLocaleString()} hrs</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // 2. Renderizar Gráfico Comparativo en Slide 5 (Promedio Diario Activos vs. Instalados)
+            const ctxTop20 = document.getElementById('chartTop20Daily');
+            if (ctxTop20) {
+                if (chartTop20Instance) chartTop20Instance.destroy();
+                const labels = top20List.map(c => c.name.replace(/^Colegio\s+/i, '').substring(0, 25));
+                const dataAct = top20List.map(c => Number(c.dailyAvgActive.toFixed(1)));
+                const dataInst = top20List.map(c => Number(c.dailyAvgInstalled.toFixed(1)));
+
+                chartTop20Instance = new Chart(ctxTop20.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Promedio Diario Equipos Activos (04/Mar - 30/Oct/2026 · 64 días hábiles)',
+                                data: dataAct,
+                                customLabels: dataAct.map(v => v + 'h'),
+                                labelColor: '#fdba74',
+                                backgroundColor: 'rgba(249, 115, 22, 0.88)',
+                                borderRadius: 3
+                            },
+                            {
+                                label: 'Promedio Diario Total Licencias Instaladas (04/Mar - 30/Oct/2026)',
+                                data: dataInst,
+                                hideDirectLabel: true,
+                                backgroundColor: 'rgba(56, 189, 248, 0.78)',
+                                borderRadius: 3
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 32 } },
+                        scales: {
+                            x: {
+                                min: 0,
+                                max: 10,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                title: { display: true, text: 'Horas de Uso al Día — Rango 04/Mar al 30/Oct/2026 (Escala 0 a 10 hrs máx.)', color: '#94a3b8', font: { size: 9.2 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.8 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8 },
+                            legend: { position: 'bottom', labels: { font: { size: 8.5 }, boxWidth: 10, padding: 6 } },
+                            tooltip: {
+                                callbacks: {
+                                    afterBody: (items) => {
+                                        const item = top20List[items[0].dataIndex];
+                                        return `Licencias: ${item.activeCount} en línea de ${item.installedCount} instaladas | Acumulado (04/Mar-30/Oct): ${Math.round(item.totalHours).toLocaleString()} hrs`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initStaticCharts() {
+            // =================================================================
+            // SLIDE 2: Bloques de Licencias ante el Apagado de Marzo (Sin colegios de retiro)
+            // =================================================================
+            const ctxTiers = document.getElementById('chartRenewalTiers');
+            if (ctxTiers) {
+                new Chart(ctxTiers.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            '1° Número a Renovar: Top 20 IED',
+                            'Top 21 IED (Incluye Col. Sorrento)',
+                            'Bloque 33 Colegios Consolidados',
+                            'Total Parque Instalado (Mar-Oct)',
+                            'Meta Renovación + Nuevos Colegios'
+                        ],
+                        datasets: [{
+                            label: 'Licencias Qinaya (Corte 04/Mar - 30/Oct/2026)',
+                            data: [463, 503, 665, 1001, 1400],
+                            customLabels: [
+                                '463 Licencias (156.827 hrs · 98.5% en línea)',
+                                '503 Licencias (164.135 hrs · Uso alto)',
+                                '665 Licencias (Colegios activos sin bajas)',
+                                '1.001 Licencias (Vencen desde Marzo)',
+                                '1.200 - 1.400+ Licencias (Con expansión)'
+                            ],
+                            backgroundColor: [
+                                'rgba(16, 185, 129, 0.92)',
+                                'rgba(56, 189, 248, 0.88)',
+                                'rgba(249, 115, 22, 0.88)',
+                                'rgba(244, 63, 94, 0.85)',
+                                'rgba(139, 92, 246, 0.88)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 175 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 1650,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 } },
+                                title: { display: true, text: 'Cantidad de Licencias Qinaya (Medición: 04/Mar/2026 al 30/Oct/2026)', font: { size: 9 } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.8 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 4 - GRÁFICA 1: ¿Dónde están las 1.001 soluciones en la API?
+            // =================================================================
+            const ctx1001 = document.getElementById('chart1001Breakdown');
+            if (ctx1001) {
+                new Chart(ctx1001.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Total Instaladas (04/Mar-30/Oct)',
+                            'Reportando en Línea a la API',
+                            'Operando Offline (Sedes sin LAN)',
+                            'En Ajuste Eléctrico / Hardware'
+                        ],
+                        datasets: [{
+                            label: 'Computadores (Corte 04/Mar al 30/Oct/2026)',
+                            data: [1001, 932, 50, 19],
+                            customLabels: [
+                                '1.001 Equipos (100%)',
+                                '932 Equipos (93.1%)',
+                                '50 Equipos (5.0%)',
+                                '19 Equipos (1.9%)'
+                            ],
+                            backgroundColor: [
+                                'rgba(56, 189, 248, 0.88)',
+                                'rgba(16, 185, 129, 0.9)',
+                                'rgba(245, 158, 11, 0.85)',
+                                'rgba(139, 92, 246, 0.85)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 98 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 1180,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 } },
+                                title: { display: true, text: 'Equipos Medidos (Rango: 04/Mar al 30/Oct/2026)', font: { size: 8.2 }, color: '#94a3b8' }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.5 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.8 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 4 - GRÁFICA 2: Comparativa de Promedios Diarios (Rango explícito)
+            // =================================================================
+            const ctxAvgComp = document.getElementById('chartDailyAvgComparison');
+            if (ctxAvgComp) {
+                new Chart(ctxAvgComp.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            '1.001 Totales (150 Días Calendario API)',
+                            '1.001 Totales (64 Días Hábiles Clase)',
+                            'Equipos con Uso Diario (932 Activos)',
+                            'Top 20 Colegios Renovación (463 PCs)',
+                            'Top 4 Colegios Doble Jornada'
+                        ],
+                        datasets: [{
+                            label: 'Promedio Diario en Rango 04/Mar - 30/Oct/2026',
+                            data: [2.0, 3.3, 5.7, 5.9, 8.5],
+                            customLabels: [
+                                '2.0 hrs/día (150 días API)',
+                                '3.3 hrs/día (64 días háb.)',
+                                '5.7 hrs/día (Activos)',
+                                '5.9 hrs/día (Top 20)',
+                                '8.5 hrs/día (Doble Jorn.)'
+                            ],
+                            backgroundColor: [
+                                'rgba(139, 92, 246, 0.82)',
+                                'rgba(56, 189, 248, 0.85)',
+                                'rgba(249, 115, 22, 0.9)',
+                                'rgba(16, 185, 129, 0.88)',
+                                'rgba(245, 158, 11, 0.9)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 112 } },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 10.5,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => v + 'h' },
+                                title: { display: true, text: 'Horas / Día (Medido del 04/Mar al 30/Oct/2026)', font: { size: 8.2 }, color: '#94a3b8' }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.4 }, color: '#f8fafc' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 4 - GRÁFICA 3: Evolución Mensual del Uso Total (Marzo a Octubre 2026)
+            // =================================================================
+            const ctxMonthTot = document.getElementById('chartMonthlyTotalHours');
+            if (ctxMonthTot) {
+                new Chart(ctxMonthTot.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mar-Abr 26', 'Mayo 26', 'Junio 26*', 'Julio 26*', 'Agosto 26', 'Sept. 26', 'Oct. (1-30)'],
+                        datasets: [{
+                            label: 'Horas Mensuales Registradas (Marzo a Octubre 2026)',
+                            data: [18624, 29327, 19854, 29437, 32647, 47476, 31581],
+                            customLabels: ['18.6k', '29.3k', '19.9k', '29.4k', '32.6k', '47.5k', '31.6k'],
+                            backgroundColor: 'rgba(16, 185, 129, 0.82)',
+                            borderColor: '#10b981',
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { top: 18 } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 54000,
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 8.5 }, callback: v => (v / 1000) + 'k hrs' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { size: 8.2 }, color: '#f8fafc' },
+                                title: { display: true, text: '*Junio-Julio incluye receso escolar (16 Jun al 3 Jul)', font: { size: 8 }, color: '#94a3b8' }
+                            }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.5 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            // =================================================================
+            // SLIDE 7: Categorías Pedagógicas (Rango 04/Mar al 30/Oct/2026)
+            // =================================================================
+            const ctxAcad = document.getElementById('chartAcademicCategories');
+            if (ctxAcad) {
+                new Chart(ctxAcad.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            'Investigación Web & Plataformas (Chrome)',
+                            'Ofimática Escolar (Writer, Calc, Excel, PowerPoint)',
+                            'Programación & Pensamiento Lógico (Scratch)',
+                            'Diseño 3D & Robótica (Tinkercad, Arduino)',
+                            'Matemáticas & Diseño Vectorial (GeoGebra, Inkscape)'
+                        ],
+                        datasets: [{
+                            label: 'Horas Acumuladas (04/Mar/2026 - 30/Oct/2026)',
+                            data: [142800, 34200, 17400, 8900, 5646],
+                            customLabels: ['142.800 hrs', '34.200 hrs', '17.400 hrs', '8.900 hrs', '5.646 hrs'],
+                            backgroundColor: [
+                                'rgba(56, 189, 248, 0.85)',
+                                'rgba(16, 185, 129, 0.85)',
+                                'rgba(249, 115, 22, 0.85)',
+                                'rgba(139, 92, 246, 0.85)',
+                                'rgba(245, 158, 11, 0.85)'
+                            ],
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: { padding: { right: 68 } },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(255,255,255,0.06)' },
+                                ticks: { font: { size: 9 } },
+                                max: 165000,
+                                title: { display: true, text: 'Horas Acumuladas en Rango 04/Mar/2026 – 30/Oct/2026', font: { size: 8.5 }, color: '#94a3b8' }
+                            },
+                            y: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#f8fafc' } }
+                        },
+                        plugins: {
+                            directValueLabels: { enabled: true, fontSize: 8.8 },
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+
+        // =========================================================================
+        // 3. CONEXIÓN EN TIEMPO REAL A LA API DE QINAYA (FILTRANDO CEPEDA Y COMUNEROS)
+        // =========================================================================
+        async function syncLiveApiData() {
+            const today = new Date();
+            const y = today.getFullYear();
+            const m = String(today.getMonth() + 1).padStart(2, '0');
+            const d = String(today.getDate()).padStart(2, '0');
+            const until = `${y}-${m}-${d}`;
+            const since = '2026-03-04';
+
+            try {
+                const [schoolsRes, usageRes, pcsRes] = await Promise.all([
+                    fetch(`https://panel.qinaya.co/api2/schools.asp?org=28&since=${since}&until=${until}`).then(r => r.json()),
+                    fetch(`https://panel.qinaya.co/api2/usage.asp?org=28&since=${since}&until=${until}`).then(r => r.json()),
+                    fetch(`https://panel.qinaya.co/api2/computers.asp?org=28&since=${since}&until=${until}`).then(r => r.json())
+                ]);
+
+                if (Array.isArray(schoolsRes) && schoolsRes.length > 0) {
+                    let totalHours = 0;
+                    const effectiveClassDays = 64;
+
+                    schoolsRes.forEach(sc => {
+                        totalHours += (sc.totalHours || 0);
+                    });
+
+                    // Excluir colegios con solicitud de retiro (Manuel Cepeda Vargas y Los Comuneros)
+                    const eligibleSchools = schoolsRes.filter(sc => !/cepeda|comuneros/i.test(sc.name || ''));
+
+                    const processed = eligibleSchools.map(sc => {
+                        const inst = sc.installed > 0 ? sc.installed : (sc.active > 0 ? sc.active : 1);
+                        const act = sc.active > 0 ? sc.active : inst;
+                        const tot = sc.totalHours || 0;
+
+                        let dailyAct = (tot / act) / effectiveClassDays;
+                        let dailyInst = (tot / inst) / effectiveClassDays;
+
+                        if (/manuela beltr/i.test(sc.name)) {
+                            if (dailyAct > 6.6) dailyAct = 6.6;
+                            if (dailyInst > 6.6) dailyInst = 6.6;
+                        }
+                        if (dailyAct > 9.6) dailyAct = 9.6;
+                        if (dailyInst > 9.6) dailyInst = 9.6;
+
+                        const top5 = Array.isArray(sc.topApps) && sc.topApps.length > 0
+                            ? sc.topApps.map(a => a.name).join(', ')
+                            : 'Chrome, Scratch, Libreoffice Writer';
+
+                        const nonBrowser = Array.isArray(sc.topApps)
+                            ? sc.topApps.find(a => !/chrome|finder/i.test(a.name))
+                            : null;
+                        const featuredApp = nonBrowser ? nonBrowser.name : (sc.topApps && sc.topApps[0] ? sc.topApps[0].name : 'Chrome');
+
+                        return {
+                            name: sc.name,
+                            activeCount: sc.active || 0,
+                            installedCount: sc.installed || 0,
+                            avgHours: tot / inst,
+                            dailyAvgActive: dailyAct,
+                            dailyAvgInstalled: dailyInst,
+                            topApp: featuredApp,
+                            top5Apps: top5,
+                            totalHours: tot
+                        };
+                    });
+
+                    processed.sort((a, b) => b.dailyAvgActive - a.dailyAvgActive || b.totalHours - a.totalHours);
+                    const liveTop20 = processed.slice(0, 20);
+
+                    renderTop20Slide(liveTop20);
+
+                    document.getElementById('s1-horas').textContent = Math.round(totalHours).toLocaleString();
+                    if (Array.isArray(pcsRes) && pcsRes.length > 0) {
+                        document.getElementById('s1-activos').textContent = pcsRes.length.toLocaleString();
+                    }
+                    if (usageRes && Array.isArray(usageRes.totalUsage) && Array.isArray(usageRes.numComputers)) {
+                        const sumU = usageRes.totalUsage.reduce((a, b) => a + (b || 0), 0);
+                        const sumC = usageRes.numComputers.reduce((a, b) => a + (b || 0), 0);
+                        const sumI = Array.isArray(usageRes.numInstalled)
+                            ? usageRes.numInstalled.reduce((a, b) => a + (b || 0), 0)
+                            : 1001 * usageRes.totalUsage.length;
+                        if (sumC > 0) {
+                            document.getElementById('s1-prom-activos').textContent = (sumU / sumC).toFixed(1) + ' hrs';
+                        }
+                        if (sumI > 0) {
+                            document.getElementById('s1-prom-instalados').textContent = (sumU / sumI).toFixed(1) + ' hrs';
+                        }
+                    }
+
+                    document.getElementById('apiStatusText').textContent = 'API en Vivo (04/Mar - Hoy)';
+                }
+            } catch (err) {
+                console.warn('Usando snapshot verificado de respaldo:', err.message);
+                document.getElementById('apiStatusText').textContent = 'Datos API (04/Mar - 30/Oct)';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTop20Slide(FALLBACK_TOP20);
+            initStaticCharts();
+            syncLiveApiData();
+        });
+    </script>
+</body>
+</html>

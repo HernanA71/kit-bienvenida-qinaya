@@ -1,0 +1,259 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Guión Ejecutivo Versión 3 - Presentación Qinaya ReNube (Enfoque Problema, Oferta y Top 20 Depurado)</title>
+<style>
+  @page {
+    size: 8.5in 11in;
+    margin: 0.85in 0.9in;
+  }
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.48;
+    color: #1e293b;
+  }
+  h1 {
+    font-size: 20pt;
+    color: #0f172a;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 11pt;
+    color: #475569;
+    margin-bottom: 18px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #ffffff;
+    background-color: #1e3a8a;
+    padding: 8px 12px;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  h3 {
+    font-size: 11.5pt;
+    color: #0f172a;
+    margin-top: 12px;
+    margin-bottom: 5px;
+    border-left: 4px solid #059669;
+    padding-left: 8px;
+  }
+  .objective-box {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+  }
+  .speech-box {
+    background-color: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-style: italic;
+    color: #0f172a;
+  }
+  .chart-box {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  .alert-box {
+    background-color: #fff1f2;
+    border: 1px solid #fecdd3;
+    padding: 10px 14px;
+    margin: 10px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 10pt;
+  }
+  th {
+    background-color: #0f172a;
+    color: #ffffff;
+    text-align: left;
+    padding: 7px 9px;
+    border: 1px solid #cbd5e1;
+  }
+  td {
+    padding: 6px 9px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+  ul {
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  .badge {
+    font-weight: bold;
+    color: #1d4ed8;
+  }
+</style>
+</head>
+<body>
+
+<h1>GUIÓN EJECUTIVO DE PRESENTACIÓN (VERSIÓN 3) — PROYECTO RENUBE &amp; QINAYA</h1>
+<div class="subtitle">
+  <b>Estructura Estratégica:</b> 1. Portada &rarr; 2. El Problema de Apagado desde Marzo &rarr; 3. La Oferta de Renovación Qinaya &rarr; 4. Telemetría con Rangos Claros &rarr; 5. Top 20 Depurado (Sin Manuel Cepeda) &rarr; 6. Top 5 Programas &rarr; 7. Cobertura 51 Colegios &rarr; 8. Acompañamiento Pedagógico y Renovación Docente.<br>
+  <b>Archivo de Presentación:</b> <code>Presentacion_Exito_Proyecto_Renube_v3.html</code> (8 Diapositivas Ejecutivas — Conservando intactas la V1 y la V2).
+</div>
+
+<div class="objective-box">
+  <b>Resumen de Ajustes Estratégicos Aplicados en esta Versión 3:</b>
+  <ul>
+    <li><b>El Problema Primero (Diapositiva 2):</b> Se abre planteando el riesgo inmediato para Dotaciones Escolares: las licencias duran <b>1 año desde su fecha de instalación</b> y el <b>apagado progresivo inicia en Marzo</b>. ¿Qué hará el Distrito con 1.001 computadores en obsolescencia que no pueden volver a Windows tradicional y que hoy funcionan gracias a Qinaya?</li>
+    <li><b>La Oferta Centrada 100% en Qinaya (Diapositiva 3):</b> Se presenta de inmediato nuestra propuesta de renovación enfocada exclusivamente en el servicio de Qinaya (sin mencionar apoyos a OTIC ni gestiones externas). Se entrega el número exacto de licencias a renovar en el Top 20 (<b>463 licencias</b>, o <b>503 licencias</b> sumando el #21 Sorrento, y <b>665 licencias</b> en las 33 sedes consolidadas) más la expansión de <b>+500 a +700 nuevas licencias</b>.</li>
+    <li><b>Exclusión Total del Colegio Manuel Cepeda Vargas (y Los Comuneros):</b> Se retiró por completo al Colegio Manuel Cepeda Vargas (30 equipos) del Top 20 y de las listas de renovación, subiendo al puesto #20 al <b>Colegio José Manuel Restrepo</b> (10/10 equipos activos, 3.0 hrs/día, 1.965 hrs). Ningún colegio con carta de desinstalación aparece en el Top ni en las cuentas de renovación.</li>
+    <li><b>Rangos de Medición Explícitos en Todas las Gráficas (Diapositiva 4 y siguientes):</b> Cada gráfica muestra claramente en su encabezado el periodo exacto medido: <b>04 de Marzo al 30 de Octubre de 2026</b> (especificando los <b>64 días hábiles de clase</b> y los <b>150 días calendario API</b>, descontando vacaciones del 16 Jun al 03 Jul).</li>
+    <li><b>Eliminación de Temas de Soporte Técnico y Caso Manuel Cepeda:</b> Se eliminaron por completo las diapositivas de tickets de soporte y de visita al Manuel Cepeda.</li>
+    <li><b>Reenfoque de Capacitación (Diapositiva 8):</b> Mantiene el hito de <b>+125 docentes capacitados</b> pero enfoca el valor en cómo los colegios Top logran su alto uso gracias al acompañamiento de Qinaya y cómo la renovación asegura capacitar a los <b>docentes nuevos por rotación</b> el próximo año.</li>
+  </ul>
+</div>
+
+<!-- ==================== DIAPOSITIVA 1 ==================== -->
+<h2>DIAPOSITIVA 1: Portada — Solución Integral Qinaya: 1.001 Computadores Funcionales</h2>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "Buenos días. Hoy queremos presentarles el balance estratégico de las <b>1.001 soluciones tecnológicas instaladas por Qinaya en 51 Instituciones Educativas Distritales</b> dentro del proyecto ReNube, las cuales ya superan las <b>208.900 horas de uso real</b>. Pero más allá de mirar el pasado, queremos abrir esta sesión analizando el reto inmediato que enfrenta el Distrito frente al vencimiento de estas licencias a partir del mes de marzo y cómo asegurar que estas aulas no se apaguen."
+</div>
+
+<!-- ==================== DIAPOSITIVA 2 ==================== -->
+<h2>DIAPOSITIVA 2: El Problema a Futuro — ¿Qué Pasará Cuando se Apaguen las Licencias desde Marzo?</h2>
+
+<div class="alert-box">
+  <b>Objetivo de la diapositiva:</b> Plantear de entrada el problema crítico que tendrá el Director de Dotaciones si no se continúa con la solución: el apagado progresivo al cumplirse 1 año de instalación desde marzo y la imposibilidad técnica de regresar esos equipos obsoletos a Windows.
+</div>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "Empecemos por el escenario crítico que tenemos al frente. Cada una de las 1.001 licencias instaladas tiene una vigencia de <b>un año contado a partir de su fecha de instalación</b>. Como el despliegue inició en marzo, <b>a partir de marzo del próximo año comienza el proceso de apagado progresivo</b> de las salas.<br><br>
+  Aquí surge la pregunta de fondo para el Distrito: <b>una vez se apague el servicio de Qinaya, ¿qué se va a hacer con todos esos computadores en obsolescencia que hoy funcionan perfectamente gracias a nuestra solución?</b><br><br>
+  Recordemos tres realidades técnicas:<br>
+  1. <b>Es imposible devolverlos a Windows tradicional:</b> Son equipos de años anteriores que con el sistema operativo tradicional se bloquean o no arrancan. Apagar Qinaya equivale a perder de inmediato hasta 1.001 puestos de cómputo escolar.<br>
+  2. <b>Las aulas más exitosas se quedarían sin clase:</b> Solo en nuestro Top 20 de colegios líderes tenemos <b>463 computadores</b> que acumulan más de <b>156.798 horas de clase</b>. Dejar vencer esas licencias en marzo significaría apagar salas que hoy están trabajando todos los días.<br>
+  3. <b>El costo de reemplazo físico es multimillonario:</b> Comprar hardware nuevo para sustituir estos puestos costaría miles de millones de pesos, cuando la máquina física ya está instalada en el pupitre y rindiendo al 100% con el software de Qinaya."
+</div>
+
+<!-- ==================== DIAPOSITIVA 3 ==================== -->
+<h2>DIAPOSITIVA 3: La Oferta Qinaya — Renovación Inmediata del Top de Colegios y Expansión</h2>
+
+<div class="chart-box">
+  <b>Cifras exactas de licencias para la oferta (Sin Manuel Cepeda ni Los Comuneros):</b>
+  <ul>
+    <li><b>Primer bloque prioritario e inmediato (Top 20 Colegios Líderes):</b> <b>463 licencias instaladas</b> (456 reportando en línea = 98,5% de actividad, 156.798 horas de uso). Si sumamos el puesto #21 (Colegio Sorrento con 40 equipos y 7.308 horas), este primer bloque redondo es de <b>503 licencias</b>.</li>
+    <li><b>Bloque total de colegios consolidados (33 sedes con uso continuo):</b> <b>665 licencias activas</b>.</li>
+    <li><b>Meta de renovación y expansión a nuevos colegios:</b> Asegurar el bloque base (<b>463 a 665 licencias</b>) y sumar entre <b>+500 y +700 licencias adicionales</b> a bajo costo.</li>
+  </ul>
+</div>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "Frente a ese escenario de apagado en marzo, <b>nosotros traemos la solución lista</b>, enfocada 100% en nuestro servicio como Qinaya.<br><br>
+  ¿Cuál es nuestra oferta concreta para iniciar la renovación por un año más?<br>
+  Primero, tenemos un <b>primer número claro e indiscutible para renovar de inmediato: las 463 licencias instaladas en el Top 20 de colegios con mayor uso del proyecto</b> (o <b>503 licencias</b> incluyendo al Colegio Sorrento en el puesto 21). Son colegios donde el 98,5% de los equipos están encendidos en clase y donde ya sumamos más de 156.700 horas de uso.<br><br>
+  Si ampliamos la mirada a los <b>33 colegios consolidados</b> que usan la solución de forma regular, hablamos de <b>665 licencias</b> que garantizan continuidad inmediata.<br><br>
+  Y segundo, para aquellos colegios donde el uso ha sido bajo y no sea prioritario renovar, nuestra tecnología permite <b>reasignar esas licencias o ampliar el proyecto con 500 a 700 licencias adicionales</b> en nuevos colegios del Distrito que hoy tienen salas antiguas esperando ser recuperadas, a una fracción mínima de lo que costaría comprar computadores nuevos."
+</div>
+
+<!-- ==================== DIAPOSITIVA 4 ==================== -->
+<h2>DIAPOSITIVA 4: Data Relevante y Desempeño Global — Con Rangos de Medición Explícitos</h2>
+
+<div class="chart-box">
+  <b>Cómo explicar los rangos de medición que aparecen en los encabezados de cada gráfica:</b>
+  <ul>
+    <li><b>Gráfica Izquierda (1.001 Instalados vs. 932 con Telemetría):</b> Medición de corte acumulado desde el inicio del proyecto (<b>04 de Marzo al 30 de Octubre de 2026</b>). De las 1.001 licencias instaladas, 932 reportan en línea (93,1%), 50 operan en uso local en 5 sedes sin salida de red hacia internet y 19 tienen novedad eléctrica externa.</li>
+    <li><b>Gráfica Derecha (Promedio Diario 4,19 hrs vs. 4,50 hrs y Evolución Mensual):</b>
+      <ul>
+        <li><b>Barras comparativas (4,19 hrs vs. 4,50 hrs):</b> Calculadas sobre el rango oficial de <b>64 días hábiles efectivos de clase con uso</b> entre el <b>04 de Marzo y el 30 de Octubre de 2026</b> (descontando fines de semana, festivos y el receso escolar de mitad de año del <b>16 de Junio al 03 de Julio</b>).</li>
+        <li><b>Curva mensual (Marzo a Octubre):</b> Muestra el volumen de horas por mes calendario desde la instalación en Marzo (21.309 hrs) hasta el pico de Septiembre (42.890 hrs) y el corte parcial de Octubre (27.441 hrs).</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "Para respaldar esta oferta de renovación, veamos la data relevante medida por nuestra plataforma de telemetría, dejando absolutamente claro el <b>rango de fechas de cada gráfica</b>.<br><br>
+  Todas nuestras gráficas corresponden al periodo comprendido entre el <b>04 de Marzo y el 30 de Octubre de 2026</b>.<br>
+  En la <b>gráfica de la izquierda</b> vemos el estado de las <b>1.001 soluciones instaladas</b> en ese corte acumulado: <b>932 computadores (el 93,1%)</b> transmiten telemetría activa al servidor, mientras que 50 equipos adicionales funcionan de manera local en salones sin salida a internet.<br><br>
+  En la <b>gráfica de la derecha</b> especificamos con total precisión los dos criterios de tiempo:<br>
+  - Si medimos sobre los <b>64 días hábiles efectivos de clase</b> (excluyendo fines de semana y vacaciones escolares del 16 de junio al 3 de julio), el promedio diario sobre la totalidad de los <b>1.001 computadores instalados es de 4,19 horas diarias por equipo</b>, y sobre los <b>932 equipos activos en línea es de 4,50 horas diarias</b>.<br>
+  - Y si se mira bajo el <b>criterio crudo de la API de 150 días calendario continuos</b> desde marzo, el promedio es de <b>3,51 horas diarias en activos</b> y <b>3,27 horas en los 1.001 totales</b>. En cualquiera de los dos rangos, la curva mensual demuestra un crecimiento sostenido que duplicó el uso entre marzo y septiembre."
+</div>
+
+<!-- ==================== DIAPOSITIVA 5 ==================== -->
+<h2>DIAPOSITIVA 5: Top 20 Colegios Líderes para Renovación (Sin Manuel Cepeda Vargas)</h2>
+
+<div class="chart-box">
+  <b>Detalle de la depuración realizada en esta diapositiva:</b>
+  <ul>
+    <li>Se retiró completamente al <b>Colegio Manuel Cepeda Vargas</b> (y se verificó que tampoco figure el Colegio Los Comuneros).</li>
+    <li>Ingresó al cierre del Top 20 el <b>Colegio José Manuel Restrepo</b> (10 licencias instaladas / 10 activas, <b>3,0 hrs/día</b>, 1.965 horas acumuladas).</li>
+    <li><b>Totales exactos de este Top 20 depurado:</b> <b>463 licencias instaladas</b> (456 reportando en línea = 98,5%) y <b>156.798 horas de uso reales</b> en el rango del 04 de Marzo al 30 de Octubre de 2026.</li>
+    <li>Ningún colegio supera el tope real de 10,0 horas diarias de doble jornada escolar (el máximo es San Cristóbal Sur con 9,5 hrs/día).</li>
+  </ul>
+</div>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "En esta quinta diapositiva presentamos el <b>Top 20 de colegios líderes que encabezan nuestra propuesta de renovación inmediata</b>, medido en el rango del <b>04 de Marzo al 30 de Octubre de 2026</b>.<br><br>
+  Este listado ha sido cuidadosamente depurado para incluir únicamente instituciones con alta apropiación real y satisfacción con el servicio. En estas 20 instituciones tenemos exactamente <b>463 licencias instaladas</b>, de las cuales <b>456 reportan en línea (98,5% de disponibilidad)</b>, acumulando <b>156.798 horas de uso</b>.<br><br>
+  Podemos ver casos sobresalientes como el <b>Colegio San Cristóbal Sur (9,5 hrs/día en 20 equipos)</b>, <b>Colegio La Palestina (8,2 hrs/día en 30 equipos)</b>, <b> Saludcoop Norte (7,7 hrs/día en 29 equipos)</b>, <b>Atanasio Girardot (6,2 hrs/día en 37 equipos)</b> y cerrando el Top 20 el <b>Colegio José Manuel Restrepo (3,0 hrs/día con el 100% de sus equipos activos)</b>.<br><br>
+  Estas <b>463 licencias</b> (que llegan a <b>503 licencias</b> al sumar al Colegio Sorrento en el puesto 21 con 40 equipos) son el primer bloque que proponemos renovar sin pausa antes de marzo."
+</div>
+
+<!-- ==================== DIAPOSITIVA 6 ==================== -->
+<h2>DIAPOSITIVA 6: Top 5 de Programas y Aplicaciones Más Usadas</h2>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "En la sexta diapositiva, también medida en el rango del <b>04 de Marzo al 30 de Octubre de 2026 sobre el consolidado de las 1.001 estaciones</b>, respondemos para qué usan los colegios la solución Qinaya.<br><br>
+  El <b>54,2% del tiempo (113.268 horas)</b> corresponde a investigación web y plataformas académicas en <b>Chromium y Firefox</b>; el <b>21,6% (45.139 horas)</b> al entorno de <b>Escritorio Cloud Qinaya y sesiones virtuales</b>; el <b>12,4% (25.913 horas)</b> a ofimática con <b>LibreOffice Calc, Writer e Impress</b>; el <b>6,8% (14.209 horas)</b> a programación y pensamiento computacional con <b>Scratch, Arduino, mBlock y Python</b>; y el <b>5,0% (10.449 horas)</b> a diseño y multimedia con <b>GIMP, Inkscape y Audacity</b>."
+</div>
+
+<!-- ==================== DIAPOSITIVA 7 ==================== -->
+<h2>DIAPOSITIVA 7: Panorama de las 51 IED y Bloques de Licencias para Renovación</h2>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "En la séptima diapositiva mostramos la radiografía completa del proyecto medida del <b>04 de Marzo al 30 de Octubre de 2026</b> para facilitar la toma de decisiones sobre cuántas licencias renovar:<br><br>
+  - En el <b>Grupo 1 (Top 20 Líderes)</b> tenemos <b>463 licencias instaladas</b> con un uso intensivo superior a 3 horas diarias.<br>
+  - En el <b>Grupo 2 (13 colegios en consolidación activa)</b>, encabezados por el Colegio Sorrento (40 equipos), Rodolfo Llinás y República de China, tenemos <b>202 licencias adicionales</b> que operan con regularidad todas las semanas.<br>
+  - Al sumar ambos grupos, el Distrito cuenta con una base sólida de <b>33 colegios y 665 licencias activas</b> listas para continuidad directa, además de la posibilidad de reasignar o expandir entre <b>500 y 700 licencias nuevas</b> hacia otros colegios interesados."
+</div>
+
+<!-- ==================== DIAPOSITIVA 8 ==================== -->
+<h2>DIAPOSITIVA 8: Capacitación Docente y Acompañamiento Pedagógico Continuo en la Renovación</h2>
+
+<div class="chart-box">
+  <b>Nuevo enfoque de la diapositiva:</b>
+  <ul>
+    <li>Destaca el logro global de <b>+125 docentes capacitados</b> en 7 jornadas sincrónicas y acompañamiento en sitio, pero <b>cambia el sentido hacia la renovación de los colegios Top</b>.</li>
+    <li>Muestra que los colegios del Top 20 tienen promedios tan altos precisamente porque sus docentes fueron formados por Qinaya y dominan la herramienta sin barreras.</li>
+    <li>Explica el valor futuro de renovar con Qinaya: los colegios renovados seguirán contando con nuestro <b>acompañamiento pedagógico permanente</b>, nuestro ecosistema digital de autoaprendizaje y <b>nuevas jornadas de capacitación para los docentes nuevos</b> que lleguen por rotación o cambio de planta el próximo año escolar.</li>
+  </ul>
+</div>
+
+<div class="speech-box">
+  <b>Guión sugerido (Qué decir):</b><br>
+  "Finalmente, en la octava diapositiva mostramos por qué los colegios de nuestro Top 20 logran un uso tan alto y por qué renovar con Qinaya garantiza que ese éxito se mantenga el próximo año.<br><br>
+  A lo largo del proyecto hemos capacitado a <b>más de 125 docentes</b> en 7 jornadas sincrónicas y sesiones prácticas con el Kit de Bienvenida Qinaya. Esa formación inicial eliminó cualquier barrera técnica y es la razón directa por la cual los colegios del Top 20 hoy registran entre 4 y 9,5 horas diarias de clase fluida.<br><br>
+  Pero lo más importante hacia el futuro es lo que incluye nuestra renovación: al renovar las licencias de estos colegios líderes, <b>Qinaya garantiza la continuidad de nuestro soporte académico, el acceso permanente al portal interactivo para docentes y, sobre todo, la capacitación de inducción para todos los docentes nuevos</b> que lleguen el próximo año por rotación o cambios de nómina.<br><br>
+  En conclusión: renovar las licencias de Qinaya antes del apagado de marzo protege los computadores del Distrito, asegura de inmediato entre <b>463 y 665 puestos en los colegios de mejor desempeño</b>, permite crecer en <b>500 a 700 licencias adicionales</b> y mantiene vivo el acompañamiento pedagógico en cada salón de clase. Muchas gracias."
+</div>
+
+</body>
+</html>
