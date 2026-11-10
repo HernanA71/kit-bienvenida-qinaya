@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Números Bogotá — Resumen Ejecutivo Qinaya & ReNube</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <style>
+    :root {
+      --bg-dark: #070d19;
+      --bg-card: rgba(15, 25, 45, 0.88);
+      --border: rgba(148, 163, 184, 0.22);
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --emerald: #10b981;
+      --cyan: #06b6d4;
+      --blue: #3b82f6;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #8b5cf6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #0f2447 0%, #070d19 60%, #040811 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(7, 13, 25, 0.92);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #04131a;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.05rem;
+      padding: 7px 14px;
+      border-radius: 10px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .brand-sub {
+      font-size: 0.92rem;
+      color: #94a3b8;
+      margin-left: 8px;
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid var(--border);
+      color: #e2e8f0;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slide-pill.active, .slide-pill:hover {
+      background: linear-gradient(135deg, #0ea5e9, #10b981);
+      color: #04111d;
+      border-color: transparent;
+    }
+    .btn-pptx {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #fff;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+    .slide {
+      display: none;
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 26px 36px 40px;
+      animation: fadeIn 0.28s ease;
+    }
+    .slide.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 22px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      padding-bottom: 14px;
+    }
+    .slide-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #34d399;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+    .slide-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+    .slide-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .kpi-row-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card.highlight {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.22), rgba(6, 182, 212, 0.12));
+      border: 2px solid #10b981;
+    }
+    .kpi-period {
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+      margin-bottom: 4px;
+    }
+    .kpi-dates {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .kpi-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.1rem;
+      font-weight: 900;
+      line-height: 1;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .kpi-card.highlight .kpi-num {
+      color: #34d399;
+    }
+    .kpi-label {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 8px;
+    }
+    .kpi-meta {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      padding-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 20px;
+    }
+    .grid-2-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-sub {
+      font-size: 0.98rem;
+      color: #94a3b8;
+      margin-bottom: 14px;
+    }
+    .chart-box {
+      position: relative;
+      height: 320px;
+      width: 100%;
+    }
+    table.clean-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.02rem;
+    }
+    table.clean-table th {
+      text-align: left;
+      padding: 11px 12px;
+      background: rgba(30, 41, 59, 0.9);
+      color: #38bdf8;
+      font-weight: 800;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.35);
+    }
+    table.clean-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+    table.clean-table tr.total-row td {
+      background: rgba(16, 185, 129, 0.16);
+      color: #34d399;
+      font-weight: 800;
+      font-size: 1.08rem;
+    }
+    .badge-num {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      background: rgba(59, 130, 246, 0.22);
+      color: #60a5fa;
+    }
+    .badge-red {
+      background: rgba(244, 63, 94, 0.22);
+      color: #fb7185;
+    }
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.22);
+      color: #fbbf24;
+    }
+    .badge-green {
+      background: rgba(16, 185, 129, 0.22);
+      color: #34d399;
+    }
+    .issue-banner {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.18), rgba(245, 158, 11, 0.12));
+      border-left: 5px solid #f43f5e;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .issue-banner h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      color: #fda4af;
+      margin-bottom: 6px;
+    }
+    .issue-banner p {
+      font-size: 1.04rem;
+      color: #f1f5f9;
+      line-height: 1.45;
+    }
+    .other-issues-list {
+      display: grid;
+      gap: 10px;
+    }
+    .other-issue-item {
+      background: rgba(30, 41, 59, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .other-issue-item strong {
+      font-size: 1.06rem;
+      color: #ffffff;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .other-issue-item span {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+    .webinar-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .webinar-card {
+      background: linear-gradient(160deg, rgba(15, 25, 45, 0.95), rgba(30, 41, 59, 0.8));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .webinar-date {
+      display: inline-block;
+      background: rgba(6, 182, 212, 0.2);
+      color: #22d3ee;
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 5px 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    .webinar-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .webinar-desc {
+      font-size: 1.0rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .webinar-foot {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #34d399;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="brand-badge">NÚMEROS BOGOTÁ</span>
+      <div>
+        <span class="brand-title">Resumen Ejecutivo — Proyecto ReNube & Qinaya (51 Colegios SED)</span>
+        <span class="brand-sub">Corte API en vivo: 10 de Noviembre de 2026</span>
+      </div>
+    </div>
+    <div class="nav-controls">
+      <button class="slide-pill active" onclick="showSlide(0)">1. Computadores Activos</button>
+      <button class="slide-pill" onclick="showSlide(1)">2. Soportes e Inconvenientes</button>
+      <button class="slide-pill" onclick="showSlide(2)">3. Colegios Top Soporte y Webinars</button>
+      <a class="btn-pptx" href="Numeros_Bogota_Resumen_Editable.pptx" download>⬇ Descargar PowerPoint Editable (.pptx)</a>
+    </div>
+  </header>
+
+  <!-- DIAPOSITIVA 1: COMPUTADORES ACTIVOS POR PERIODO -->
+  <section class="slide active" id="slide-0">
+    <div class="slide-header">
+      <div>
+        <span class="slide-tag">Diapositiva 1 de 3 • Telemetría Oficial API Bogotá (org=28)</span>
+        <h1 class="slide-title">Números Bogotá: Computadores Activos Registrados por Periodo</h1>
+        <p class="slide-subtitle">Evolución sobre los <strong>1.001 computadores instalados</strong> en los 51 colegios oficiales de Bogotá (4 de marzo al 10 de noviembre de 2026).</p>
+      </div>
+    </div>
+
+    <div class="kpi-row-5">
+      <div class="kpi-card">
+        <div class="kpi-period">1. Este Mes (Noviembre)</div>
+        <div class="kpi-dates">01 Nov – 10 Nov 2026 (10 días)</div>
+        <div class="kpi-num">513</div>
+        <div class="kpi-label">Equipos Activos Registrados</div>
+        <div class="kpi-meta">
+          • <strong>299,3</strong> compus activos/día prom.<br>
+          • <strong>388</strong> pico diario • <strong>42</strong> colegios<br>
+          • <strong>10.972 hrs</strong> en 10 días
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period">2. Mes Anterior (Octubre)</div>
+        <div class="kpi-dates">01 Oct – 31 Oct 2026</div>
+        <div class="kpi-num">641</div>
+        <div class="kpi-label">Equipos Activos Registrados</div>
+        <div class="kpi-meta">
+          • <strong>279,1</strong> compus activos/día prom.<br>
+          • <strong>400</strong> pico diario • <strong>46</strong> colegios<br>
+          • <strong>37.541 hrs</strong> en el mes
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period">3. Junio a Septiembre</div>
+        <div class="kpi-dates">01 Jun – 30 Sep 2026 (4 meses)</div>
+        <div class="kpi-num">836</div>
+        <div class="kpi-label">Equipos Activos Registrados</div>
+        <div class="kpi-meta">
+          • <strong>275,0</strong> compus activos/día prom.<br>
+          • <strong>457</strong> pico diario • <strong>50</strong> colegios<br>
+          • <strong>129.414 hrs</strong> acumuladas
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period">4. Marzo a Junio</div>
+        <div class="kpi-dates">04 Mar – 30 Jun 2026 (Despliegue)</div>
+        <div class="kpi-num">689</div>
+        <div class="kpi-label">Equipos Activos Registrados</div>
+        <div class="kpi-meta">
+          • <strong>183,6</strong> compus activos/día prom.<br>
+          • <strong>388</strong> pico diario • <strong>36</strong> colegios<br>
+          • <strong>67.805 hrs</strong> (fase instalación)
+        </div>
+      </div>
+
+      <div class="kpi-card highlight">
+        <div class="kpi-period" style="color:#34d399;">5. Total Activos a la Fecha</div>
+        <div class="kpi-dates">04 Mar – 10 Nov 2026 (Histórico)</div>
+        <div class="kpi-num">933</div>
+        <div class="kpi-label">De 1.001 Instalados (93,2%)</div>
+        <div class="kpi-meta">
+          • <strong>+50 equipos</strong> uso local sin LAN<br>
+          • <strong>50 de 51</strong> colegios transmitiendo<br>
+          • <strong>225.877 horas</strong> reales totales
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span>Comparativo de Computadores Activos Registrados por Corte</span>
+          <span class="badge-num">Base: 1.001 Equipos Instalados</span>
+        </div>
+        <div class="card-sub">Equipos únicos que reportaron sesiones en línea al servidor en cada ventana de tiempo consultada.</div>
+        <div class="chart-box">
+          <canvas id="chartActivePeriod"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Tabla Resumen de Actividad por Periodo</span>
+        </div>
+        <div class="card-sub">Incluye promedio de computadores encendidos simultáneamente por día hábil escolar y horas reales.</div>
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th>Periodo Evaluado</th>
+              <th>Compus Activos</th>
+              <th>Prom. Diario / Pico</th>
+              <th>Colegios</th>
+              <th>Horas de Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Este Mes</strong> (01–10 Nov)</td>
+              <td><span class="badge-num">513</span></td>
+              <td>299,3 /día (Pico 388)</td>
+              <td>42 IED</td>
+              <td>10.972 hrs</td>
+            </tr>
+            <tr>
+              <td><strong>Mes Anterior</strong> (01–31 Oct)</td>
+              <td><span class="badge-num">641</span></td>
+              <td>279,1 /día (Pico 400)</td>
+              <td>46 IED</td>
+              <td>37.541 hrs</td>
+            </tr>
+            <tr>
+              <td><strong>Junio a Septiembre</strong> (01 Jun–30 Sep)</td>
+              <td><span class="badge-num">836</span></td>
+              <td>275,0 /día (Pico 457)</td>
+              <td>50 IED</td>
+              <td>129.414 hrs</td>
+            </tr>
+            <tr>
+              <td><strong>Marzo a Junio</strong> (04 Mar–30 Jun)</td>
+              <td><span class="badge-num">689</span></td>
+              <td>183,6 /día (Pico 388)</td>
+              <td>36 IED</td>
+              <td>67.805 hrs</td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>TOTAL A LA FECHA</strong> (04 Mar–10 Nov)</td>
+              <td><strong>933 (93,2%)</strong></td>
+              <td><strong>247,1 /día (Pico 457)</strong></td>
+              <td><strong>50 IED</strong></td>
+              <td><strong>225.877 hrs</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAPOSITIVA 2: SOPORTES HECHOS E INCONVENIENTES -->
+  <section class="slide" id="slide-1">
+    <div class="slide-header">
+      <div>
+        <span class="slide-tag">Diapositiva 2 de 3 • Gestión Técnica y Mesa de Ayuda (Abril a Noviembre 2026)</span>
+        <h1 class="slide-title">Números Bogotá: Soportes Realizados e Inconvenientes Presentados</h1>
+        <p class="slide-subtitle">Consolidado oficial de visitas técnicas en sitio, bitácora de incidencias y causas raíz identificadas en los colegios.</p>
+      </div>
+    </div>
+
+    <div class="kpi-row-5" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi-card highlight">
+        <div class="kpi-period" style="color:#34d399;">Total Soportes Registrados</div>
+        <div class="kpi-dates">Bitácora General + Visitas</div>
+        <div class="kpi-num">73</div>
+        <div class="kpi-label">Atenciones Totales (63 Actas en Sitio)</div>
+        <div class="kpi-meta"><strong>46</strong> técnicas de solución Qinaya y <strong>27</strong> de infraestructura/red del colegio.</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period">Efectividad de Cierre</div>
+        <div class="kpi-dates">Casos Resueltos / Cerrados</div>
+        <div class="kpi-num" style="color:#38bdf8;">100%</div>
+        <div class="kpi-label">0 Tickets Abiertos Pendientes</div>
+        <div class="kpi-meta">Calificación promedio firmada por colegios en actas: <strong>4,84 / 5,0</strong>.</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period" style="color:#fb7185;">Mayor Inconveniente (#1)</div>
+        <div class="kpi-dates">31 de los 73 Soportes</div>
+        <div class="kpi-num" style="color:#fb7185;">42,5%</div>
+        <div class="kpi-label">Red Local e Internet del Colegio</div>
+        <div class="kpi-meta">Caídas de canal internet de la sede, permisos LAN/Wi-Fi y latencia local.</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-period" style="color:#fbbf24;">Segundo Motivo (#2)</div>
+        <div class="kpi-dates">21 de los 73 Soportes</div>
+        <div class="kpi-num" style="color:#fbbf24;">28,8%</div>
+        <div class="kpi-label">Actualización / Reinstalación ISO</div>
+        <div class="kpi-meta">Actualización de versión del sistema operativo y mantenimiento preventivo.</div>
+      </div>
+    </div>
+
+    <div class="grid-2-equal">
+      <div class="card">
+        <div class="card-title">
+          <span>Distribución de Soportes por Tipo de Inconveniente</span>
+          <span class="badge-num">Base: 73 Casos Registrados</span>
+        </div>
+        <div class="card-sub">Desglose porcentual y absoluto de todas las solicitudes atendidas en terreno y remoto.</div>
+        <div class="chart-box">
+          <canvas id="chartIssues"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Mayor Inconveniente Presentado y Otros Inconvenientes</span>
+        </div>
+        <div class="card-sub">Detalle técnico de las causas encontradas en las salas de cómputo de las IED:</div>
+
+        <div class="issue-banner">
+          <h4>🚨 MAYOR INCONVENIENTE: Conectividad, Red LAN/Wi-Fi y Latencia del Colegio — 31 casos (42,5%)</h4>
+          <p>El principal factor externo no es falla del software Qinaya sino la red interna de las sedes: <strong>11 casos</strong> por caída o falta de salida a internet en la sala, <strong>8 casos</strong> de bloqueos/configuración de red cableada, <strong>7 casos</strong> de latencia alta en horas pico hacia el escritorio virtual y <strong>5 casos</strong> de desconexión Wi-Fi en portátiles.</p>
+        </div>
+
+        <div class="other-issues-list">
+          <div class="other-issue-item">
+            <div>
+              <strong>2. Actualización y Reinstalación de Imagen ISO Qinaya</strong>
+              <span>Actualización masiva de versión del sistema, restauraciones por formateo y chequeo preventivo en sala.</span>
+            </div>
+            <span class="badge-num badge-amber">21 casos (28,8%)</span>
+          </div>
+
+          <div class="other-issue-item">
+            <div>
+              <strong>3. Solicitud de Aplicativos Adicionales y Configuración</strong>
+              <span>Instalación a medida pedida por docentes (<em>DFD, Inkscape, iTALC, Access/Publisher</em>), idioma de teclado y audio/HDMI.</span>
+            </div>
+            <span class="badge-num">9 casos (12,3%)</span>
+          </div>
+
+          <div class="other-issue-item">
+            <div>
+              <strong>4. Arranque Dual (BIOS / GRUB) y Averías Eléctricas de Hardware</strong>
+              <span>Pila de BIOS agotada por desconexión eléctrica (reinicia en Windows antiguo), contraseña BIOS SED y discos/teclados averiados.</span>
+            </div>
+            <span class="badge-num">9 casos (12,3%)</span>
+          </div>
+
+          <div class="other-issue-item">
+            <div>
+              <strong>5. Gestión de Cuentas, Perfiles y Acompañamiento en Aula</strong>
+              <span>Restablecimiento de credenciales y apoyo directo al docente durante el cambio de jornada.</span>
+            </div>
+            <span class="badge-num badge-green">3 casos (4,1%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAPOSITIVA 3: COLEGIOS CON MAYOR SOLICITUD Y WEBINARS A LA FECHA -->
+  <section class="slide" id="slide-2">
+    <div class="slide-header">
+      <div>
+        <span class="slide-tag">Diapositiva 3 de 3 • Ranking de Soportes por Colegio y Webinars Ejecutados</span>
+        <h1 class="slide-title">Números Bogotá: Colegios con Mayor Solicitud y Webinars a la Fecha</h1>
+        <p class="slide-subtitle">Instituciones que concentraron el mayor número de visitas técnicas y balance del ciclo de formación y Webinars docentes.</p>
+      </div>
+    </div>
+
+    <div class="grid-2-equal" style="margin-bottom: 20px;">
+      <div class="card">
+        <div class="card-title">
+          <span>Top 8 Colegios con Mayor Solicitud de Soporte</span>
+          <span class="badge-num badge-red">Concentran 37 de los 73 casos (51%)</span>
+        </div>
+        <div class="card-sub">Número de requerimientos atendidos por institución educativa y motivo principal.</div>
+        <div class="chart-box" style="height: 250px;">
+          <canvas id="chartTopSupportSchools"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Detalle de Colegios con Mayor Solicitud de Soporte</span>
+        </div>
+        <div class="card-sub">Motivo principal atendido en cada uno de los colegios con más tickets:</div>
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th>Colegio (IED)</th>
+              <th>Soportes</th>
+              <th>Motivo Principal Atendido</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Colegio El Salitre Suba</strong></td>
+              <td><span class="badge-num badge-red">8</span></td>
+              <td>Latencia de red local del colegio y caída de internet en sala</td>
+            </tr>
+            <tr>
+              <td><strong>2. Los Comuneros - O. Guayasamín</strong></td>
+              <td><span class="badge-num badge-amber">5</span></td>
+              <td>Configuración de red cableada/Wi-Fi y actualización ISO</td>
+            </tr>
+            <tr>
+              <td><strong>3. Colegio Atanasio Girardot</strong></td>
+              <td><span class="badge-num badge-amber">5</span></td>
+              <td>Permisos de red/acceso remoto, adaptadores Wi-Fi y arranque</td>
+            </tr>
+            <tr>
+              <td><strong>4. Colegio Manuela Beltrán</strong></td>
+              <td><span class="badge-num badge-amber">5</span></td>
+              <td>Actualización de imagen ISO y revisión de velocidad de red</td>
+            </tr>
+            <tr>
+              <td><strong>5. Colegio Santa Lucía</strong></td>
+              <td><span class="badge-num">4</span></td>
+              <td>Instalación de software adicional (DFD/Inkscape) y discos</td>
+            </tr>
+            <tr>
+              <td><strong>6. Colegio Eduardo Santos</strong></td>
+              <td><span class="badge-num">4</span></td>
+              <td>Conexión Wi-Fi en portátiles, audio y salida de video HDMI</td>
+            </tr>
+            <tr>
+              <td><strong>7. Manuel Cepeda / San Fco. de Asís</strong></td>
+              <td><span class="badge-num">3 c/u</span></td>
+              <td>Caída de internet de sede, bloqueo BIOS y periféricos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>🎓 Webinars y Capacitaciones Realizadas a la Fecha (Cobertura 100% de las 51 IED)</span>
+        <span class="badge-num badge-green">3 Webinars Distritales + 37 Colegios en Sesiones Sincrónicas (+125 Docentes • Nota 4,65/5,0)</span>
+      </div>
+      <div class="card-sub">Además de las 37 jornadas sincrónicas por colegio y el Kit Digital interactivo, se ejecutó el Ciclo de 3 Webinars Transversales elegido por votación docente (79,1% de preferencia):</div>
+
+      <div class="webinar-cards">
+        <div class="webinar-card">
+          <div>
+            <span class="webinar-date">WEBINAR 1 • Jueves 1 de Octubre 2026</span>
+            <h3 class="webinar-title">Gestión Eficiente de Archivos en la Nube y Trabajo Colaborativo</h3>
+            <p class="webinar-desc">Flujo práctico entre el sistema local Qinaya y el escritorio virtual ReNube para guardar, organizar y compartir evidencias estudiantiles sin perder archivos.</p>
+          </div>
+          <div class="webinar-foot">✔ Ejecutado • Guía PDF + Presentación Interactiva entregada</div>
+        </div>
+
+        <div class="webinar-card">
+          <div>
+            <span class="webinar-date">WEBINAR 2 • Jueves 5 de Noviembre 2026</span>
+            <h3 class="webinar-title">Creación de Videojuegos Educativos con Scratch en Qinaya</h3>
+            <p class="webinar-desc">Uso de Scratch nativo local (0 consumo de internet) para proyectos STEM: programación por bloques, variables, colisiones y plantilla jugable <code>.sb3</code>.</p>
+          </div>
+          <div class="webinar-foot">✔ Ejecutado • Proyecto .sb3 + Material Paso a Paso</div>
+        </div>
+
+        <div class="webinar-card">
+          <div>
+            <span class="webinar-date">WEBINAR 3 • Martes 10 de Noviembre 2026</span>
+            <h3 class="webinar-title">Diseño de Videojuegos Retro y Arcade con MakeCode</h3>
+            <p class="webinar-desc">Desarrollo de pensamiento computacional creando videojuegos tipo Arcade y simulación con Microsoft MakeCode y Micro:bit dentro del ecosistema Qinaya.</p>
+          </div>
+          <div class="webinar-foot">✔ Cierre Ciclo Trimestral • Basado en el Top 3 votado por docentes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    Chart.register(ChartDataLabels);
+
+    function showSlide(idx) {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.classList.toggle('active', i === idx);
+      });
+      document.querySelectorAll('.slide-pill').forEach((b, i) => {
+        b.classList.toggle('active', i === idx);
+      });
+    }
+
+    // Gráfica Diapositiva 1: Computadores Activos por Periodo
+    new Chart(document.getElementById('chartActivePeriod'), {
+      type: 'bar',
+      data: {
+        labels: [
+          'Este Mes\n(01–10 Nov)',
+          'Mes Anterior\n(01–31 Oct)',
+          'Jun a Sep\n(01 Jun–30 Sep)',
+          'Mar a Jun\n(04 Mar–30 Jun)',
+          'TOTAL A LA FECHA\n(04 Mar–10 Nov)'
+        ],
+        datasets: [
+          {
+            label: 'Computadores Activos Registrados',
+            data: [513, 641, 836, 689, 933],
+            backgroundColor: [
+              'rgba(56, 189, 248, 0.85)',
+              'rgba(59, 130, 246, 0.85)',
+              'rgba(139, 92, 246, 0.85)',
+              'rgba(245, 158, 11, 0.85)',
+              'rgba(16, 185, 129, 0.92)'
+            ],
+            borderRadius: 10,
+            barPercentage: 0.62
+          },
+          {
+            label: 'Promedio Diario Encendidos',
+            data: [299, 279, 275, 184, 247],
+            backgroundColor: 'rgba(248, 250, 252, 0.25)',
+            borderColor: '#f8fafc',
+            borderWidth: 1.5,
+            borderRadius: 8,
+            barPercentage: 0.45
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: '#f1f5f9', font: { size: 13, weight: 'bold' } }
+          },
+          datalabels: {
+            color: '#ffffff',
+            anchor: 'end',
+            align: 'top',
+            font: { size: 14, weight: '900' },
+            formatter: (val) => val
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1100,
+            grid: { color: 'rgba(148, 163, 184, 0.15)' },
+            ticks: { color: '#cbd5e1', font: { size: 13, weight: '600' } }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#f8fafc', font: { size: 12, weight: '700' } }
+          }
+        }
+      }
+    });
+
+    // Gráfica Diapositiva 2: Inconvenientes
+    new Chart(document.getElementById('chartIssues'), {
+      type: 'bar',
+      data: {
+        labels: [
+          '1. Red, Internet y Latencia del Colegio',
+          '2. Actualización / Reinstalación ISO',
+          '3. Instalación de Aplicativos y Config.',
+          '4. Arranque BIOS/GRUB y Hardware',
+          '5. Cuentas y Acompañamiento'
+        ],
+        datasets: [{
+          label: 'Cantidad de Soportes',
+          data: [31, 21, 9, 9, 3],
+          backgroundColor: [
+            '#f43f5e',
+            '#f59e0b',
+            '#3b82f6',
+            '#8b5cf6',
+            '#10b981'
+          ],
+          borderRadius: 8,
+          barPercentage: 0.65
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: '#ffffff',
+            anchor: 'end',
+            align: 'right',
+            font: { size: 14, weight: '800' },
+            formatter: (v) => {
+              const pct = ((v / 73) * 100).toFixed(1);
+              return `${v} casos (${pct}%)`;
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 40,
+            grid: { color: 'rgba(148, 163, 184, 0.15)' },
+            ticks: { color: '#cbd5e1', font: { size: 13 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#f8fafc', font: { size: 13, weight: '700' } }
+          }
+        }
+      }
+    });
+
+    // Gráfica Diapositiva 3: Colegios con Mayor Solicitud
+    new Chart(document.getElementById('chartTopSupportSchools'), {
+      type: 'bar',
+      data: {
+        labels: [
+          'El Salitre Suba',
+          'Los Comuneros',
+          'Atanasio Girardot',
+          'Manuela Beltrán',
+          'Santa Lucía',
+          'Eduardo Santos',
+          'Manuel Cepeda V.',
+          'San Fco. de Asís'
+        ],
+        datasets: [{
+          label: 'Solicitudes de Soporte',
+          data: [8, 5, 5, 5, 4, 4, 3, 3],
+          backgroundColor: [
+            '#f43f5e',
+            '#f59e0b',
+            '#f59e0b',
+            '#f59e0b',
+            '#38bdf8',
+            '#38bdf8',
+            '#8b5cf6',
+            '#8b5cf6'
+          ],
+          borderRadius: 8,
+          barPercentage: 0.6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            color: '#ffffff',
+            anchor: 'end',
+            align: 'top',
+            font: { size: 14, weight: '900' },
+            formatter: (v) => v + ' soportes'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 10,
+            grid: { color: 'rgba(148, 163, 184, 0.15)' },
+            ticks: { color: '#cbd5e1', font: { size: 12 } }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#f8fafc', font: { size: 12, weight: '700' } }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
