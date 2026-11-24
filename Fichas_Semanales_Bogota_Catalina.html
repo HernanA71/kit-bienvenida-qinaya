@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fichas Semanales Bogotá — Reporte Ejecutivo Qinaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --qinaya-navy: #0c2d57;
+      --qinaya-blue: #1d4ed8;
+      --qinaya-sky: #0284c7;
+      --qinaya-light: #eff6ff;
+      --border: #dbeafe;
+      --border-neutral: #e2e8f0;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --green-bg: #ecfdf5;
+      --green-text: #047857;
+      --amber-bg: #fffbeb;
+      --amber-text: #b45309;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      padding: 20px;
+      font-size: 13.5px;
+    }
+    .topbar {
+      max-width: 1180px;
+      margin: 0 auto 18px auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(12, 45, 87, 0.05);
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: var(--qinaya-navy);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: var(--qinaya-navy);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--qinaya-navy), var(--qinaya-blue));
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover {
+      opacity: 0.93;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* MAIN EXECUTIVE COMPARISON FICHA (Semana Pasada vs Esta Semana) */
+    .hero-ficha {
+      background: #ffffff;
+      border: 2px solid #bfdbfe;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(12, 45, 87, 0.07);
+    }
+    .hero-header {
+      background: linear-gradient(135deg, #0c2d57 0%, #1e40af 100%);
+      color: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .hero-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .hero-header p {
+      font-size: 0.82rem;
+      color: #bfdbfe;
+      margin-top: 2px;
+    }
+    .hero-pill {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      padding: 20px 24px;
+      background: #f8fafc;
+    }
+    @media (max-width: 860px) {
+      .comparison-grid { grid-template-columns: 1fr; }
+    }
+
+    .week-box {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .week-box.current-week {
+      border: 2px solid #0284c7;
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+    }
+    .week-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+    .tag-prev {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .tag-curr {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .week-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .kpi-mini {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .current-week .kpi-mini {
+      background: #ffffff;
+      border-color: #bae6fd;
+    }
+    .kpi-mini .num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+      line-height: 1.1;
+    }
+    .kpi-mini .lbl {
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .kpi-mini .sub {
+      font-size: 0.7rem;
+      color: #0284c7;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .bullet-list li {
+      background: #f8fafc;
+      border-left: 3px solid #1d4ed8;
+      padding: 8px 11px;
+      border-radius: 0 8px 8px 0;
+    }
+    .current-week .bullet-list li {
+      background: #ffffff;
+      border-left-color: #0284c7;
+    }
+    .bullet-list strong {
+      color: var(--qinaya-navy);
+    }
+
+    /* ACTIVE SCHOOLS SECTION */
+    .schools-panel {
+      padding: 0 24px 20px 24px;
+      background: #f8fafc;
+    }
+    .schools-card {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .schools-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.98rem;
+      color: var(--qinaya-navy);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .schools-card p.note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .schools-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 8px;
+    }
+    .school-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 7px 11px;
+      font-size: 0.79rem;
+    }
+    .school-chip.top {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+    .school-chip .sname {
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 175px;
+    }
+    .school-chip .sstats {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      color: #1d4ed8;
+      background: #ffffff;
+      padding: 2px 7px;
+      border-radius: 99px;
+      border: 1px solid #dbeafe;
+    }
+
+    /* 4 WEEKS TIMELINE GRID */
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 1024px) {
+      .timeline-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .timeline-grid { grid-template-columns: 1fr; }
+    }
+    .mini-ficha {
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(12, 45, 87, 0.04);
+    }
+    .mini-ficha.highlight {
+      border: 2px solid #1d4ed8;
+    }
+    .mini-ficha-hdr {
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+    .mini-ficha-hdr .wlabel {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #0284c7;
+      text-transform: uppercase;
+    }
+    .mini-ficha-hdr .wdates {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .mini-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .mini-stat {
+      background: #f8fafc;
+      padding: 7px 9px;
+      border-radius: 7px;
+      border: 1px solid #e2e8f0;
+    }
+    .mini-stat .v {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .mini-stat .k {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .mini-notes {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    @media print {
+      .topbar .actions { display: none; }
+      body { background: #fff; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand-group">
+      <span class="brand-badge">QINAYA • BOGOTÁ</span>
+      <div>
+        <div class="brand-title">Fichas Ejecutivas Semanales — Seguimiento Proyecto ReNube</div>
+        <div class="brand-sub">Reporte rápido de operación en aulas, soportes técnicos y webinars (Actualizado al 24 de noviembre de 2026)</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="copyWhatsAppSummary()">📋 Copiar Resumen para WhatsApp</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- FICHA PRINCIPAL: SEMANA PASADA VS ESTA SEMANA -->
+    <section class="hero-ficha">
+      <div class="hero-header">
+        <div>
+          <h1>📌 Ficha de Pulso Semanal — Proyecto Bogotá (SED • 51 IED)</h1>
+          <p>Comparativo operativo de cierre de año escolar: Semana Pasada vs. Semana en Curso (Editable con un clic)</p>
+        </div>
+        <div class="hero-pill">Acumulado Proyecto: 933 PCs en línea (+50 local) • 236.073 Horas Reales</div>
+      </div>
+
+      <div class="comparison-grid">
+
+        <!-- SEMANA PASADA -->
+        <div class="week-box" contenteditable="true">
+          <span class="week-tag tag-prev">◀ Semana Pasada • 16 al 22 de Noviembre 2026</span>
+          <div class="week-title">Semana 3 de Noviembre (Cierre Ciclo Webinars)</div>
+
+          <div class="kpi-row">
+            <div class="kpi-mini">
+              <div class="num">34</div>
+              <div class="lbl">Colegios Activos</div>
+              <div class="sub">de 51 IED instaladas</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">321</div>
+              <div class="lbl">Equipos Encendidos</div>
+              <div class="sub">Pico: 204 PCs (Mié 18)</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">3.829 h</div>
+              <div class="lbl">Horas de Uso</div>
+              <div class="sub">4 días hábiles (Lun festivo)</div>
+            </div>
+          </div>
+
+          <ul class="bullet-list">
+            <li><strong>🎓 Formación (Webinar 3 Ejecutado):</strong> El jueves <strong>19 de noviembre</strong> se realizó con éxito el <strong>Webinar 3 Distrital (MakeCode Arcade & Micro:bit)</strong>, cerrando el ciclo trimestral elegido por los docentes.</li>
+            <li><strong>🛠️ Soportes Técnicos (1 en sitio):</strong> El miércoles <strong>18 de noviembre</strong> se atendió soporte presencial en el <strong>Colegio Carlos Arango Vélez IED</strong> (docente Ruth Pachón — instalación y configuración completa de <em>GCompris</em> en sala de informática), llegando a <strong>74 soportes acumulados</strong>.</li>
+            <li><strong>🏫 Comportamiento en Aulas:</strong> A pesar del puente festivo del lunes 16 de nov y el inicio de cierre de notas en varios colegios, <strong>34 IED</strong> mantuvieron clases activas en las salas Qinaya (promedio ~175 equipos/día hábil).</li>
+          </ul>
+        </div>
+
+        <!-- ESTA SEMANA -->
+        <div class="week-box current-week" contenteditable="true">
+          <span class="week-tag tag-curr">▶ Esta Semana (En Curso) • 23 al 27 de Noviembre 2026</span>
+          <div class="week-title">Semana 4 de Noviembre (Cierre de Año Escolar)</div>
+
+          <div class="kpi-row">
+            <div class="kpi-mini">
+              <div class="num">22</div>
+              <div class="lbl">Colegios en Operación</div>
+              <div class="sub">Corte Mar 24 Nov (10:40 am)</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">126</div>
+              <div class="lbl">Equipos Encendidos</div>
+              <div class="sub">118 el Lun 23 • 38 hoy Mar</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">858 h</div>
+              <div class="lbl">Horas (Lun–Mar)</div>
+              <div class="sub">En solo 1,5 jornadas</div>
+            </div>
+          </div>
+
+          <ul class="bullet-list">
+            <li><strong>🛠️ Soporte Técnico Agendado (1 en sitio):</strong> Esta semana se agendó visita técnica de soporte en el <strong>Colegio Santa Lucía IED</strong> (actualmente el colegio con más computadores encendidos en esta semana de cierre: <strong>26 equipos activos</strong>).</li>
+            <li><strong>📅 Contexto Fin de Año Escolar:</strong> Aunque entre esta semana y la próxima finaliza el calendario académico estudiantil en Bogotá (habilitaciones, clausuras y entrega de informes), <strong>22 colegios siguen operando activamente</strong> sus salas Qinaya.</li>
+            <li><strong>📈 Impacto en Noviembre (01–24 Nov):</strong> En lo corrido de noviembre han operado <strong>44 colegios</strong> y <strong>565 equipos distintos</strong>, sumando <strong>21.168 horas de uso</strong> en el último mes del año escolar.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- COLEGIOS QUE SIGUEN EN OPERACION ESTA SEMANA -->
+      <div class="schools-panel">
+        <div class="schools-card" contenteditable="true">
+          <h3>
+            <span>🏫 Los 22 Colegios que Siguen en Operación Esta Semana (23–24 Nov — Recta Final Año Escolar)</span>
+            <span style="font-size:0.78rem; color:#0284c7; font-weight:700;">126 computadores encendidos entre lunes y martes</span>
+          </h3>
+          <p class="note">Mientras el resto de instituciones ya cerraron aulas de sistemas por fin del calendario escolar, estas 22 IED continúan con equipos encendidos esta semana:</p>
+
+          <div class="schools-chips">
+            <div class="school-chip top"><span class="sname">1. Colegio Santa Lucía (Soporte agendado)</span><span class="sstats">26 PCs • 135,6 h</span></div>
+            <div class="school-chip top"><span class="sname">2. Colegio Carlos Arango Vélez</span><span class="sstats">20 PCs • 284,2 h</span></div>
+            <div class="school-chip top"><span class="sname">3. Externado Nal. Camilo Torres</span><span class="sstats">12 PCs • 17,5 h</span></div>
+            <div class="school-chip top"><span class="sname">4. Colegio Gustavo Morales Morales</span><span class="sstats">11 PCs • 111,7 h</span></div>
+            <div class="school-chip top"><span class="sname">5. Colegio Eduardo Santos</span><span class="sstats">9 PCs • 72,6 h</span></div>
+            <div class="school-chip top"><span class="sname">6. Colegio Policarpa Salavarrieta</span><span class="sstats">7 PCs • 2,1 h</span></div>
+            <div class="school-chip"><span class="sname">7. Colegio Sorrento</span><span class="sstats">6 PCs • 65,1 h</span></div>
+            <div class="school-chip"><span class="sname">8. Colegio Ciudad de Villavicencio</span><span class="sstats">6 PCs • 31,4 h</span></div>
+            <div class="school-chip"><span class="sname">9. Colegio Rodrigo Lara Bonilla</span><span class="sstats">6 PCs • 5,0 h</span></div>
+            <div class="school-chip"><span class="sname">10. Estrella del Sur Sede B</span><span class="sstats">4 PCs • 31,4 h</span></div>
+            <div class="school-chip"><span class="sname">11. ITI Francisco José de Caldas</span><span class="sstats">4 PCs • 2,2 h</span></div>
+            <div class="school-chip"><span class="sname">12. Villemar El Carmen IED</span><span class="sstats">3 PCs • 3,4 h</span></div>
+            <div class="school-chip"><span class="sname">13. Colegio Antonia Santos</span><span class="sstats">2 PCs • 66,2 h</span></div>
+            <div class="school-chip"><span class="sname">14. Colegio Manuela Beltrán</span><span class="sstats">2 PCs • 13,6 h</span></div>
+            <div class="school-chip"><span class="sname">15. Manuel Cepeda Vargas (+7 IED con 1 PC)</span><span class="sstats">8 PCs • 15,8 h</span></div>
+          </div>
+          <p class="note" style="margin-top:8px; margin-bottom:0;">*También registraron encendido de 1 estación (uso docente/coordinación): República de Colombia, José Jaime Rojas, Villamar IED, Los Alpes, La Joya, Floridablanca y Atanasio Girardot.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVOLUCIÓN DE LAS 4 SEMANAS DE NOVIEMBRE -->
+    <div class="section-title">
+      <span>📊 Histórico Semana a Semana — Noviembre 2026 (Transición hacia Cierre Escolar)</span>
+      <span style="font-size:0.78rem; color:#64748b; font-weight:500;">Haz clic en cualquier texto si deseas editarlo antes de exportar</span>
+    </div>
+
+    <div class="timeline-grid">
+      <div class="mini-ficha" contenteditable="true">
+        <div class="mini-ficha-hdr">
+          <div class="wlabel">Semana 1 • Noviembre</div>
+          <div class="wdates">02 al 08 de Nov 2026</div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="v">41</div><div class="k">Colegios Activos</div></div>
+          <div class="mini-stat"><div class="v">497</div><div class="k">PCs Encendidos</div></div>
+          <div class="mini-stat"><div class="v">8.599 h</div><div class="k">Horas de Uso</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
+        </div>
+        <div class="mini-notes">
+          <div>• <strong>Webinar 2 (5 Nov):</strong> Creación de Videojuegos con Scratch ejecutado y subido al Kit.</div>
+          <div>• <strong>Soporte (6 Nov):</strong> Colegio Moralba Suroriental (arranque SO Qinaya y Chrome).</div>
+          <div>• Pico semanal de <strong>388 PCs</strong> encendidos en un solo día.</div>
+        </div>
+      </div>
+
+      <div class="mini-ficha" contenteditable="true">
+        <div class="mini-ficha-hdr">
+          <div class="wlabel">Semana 2 • Noviembre</div>
+          <div class="wdates">09 al 15 de Nov 2026</div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="v">42</div><div class="k">Colegios Activos</div></div>
+          <div class="mini-stat"><div class="v">484</div><div class="k">PCs Encendidos</div></div>
+          <div class="mini-stat"><div class="v">7.881 h</div><div class="k">Horas de Uso</div></div>
+          <div class="mini-stat"><div class="v">0</div><div class="k">Incidencias / Soportes</div></div>
+        </div>
+        <div class="mini-notes">
+          <div>• <strong>Hito Documental:</strong> Consolidación del Entregable E4 actualizado (73 actas) y tablero <em>Números Bogotá</em>.</div>
+          <div>• Operación continua sin fallas reportadas (promedio <strong>289 PCs/día</strong>).</div>
+        </div>
+      </div>
+
+      <div class="mini-ficha highlight" contenteditable="true">
+        <div class="mini-ficha-hdr">
+          <div class="wlabel">Semana 3 (Semana Pasada)</div>
+          <div class="wdates">16 al 22 de Nov 2026</div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="v">34</div><div class="k">Colegios Activos</div></div>
+          <div class="mini-stat"><div class="v">321</div><div class="k">PCs Encendidos</div></div>
+          <div class="mini-stat"><div class="v">3.829 h</div><div class="k">Horas de Uso</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
+        </div>
+        <div class="mini-notes">
+          <div>• <strong>Webinar 3 (19 Nov):</strong> Diseño de Videojuegos con MakeCode Arcade (Cierre ciclo trimestral).</div>
+          <div>• <strong>Soporte (18 Nov):</strong> Colegio Carlos Arango Vélez (Profe Ruth — instalación GCompris).</div>
+          <div>• Inicio de cierre académico en primeras sedes.</div>
+        </div>
+      </div>
+
+      <div class="mini-ficha highlight" contenteditable="true">
+        <div class="mini-ficha-hdr">
+          <div class="wlabel">Semana 4 (Esta Semana)</div>
+          <div class="wdates">23 al 27 de Nov 2026*</div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="v">22</div><div class="k">Colegios Activos*</div></div>
+          <div class="mini-stat"><div class="v">126</div><div class="k">PCs Encendidos*</div></div>
+          <div class="mini-stat"><div class="v">858 h</div><div class="k">Horas (Lun-Mar)</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte Agendado</div></div>
+        </div>
+        <div class="mini-notes">
+          <div>• <strong>Soporte Agendado:</strong> Colegio Santa Lucía IED (sede líder esta semana con 26 PCs activos).</div>
+          <div>• <strong>Cierre Año Escolar:</strong> 22 colegios siguen con aulas encendidas en semana final de calendario.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function copyWhatsAppSummary() {
+      const text = `📊 *FICHA SEMANAL PROYECTO BOGOTÁ (RENUBE - QINAYA)*
+_Corte: Martes 24 de noviembre de 2026 (Recta final año escolar)_
+
+🔹 *SEMANA PASADA (16 al 22 de Nov):*
+• *Uso en aulas:* *34 colegios activos* con *321 computadores encendidos* y *3.829 horas de uso* (pico de 204 equipos el miércoles 18, en semana de 4 días hábiles por festivo).
+• *Formación:* El jueves 19 de nov ejecutamos el *Webinar 3 (MakeCode Arcade)*, cerrando con éxito el ciclo de 3 webinars distritales.
+• *Soportes:* *1 soporte en sitio* atendido el 18 de nov en el *Colegio Carlos Arango Vélez* (Profe Ruth — instalación de GCompris en sala de sistemas).
+
+🔹 *ESTA SEMANA EN CURSO (23 al 27 de Nov — Cierre de año escolar):*
+• *Uso en aulas (corte lunes y martes):* A pesar de estar en la última etapa del calendario escolar, *22 colegios siguen en operación activa*, con *126 computadores encendidos* y *858 horas de uso* solo entre lunes y martes (118 equipos encendidos el lunes 23).
+• *Soportes:* *1 soporte agendado* esta semana en el *Colegio Santa Lucía IED* (que justamente lidera el uso esta semana con 26 equipos activos).
+• *Colegios con mayor operación activa esta semana de cierre:* Santa Lucía (26 PCs), Carlos Arango Vélez (20 PCs), Externado Camilo Torres (12 PCs), Gustavo Morales (11 PCs), Eduardo Santos (9 PCs), Policarpa Salavarrieta (7 PCs), Sorrento (6 PCs), Ciudad de Villavicencio (6 PCs) y Rodrigo Lara Bonilla (6 PCs), junto a otras 13 IED.
+
+📌 *Acumulado Noviembre (1–24 Nov):* 44 colegios activos | 565 equipos | 21.168 horas.
+📌 *Acumulado Total Proyecto:* 933 equipos en línea (+50 uso local) | *236.073 horas reales de uso*.`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert("¡Resumen copiado al portapapeles! Ya puedes pegarlo en WhatsApp o correo para Catalina.");
+      });
+    }
+  </script>
+</body>
+</html>
