@@ -20,10 +20,6 @@
       --text-main: #0f172a;
       --text-secondary: #334155;
       --text-muted: #64748b;
-      --green-bg: #ecfdf5;
-      --green-text: #047857;
-      --amber-bg: #fffbeb;
-      --amber-text: #b45309;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -110,7 +106,7 @@
       gap: 18px;
     }
 
-    /* MAIN EXECUTIVE COMPARISON FICHA (Semana Pasada vs Esta Semana) */
+    /* MAIN EXECUTIVE COMPARISON FICHA */
     .hero-ficha {
       background: #ffffff;
       border: 2px solid #bfdbfe;
@@ -143,9 +139,9 @@
       background: rgba(255, 255, 255, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.28);
       color: #fff;
-      padding: 6px 12px;
+      padding: 6px 13px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 700;
     }
 
@@ -156,7 +152,7 @@
       padding: 20px 24px;
       background: #f8fafc;
     }
-    @media (max-width: 860px) {
+    @media (max-width: 880px) {
       .comparison-grid { grid-template-columns: 1fr; }
     }
 
@@ -205,14 +201,17 @@
 
     .kpi-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    @media (max-width: 520px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
     }
     .kpi-mini {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 9px 10px;
       text-align: center;
     }
     .current-week .kpi-mini {
@@ -221,22 +220,72 @@
     }
     .kpi-mini .num {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.45rem;
+      font-size: 1.32rem;
       font-weight: 800;
       color: var(--qinaya-navy);
       line-height: 1.1;
     }
     .kpi-mini .lbl {
-      font-size: 0.73rem;
-      font-weight: 600;
+      font-size: 0.71rem;
+      font-weight: 700;
       color: var(--text-muted);
       margin-top: 3px;
     }
     .kpi-mini .sub {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: #0284c7;
       font-weight: 600;
       margin-top: 2px;
+    }
+
+    /* LOCAL VS VIRTUAL USAGE BAR BOX */
+    .split-box {
+      background: #f8fafc;
+      border: 1px solid #dbeafe;
+      border-radius: 10px;
+      padding: 10px 13px;
+    }
+    .current-week .split-box {
+      background: #ffffff;
+      border-color: #bae6fd;
+    }
+    .split-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.77rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .split-hdr .local-lbl {
+      color: #0c2d57;
+    }
+    .split-hdr .vm-lbl {
+      color: #0284c7;
+    }
+    .split-bar {
+      height: 10px;
+      width: 100%;
+      background: #e0f2fe;
+      border-radius: 99px;
+      overflow: hidden;
+      display: flex;
+    }
+    .split-fill-local {
+      background: linear-gradient(90deg, #0c2d57, #1d4ed8);
+      height: 100%;
+    }
+    .split-fill-vm {
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      height: 100%;
+    }
+    .split-foot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      font-weight: 600;
     }
 
     .bullet-list {
@@ -244,7 +293,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       color: var(--text-secondary);
       line-height: 1.45;
     }
@@ -337,6 +386,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .timeline-grid {
       display: grid;
@@ -391,17 +442,32 @@
     }
     .mini-stat .v {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--qinaya-navy);
     }
     .mini-stat .k {
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       color: var(--text-muted);
       font-weight: 600;
     }
+    .mini-split-pill {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--qinaya-navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mini-split-pill span.vm {
+      color: #0284c7;
+    }
     .mini-notes {
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       color: var(--text-secondary);
       line-height: 1.4;
       display: flex;
@@ -422,7 +488,7 @@
       <span class="brand-badge">QINAYA • BOGOTÁ</span>
       <div>
         <div class="brand-title">Fichas Ejecutivas Semanales — Seguimiento Proyecto ReNube</div>
-        <div class="brand-sub">Reporte rápido de operación en aulas, soportes técnicos y webinars (Actualizado al 24 de noviembre de 2026)</div>
+        <div class="brand-sub">Operación en aulas, Promedio Día de Horas, % Uso Local vs. Compu Virtual, Soportes y Webinars (Corte: 24 Nov 2026)</div>
       </div>
     </div>
     <div class="actions">
@@ -438,9 +504,9 @@
       <div class="hero-header">
         <div>
           <h1>📌 Ficha de Pulso Semanal — Proyecto Bogotá (SED • 51 IED)</h1>
-          <p>Comparativo operativo de cierre de año escolar: Semana Pasada vs. Semana en Curso (Editable con un clic)</p>
+          <p>Comparativo operativo de cierre de año escolar: Semana Pasada vs. Semana en Curso (con Promedio Día y Uso Local vs. Virtual)</p>
         </div>
-        <div class="hero-pill">Acumulado Proyecto: 933 PCs en línea (+50 local) • 236.073 Horas Reales</div>
+        <div class="hero-pill">Total Proyecto: 236.092 h (Prom: 1.614 h/día hábil) • 87,5% Local / 12,5% Virtual</div>
       </div>
 
       <div class="comparison-grid">
@@ -454,24 +520,44 @@
             <div class="kpi-mini">
               <div class="num">34</div>
               <div class="lbl">Colegios Activos</div>
-              <div class="sub">de 51 IED instaladas</div>
+              <div class="sub">de 51 IED</div>
             </div>
             <div class="kpi-mini">
               <div class="num">321</div>
-              <div class="lbl">Equipos Encendidos</div>
-              <div class="sub">Pico: 204 PCs (Mié 18)</div>
+              <div class="lbl">PCs Encendidos</div>
+              <div class="sub">Pico: 204 (Mié 18)</div>
             </div>
             <div class="kpi-mini">
               <div class="num">3.829 h</div>
-              <div class="lbl">Horas de Uso</div>
-              <div class="sub">4 días hábiles (Lun festivo)</div>
+              <div class="lbl">Horas Totales</div>
+              <div class="sub">4 días hábiles</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">948 h/día</div>
+              <div class="lbl">Promedio Día Hábil</div>
+              <div class="sub">(766 h/día c/festivo)</div>
+            </div>
+          </div>
+
+          <div class="split-box">
+            <div class="split-hdr">
+              <span class="local-lbl">💻 Uso Sistema Local: 89,0% (3.406,3 h)</span>
+              <span class="vm-lbl">☁️ Compu Virtual (Nube): 11,0% (422,7 h)</span>
+            </div>
+            <div class="split-bar">
+              <div class="split-fill-local" style="width: 89%;"></div>
+              <div class="split-fill-vm" style="width: 11%;"></div>
+            </div>
+            <div class="split-foot">
+              <span>Promedio diario Local: 851,6 h/día hábil</span>
+              <span>Promedio diario Compu Virtual: 105,7 h/día hábil</span>
             </div>
           </div>
 
           <ul class="bullet-list">
             <li><strong>🎓 Formación (Webinar 3 Ejecutado):</strong> El jueves <strong>19 de noviembre</strong> se realizó con éxito el <strong>Webinar 3 Distrital (MakeCode Arcade & Micro:bit)</strong>, cerrando el ciclo trimestral elegido por los docentes.</li>
             <li><strong>🛠️ Soportes Técnicos (1 en sitio):</strong> El miércoles <strong>18 de noviembre</strong> se atendió soporte presencial en el <strong>Colegio Carlos Arango Vélez IED</strong> (docente Ruth Pachón — instalación y configuración completa de <em>GCompris</em> en sala de informática), llegando a <strong>74 soportes acumulados</strong>.</li>
-            <li><strong>🏫 Comportamiento en Aulas:</strong> A pesar del puente festivo del lunes 16 de nov y el inicio de cierre de notas en varios colegios, <strong>34 IED</strong> mantuvieron clases activas en las salas Qinaya (promedio ~175 equipos/día hábil).</li>
+            <li><strong>🏫 Comportamiento en Aulas:</strong> A pesar del puente festivo del lunes 16 de nov y el inicio de cierre de notas, <strong>34 IED</strong> mantuvieron clases activas con un promedio de <strong>948 horas de uso por día hábil</strong> (~175 equipos/día).</li>
           </ul>
         </div>
 
@@ -483,25 +569,45 @@
           <div class="kpi-row">
             <div class="kpi-mini">
               <div class="num">22</div>
-              <div class="lbl">Colegios en Operación</div>
-              <div class="sub">Corte Mar 24 Nov (10:40 am)</div>
+              <div class="lbl">Colegios Activos</div>
+              <div class="sub">Corte Mar 24 Nov</div>
             </div>
             <div class="kpi-mini">
               <div class="num">126</div>
-              <div class="lbl">Equipos Encendidos</div>
-              <div class="sub">118 el Lun 23 • 38 hoy Mar</div>
+              <div class="lbl">PCs Encendidos</div>
+              <div class="sub">118 Lun • 41 Mar</div>
             </div>
             <div class="kpi-mini">
-              <div class="num">858 h</div>
+              <div class="num">877 h</div>
               <div class="lbl">Horas (Lun–Mar)</div>
-              <div class="sub">En solo 1,5 jornadas</div>
+              <div class="sub">770 h el Lun 23</div>
+            </div>
+            <div class="kpi-mini">
+              <div class="num">439 h/día</div>
+              <div class="lbl">Promedio Día*</div>
+              <div class="sub">(770 h/día jornada Lun)</div>
+            </div>
+          </div>
+
+          <div class="split-box">
+            <div class="split-hdr">
+              <span class="local-lbl">💻 Uso Sistema Local: 89,4% (783,9 h)</span>
+              <span class="vm-lbl">☁️ Compu Virtual (Nube): 10,6% (93,2 h)</span>
+            </div>
+            <div class="split-bar">
+              <div class="split-fill-local" style="width: 89.4%;"></div>
+              <div class="split-fill-vm" style="width: 10.6%;"></div>
+            </div>
+            <div class="split-foot">
+              <span>Promedio diario Local: 392,0 h/día (684,8 h el Lun)</span>
+              <span>Promedio diario Compu Virtual: 46,6 h/día (82,7 h el Lun)</span>
             </div>
           </div>
 
           <ul class="bullet-list">
             <li><strong>🛠️ Soporte Técnico Agendado (1 en sitio):</strong> Esta semana se agendó visita técnica de soporte en el <strong>Colegio Santa Lucía IED</strong> (actualmente el colegio con más computadores encendidos en esta semana de cierre: <strong>26 equipos activos</strong>).</li>
-            <li><strong>📅 Contexto Fin de Año Escolar:</strong> Aunque entre esta semana y la próxima finaliza el calendario académico estudiantil en Bogotá (habilitaciones, clausuras y entrega de informes), <strong>22 colegios siguen operando activamente</strong> sus salas Qinaya.</li>
-            <li><strong>📈 Impacto en Noviembre (01–24 Nov):</strong> En lo corrido de noviembre han operado <strong>44 colegios</strong> y <strong>565 equipos distintos</strong>, sumando <strong>21.168 horas de uso</strong> en el último mes del año escolar.</li>
+            <li><strong>📅 Contexto Fin de Año Escolar:</strong> Aunque entre esta semana y la próxima finaliza el calendario académico estudiantil en Bogotá, <strong>22 colegios siguen operando activamente</strong> sus salas Qinaya (registrando <strong>770 horas de uso</strong> en la jornada completa del lunes 23).</li>
+            <li><strong>📈 Consolidado Noviembre (01–24 Nov):</strong> <strong>44 colegios activos</strong> | <strong>565 equipos</strong> | <strong>21.187 horas totales</strong> (promedio <strong>1.408 h/día hábil</strong> • <strong>83,9% Uso Local</strong> vs. <strong>16,1% Compu Virtual</strong>).</li>
           </ul>
         </div>
 
@@ -540,7 +646,7 @@
 
     <!-- EVOLUCIÓN DE LAS 4 SEMANAS DE NOVIEMBRE -->
     <div class="section-title">
-      <span>📊 Histórico Semana a Semana — Noviembre 2026 (Transición hacia Cierre Escolar)</span>
+      <span>📊 Histórico Semana a Semana — Noviembre 2026 (Promedio Día de Horas + % Uso Local vs. Compu Virtual)</span>
       <span style="font-size:0.78rem; color:#64748b; font-weight:500;">Haz clic en cualquier texto si deseas editarlo antes de exportar</span>
     </div>
 
@@ -553,13 +659,17 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">41</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">497</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">8.599 h</div><div class="k">Horas de Uso</div></div>
-          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
+          <div class="mini-stat"><div class="v">8.599 h</div><div class="k">Horas Totales</div></div>
+          <div class="mini-stat"><div class="v">2.144 h/día</div><div class="k">Prom. Día Hábil (1.720 c/fest)</div></div>
+        </div>
+        <div class="mini-split-pill">
+          <span>💻 Local: 81,5% (7.010 h)</span>
+          <span class="vm">☁️ Virtual: 18,5% (1.590 h)</span>
         </div>
         <div class="mini-notes">
           <div>• <strong>Webinar 2 (5 Nov):</strong> Creación de Videojuegos con Scratch ejecutado y subido al Kit.</div>
-          <div>• <strong>Soporte (6 Nov):</strong> Colegio Moralba Suroriental (arranque SO Qinaya y Chrome).</div>
-          <div>• Pico semanal de <strong>388 PCs</strong> encendidos en un solo día.</div>
+          <div>• <strong>Soporte (6 Nov):</strong> Colegio Moralba Suroriental (1 soporte en sitio).</div>
+          <div>• Pico semanal de <strong>388 PCs</strong> simultáneos.</div>
         </div>
       </div>
 
@@ -571,12 +681,16 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">42</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">484</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">7.881 h</div><div class="k">Horas de Uso</div></div>
-          <div class="mini-stat"><div class="v">0</div><div class="k">Incidencias / Soportes</div></div>
+          <div class="mini-stat"><div class="v">7.881 h</div><div class="k">Horas Totales</div></div>
+          <div class="mini-stat"><div class="v">1.576 h/día</div><div class="k">Promedio Día (5 días)</div></div>
+        </div>
+        <div class="mini-split-pill">
+          <span>💻 Local: 83,5% (6.585 h)</span>
+          <span class="vm">☁️ Virtual: 16,5% (1.297 h)</span>
         </div>
         <div class="mini-notes">
           <div>• <strong>Hito Documental:</strong> Consolidación del Entregable E4 actualizado (73 actas) y tablero <em>Números Bogotá</em>.</div>
-          <div>• Operación continua sin fallas reportadas (promedio <strong>289 PCs/día</strong>).</div>
+          <div>• <strong>Soportes:</strong> 0 incidencias reportadas (operación continua, promedio <strong>289 PCs/día</strong>).</div>
         </div>
       </div>
 
@@ -588,13 +702,16 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">34</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">321</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">3.829 h</div><div class="k">Horas de Uso</div></div>
-          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
+          <div class="mini-stat"><div class="v">3.829 h</div><div class="k">Horas Totales</div></div>
+          <div class="mini-stat"><div class="v">948 h/día</div><div class="k">Prom. Día Hábil (766 c/fest)</div></div>
+        </div>
+        <div class="mini-split-pill">
+          <span>💻 Local: 89,0% (3.406 h)</span>
+          <span class="vm">☁️ Virtual: 11,0% (423 h)</span>
         </div>
         <div class="mini-notes">
           <div>• <strong>Webinar 3 (19 Nov):</strong> Diseño de Videojuegos con MakeCode Arcade (Cierre ciclo trimestral).</div>
           <div>• <strong>Soporte (18 Nov):</strong> Colegio Carlos Arango Vélez (Profe Ruth — instalación GCompris).</div>
-          <div>• Inicio de cierre académico en primeras sedes.</div>
         </div>
       </div>
 
@@ -606,12 +723,16 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">22</div><div class="k">Colegios Activos*</div></div>
           <div class="mini-stat"><div class="v">126</div><div class="k">PCs Encendidos*</div></div>
-          <div class="mini-stat"><div class="v">858 h</div><div class="k">Horas (Lun-Mar)</div></div>
-          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte Agendado</div></div>
+          <div class="mini-stat"><div class="v">877 h</div><div class="k">Horas (Lun-Mar)</div></div>
+          <div class="mini-stat"><div class="v">439 h/día</div><div class="k">Prom. Día (770 h el Lun)</div></div>
+        </div>
+        <div class="mini-split-pill">
+          <span>💻 Local: 89,4% (784 h)</span>
+          <span class="vm">☁️ Virtual: 10,6% (93 h)</span>
         </div>
         <div class="mini-notes">
-          <div>• <strong>Soporte Agendado:</strong> Colegio Santa Lucía IED (sede líder esta semana con 26 PCs activos).</div>
-          <div>• <strong>Cierre Año Escolar:</strong> 22 colegios siguen con aulas encendidas en semana final de calendario.</div>
+          <div>• <strong>Soporte Agendado (1):</strong> Colegio Santa Lucía IED (sede líder esta semana con 26 PCs activos).</div>
+          <div>• <strong>Cierre Año Escolar:</strong> 22 colegios siguen con aulas encendidas en semana final.</div>
         </div>
       </div>
     </div>
@@ -624,20 +745,24 @@
 _Corte: Martes 24 de noviembre de 2026 (Recta final año escolar)_
 
 🔹 *SEMANA PASADA (16 al 22 de Nov):*
-• *Uso en aulas:* *34 colegios activos* con *321 computadores encendidos* y *3.829 horas de uso* (pico de 204 equipos el miércoles 18, en semana de 4 días hábiles por festivo).
+• *Colegios y equipos:* *34 colegios activos* con *321 computadores encendidos* (pico de 204 equipos el miércoles 18).
+• *Horas de uso y promedio diario:* *3.829 horas totales* | Promedio de *948 horas/día hábil* (766 h/día contando el lunes festivo).
+• *Uso Local vs. Compu Virtual:* *89,0% Uso Local* (3.406,3 h) y *11,0% Compu Virtual* (422,7 h).
 • *Formación:* El jueves 19 de nov ejecutamos el *Webinar 3 (MakeCode Arcade)*, cerrando con éxito el ciclo de 3 webinars distritales.
-• *Soportes:* *1 soporte en sitio* atendido el 18 de nov en el *Colegio Carlos Arango Vélez* (Profe Ruth — instalación de GCompris en sala de sistemas).
+• *Soportes:* *1 soporte en sitio* atendido el 18 de nov en el *Colegio Carlos Arango Vélez* (Profe Ruth — instalación de GCompris).
 
 🔹 *ESTA SEMANA EN CURSO (23 al 27 de Nov — Cierre de año escolar):*
-• *Uso en aulas (corte lunes y martes):* A pesar de estar en la última etapa del calendario escolar, *22 colegios siguen en operación activa*, con *126 computadores encendidos* y *858 horas de uso* solo entre lunes y martes (118 equipos encendidos el lunes 23).
-• *Soportes:* *1 soporte agendado* esta semana en el *Colegio Santa Lucía IED* (que justamente lidera el uso esta semana con 26 equipos activos).
-• *Colegios con mayor operación activa esta semana de cierre:* Santa Lucía (26 PCs), Carlos Arango Vélez (20 PCs), Externado Camilo Torres (12 PCs), Gustavo Morales (11 PCs), Eduardo Santos (9 PCs), Policarpa Salavarrieta (7 PCs), Sorrento (6 PCs), Ciudad de Villavicencio (6 PCs) y Rodrigo Lara Bonilla (6 PCs), junto a otras 13 IED.
+• *Colegios y equipos (corte lunes y martes):* A pesar de estar en cierre del calendario escolar, *22 colegios siguen en operación activa* con *126 computadores encendidos* (118 equipos el lunes 23).
+• *Horas de uso y promedio diario:* *877 horas* entre lunes y martes | Promedio de *439 horas/día* (*770 horas* en la jornada completa del lunes 23).
+• *Uso Local vs. Compu Virtual:* *89,4% Uso Local* (783,9 h) y *10,6% Compu Virtual* (93,2 h).
+• *Soportes:* *1 soporte agendado* esta semana en el *Colegio Santa Lucía IED* (sede líder esta semana con 26 equipos activos).
+• *Colegios que siguen operando aulas esta semana de cierre:* Santa Lucía (26 PCs), Carlos Arango Vélez (20 PCs), Externado Camilo Torres (12 PCs), Gustavo Morales (11 PCs), Eduardo Santos (9 PCs), Policarpa Salavarrieta (7 PCs), Sorrento (6 PCs), Ciudad de Villavicencio (6 PCs), Rodrigo Lara Bonilla (6 PCs), Estrella del Sur Sede B (4 PCs), ITI Francisco José de Caldas (4 PCs), Villemar El Carmen (3 PCs), Antonia Santos (2 PCs), Manuela Beltrán (2 PCs) y 8 IED más con 1 equipo activo.
 
-📌 *Acumulado Noviembre (1–24 Nov):* 44 colegios activos | 565 equipos | 21.168 horas.
-📌 *Acumulado Total Proyecto:* 933 equipos en línea (+50 uso local) | *236.073 horas reales de uso*.`;
+📌 *Consolidado Noviembre (1–24 Nov):* 44 colegios | 565 equipos | *21.187 horas* (Prom: *1.408 h/día hábil* • *83,9% Local / 16,1% Compu Virtual*).
+📌 *Acumulado Total Proyecto:* 933 equipos en línea (+50 local) | *236.092 horas reales* (Prom: *1.614 h/día hábil* • *87,5% Local / 12,5% Compu Virtual*).`;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert("¡Resumen copiado al portapapeles! Ya puedes pegarlo en WhatsApp o correo para Catalina.");
+        alert("¡Resumen con promedio diario y % Local vs. Virtual copiado al portapapeles!");
       });
     }
   </script>
