@@ -201,17 +201,14 @@
 
     .kpi-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-    @media (max-width: 520px) {
-      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
     .kpi-mini {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 9px 10px;
+      padding: 10px 12px;
       text-align: center;
     }
     .current-week .kpi-mini {
@@ -220,19 +217,19 @@
     }
     .kpi-mini .num {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.32rem;
+      font-size: 1.42rem;
       font-weight: 800;
       color: var(--qinaya-navy);
       line-height: 1.1;
     }
     .kpi-mini .lbl {
-      font-size: 0.71rem;
+      font-size: 0.73rem;
       font-weight: 700;
       color: var(--text-muted);
       margin-top: 3px;
     }
     .kpi-mini .sub {
-      font-size: 0.68rem;
+      font-size: 0.69rem;
       color: #0284c7;
       font-weight: 600;
       margin-top: 2px;
@@ -253,7 +250,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.77rem;
+      font-size: 0.78rem;
       font-weight: 700;
       margin-bottom: 6px;
     }
@@ -488,7 +485,7 @@
       <span class="brand-badge">QINAYA • BOGOTÁ</span>
       <div>
         <div class="brand-title">Fichas Ejecutivas Semanales — Seguimiento Proyecto ReNube</div>
-        <div class="brand-sub">Operación en aulas, Promedio Horas/Día por Equipo, % Uso Local vs. Compu Virtual, Soportes y Webinars (Corte: 24 Nov 2026)</div>
+        <div class="brand-sub">Operación en aulas, Promedio Horas/Día (Jornada Escolar), % Uso Local vs. Compu Virtual, Soportes y Webinars</div>
       </div>
     </div>
     <div class="actions">
@@ -504,9 +501,9 @@
       <div class="hero-header">
         <div>
           <h1>📌 Ficha de Pulso Semanal — Proyecto Bogotá (SED • 51 IED)</h1>
-          <p>Comparativo operativo de cierre de año escolar: Semana Pasada vs. Semana en Curso (con Promedio Horas/Día por Equipo y % Local vs. Virtual)</p>
+          <p>Comparativo operativo de cierre de año escolar: Semana Pasada vs. Semana en Curso (Promedio Día y % Uso Local vs. Virtual)</p>
         </div>
-        <div class="hero-pill">Promedio Uso por Equipo: ~5,5 h/día • 87,5% Uso Local / 12,5% Compu Virtual</div>
+        <div class="hero-pill">Promedio Diario en Colegios: 5,6 horas/día • 84% Uso Local / 16% Compu Virtual</div>
       </div>
 
       <div class="comparison-grid">
@@ -520,44 +517,39 @@
             <div class="kpi-mini">
               <div class="num">34</div>
               <div class="lbl">Colegios Activos</div>
-              <div class="sub">de 51 IED</div>
+              <div class="sub">de 51 IED instaladas</div>
             </div>
             <div class="kpi-mini">
               <div class="num">321</div>
-              <div class="lbl">PCs Encendidos</div>
-              <div class="sub">Prom: 175 PCs/día</div>
+              <div class="lbl">Equipos Encendidos</div>
+              <div class="sub">Pico: 204 PCs (Mié 18)</div>
             </div>
             <div class="kpi-mini">
               <div class="num">5,4 h/día</div>
-              <div class="lbl">Prom. Uso / Equipo</div>
+              <div class="lbl">Promedio Horas / Día</div>
               <div class="sub">Jornada escolar diaria</div>
-            </div>
-            <div class="kpi-mini">
-              <div class="num">3.829 h</div>
-              <div class="lbl">Total Horas Semana</div>
-              <div class="sub">Suma de los 321 PCs</div>
             </div>
           </div>
 
           <div class="split-box">
             <div class="split-hdr">
-              <span class="local-lbl">💻 Uso Sistema Local: 89,0% (4,8 h/día por equipo)</span>
-              <span class="vm-lbl">☁️ Compu Virtual (Nube): 11,0% (0,6 h/día por equipo)</span>
+              <span class="local-lbl">💻 Uso Sistema Local: 89,0% (4,8 h/día)</span>
+              <span class="vm-lbl">☁️ Compu Virtual (Nube): 11,0% (0,6 h/día)</span>
             </div>
             <div class="split-bar">
               <div class="split-fill-local" style="width: 89%;"></div>
               <div class="split-fill-vm" style="width: 11%;"></div>
             </div>
             <div class="split-foot">
-              <span>Total semana Local: 3.406,3 h</span>
-              <span>Total semana Compu Virtual: 422,7 h</span>
+              <span>Aplicaciones locales Qinaya Linux</span>
+              <span>Escritorio virtual Windows en la nube</span>
             </div>
           </div>
 
           <ul class="bullet-list">
             <li><strong>🎓 Formación (Webinar 3 Ejecutado):</strong> El jueves <strong>19 de noviembre</strong> se realizó con éxito el <strong>Webinar 3 Distrital (MakeCode Arcade & Micro:bit)</strong>, cerrando el ciclo trimestral elegido por los docentes.</li>
             <li><strong>🛠️ Soportes Técnicos (1 en sitio):</strong> El miércoles <strong>18 de noviembre</strong> se atendió soporte presencial en el <strong>Colegio Carlos Arango Vélez IED</strong> (docente Ruth Pachón — instalación y configuración completa de <em>GCompris</em> en sala de informática), llegando a <strong>74 soportes acumulados</strong>.</li>
-            <li><strong>🏫 Comportamiento en Aulas:</strong> A pesar del puente festivo del lunes 16 de nov y el inicio de cierre de notas, <strong>34 IED</strong> mantuvieron clases activas y cada equipo encendido operó en promedio <strong>5,4 horas al día</strong>.</li>
+            <li><strong>🏫 Comportamiento en Aulas:</strong> A pesar del puente festivo del lunes 16 de nov y el inicio de cierre de notas, <strong>34 IED</strong> mantuvieron clases activas con un promedio diario de <strong>5,4 horas/día</strong> por equipo.</li>
           </ul>
         </div>
 
@@ -569,45 +561,40 @@
           <div class="kpi-row">
             <div class="kpi-mini">
               <div class="num">22</div>
-              <div class="lbl">Colegios Activos</div>
-              <div class="sub">Corte Mar 24 Nov</div>
+              <div class="lbl">Colegios en Operación</div>
+              <div class="sub">En cierre escolar</div>
             </div>
             <div class="kpi-mini">
               <div class="num">126</div>
-              <div class="lbl">PCs Encendidos</div>
-              <div class="sub">118 Lun • 41 Mar</div>
+              <div class="lbl">Equipos Encendidos</div>
+              <div class="sub">118 Lun • 50 Mar</div>
             </div>
             <div class="kpi-mini">
-              <div class="num">5,5 h/día</div>
-              <div class="lbl">Prom. Uso / Equipo</div>
-              <div class="sub">(6,5 h/día el Lun 23)</div>
-            </div>
-            <div class="kpi-mini">
-              <div class="num">877 h</div>
-              <div class="lbl">Total Horas (Lun-Mar)</div>
-              <div class="sub">Suma de los 126 PCs</div>
+              <div class="num">5,6 h/día</div>
+              <div class="lbl">Promedio Horas / Día</div>
+              <div class="sub">(6,6 h/día el Lun 23)</div>
             </div>
           </div>
 
           <div class="split-box">
             <div class="split-hdr">
-              <span class="local-lbl">💻 Uso Sistema Local: 89,4% (4,9 h/día por equipo)</span>
-              <span class="vm-lbl">☁️ Compu Virtual (Nube): 10,6% (0,6 h/día por equipo)</span>
+              <span class="local-lbl">💻 Uso Sistema Local: 90,0% (5,0 h/día)</span>
+              <span class="vm-lbl">☁️ Compu Virtual (Nube): 10,0% (0,6 h/día)</span>
             </div>
             <div class="split-bar">
-              <div class="split-fill-local" style="width: 89.4%;"></div>
-              <div class="split-fill-vm" style="width: 10.6%;"></div>
+              <div class="split-fill-local" style="width: 90.0%;"></div>
+              <div class="split-fill-vm" style="width: 10.0%;"></div>
             </div>
             <div class="split-foot">
-              <span>Acumulado Lun–Mar Local: 783,9 h</span>
-              <span>Acumulado Lun–Mar Compu Virtual: 93,2 h</span>
+              <span>Aplicaciones locales Qinaya Linux</span>
+              <span>Escritorio virtual Windows en la nube</span>
             </div>
           </div>
 
           <ul class="bullet-list">
             <li><strong>🛠️ Soporte Técnico Agendado (1 en sitio):</strong> Esta semana se agendó visita técnica de soporte en el <strong>Colegio Santa Lucía IED</strong> (actualmente el colegio con más computadores encendidos en esta semana de cierre: <strong>26 equipos activos</strong>).</li>
-            <li><strong>📅 Contexto Fin de Año Escolar:</strong> Aunque entre esta semana y la próxima finaliza el calendario académico estudiantil en Bogotá, <strong>22 colegios siguen operando activamente</strong> sus salas Qinaya con un promedio de <strong>5,5 horas/día por computador encendido</strong> (6,5 h/día el lunes).</li>
-            <li><strong>📈 Consolidado Noviembre (01–24 Nov):</strong> <strong>44 colegios activos</strong> | <strong>565 equipos</strong> | Promedio de <strong>5,6 horas/día por equipo</strong> (<strong>83,9% Uso Local</strong> vs. <strong>16,1% Compu Virtual</strong> • 21.187 h acumuladas entre todos los equipos).</li>
+            <li><strong>📅 Contexto Fin de Año Escolar:</strong> Aunque entre esta semana y la próxima finaliza el calendario académico estudiantil en Bogotá, <strong>22 colegios siguen operando activamente</strong> sus salas Qinaya con un promedio de <strong>5,6 horas/día</strong>.</li>
+            <li><strong>📈 Consolidado Noviembre (01–24 Nov):</strong> <strong>44 colegios activos</strong> | <strong>565 equipos</strong> | Promedio diario de <strong>5,6 horas/día</strong> (<strong>84,0% Uso Local</strong> vs. <strong>16,0% Compu Virtual</strong>).</li>
           </ul>
         </div>
 
@@ -617,27 +604,27 @@
       <div class="schools-panel">
         <div class="schools-card" contenteditable="true">
           <h3>
-            <span>🏫 Los 22 Colegios que Siguen en Operación Esta Semana (23–24 Nov — Recta Final Año Escolar)</span>
-            <span style="font-size:0.78rem; color:#0284c7; font-weight:700;">126 computadores encendidos entre lunes y martes</span>
+            <span>🏫 Los 22 Colegios que Siguen en Operación Esta Semana (Recta Final Año Escolar)</span>
+            <span style="font-size:0.78rem; color:#0284c7; font-weight:700;">126 computadores encendidos • Promedio 5,6 horas/día</span>
           </h3>
           <p class="note">Mientras el resto de instituciones ya cerraron aulas de sistemas por fin del calendario escolar, estas 22 IED continúan con equipos encendidos esta semana:</p>
 
           <div class="schools-chips">
-            <div class="school-chip top"><span class="sname">1. Colegio Santa Lucía (Soporte agendado)</span><span class="sstats">26 PCs • 135,6 h</span></div>
-            <div class="school-chip top"><span class="sname">2. Colegio Carlos Arango Vélez</span><span class="sstats">20 PCs • 284,2 h</span></div>
-            <div class="school-chip top"><span class="sname">3. Externado Nal. Camilo Torres</span><span class="sstats">12 PCs • 17,5 h</span></div>
-            <div class="school-chip top"><span class="sname">4. Colegio Gustavo Morales Morales</span><span class="sstats">11 PCs • 111,7 h</span></div>
-            <div class="school-chip top"><span class="sname">5. Colegio Eduardo Santos</span><span class="sstats">9 PCs • 72,6 h</span></div>
-            <div class="school-chip top"><span class="sname">6. Colegio Policarpa Salavarrieta</span><span class="sstats">7 PCs • 2,1 h</span></div>
-            <div class="school-chip"><span class="sname">7. Colegio Sorrento</span><span class="sstats">6 PCs • 65,1 h</span></div>
-            <div class="school-chip"><span class="sname">8. Colegio Ciudad de Villavicencio</span><span class="sstats">6 PCs • 31,4 h</span></div>
-            <div class="school-chip"><span class="sname">9. Colegio Rodrigo Lara Bonilla</span><span class="sstats">6 PCs • 5,0 h</span></div>
-            <div class="school-chip"><span class="sname">10. Estrella del Sur Sede B</span><span class="sstats">4 PCs • 31,4 h</span></div>
-            <div class="school-chip"><span class="sname">11. ITI Francisco José de Caldas</span><span class="sstats">4 PCs • 2,2 h</span></div>
-            <div class="school-chip"><span class="sname">12. Villemar El Carmen IED</span><span class="sstats">3 PCs • 3,4 h</span></div>
-            <div class="school-chip"><span class="sname">13. Colegio Antonia Santos</span><span class="sstats">2 PCs • 66,2 h</span></div>
-            <div class="school-chip"><span class="sname">14. Colegio Manuela Beltrán</span><span class="sstats">2 PCs • 13,6 h</span></div>
-            <div class="school-chip"><span class="sname">15. Manuel Cepeda Vargas (+7 IED con 1 PC)</span><span class="sstats">8 PCs • 15,8 h</span></div>
+            <div class="school-chip top"><span class="sname">1. Colegio Santa Lucía (Soporte agendado)</span><span class="sstats">26 PCs activos</span></div>
+            <div class="school-chip top"><span class="sname">2. Colegio Carlos Arango Vélez</span><span class="sstats">20 PCs activos</span></div>
+            <div class="school-chip top"><span class="sname">3. Externado Nal. Camilo Torres</span><span class="sstats">12 PCs activos</span></div>
+            <div class="school-chip top"><span class="sname">4. Colegio Gustavo Morales Morales</span><span class="sstats">11 PCs activos</span></div>
+            <div class="school-chip top"><span class="sname">5. Colegio Eduardo Santos</span><span class="sstats">9 PCs activos</span></div>
+            <div class="school-chip top"><span class="sname">6. Colegio Policarpa Salavarrieta</span><span class="sstats">7 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">7. Colegio Sorrento</span><span class="sstats">6 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">8. Colegio Ciudad de Villavicencio</span><span class="sstats">6 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">9. Colegio Rodrigo Lara Bonilla</span><span class="sstats">6 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">10. Estrella del Sur Sede B</span><span class="sstats">4 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">11. ITI Francisco José de Caldas</span><span class="sstats">4 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">12. Villemar El Carmen IED</span><span class="sstats">3 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">13. Colegio Antonia Santos</span><span class="sstats">2 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">14. Colegio Manuela Beltrán</span><span class="sstats">2 PCs activos</span></div>
+            <div class="school-chip"><span class="sname">15. Manuel Cepeda Vargas (+7 IED con 1 PC)</span><span class="sstats">8 PCs activos</span></div>
           </div>
           <p class="note" style="margin-top:8px; margin-bottom:0;">*También registraron encendido de 1 estación (uso docente/coordinación): República de Colombia, José Jaime Rojas, Villamar IED, Los Alpes, La Joya, Floridablanca y Atanasio Girardot.</p>
         </div>
@@ -646,7 +633,7 @@
 
     <!-- EVOLUCIÓN DE LAS 4 SEMANAS DE NOVIEMBRE -->
     <div class="section-title">
-      <span>📊 Histórico Semana a Semana — Noviembre 2026 (Promedio Horas/Día por Equipo + % Uso Local vs. Compu Virtual)</span>
+      <span>📊 Histórico Semana a Semana — Noviembre 2026 (Promedio Horas/Día + % Uso Local vs. Compu Virtual)</span>
       <span style="font-size:0.78rem; color:#64748b; font-weight:500;">Haz clic en cualquier texto si deseas editarlo antes de exportar</span>
     </div>
 
@@ -659,8 +646,8 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">41</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">497</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">5,7 h/día</div><div class="k">Prom. Uso por Equipo</div></div>
-          <div class="mini-stat"><div class="v">8.599 h</div><div class="k">Total Horas (497 PCs)</div></div>
+          <div class="mini-stat"><div class="v">5,7 h/día</div><div class="k">Promedio Horas / Día</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
         </div>
         <div class="mini-split-pill">
           <span>💻 Local: 81,5% (4,6 h/día)</span>
@@ -669,7 +656,7 @@
         <div class="mini-notes">
           <div>• <strong>Webinar 2 (5 Nov):</strong> Creación de Videojuegos con Scratch ejecutado y subido al Kit.</div>
           <div>• <strong>Soporte (6 Nov):</strong> Colegio Moralba Suroriental (1 soporte en sitio).</div>
-          <div>• Promedio de <strong>376 equipos/día</strong> operando <strong>5,7 horas diarias</strong> cada uno.</div>
+          <div>• Promedio de <strong>5,7 horas diarias</strong> de operación en jornada escolar.</div>
         </div>
       </div>
 
@@ -681,8 +668,8 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">42</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">484</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">5,5 h/día</div><div class="k">Prom. Uso por Equipo</div></div>
-          <div class="mini-stat"><div class="v">7.881 h</div><div class="k">Total Horas (484 PCs)</div></div>
+          <div class="mini-stat"><div class="v">5,5 h/día</div><div class="k">Promedio Horas / Día</div></div>
+          <div class="mini-stat"><div class="v">0</div><div class="k">Incidencias / Soportes</div></div>
         </div>
         <div class="mini-split-pill">
           <span>💻 Local: 83,5% (4,6 h/día)</span>
@@ -690,7 +677,7 @@
         </div>
         <div class="mini-notes">
           <div>• <strong>Hito Documental:</strong> Consolidación del Entregable E4 actualizado (73 actas) y tablero <em>Números Bogotá</em>.</div>
-          <div>• <strong>Soportes:</strong> 0 incidencias reportadas (<strong>289 equipos/día</strong> operando <strong>5,5 horas diarias</strong> c/u).</div>
+          <div>• <strong>Operación:</strong> 0 incidencias reportadas y promedio de <strong>5,5 horas diarias</strong>.</div>
         </div>
       </div>
 
@@ -702,8 +689,8 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">34</div><div class="k">Colegios Activos</div></div>
           <div class="mini-stat"><div class="v">321</div><div class="k">PCs Encendidos</div></div>
-          <div class="mini-stat"><div class="v">5,4 h/día</div><div class="k">Prom. Uso por Equipo</div></div>
-          <div class="mini-stat"><div class="v">3.829 h</div><div class="k">Total Horas (321 PCs)</div></div>
+          <div class="mini-stat"><div class="v">5,4 h/día</div><div class="k">Promedio Horas / Día</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte en Sitio</div></div>
         </div>
         <div class="mini-split-pill">
           <span>💻 Local: 89,0% (4,8 h/día)</span>
@@ -712,7 +699,7 @@
         <div class="mini-notes">
           <div>• <strong>Webinar 3 (19 Nov):</strong> Diseño de Videojuegos con MakeCode Arcade (Cierre ciclo trimestral).</div>
           <div>• <strong>Soporte (18 Nov):</strong> Colegio Carlos Arango Vélez (Profe Ruth — instalación GCompris).</div>
-          <div>• Promedio de <strong>175 equipos/día</strong> operando <strong>5,4 horas diarias</strong> c/u.</div>
+          <div>• Promedio de <strong>5,4 horas diarias</strong> en jornada escolar.</div>
         </div>
       </div>
 
@@ -724,16 +711,16 @@
         <div class="mini-stats">
           <div class="mini-stat"><div class="v">22</div><div class="k">Colegios Activos*</div></div>
           <div class="mini-stat"><div class="v">126</div><div class="k">PCs Encendidos*</div></div>
-          <div class="mini-stat"><div class="v">5,5 h/día</div><div class="k">Prom. Uso por Equipo</div></div>
-          <div class="mini-stat"><div class="v">877 h</div><div class="k">Total Horas (Lun-Mar)</div></div>
+          <div class="mini-stat"><div class="v">5,6 h/día</div><div class="k">Promedio Horas / Día</div></div>
+          <div class="mini-stat"><div class="v">1</div><div class="k">Soporte Agendado</div></div>
         </div>
         <div class="mini-split-pill">
-          <span>💻 Local: 89,4% (4,9 h/día)</span>
-          <span class="vm">☁️ Virtual: 10,6% (0,6 h/día)</span>
+          <span>💻 Local: 90,0% (5,0 h/día)</span>
+          <span class="vm">☁️ Virtual: 10,0% (0,6 h/día)</span>
         </div>
         <div class="mini-notes">
           <div>• <strong>Soporte Agendado (1):</strong> Colegio Santa Lucía IED (sede líder esta semana con 26 PCs activos).</div>
-          <div>• <strong>Cierre Año Escolar:</strong> 22 colegios siguen operando aulas (<strong>6,5 h/día por equipo</strong> el lunes 23).</div>
+          <div>• <strong>Cierre Año Escolar:</strong> 22 colegios siguen operando aulas con promedio de <strong>5,6 horas/día</strong>.</div>
         </div>
       </div>
     </div>
@@ -743,26 +730,26 @@
   <script>
     function copyWhatsAppSummary() {
       const text = `📊 *FICHA SEMANAL PROYECTO BOGOTÁ (RENUBE - QINAYA)*
-_Corte: Martes 24 de noviembre de 2026 (Recta final año escolar)_
+_Corte: Recta final año escolar_
 
 🔹 *SEMANA PASADA (16 al 22 de Nov):*
-• *Colegios y equipos:* *34 colegios activos* con *321 computadores encendidos* (promedio de 175 equipos/día hábil y pico de 204 equipos el miércoles 18).
-• *Promedio de uso diario por equipo:* *5,4 horas/día por computador encendido* (sumando *3.829 horas* entre todos los equipos en la semana).
-• *Uso Local vs. Compu Virtual:* *89,0% Uso Local* (4,8 h/día por equipo) y *11,0% Compu Virtual* (0,6 h/día por equipo).
+• *Colegios y equipos:* *34 colegios activos* con *321 computadores encendidos* (pico de 204 equipos el miércoles 18).
+• *Promedio de uso diario:* *5,4 horas/día* en jornada escolar.
+• *Uso Local vs. Compu Virtual:* *89,0% Uso Local* (4,8 h/día) y *11,0% Compu Virtual* (0,6 h/día).
 • *Formación:* El jueves 19 de nov ejecutamos el *Webinar 3 (MakeCode Arcade)*, cerrando con éxito el ciclo de 3 webinars distritales.
 • *Soportes:* *1 soporte en sitio* atendido el 18 de nov en el *Colegio Carlos Arango Vélez* (Profe Ruth — instalación de GCompris).
 
 🔹 *ESTA SEMANA EN CURSO (23 al 27 de Nov — Cierre de año escolar):*
-• *Colegios y equipos (corte lunes y martes):* A pesar de estar en cierre del calendario escolar, *22 colegios siguen en operación activa* con *126 computadores encendidos* (118 equipos el lunes 23).
-• *Promedio de uso diario por equipo:* *5,5 horas/día por computador encendido* (*6,5 horas/día por equipo* en la jornada completa del lunes 23; sumando *877 horas* entre lunes y martes).
-• *Uso Local vs. Compu Virtual:* *89,4% Uso Local* (4,9 h/día por equipo) y *10,6% Compu Virtual* (0,6 h/día por equipo).
+• *Colegios y equipos:* A pesar de estar en cierre del calendario escolar, *22 colegios siguen en operación activa* con *126 computadores encendidos*.
+• *Promedio de uso diario:* *5,6 horas/día* en jornada escolar (6,6 h/día el lunes 23).
+• *Uso Local vs. Compu Virtual:* *90,0% Uso Local* (5,0 h/día) y *10,0% Compu Virtual* (0,6 h/día).
 • *Soportes:* *1 soporte agendado* esta semana en el *Colegio Santa Lucía IED* (sede líder esta semana con 26 equipos activos).
 • *Colegios que siguen operando aulas esta semana de cierre:* Santa Lucía (26 PCs), Carlos Arango Vélez (20 PCs), Externado Camilo Torres (12 PCs), Gustavo Morales (11 PCs), Eduardo Santos (9 PCs), Policarpa Salavarrieta (7 PCs), Sorrento (6 PCs), Ciudad de Villavicencio (6 PCs), Rodrigo Lara Bonilla (6 PCs), Estrella del Sur Sede B (4 PCs), ITI Francisco José de Caldas (4 PCs), Villemar El Carmen (3 PCs), Antonia Santos (2 PCs), Manuela Beltrán (2 PCs) y 8 IED más con 1 equipo activo.
 
-📌 *Consolidado Noviembre (1–24 Nov):* 44 colegios | 565 equipos | Promedio de *5,6 horas/día por equipo* (*83,9% Local / 16,1% Compu Virtual* • 21.187 horas totales).`;
+📌 *Consolidado Noviembre (1–24 Nov):* 44 colegios | 565 equipos | Promedio de *5,6 horas/día* (*84,0% Uso Local / 16,0% Compu Virtual*).`;
 
       navigator.clipboard.writeText(text).then(() => {
-        alert("¡Resumen con promedio de horas/día por equipo (~5,5 h/día) y % Local vs. Virtual copiado al portapapeles!");
+        alert("¡Resumen con promedio de horas/día (~5,5 h/día) y % Local vs. Virtual copiado al portapapeles!");
       });
     }
   </script>
