@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha Técnica de Reglas de Medición e Indicadores API — Qinaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --qinaya-navy: #0c2d57;
+      --qinaya-blue: #1d4ed8;
+      --qinaya-sky: #0284c7;
+      --qinaya-light: #eff6ff;
+      --border: #dbeafe;
+      --border-neutral: #e2e8f0;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --code-bg: #0f172a;
+      --code-text: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      padding: 24px 18px 48px 18px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      max-width: 1140px;
+      margin: 0 auto 20px auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(12, 45, 87, 0.05);
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-group img {
+      height: 38px;
+      width: auto;
+    }
+    .brand-badge {
+      background: var(--qinaya-navy);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .btn-print {
+      background: linear-gradient(135deg, var(--qinaya-navy), var(--qinaya-blue));
+      color: #ffffff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, 0.2);
+    }
+    .btn-print:hover { opacity: 0.93; }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* HERO BANNER */
+    .hero-card {
+      background: linear-gradient(135deg, #0c2d57 0%, #1e40af 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 8px 24px rgba(12, 45, 87, 0.12);
+    }
+    .hero-card h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .hero-card p {
+      color: #dbeafe;
+      font-size: 0.9rem;
+      max-width: 920px;
+    }
+    .endpoints-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .ep-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .ep-box code {
+      font-family: 'JetBrains Mono', monospace;
+      color: #7dd3fc;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .ep-box span {
+      font-size: 0.76rem;
+      color: #eff6ff;
+      display: block;
+      line-height: 1.35;
+    }
+
+    /* SECTION HEADERS */
+    .section-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 8px;
+      margin-top: 6px;
+    }
+    .section-hdr h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .section-hdr span {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--qinaya-sky);
+      background: #e0f2fe;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+
+    /* MASTER SUMMARY TABLE */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(12, 45, 87, 0.04);
+    }
+    table.rules-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+    table.rules-table thead th {
+      background: var(--qinaya-navy);
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    table.rules-table tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-neutral);
+      vertical-align: top;
+      color: var(--text-secondary);
+    }
+    table.rules-table tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .ind-name {
+      font-weight: 800;
+      color: var(--qinaya-navy);
+      font-size: 0.87rem;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .ind-where {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+    .mono-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 3px;
+    }
+
+    /* DETAILED INDICATOR CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+    .rule-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--qinaya-blue);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 3px 10px rgba(12, 45, 87, 0.04);
+    }
+    .rule-card.full-width {
+      grid-column: 1 / -1;
+      border-top-color: var(--qinaya-navy);
+    }
+    .rule-card-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .rule-card-hdr h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.03rem;
+      font-weight: 800;
+      color: var(--qinaya-navy);
+    }
+    .endpoint-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* FRACTION FORMULA BOX (NUMERATOR / DENOMINATOR) */
+    .formula-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .formula-lhs {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: var(--qinaya-navy);
+      min-width: 130px;
+    }
+    .formula-eq {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--qinaya-blue);
+    }
+    .fraction {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 220px;
+    }
+    .fraction .num-row {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      padding: 6px 10px;
+      border-radius: 6px 6px 0 0;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .fraction .bar-line {
+      height: 2px;
+      background: var(--qinaya-navy);
+    }
+    .fraction .den-row {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-top: none;
+      color: #334155;
+      padding: 6px 10px;
+      border-radius: 0 0 6px 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .tag-nd {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.67rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+    .tag-num { background: #1d4ed8; color: #fff; }
+    .tag-den { background: #475569; color: #fff; }
+
+    .rule-desc {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .rule-desc strong { color: var(--qinaya-navy); }
+    .example-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 4px solid #16a34a;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.79rem;
+      color: #14532d;
+    }
+    .warn-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #d97706;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.79rem;
+      color: #78350f;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .btn-print { display: none; }
+      .rule-card, .table-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand-group">
+      <img src="logo Qinaya.png" alt="Qinaya" onerror="this.style.display='none'">
+      <span class="brand-badge">DOCUMENTACIÓN TÉCNICA API</span>
+      <div>
+        <div class="brand-title">Reglas de Medición, Numeradores y Denominadores de Indicadores</div>
+        <div class="brand-sub">Especificación oficial de cálculo desde la API (<code>panel.qinaya.co/api2</code>) hacia el Dashboard y Reportes Ejecutivos</div>
+      </div>
+    </div>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+  </div>
+
+  <div class="container">
+
+    <!-- 1. ARQUITECTURA DE ENDPOINTS DE LA API -->
+    <section class="hero-card">
+      <h1>1. Arquitectura de Telemetría y Fuentes de Datos en la API</h1>
+      <p>Cada estación Qinaya instalada cuenta con un agente de telemetría local que registra las sesiones de trabajo (tanto en el sistema operativo local <strong>Qinaya Linux</strong> como en la máquina virtual en la nube <strong>VDI Windows</strong>) y transmite los paquetes al servidor central cuando la sede dispone de conexión a internet. Todos los reportes consumen en tiempo real los endpoints de <code>https://panel.qinaya.co/api2/</code> filtrando por <code>org=28</code> (SED Bogotá) y el rango de fechas <code>[since, until]</code>:</p>
+      <div class="endpoints-bar">
+        <div class="ep-box">
+          <code>/organizations.asp</code>
+          <span>Maestro de organización: lista las <strong>51 IED</strong> (<code>sites[]</code>) y la cantidad oficial de equipos instalados por colegio (<code>computers[]</code> = <strong>1.001 PCs</strong>).</span>
+        </div>
+        <div class="ep-box">
+          <code>/computers.asp?org=28&amp;since&amp;until</code>
+          <span>Devuelve 1 registro por cada <strong>computador único activo</strong> que reportó uso en el rango, con su <code>id</code>, <code>site</code>, <code>localHours</code>, <code>vmHours</code>, <code>totalHours</code> y <code>topApp</code>.</span>
+        </div>
+        <div class="ep-box">
+          <code>/usage.asp?org=28&amp;since&amp;until</code>
+          <span>Serie diaria del periodo: vectores paralelos por día con <code>localUsage[]</code>, <code>vmUsage[]</code>, <code>totalUsage[]</code>, <code>numComputers[]</code> (PCs activos ese día) y <code>numInstalled[]</code>.</span>
+        </div>
+        <div class="ep-box">
+          <code>/schools.asp &amp; /apps.asp &amp; /websites.asp</code>
+          <span>Consolidado por colegio (<code>active</code>, <code>totalHours</code>, <code>topApps</code>) y desglose por software/dominio web con horas (<code>usage</code>/<code>visits</code>) y <code>computerDays</code>.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TABLA MAESTRA RESUMEN DE NUMERADORES Y DENOMINADORES -->
+    <div class="section-hdr">
+      <h2>2. Matriz Resumen de Indicadores (Numerador, Denominador y Fuente API)</h2>
+      <span>Referencia Rápida</span>
+    </div>
+
+    <div class="table-card">
+      <table class="rules-table">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Indicador / Métrica</th>
+            <th style="width: 26%;">Numerador (Qué suma o cuenta)</th>
+            <th style="width: 26%;">Denominador (Base de división)</th>
+            <th style="width: 26%;">Regla en la API y Reportes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="ind-name">1. Computadores que Reportan a la API (Activos en el Periodo)</span>
+              <span class="ind-where">Dashboard • Informe Uso • Fichas</span>
+            </td>
+            <td>
+              <strong>Conteo de IDs únicos de equipos</strong> que registraron <code>totalHours &gt; 0</code> en al menos 1 día dentro del rango <code>[since, until]</code>.<br>
+              <span class="mono-pill">COUNT(computers.asp)</span>
+            </td>
+            <td>
+              <em>Para conteo absoluto:</em> <code>1</code> (valor directo).<br>
+              <em>Para % de Activación en Línea:</em> Total de equipos instalados en acta.<br>
+              <span class="mono-pill">SUM(organizations.computers[]) = 1.001</span>
+            </td>
+            <td>
+              Si un mismo computador se enciende 4 días de la semana, la API lo cuenta como <strong>1 computador único activo</strong> en esa semana (no se duplica).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">2. Computadores No Activos en la API (en un Periodo)</span>
+              <span class="ind-where">Informe Ejecutivo • Números Bogotá</span>
+            </td>
+            <td>
+              <strong>Equipos instalados que no enviaron paquetes</strong> a la API en el rango <code>[since, until]</code>.<br>
+              <span class="mono-pill">Instalados (1.001) − COUNT(computers.asp)</span>
+            </td>
+            <td>
+              Total de equipos instalados en las 51 IED.<br>
+              <span class="mono-pill">1.001 estaciones</span>
+            </td>
+            <td>
+              Incluye: <strong>(a)</strong> Equipos que operan en aulas 100% <em>Local Offline</em> sin red LAN de internet (50 PCs), <strong>(b)</strong> Salas sin clase programada en ese corte, o <strong>(c)</strong> Sedes con novedad física/eléctrica (18 PCs).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">3. Promedio Diario de Equipos Encendidos (Concurrencia Diaria)</span>
+              <span class="ind-where">Números Bogotá • Fichas Semanales</span>
+            </td>
+            <td>
+              <strong>Suma de computadores encendidos en cada día</strong> con actividad del periodo.<br>
+              <span class="mono-pill">SUM(usage.asp &rarr; numComputers[i])</span>
+            </td>
+            <td>
+              <strong>Cantidad de días con actividad</strong> en el rango consultado (donde <code>numComputers[i] &gt; 0</code>).<br>
+              <span class="mono-pill">COUNT(días activos en usage.asp)</span>
+            </td>
+            <td>
+              Refleja cuántos computadores coinciden encendidos en un día típico (~280–300 PCs/día), mientras los 51 colegios rotan el uso de las salas según su horario semanal.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">4. Horas Promedio Día (Por Equipo Activo)</span>
+              <span class="ind-where">Informe Uso • Fichas Semanales</span>
+            </td>
+            <td>
+              <strong>Suma total de horas de uso</strong> (Local + VDI) registradas en todos los días del periodo.<br>
+              <span class="mono-pill">SUM(usage.asp &rarr; totalUsage[i])</span>
+            </td>
+            <td>
+              <strong>Suma de días-máquina activos</strong> (suma de los computadores que encendieron cada día $i$).<br>
+              <span class="mono-pill">SUM(usage.asp &rarr; numComputers[i])</span>
+            </td>
+            <td>
+              Mide cuántas horas opera al día un computador <strong>el día que se enciende en clase</strong> (rango real: <strong>5,4 a 5,7 h/día</strong>, acorde a 1 o 2 jornadas escolares).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">5. Horas Promedio Día (Sobre Total Instalados)</span>
+              <span class="ind-where">Informe Ejecutivo de Uso</span>
+            </td>
+            <td>
+              <strong>Suma total de horas de uso</strong> (Local + VDI) registradas en el periodo.<br>
+              <span class="mono-pill">SUM(usage.asp &rarr; totalUsage[i])</span>
+            </td>
+            <td>
+              <strong>Suma de días-máquina instalados disponibles</strong> en el periodo ($\text{Instalados} \times \text{Días}$).<br>
+              <span class="mono-pill">SUM(usage.asp &rarr; numInstalled[i])</span>
+            </td>
+            <td>
+              Diluye las horas diarias entre la totalidad de los 1.001 equipos instalados (incluyendo las salas que no tuvieron clase ese día).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">6. % y Horas de Uso Local (Qinaya Linux)</span>
+              <span class="ind-where">Dashboard • Informe Uso • Fichas</span>
+            </td>
+            <td>
+              <strong>Suma de horas de sesiones locales</strong> ejecutadas directamente en el sistema físico Qinaya Linux.<br>
+              <span class="mono-pill">SUM(localHours) o SUM(localUsage[i])</span>
+            </td>
+            <td>
+              <strong>Suma de horas totales del periodo</strong> (Horas Locales + Horas Virtuales VDI).<br>
+              <span class="mono-pill">SUM(localHours) + SUM(vmHours)</span>
+            </td>
+            <td>
+              Contabiliza el tiempo de uso en aplicaciones instaladas localmente en el equipo (Chrome local, Scratch, LibreOffice, GCompris, Arduino).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">7. % y Horas de Uso Virtual / VDI (Compu Virtual en Nube)</span>
+              <span class="ind-where">Dashboard • Informe Uso • Fichas</span>
+            </td>
+            <td>
+              <strong>Suma de horas de sesiones en Máquina Virtual</strong> (escritorio remoto Windows en la nube).<br>
+              <span class="mono-pill">SUM(vmHours) o SUM(vmUsage[i])</span>
+            </td>
+            <td>
+              <strong>Suma de horas totales del periodo</strong> (Horas Locales + Horas Virtuales VDI).<br>
+              <span class="mono-pill">SUM(localHours) + SUM(vmHours)</span>
+            </td>
+            <td>
+              Contabiliza el tiempo activo dentro del escritorio virtual en la nube (<code>QinayaDeskLauncher</code> / VDI Windows). Siempre se cumple: <strong>% Local + % VDI = 100%</strong>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="ind-name">8. Promedio Acumulado de Uso por Equipo en el Periodo</span>
+              <span class="ind-where">KPI "Promedio Uso por Equipo" (Dashboard)</span>
+            </td>
+            <td>
+              <strong>Suma total de horas en el rango</strong> de todos los equipos activos.<br>
+              <span class="mono-pill">SUM(computers.asp &rarr; totalHours)</span>
+            </td>
+            <td>
+              <strong>Total de equipos únicos activos</strong> en ese mismo rango de fechas.<br>
+              <span class="mono-pill">COUNT(computers.asp)</span>
+            </td>
+            <td>
+              Es un promedio <strong>acumulado en todo el rango</strong> (ej. ~12 h acumuladas por equipo en una semana, o ~58 h acumuladas en un mes), no un promedio por día.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3. DETALLE EXPLICATIVO DE CADA REGLA DE MEDICIÓN -->
+    <div class="section-hdr">
+      <h2>3. Explicación Detallada de Reglas de Medición y Fórmulas por Indicador</h2>
+      <span>Fórmulas Exactas de Producción</span>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- CARD 1: HORAS PROMEDIO DIA POR EQUIPO ACTIVO -->
+      <div class="rule-card full-width">
+        <div class="rule-card-hdr">
+          <h3>A. Regla de Medición: Horas Promedio Día por Equipo Activo (Jornada Escolar Real)</h3>
+          <span class="endpoint-tag">Endpoint: /usage.asp</span>
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-lhs">Promedio Horas / Día<br><span style="font-size:0.74rem; font-weight:600; color:#0284c7;">(Por Equipo con Uso)</span></div>
+          <div class="formula-eq">=</div>
+          <div class="fraction">
+            <div class="num-row"><span class="tag-num">Numerador</span> <code>SUM(usage.asp &rarr; totalUsage[i])</code> — Suma de todas las horas (Local + VDI) registradas en cada día <em>i</em> del período</div>
+            <div class="bar-line"></div>
+            <div class="den-row"><span class="tag-den">Denominador</span> <code>SUM(usage.asp &rarr; numComputers[i])</code> — Suma de los computadores que estuvieron encendidos en cada día <em>i</em> (Total <em>Días-Máquina Activos</em>)</div>
+          </div>
+        </div>
+
+        <div class="rule-desc">
+          <p><strong>¿Por qué se divide entre la suma de <code>numComputers[i]</code> (días-máquina) y no solo entre 5 días?</strong> Porque si en un día se encienden 300 computadores durante 5,5 horas cada uno, ese día la API acumula <code>1.650 horas-máquina</code>. Si solo se dividiera entre los días de la semana, daría <code>1.650 h/día</code> (la suma de los 300 equipos juntos). Al dividir el total de horas entre el total de <strong>días-máquina activos</strong> ($\sum \text{numComputers}[i]$), se obtiene exactamente <strong>cuántas horas al día trabaja cada computador encendido</strong> dentro de la jornada escolar.</p>
+        </div>
+
+        <div class="example-box">
+          <strong>✅ Ejemplo Real de la API (Semana Pasada: 16 al 22 de Noviembre de 2026):</strong><br>
+          • <strong>Numerador (<code>totalUsage</code> diario):</strong> Lun 16 (36,7 h) + Mar 17 (867,7 h) + Mié 18 (1.320,5 h) + Jue 19 (773,8 h) + Vie 20 (830,3 h) = <strong>3.829,0 horas totales</strong>.<br>
+          • <strong>Denominador (<code>numComputers</code> diario):</strong> Lun 16 (2 PCs) + Mar 17 (179 PCs) + Mié 18 (204 PCs) + Jue 19 (141 PCs) + Vie 20 (176 PCs) = <strong>702 días-máquina activos</strong>.<br>
+          • <strong>Cálculo:</strong> <code>3.829,0 horas ÷ 702 días-máquina = 5,45 h/día</code> &rarr; <strong>5,4 horas/día por computador activo</strong> (4,8 h/día en uso local + 0,6 h/día en compu virtual).
+        </div>
+
+        <div class="warn-box">
+          <strong>🛡️ Regla de Control de Jornada Escolar (Equipos dejados encendidos 24/7 por error):</strong> En las tablas detalladas por colegio (<code>informe_ejecutivo_uso_v8.js</code>), cuando en una sede olvidan apagar 1 o 2 computadores al terminar la tarde y quedan encendidos toda la noche (reportando 24 h continuas), el sistema aplica una regla de tope físico de jornada escolar: máximo <strong>6,6 h/día</strong> en colegios de jornada única y máximo <strong>9,6 h/día</strong> en colegios de doble jornada. Así ningún colegio supera jamás las 10 horas máximas reales de operación escolar diaria.
+        </div>
+      </div>
+
+      <!-- CARD 2: COMPUTADORES ACTIVOS VS REPORTADOS A LA API -->
+      <div class="rule-card">
+        <div class="rule-card-hdr">
+          <h3>B. Computadores que Reportan a la API (Activos)</h3>
+          <span class="endpoint-tag">/computers.asp &amp; /schools.asp</span>
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-lhs">% Equipos Activos<br><span style="font-size:0.73rem; font-weight:600; color:#0284c7;">(En un Periodo)</span></div>
+          <div class="formula-eq">=</div>
+          <div class="fraction">
+            <div class="num-row"><span class="tag-num">Numerador</span> <code>COUNT(computers.asp)</code> (Equipos únicos con <code>totalHours &gt; 0</code> en el rango)</div>
+            <div class="bar-line"></div>
+            <div class="den-row"><span class="tag-den">Denominador</span> <code>1.001</code> (Total de computadores instalados en las 51 IED)</div>
+          </div>
+        </div>
+
+        <div class="rule-desc">
+          <p><strong>Regla en la API:</strong> El endpoint <code>/computers.asp?org=28&amp;since=YYYY-MM-DD&amp;until=YYYY-MM-DD</code> agrupa la base de datos por identificador único de máquina (<code>ComName</code>, ej. <code>RE0503</code>) y devuelve <strong>únicamente los computadores que transmitieron sesiones de uso mayores a 0 minutos</strong> dentro de ese rango de fechas.</p>
+          <p><strong>Equivalencia por colegio:</strong> En <code>/schools.asp</code>, el campo <code>active</code> de cada colegio es exactamente el conteo de equipos únicos de esa sede presentes en <code>/computers.asp</code> para el mismo período.</p>
+        </div>
+
+        <div class="example-box">
+          <strong>Ejemplo Real (Bogotá):</strong> En el acumulado histórico (<code>04 Mar – 24 Nov 2026</code>), <code>COUNT(computers.asp) = 933 equipos únicos</code> han transmitido en línea a la API sobre <code>1.001 instalados</code> (93,2% en línea). En un corte mensual como octubre, reportan <code>641 equipos únicos</code> en <code>46 colegios</code>.
+        </div>
+      </div>
+
+      <!-- CARD 3: COMPUTADORES NO ACTIVOS Y USO OFFLINE -->
+      <div class="rule-card">
+        <div class="rule-card-hdr">
+          <h3>C. Computadores "No Activos" en la API y Uso Local Offline</h3>
+          <span class="endpoint-tag">/organizations.asp vs /computers.asp</span>
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-lhs">Equipos sin Reporte<br><span style="font-size:0.73rem; font-weight:600; color:#0284c7;">(En el Rango)</span></div>
+          <div class="formula-eq">=</div>
+          <div class="fraction">
+            <div class="num-row"><span class="tag-num">Numerador</span> <code>Total Instalados (1.001) − COUNT(computers.asp en el rango)</code></div>
+            <div class="bar-line"></div>
+            <div class="den-row"><span class="tag-den">Denominador</span> <code>1.001</code> (Para obtener el % sin telemetría en línea en ese corte)</div>
+          </div>
+        </div>
+
+        <div class="rule-desc">
+          <p><strong>¿Por qué un computador instalado puede no aparecer en la API en un rango de fechas?</strong> Existen tres escenarios operativos claramente diferenciados:</p>
+          <p>1. <strong>Operación Local sin Internet en el Aula (Offline):</strong> El sistema operativo local <em>Qinaya Linux</em> funciona al 100% sin internet (Scratch, LibreOffice, GCompris). Si el aula del colegio no tiene red LAN/Wi-Fi con salida a internet, el equipo se usa normalmente en clase pero el agente no puede enviar paquetes a <code>panel.qinaya.co</code> (<strong>50 equipos</strong> identificados en terreno bajo esta modalidad).</p>
+          <p>2. <strong>Rotación de Horarios / Calendario Escolar:</strong> En cortes cortos (1 día o 1 semana), las salas o equipos que no tuvieron clase programada ese día no generan tráfico.</p>
+          <p>3. <strong>Novedades Físicas del Colegio:</strong> Equipos en salones cerrados por obra/remodelación, fallas eléctricas de la sede o daño físico de hardware antiguo del colegio (<strong>18 equipos</strong>, 1,8% del parque).</p>
+        </div>
+      </div>
+
+      <!-- CARD 4: USO LOCAL VS USO VIRTUAL (VDI) -->
+      <div class="rule-card">
+        <div class="rule-card-hdr">
+          <h3>D. Regla de Medición: Horas de Uso Local vs. Compu Virtual (VDI)</h3>
+          <span class="endpoint-tag">/usage.asp &amp; /computers.asp</span>
+        </div>
+
+        <div class="formula-box">
+          <div class="formula-lhs">% Uso Local<br>y % Uso VDI</div>
+          <div class="formula-eq">=</div>
+          <div class="fraction">
+            <div class="num-row"><span class="tag-num">Numerador</span> <code>SUM(localHours)</code> para Local &nbsp;|&nbsp; <code>SUM(vmHours)</code> para Compu Virtual (VDI)</div>
+            <div class="bar-line"></div>
+            <div class="den-row"><span class="tag-den">Denominador</span> <code>SUM(totalHours) = SUM(localHours) + SUM(vmHours)</code></div>
+          </div>
+        </div>
+
+        <div class="rule-desc">
+          <p><strong>¿Cómo distingue la API entre Uso Local y Uso Virtual (VDI)?</strong></p>
+          <p>• <strong>Horas de Uso Local (<code>localHours</code> / <code>localUsage</code>):</strong> Tiempo medido por el agente cuando la ventana activa del estudiante o docente corresponde a aplicaciones que corren nativamente sobre el procesador local en <strong>Qinaya Linux</strong> (navegador Chrome local, Scratch, LibreOffice, GCompris, Arduino IDE, etc.).</p>
+          <p>• <strong>Horas de Uso Virtual VDI (<code>vmHours</code> / <code>vmUsage</code>):</strong> Tiempo medido cuando el usuario abre el lanzador <code>QinayaDeskLauncher</code> y trabaja dentro de la sesión remota del <strong>Computador Virtual Windows en la Nube (VDI)</strong> o ejecuta aplicaciones Windows de nube (Word, Excel, PowerPoint, software de diseño).</p>
+          <p>• <strong>Regla de cierre:</strong> En la API siempre se cumple que <code>totalHours = localHours + vmHours</code>, por lo cual <code>% Uso Local + % Compu Virtual = 100%</code>.</p>
+        </div>
+      </div>
+
+      <!-- CARD 5: DIFERENCIA ENTRE LOS 3 TIPOS DE PROMEDIOS EN LOS REPORTES -->
+      <div class="rule-card">
+        <div class="rule-card-hdr">
+          <h3>E. Diferencia entre los 3 Promedios que muestran los Reportes</h3>
+          <span class="endpoint-tag">Comparativa de Reportes</span>
+        </div>
+
+        <div class="rule-desc">
+          <p>Para evitar cualquier confusión al comparar el <strong>Dashboard en Vivo</strong>, el <strong>Informe Ejecutivo de Uso</strong> y las <strong>Fichas Semanales</strong>, cada reporte utiliza una base de división distinta según su propósito:</p>
+          <p>1. <strong>Promedio Horas / Día por Equipo Activo (Fichas Semanales e Informe de Uso — Columna "Prom. Activos"):</strong><br>
+          Divide las horas totales entre los <em>días-máquina activos</em> (<code>SUM(totalUsage) / SUM(numComputers)</code>). Responde a: <em>"¿Cuántas horas al día se usa un computador cuando el colegio lo enciende?"</em> &rarr; Resultado típico: <strong>5,4 a 5,7 horas/día</strong>.</p>
+          <p>2. <strong>Promedio Horas / Día sobre Parque Instalado (Informe de Uso — Columna "Prom. Instalados"):</strong><br>
+          Divide las horas totales entre todos los equipos instalados multiplicados por los días hábiles del periodo (<code>SUM(totalUsage) / SUM(numInstalled)</code>). Responde a: <em>"¿Cuántas horas diarias promedia todo el parque de 1.001 equipos incluyendo los días que una sala no tiene clase?"</em> &rarr; Resultado típico: <strong>1,5 a 2,5 horas/día</strong>.</p>
+          <p>3. <strong>Promedio Acumulado por Equipo en el Periodo (Dashboard en Vivo — Tarjeta "Promedio Uso por Equipo"):</strong><br>
+          Divide la suma de horas del periodo entre los equipos activos sin dividir por los días (<code>SUM(totalHours) / COUNT(computers.asp)</code>). Responde a: <em>"¿Cuántas horas acumuló cada equipo a lo largo de toda la semana o todo el mes?"</em> &rarr; Resultado típico: <strong>~12 a 17 h en una semana</strong> o <strong>~55 h en un mes</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
